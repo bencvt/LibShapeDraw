@@ -6,16 +6,16 @@ public class LineStyle implements ReadonlyLineStyle {
 
     private Color mainColor;
     private float mainWidth;
-    private Color xrayColor;
-    private float xrayWidth;
+    private Color secondaryColor;
+    private float secondaryWidth;
 
-    public LineStyle(Color color, float width, boolean visibleThroughTerrain) {
-        set(color, width, visibleThroughTerrain);
+    public LineStyle(Color color, float width, boolean hasSecondaryColor) {
+        set(color, width, hasSecondaryColor);
     }
     public LineStyle(LineStyle other) {
         setMainColor(other.getMainColor());
         setMainColor(other.getMainColor());
-        setXrayColor(other.getXrayColor());
+        setSecondaryColor(other.getSecondaryColor());
         setMainColor(other.getMainColor());
     }
     public LineStyle copy() {
@@ -27,30 +27,30 @@ public class LineStyle implements ReadonlyLineStyle {
     public float getMainWidth() {
         return mainWidth;
     }
-    public Color getXrayColor() {
-        return xrayColor;
+    public Color getSecondaryColor() {
+        return secondaryColor;
     }
-    public float getXrayWidth() {
-        return xrayWidth;
+    public float getSecondaryWidth() {
+        return secondaryWidth;
     }
-    public boolean isVisibleThroughTerrain() {
-        return xrayColor != null;
+    public boolean hasSecondaryColor() {
+        return secondaryColor != null;
     }
 
     /**
-     * Convenience method to set mainColor, mainWidth, xrayColor, and xrayWidth at once.
+     * Convenience method to set mainColor, mainWidth, secondaryColor, and secondaryWidth at once.
      * Modifies this line style; does NOT create a copy.
      * @param color
      * @param width
-     * @param isVisibleThroughTerrain if true, xrayColor will be a 25% transparent version
-     *     of mainColor. If false, xrayColor is null.
+     * @param isVisibleThroughTerrain if true, secondaryColor will be a 25% transparent version
+     *     of mainColor. If false, secondaryColor is null.
      * @return the instance (for method chaining)
      */
     public LineStyle set(Color color, float width, boolean visibleThroughTerrain) {
         setMainColor(color);
         setMainWidth(width);
-        setXrayColor(visibleThroughTerrain ? color.copy().scaleAlpha(0.25) : null);
-        setXrayWidth(width);
+        setSecondaryColor(visibleThroughTerrain ? color.copy().scaleAlpha(0.25) : null);
+        setSecondaryWidth(width);
         return this;
     }
     /** Modifies this line style; does NOT create a copy. */
@@ -67,14 +67,14 @@ public class LineStyle implements ReadonlyLineStyle {
         return this;
     }
     /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setXrayColor(Color xrayColor) {
+    public LineStyle setSecondaryColor(Color secondaryColor) {
         // null allowed
-        this.xrayColor = xrayColor;
+        this.secondaryColor = secondaryColor;
         return this;
     }
     /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setXrayWidth(float xrayWidth) {
-        this.xrayWidth = xrayWidth;
+    public LineStyle setSecondaryWidth(float secondaryWidth) {
+        this.secondaryWidth = secondaryWidth;
         return this;
     }
 }

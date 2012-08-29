@@ -25,9 +25,9 @@ public abstract class WireframeShape extends Shape {
         GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         GL11.glLineWidth(width);
         renderLines(mc);
-        if (drawStyle.isVisibleThroughTerrain()) {
-            color = drawStyle.getXrayColor();
-            width = drawStyle.getXrayWidth();
+        if (drawStyle.hasSecondaryColor()) {
+            color = drawStyle.getSecondaryColor();
+            width = drawStyle.getSecondaryWidth();
             GL11.glDepthFunc(GL11.GL_GREATER);
             GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
             GL11.glLineWidth(width);
@@ -38,7 +38,7 @@ public abstract class WireframeShape extends Shape {
     public abstract void renderLines(MinecraftAccess mc);
 
     public boolean isVisibleThroughTerrain() {
-        return getEffectiveLineStyle().isVisibleThroughTerrain();
+        return getEffectiveLineStyle().hasSecondaryColor();
     }
 
     public LineStyle getLineStyle() {
