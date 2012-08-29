@@ -1,0 +1,14 @@
+/lib/*
+!/lib/README.md
+/mcdev
+
+# Eclipse
+/.classpath
+/.project
+/.settings
+
+# maven
+/target
+
+# Mac
+.DS_Store
