@@ -42,14 +42,14 @@ public class LineStyle implements ReadonlyLineStyle {
      * Modifies this line style; does NOT create a copy.
      * @param color
      * @param width
-     * @param isVisibleThroughTerrain if true, secondaryColor will be a 25% transparent version
+     * @param hasSecondaryColor if true, secondaryColor will be a 25% transparent version
      *     of mainColor. If false, secondaryColor is null.
      * @return the instance (for method chaining)
      */
-    public LineStyle set(Color color, float width, boolean visibleThroughTerrain) {
+    public LineStyle set(Color color, float width, boolean hasSecondaryColor) {
         setMainColor(color);
         setMainWidth(width);
-        setSecondaryColor(visibleThroughTerrain ? color.copy().scaleAlpha(0.25) : null);
+        setSecondaryColor(hasSecondaryColor ? color.copy().scaleAlpha(0.25) : null);
         setSecondaryWidth(width);
         return this;
     }

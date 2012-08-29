@@ -55,7 +55,7 @@ public abstract class Shape {
         GL11.glPopMatrix();
     }
 
-    public abstract void renderShape(MinecraftAccess mc);
+    protected abstract void renderShape(MinecraftAccess mc);
 
     @Override
     public String toString() {

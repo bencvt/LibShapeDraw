@@ -17,7 +17,7 @@ public abstract class WireframeShape extends Shape {
     private LineStyle lineStyle;
 
     @Override
-    public final void renderShape(MinecraftAccess mc) {
+    protected void renderShape(MinecraftAccess mc) {
         ReadonlyLineStyle drawStyle = getEffectiveLineStyle();
         Color color = drawStyle.getMainColor();
         float width = drawStyle.getMainWidth();
@@ -35,7 +35,14 @@ public abstract class WireframeShape extends Shape {
         }
     }
 
-    public abstract void renderLines(MinecraftAccess mc);
+    /**
+     * Using the MinecraftAccess param, interact with the Tessellator to draw vertices.
+     * The line depth function/width/color has already been set up.
+     */
+    protected void renderLines(MinecraftAccess mc) {
+        // do nothing; it's up to the derived class to override either this
+        // method or renderShape.
+    }
 
     public boolean isVisibleThroughTerrain() {
         return getEffectiveLineStyle().hasSecondaryColor();
