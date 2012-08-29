@@ -31,6 +31,16 @@ public class Vector3 implements ReadonlyVector3 {
     public double getZ() {
         return z;
     }
+    public double getDistanceSquared(ReadonlyVector3 other) {
+        double dx = x - other.getX();
+        double dy = y - other.getY();
+        double dz = z - other.getZ();
+        return dx*dx + dy*dy + dz*dz;
+    }
+    public double getDistance(ReadonlyVector3 other) {
+        double dd = getDistanceSquared(other);
+        return dd == 0.0 ? 0.0 : Math.sqrt(dd);
+    }
     /** Modifies this vector; does NOT create a copy. */
     public Vector3 setX(double x) {
         this.x = x;
@@ -68,7 +78,10 @@ public class Vector3 implements ReadonlyVector3 {
         z += other.getZ();
         return this;
     }
-    /** Modifies this vector; does NOT create a copy. */
+    /**
+     * Equivalent to add(other.copy().scale(-1.0)).
+     * Modifies this vector; does NOT create a copy.
+     */
     public Vector3 subtract(ReadonlyVector3 other) {
         x -= other.getX();
         y -= other.getY();
@@ -76,25 +89,25 @@ public class Vector3 implements ReadonlyVector3 {
         return this;
     }
     /** Modifies this vector; does NOT create a copy. */
-    public Vector3 scaleX(double xOff) {
-        x *= xOff;
+    public Vector3 scaleX(double factor) {
+        x *= factor;
         return this;
     }
     /** Modifies this vector; does NOT create a copy. */
-    public Vector3 scaleY(double yOff) {
-        y *= yOff;
+    public Vector3 scaleY(double factor) {
+        y *= factor;
         return this;
     }
     /** Modifies this vector; does NOT create a copy. */
-    public Vector3 scaleZ(double zOff) {
-        z *= zOff;
+    public Vector3 scaleZ(double factor) {
+        z *= factor;
         return this;
     }
     /** Modifies this vector; does NOT create a copy. */
-    public Vector3 scale(ReadonlyVector3 other) {
-        x *= other.getX();
-        y *= other.getY();
-        z *= other.getZ();
+    public Vector3 scale(double factor) {
+        x *= factor;
+        y *= factor;
+        z *= factor;
         return this;
     }
 
