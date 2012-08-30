@@ -59,6 +59,82 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testScaleAlpha() {
+        Color c = Color.BEIGE.copy();
+        c.setAlpha(0.5).scaleAlpha(1.0);
+        assertEquals("0xf5f5dc7f", c.toString());
+        c.setAlpha(0.5).scaleAlpha(0.0);
+        assertEquals("0xf5f5dc00", c.toString());
+        c.setAlpha(0.5).scaleAlpha(-1.0);
+        assertEquals("0xf5f5dc00", c.toString());
+        c.setAlpha(0.5).scaleAlpha(-343.25);
+        assertEquals("0xf5f5dc00", c.toString());
+        c.setAlpha(0.5).scaleAlpha(0.25);
+        assertEquals("0xf5f5dc1f", c.toString());
+        c.setAlpha(0.5).scaleAlpha(1.0078125);
+        assertEquals("0xf5f5dc80", c.toString());
+        c.setAlpha(0.5).scaleAlpha(1.5);
+        assertEquals("0xf5f5dcbf", c.toString());
+        c.setAlpha(0.5).scaleAlpha(343.25);
+        assertEquals("0xf5f5dcff", c.toString());
+    }
+
+    @Test
+    public void testScaleRGB() {
+        Color c;
+        c = Color.BEIGE.copy().scaleRGB(1.0);
+        assertEquals("0xf5f5dcff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(0.0);
+        assertEquals("0x000000ff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(-1.0);
+        assertEquals("0x000000ff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(-343.25);
+        assertEquals("0x000000ff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(0.25);
+        assertEquals("0x3d3d37ff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(1.0078125);
+        assertEquals("0xf6f6ddff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(1.5);
+        assertEquals("0xffffffff", c.toString());
+        c = Color.BEIGE.copy().scaleRGB(343.25);
+        assertEquals("0xffffffff", c.toString());
+    }
+
+    @Test
+    public void testBlend() {
+        ReadonlyColor fromColor = Color.CRIMSON;
+        assertEquals("0xdc143cff", fromColor.toString());
+        ReadonlyColor toColor = Color.MEDIUM_BLUE.copy().setAlpha(0.25);
+        assertEquals("0x0000cd3f", toColor.toString());
+        Color c;
+        c = fromColor.copy().blend(toColor, 0.0);
+        assertEquals("0xdc143cff", c.toString());
+        c = fromColor.copy().blend(toColor, 0.25);
+        assertEquals("0xa50f60cf", c.toString());
+        c = fromColor.copy().blend(toColor, 0.5);
+        assertEquals("0x6e0a849f", c.toString());
+        c = fromColor.copy().blend(toColor, 0.75);
+        assertEquals("0x3705a86f", c.toString());
+        c = fromColor.copy().blend(toColor, 1.0);
+        assertEquals("0x0000cd3f", c.toString());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testBlendInvalidNull() {
+        Color.CRIMSON.copy().blend(null, 0.5);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testBlendInvalidLow() {
+        Color.CRIMSON.copy().blend(Color.MEDIUM_BLUE.copy(), -3.14);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testBlendInvalidHigh() {
+        Color.CRIMSON.copy().blend(Color.MEDIUM_BLUE.copy(), 867.5309);
+    }
+
+    @Test
     public void testGetNamedColor() {
         assertSame(Color.RED, Color.getNamedColor("RED"));
         assertSame(Color.RED, Color.getNamedColor("red"));

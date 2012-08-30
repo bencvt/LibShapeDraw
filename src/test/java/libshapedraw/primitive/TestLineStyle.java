@@ -94,6 +94,21 @@ public class TestLineStyle extends SetupTestEnvironment {
     }
 
     @Test
+    public void testDeepCopyNoSecondaryColor() {
+        LineStyle orig = new LineStyle(Color.BLUE.copy(), 1.5F, false);
+        LineStyle deep = orig.deepCopy();
+        // same values
+        assertEquals(orig.getMainColor().toString(), deep.getMainColor().toString());
+        assertNull(orig.getSecondaryColor());
+        assertNull(deep.getSecondaryColor());
+        // different instances
+        assertNotSame(orig.getMainColor(), deep.getMainColor());
+
+        orig.setSecondaryColor(Color.GREEN.copy());
+        assertNull(deep.getSecondaryColor()); // still null
+    }
+
+    @Test
     public void testSetColors() {
         LineStyle s = new LineStyle(Color.BLUE.copy(), 5.0F, false);
         Color c = Color.BEIGE.copy();

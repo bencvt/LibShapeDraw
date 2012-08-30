@@ -2,10 +2,12 @@ package libshapedraw.event;
 
 import static org.junit.Assert.*;
 
+import libshapedraw.LibShapeDraw;
 import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
 import libshapedraw.event.LSDRespawnEvent;
+import libshapedraw.primitive.Vector3;
 
 public class MockLSDEventListener implements LSDEventListener {
     private int countRespawn = 0;
@@ -23,12 +25,24 @@ public class MockLSDEventListener implements LSDEventListener {
     }
 
     public void onRespawn(LSDRespawnEvent event) {
+        assertNotNull(event);
+        assertTrue(event.getAPI() instanceof LibShapeDraw);
+        assertTrue(event.getPlayerCoords() instanceof Vector3);
+        assertNotNull(Boolean.valueOf(event.isNewDimension()));
+        assertNotNull(Boolean.valueOf(event.isNewServer()));
         countRespawn++;
     }
     public void onGameTick(LSDGameTickEvent event) {
+        assertNotNull(event);
+        assertTrue(event.getAPI() instanceof LibShapeDraw);
+        assertTrue(event.getPlayerCoords() instanceof Vector3);
         countGameTick++;
     }
     public void onPreRender(LSDPreRenderEvent event) {
+        assertNotNull(event);
+        assertTrue(event.getAPI() instanceof LibShapeDraw);
+        assertTrue(event.getPlayerCoords() instanceof Vector3);
+        assertNotNull(Boolean.valueOf(event.isGuiHidden()));
         countPreRender++;
     }
 
