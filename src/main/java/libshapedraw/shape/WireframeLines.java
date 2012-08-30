@@ -46,8 +46,8 @@ public class WireframeLines extends WireframeShape {
             return;
         }
 
-        final ReadonlyColor c0 = getEffectiveLineStyle().getMainColor();
-        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryColor(); // can be null
+        final ReadonlyColor c0 = getEffectiveLineStyle().getMainReadonlyColor();
+        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryReadonlyColor(); // can be null
         final float w0 = getEffectiveLineStyle().getMainWidth();
         final float w1 = getEffectiveLineStyle().getSecondaryWidth();
 

@@ -54,58 +54,17 @@ public class TestLineStyle extends SetupTestEnvironment {
 
     @Test
     public void testCopy() {
-        ReadonlyLineStyle s0 = new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, true);
-
-        ReadonlyLineStyle s1 = s0.copy();
-        assertNotSame(s0, s1);
-        assertEquals(s0.toString(), s1.toString());
-
-        LineStyle s2 = s0.copy();
-        assertNotSame(s0, s2);
-        assertEquals(s0.toString(), s2.toString());
-        s2.setMainColor(Color.GREEN.copy());
-        assertFalse(s0.toString().equals(s2.toString()));
-    }
-
-    @Test
-    public void testDeepCopy() {
         ReadonlyLineStyle orig = new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, true);
 
-        // shallow copy:
-        ReadonlyLineStyle shallow = orig.copy();
-        // same values
-        assertEquals(orig.getMainColor().toString(), shallow.getMainColor().toString());
-        assertEquals(orig.getSecondaryColor().toString(), shallow.getSecondaryColor().toString());
-        // same instances
-        assertSame(orig.getMainColor(), shallow.getMainColor());
-        assertSame(orig.getSecondaryColor(), shallow.getSecondaryColor());
+        ReadonlyLineStyle copy0 = orig.copy();
+        assertNotSame(orig, copy0);
+        assertEquals(orig.toString(), copy0.toString());
 
-        // deep copy:
-        ReadonlyLineStyle deep = orig.deepCopy();
-        // same values
-        assertEquals(orig.getMainColor().toString(), deep.getMainColor().toString());
-        assertEquals(orig.getSecondaryColor().toString(), deep.getSecondaryColor().toString());
-        // different instances
-        assertNotSame(orig.getMainColor(), deep.getMainColor());
-        assertNotSame(orig.getSecondaryColor(), deep.getSecondaryColor());
-
-        assertNotSame(shallow.getMainColor(), deep.getMainColor());
-        assertNotSame(shallow.getSecondaryColor(), deep.getSecondaryColor());
-    }
-
-    @Test
-    public void testDeepCopyNoSecondaryColor() {
-        LineStyle orig = new LineStyle(Color.BLUE.copy(), 1.5F, false);
-        LineStyle deep = orig.deepCopy();
-        // same values
-        assertEquals(orig.getMainColor().toString(), deep.getMainColor().toString());
-        assertNull(orig.getSecondaryColor());
-        assertNull(deep.getSecondaryColor());
-        // different instances
-        assertNotSame(orig.getMainColor(), deep.getMainColor());
-
-        orig.setSecondaryColor(Color.GREEN.copy());
-        assertNull(deep.getSecondaryColor()); // still null
+        LineStyle copy1 = orig.copy();
+        assertNotSame(orig, copy1);
+        assertEquals(orig.toString(), copy1.toString());
+        copy1.setMainColor(Color.GREEN.copy());
+        assertFalse(orig.toString().equals(copy1.toString()));
     }
 
     @Test

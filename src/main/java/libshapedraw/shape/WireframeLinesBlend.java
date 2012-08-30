@@ -52,8 +52,8 @@ public class WireframeLinesBlend extends WireframeLines {
             return;
         }
 
-        final ReadonlyColor c0 = getEffectiveLineStyle().getMainColor();
-        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryColor(); // can be null
+        final ReadonlyColor c0 = getEffectiveLineStyle().getMainReadonlyColor();
+        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryReadonlyColor(); // can be null
         final float w0 = getEffectiveLineStyle().getMainWidth();
         final float w1 = getEffectiveLineStyle().getSecondaryWidth();
 
@@ -64,12 +64,13 @@ public class WireframeLinesBlend extends WireframeLines {
         float percent;
 
         final int effectiveRenderCap = getRenderCap() < 0 ? getPoints().size()-1 : getRenderCap();
+        final int percentageRenderCap = Math.max(getRenderCap(), effectiveRenderCap);
         final Iterator<Vector3> it = getPoints().iterator();
         int i = 0;
         Vector3 prevPoint = it.next();
         Vector3 curPoint;
         while (i < effectiveRenderCap && it.hasNext()) {
-            percent = (float) i / effectiveRenderCap;
+            percent = (float) i / percentageRenderCap;
             i++;
             curPoint = it.next();
             mc.startDrawing(GL11.GL_LINES);

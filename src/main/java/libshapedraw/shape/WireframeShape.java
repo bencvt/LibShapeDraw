@@ -3,6 +3,7 @@ package libshapedraw.shape;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.LineStyle;
+import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.ReadonlyLineStyle;
 
 import org.lwjgl.opengl.GL11;
@@ -19,14 +20,14 @@ public abstract class WireframeShape extends Shape {
     @Override
     protected void renderShape(MinecraftAccess mc) {
         ReadonlyLineStyle drawStyle = getEffectiveLineStyle();
-        Color color = drawStyle.getMainColor();
+        ReadonlyColor color = drawStyle.getMainReadonlyColor();
         float width = drawStyle.getMainWidth();
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         GL11.glLineWidth(width);
         renderLines(mc);
         if (drawStyle.hasSecondaryColor()) {
-            color = drawStyle.getSecondaryColor();
+            color = drawStyle.getSecondaryReadonlyColor();
             width = drawStyle.getSecondaryWidth();
             GL11.glDepthFunc(GL11.GL_GREATER);
             GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
@@ -52,7 +53,7 @@ public abstract class WireframeShape extends Shape {
         return lineStyle;
     }
 
-    public ReadonlyLineStyle getEffectiveLineStyle() {
+    protected ReadonlyLineStyle getEffectiveLineStyle() {
         return lineStyle == null ? LineStyle.DEFAULT : lineStyle;
     }
 

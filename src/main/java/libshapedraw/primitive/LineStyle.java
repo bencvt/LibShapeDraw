@@ -20,19 +20,19 @@ public class LineStyle implements ReadonlyLineStyle {
         set(color, width, hasSecondaryColor);
     }
     public LineStyle(ReadonlyLineStyle other) {
-        setMainColor(other.getMainColor());
+        setMainColor(other.getMainReadonlyColor().copy());
         setMainWidth(other.getMainWidth());
-        setSecondaryColor(other.getSecondaryColor());
+        setSecondaryColor(other.getSecondaryReadonlyColor().copy());
         setSecondaryWidth(other.getSecondaryWidth());
     }
     public LineStyle copy() {
         return new LineStyle(this);
     }
-    public LineStyle deepCopy() {
-        LineStyle s = new LineStyle(this);
-        s.setMainColor(mainColor.copy());
-        s.setSecondaryColor(secondaryColor == null ? null : secondaryColor.copy());
-        return s;
+    public ReadonlyColor getMainReadonlyColor() {
+        return mainColor;
+    }
+    public ReadonlyColor getSecondaryReadonlyColor() {
+        return secondaryColor;
     }
     public Color getMainColor() {
         return mainColor;

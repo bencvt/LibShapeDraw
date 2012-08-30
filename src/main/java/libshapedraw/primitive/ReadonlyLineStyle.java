@@ -2,10 +2,9 @@ package libshapedraw.primitive;
 
 public interface ReadonlyLineStyle {
     public LineStyle copy();
-    public LineStyle deepCopy();
-    public Color getMainColor();
+    public ReadonlyColor getMainReadonlyColor();
     public float getMainWidth();
-    public Color getSecondaryColor();
+    public ReadonlyColor getSecondaryReadonlyColor();
     public float getSecondaryWidth();
     public boolean hasSecondaryColor();
 }
