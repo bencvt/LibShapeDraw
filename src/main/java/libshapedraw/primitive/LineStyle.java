@@ -1,5 +1,12 @@
 package libshapedraw.primitive;
 
+/**
+ * Represent a line style: a Color and a floating point width.
+ * Optionally, the line style can have a secondary Color/width as well.
+ * <p>
+ * All modifiers support method chaining, e.g.
+ * LineStyle result = new LineStyle(Color.WHITE.copy(), 5.0F, true).setSecondaryWidth(2.0F);
+ */
 public class LineStyle implements ReadonlyLineStyle {
     public static final ReadonlyLineStyle DEFAULT = new LineStyle(
             Color.MAGENTA.copy().setAlpha(0.8), 3.0F, true);
@@ -76,5 +83,14 @@ public class LineStyle implements ReadonlyLineStyle {
     public LineStyle setSecondaryWidth(float secondaryWidth) {
         this.secondaryWidth = secondaryWidth;
         return this;
+    }
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder("(");
+        b.append(getMainColor()).append(',').append(getMainWidth());
+        if (hasSecondaryColor()) {
+            b.append('|').append(getSecondaryColor()).append(',').append(getSecondaryColor());
+        }
+        return b.append(')').toString();
     }
 }
