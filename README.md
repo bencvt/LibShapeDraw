@@ -1,8 +1,11 @@
 # For Players
 
 LibShapeDraw is a Minecraft client mod that is required by other mods.
-It doesn't do anything on its own. Rather, it provides a flexible set of
-drawing tools for those other mods to use.
+It doesn't do anything on its own. Rather, it provides a set of flexible and
+powerful drawing tools for those other mods to use.
+
+See the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/???-)
+for some screenshots and videos of what sort visual effects are possible.
 
 ## Installation
 
@@ -18,6 +21,12 @@ Installing this mod works exactly the same as any other Minecraft client mod.
 Utilities like [Magic Launcher](http://www.minecraftforum.net/topic/939149-/)
 can automate this process. Highly recommended! Manually copying `.class` files
 is for the birds.
+
+## Compatibility
+
+LibShapeDraw was designed with compatibility in mind. It does not modify *any*
+vanilla classes and therefore should be compatible with virtually every mod that
+works with ModLoader.
 
 ## Troubleshooting
 
@@ -52,7 +61,8 @@ If you just want to use the API in your own mod, feel free to skip this section
 and use the prebuilt jar.
 
 1.  Install [Maven](http://maven.apache.org/).
-2.  Copy the contents of your Minecraft's `bin` directory to `lib`.  
+2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
+    include the `natives` subdirectory; the test suite needs them.  
     `minecraft.jar` should be vanilla with only ModLoader patched in.
 3.  Run Maven.
 
@@ -64,6 +74,10 @@ That's all there is to it. If you prefer to use an IDE, here's one way:
 3.  Import the Maven project to your workspace.
 
 ## Other tips
+
+ +  LibShapeDraw is not thread-safe. Accessing or modifying `getShapes()` (or
+    any other exposed collection) from any thread other than the main Minecraft
+    game thread may result in non-deterministic behavior.
 
  +  You can enable debug dumps and tweak a few other global settings by copying  
     `libshapedraw/internal/default-settings.properties`  
@@ -77,12 +91,21 @@ That's all there is to it. If you prefer to use an IDE, here's one way:
 
 ## Development roadmap
 
-Planned for 1.1 or later:
+Planned features, in no specific order:
 
  +  More built-in Shapes, perhaps with texture support as well.
  +  Mavenize Javadoc generation and publish them somewhere, probably GitHub.
  +  Improve JUnit test coverage.
  +  Expand the demos.
+ +  Investigate the performance impact of making the API thread-safe, maybe
+    provide a parallel implementation (LibShapeDrawThreadSafe).
+ +  If there is community interest, add Forge compability.
+ +  If there is community interest, make ModLoader/Forge optional. This would
+    involve making a custom bootstrapper that modifies vanilla classes,
+    basically a minimalistic built-in version of ModLoader.
+ +  Add a plugin channel to allow servers to access the API on the client.
+    The end user would be able to disable this feature if they'd rather not let
+    the server draw shapes on their screen.
  +  Trident animation library integration.
 
 ### About Trident

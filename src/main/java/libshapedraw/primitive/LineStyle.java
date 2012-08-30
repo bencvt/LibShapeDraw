@@ -19,14 +19,20 @@ public class LineStyle implements ReadonlyLineStyle {
     public LineStyle(Color color, float width, boolean hasSecondaryColor) {
         set(color, width, hasSecondaryColor);
     }
-    public LineStyle(LineStyle other) {
+    public LineStyle(ReadonlyLineStyle other) {
         setMainColor(other.getMainColor());
-        setMainColor(other.getMainColor());
+        setMainWidth(other.getMainWidth());
         setSecondaryColor(other.getSecondaryColor());
-        setMainColor(other.getMainColor());
+        setSecondaryWidth(other.getSecondaryWidth());
     }
     public LineStyle copy() {
         return new LineStyle(this);
+    }
+    public LineStyle deepCopy() {
+        LineStyle s = new LineStyle(this);
+        s.setMainColor(mainColor.copy());
+        s.setSecondaryColor(secondaryColor == null ? null : secondaryColor.copy());
+        return s;
     }
     public Color getMainColor() {
         return mainColor;
@@ -70,6 +76,9 @@ public class LineStyle implements ReadonlyLineStyle {
     }
     /** Modifies this line style; does NOT create a copy. */
     public LineStyle setMainWidth(float mainWidth) {
+        if (mainWidth < 0) {
+            throw new IllegalArgumentException("line width must be positive");
+        }
         this.mainWidth = mainWidth;
         return this;
     }
@@ -81,6 +90,9 @@ public class LineStyle implements ReadonlyLineStyle {
     }
     /** Modifies this line style; does NOT create a copy. */
     public LineStyle setSecondaryWidth(float secondaryWidth) {
+        if (secondaryWidth < 0) {
+            throw new IllegalArgumentException("line width must be positive");
+        }
         this.secondaryWidth = secondaryWidth;
         return this;
     }
@@ -89,7 +101,7 @@ public class LineStyle implements ReadonlyLineStyle {
         StringBuilder b = new StringBuilder("(");
         b.append(getMainColor()).append(',').append(getMainWidth());
         if (hasSecondaryColor()) {
-            b.append('|').append(getSecondaryColor()).append(',').append(getSecondaryColor());
+            b.append('|').append(getSecondaryColor()).append(',').append(getSecondaryWidth());
         }
         return b.append(')').toString();
     }

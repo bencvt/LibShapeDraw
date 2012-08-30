@@ -2,7 +2,6 @@ package libshapedraw.primitive;
 
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
-import libshapedraw.primitive.Vector3;
 
 import org.junit.Test;
 

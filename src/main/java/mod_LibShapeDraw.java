@@ -24,9 +24,10 @@ import net.minecraft.client.Minecraft;
 public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     /**
      * Define a dummy Entity subclass to assist with hooking into
-     * Minecraft's rendering system. By spawning a "ghost" Entity for each
-     * world, we're able to render shapes in the game world itself rather
-     * than on top of everything (including the HUD and GUI windows).
+     * Minecraft's rendering system. By spawning a local, non-tracked,
+     * "ghost" Entity for each world, we're able to render shapes in the game
+     * world itself rather than on top of everything (including the HUD and
+     * GUI windows).
      * <p>
      * This ghost entity is trimmed down to be as lightweight as possible.
      * It neither interacts with the environment nor is rendered directly so
@@ -46,7 +47,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     // obf: Entity
     public class GhostEntity extends jn {
         // obf: World
-        public GhostEntity(up world, boolean background) {
+        public GhostEntity(up world) {
             super(world);
             // Disable frustum check; we always want to render this entity.
             this.ak = true; // obf: Entity.ignoreFrustumCheck
@@ -94,7 +95,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     private atd curWorld; // obf: WorldClient
     private atg curPlayer; // obf: EntityClientPlayerMP
     private Integer curDimension;
-    private GhostEntity ghostEntity;
+    private GhostEntity ghostEntity; // TODO: expose somewhere, isSpecialEntity(Object)?
     private int ghostEntityUpdateTick;
 
     public mod_LibShapeDraw() {
@@ -139,7 +140,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             curPlayer = minecraft.g; // obf: Minecraft.thePlayer
 
             Controller.getLog().info("respawning ghost entity");
-            ghostEntity = new GhostEntity(curWorld, true);
+            ghostEntity = new GhostEntity(curWorld);
             ghostEntityUpdateTick = 0;
             curWorld.d(ghostEntity); // obf: World.spawnEntityInWorld
 

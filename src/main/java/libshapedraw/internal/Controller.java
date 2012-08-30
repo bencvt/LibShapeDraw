@@ -190,10 +190,10 @@ public class Controller {
             line.append(INDENT).append(apiInstance).append(":\n");
 
             line.append(INDENT).append(INDENT).append("visible=");
-            line.append(apiInstance.isVisible()).append(":\n");
+            line.append(apiInstance.isVisible()).append('\n');
 
             line.append(INDENT).append(INDENT).append("visibleWhenHidingGui=");
-            line.append(apiInstance.isVisibleWhenHidingGui()).append(":\n");
+            line.append(apiInstance.isVisibleWhenHidingGui()).append('\n');
 
             line.append(INDENT).append(INDENT).append("shapes=");
             line.append(apiInstance.getShapes().size()).append(":\n");

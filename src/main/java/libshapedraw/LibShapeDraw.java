@@ -12,8 +12,13 @@ import libshapedraw.shape.Shape;
  * Main API entry point, instantiated by client code.
  * Multiple API instances can coexist, each with their own settings and state.
  * <p>
- * Instantiating this class will automatically register it to receive state updates,
- * render shapes, and dispatch events.
+ * Instantiating this class will automatically register it with the internal
+ * Controller. Any shapes you add with be rendered and any listeners you add
+ * will receive events.
+ * <p>
+ * API instances are not thread-safe. Accessing or modifying getShapes() (or
+ * any other exposed collection) from any thread other than the main Minecraft
+ * game thread may result in non-deterministic behavior.
  * <p>
  * @see the demos in src/test/java for sample usage
  */
@@ -71,11 +76,13 @@ public class LibShapeDraw {
         return this;
     }
 
+    /** This is not thread-safe. */
     public Set<Shape> getShapes() {
         return shapes;
     }
     /**
-     * Convenience method, equivalent to getShapes().add(shape)
+     * Convenience method, equivalent to getShapes().add(shape).
+     * This is not thread-safe.
      * @returns the instance (for method chaining)
      */
     public LibShapeDraw addShape(Shape shape) {
@@ -83,11 +90,13 @@ public class LibShapeDraw {
         return this;
     }
 
+    /** This is not thread-safe. */
     public Set<LSDEventListener> getEventListeners() {
         return eventListeners;
     }
     /**
      * Convenience method, equivalent to getEventListeners().add(listener)
+     * This is not thread-safe.
      * @returns the instance (for method chaining)
      */
     public LibShapeDraw addEventListener(LSDEventListener listener) {

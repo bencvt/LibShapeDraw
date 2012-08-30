@@ -20,14 +20,17 @@ public abstract class Shape {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
+    /** This is not thread-safe. */
     public List<ShapeTransform> getTransforms() {
         if (transforms == null) {
+            // lazily create the list; many shapes don't need transforms
             transforms = Collections.checkedList(new LinkedList<ShapeTransform>(), ShapeTransform.class);
         }
         return transforms;
     }
     /**
      * Convenience method, equivalent to getTransforms().add(transform)
+     * This is not thread-safe.
      * @returns the instance (for method chaining)
      */
     public Shape addTransform(ShapeTransform transform) {

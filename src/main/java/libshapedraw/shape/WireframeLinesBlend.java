@@ -15,24 +15,25 @@ import org.lwjgl.opengl.GL11;
  * A series of connected line segments that smoothly blends from one line style
  * to another along the segments.
  */
-public class WireframeLinesBlended extends WireframeLines {
+public class WireframeLinesBlend extends WireframeLines {
     private LineStyle blendToLineStyle;
 
-    public WireframeLinesBlended(Collection<Vector3> points) {
+    public WireframeLinesBlend(Collection<Vector3> points) {
         super(points);
     }
 
     public LineStyle getBlendToLineStyle() {
         return blendToLineStyle;
     }
-    public void setBlendToLineStyle(LineStyle blendToLineStyle) {
+    public WireframeLinesBlend setBlendToLineStyle(LineStyle blendToLineStyle) {
         this.blendToLineStyle = blendToLineStyle;
+        return this;
     }
     /**
      * Convenience method.
      * @see LineStyle.set
      */
-    public WireframeLinesBlended setBlendToLineStyle(Color color, float width, boolean visibleThroughTerrain) {
+    public WireframeLinesBlend setBlendToLineStyle(Color color, float width, boolean visibleThroughTerrain) {
         if (blendToLineStyle == null) {
             blendToLineStyle = new LineStyle(color, width, visibleThroughTerrain);
         } else {
