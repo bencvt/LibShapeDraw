@@ -1,5 +1,8 @@
 package libshapedraw.primitive;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 /**
  * Yet another class representing a Red/Green/Blue/Alpha color 4-tuple.
  * <p>
@@ -264,4 +267,25 @@ public class Color implements ReadonlyColor {
     // Other useful named colors
     public static final ReadonlyColor TRANSPARENT_BLACK = new Color(0x00000000);
     public static final ReadonlyColor TRANSPARENT_WHITE = new Color(0xffffff00);
+
+    private static HashMap<String, ReadonlyColor> namedColors;
+    public static ReadonlyColor getNamedColor(String name) {
+        if (name == null) {
+            return null;
+        }
+        if (namedColors == null) {
+            // lazily instantiate
+            namedColors = new HashMap<String, ReadonlyColor>();
+            try {
+                for (Field field : Color.class.getDeclaredFields()) {
+                    if (field.getType() == ReadonlyColor.class) {
+                        namedColors.put(field.getName().replaceAll("_", ""), (ReadonlyColor) field.get(null));
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("internal error reflecting named colors", e);
+            }
+        }
+        return namedColors.get(name.toUpperCase().replaceAll("[_\\s]", ""));
+    }
 }

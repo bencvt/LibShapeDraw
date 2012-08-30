@@ -57,4 +57,34 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     public void testModifyInvalidValueHigh() {
         new Color(0xdeadbeef).setBlue(123.456F);
     }
+
+    @Test
+    public void testGetNamedColor() {
+        assertSame(Color.RED, Color.getNamedColor("RED"));
+        assertSame(Color.RED, Color.getNamedColor("red"));
+        assertSame(Color.RED, Color.getNamedColor("Red"));
+        assertSame(Color.RED, Color.getNamedColor(" r e D "));
+        assertSame(Color.RED, Color.getNamedColor("R_ED"));
+
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("papayawhip"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("Papayawhip"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("PapayaWhip"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("Papaya Whip"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("Papaya_Whip"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("PAPAYA_WHIP"));
+        assertSame(Color.PAPAYA_WHIP, Color.getNamedColor("PAPAYA____WHIP"));
+
+        assertNull(Color.getNamedColor(null));
+        assertNull(Color.getNamedColor(""));
+        assertNull(Color.getNamedColor(" "));
+        assertNull(Color.getNamedColor("\t"));
+        assertNull(Color.getNamedColor("NOT_A_COLOR"));
+        assertNull(Color.getNamedColor("bloo"));
+        assertNull(Color.getNamedColor("Papaya"));
+        assertNull(Color.getNamedColor("PapayaWhipx"));
+
+        assertSame(Color.TRANSPARENT_BLACK, Color.getNamedColor("transparent black"));
+        assertSame(Color.TRANSPARENT_WHITE, Color.getNamedColor("transparent white"));
+        assertNull(Color.getNamedColor("transparent"));
+    }
 }
