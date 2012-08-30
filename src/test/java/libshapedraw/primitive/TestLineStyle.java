@@ -34,17 +34,34 @@ public class TestLineStyle extends SetupTestEnvironment {
 
     @Test
     public void testConstructorCopy() {
-        ReadonlyLineStyle s0 = new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, true);
+        ReadonlyLineStyle orig = new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, true);
 
-        ReadonlyLineStyle s1 = new LineStyle(s0);
-        assertNotSame(s0, s1);
-        assertEquals(s0.toString(), s1.toString());
+        ReadonlyLineStyle copy0 = new LineStyle(orig);
+        assertNotSame(orig, copy0);
+        assertEquals(orig.toString(), copy0.toString());
+        assertNotSame(orig.getMainReadonlyColor(), copy0.getMainReadonlyColor());
+        assertEquals(orig.getMainReadonlyColor().toString(), copy0.getMainReadonlyColor().toString());
+        assertNotSame(orig.getSecondaryReadonlyColor(), copy0.getSecondaryReadonlyColor());
+        assertEquals(orig.getSecondaryReadonlyColor().toString(), copy0.getSecondaryReadonlyColor().toString());
 
-        LineStyle s2 = new LineStyle(s0);
-        assertNotSame(s0, s2);
-        assertEquals(s0.toString(), s2.toString());
-        s2.setMainColor(Color.GREEN.copy());
-        assertFalse(s0.toString().equals(s2.toString()));
+        LineStyle copy1 = new LineStyle(orig);
+        assertNotSame(orig, copy1);
+        assertEquals(orig.toString(), copy1.toString());
+        copy1.setMainColor(Color.GREEN.copy());
+        assertFalse(orig.toString().equals(copy1.toString()));
+    }
+
+    @Test
+    public void testConstructorCopyNullSecondaryColor() {
+        ReadonlyLineStyle orig = new LineStyle(Color.YELLOW.copy().setAlpha(0.5), 12.0F, false);
+        assertNull(orig.getSecondaryReadonlyColor());
+
+        ReadonlyLineStyle copy = new LineStyle(orig);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+        assertNotSame(orig.getMainReadonlyColor(), copy.getMainReadonlyColor());
+        assertEquals(orig.getMainReadonlyColor().toString(), copy.getMainReadonlyColor().toString());
+        assertNull(copy.getSecondaryReadonlyColor());
     }
 
     @Test(expected=NullPointerException.class)
@@ -59,12 +76,29 @@ public class TestLineStyle extends SetupTestEnvironment {
         ReadonlyLineStyle copy0 = orig.copy();
         assertNotSame(orig, copy0);
         assertEquals(orig.toString(), copy0.toString());
+        assertNotSame(orig.getMainReadonlyColor(), copy0.getMainReadonlyColor());
+        assertEquals(orig.getMainReadonlyColor().toString(), copy0.getMainReadonlyColor().toString());
+        assertNotSame(orig.getSecondaryReadonlyColor(), copy0.getSecondaryReadonlyColor());
+        assertEquals(orig.getSecondaryReadonlyColor().toString(), copy0.getSecondaryReadonlyColor().toString());
 
         LineStyle copy1 = orig.copy();
         assertNotSame(orig, copy1);
         assertEquals(orig.toString(), copy1.toString());
         copy1.setMainColor(Color.GREEN.copy());
         assertFalse(orig.toString().equals(copy1.toString()));
+    }
+
+    @Test
+    public void testCopyNullSecondaryColor() {
+        ReadonlyLineStyle orig = new LineStyle(Color.YELLOW.copy().setAlpha(0.5), 12.0F, false);
+        assertNull(orig.getSecondaryReadonlyColor());
+
+        ReadonlyLineStyle copy = orig.copy();
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+        assertNotSame(orig.getMainReadonlyColor(), copy.getMainReadonlyColor());
+        assertEquals(orig.getMainReadonlyColor().toString(), copy.getMainReadonlyColor().toString());
+        assertNull(copy.getSecondaryReadonlyColor());
     }
 
     @Test

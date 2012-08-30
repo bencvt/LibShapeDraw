@@ -22,7 +22,7 @@ public class LineStyle implements ReadonlyLineStyle {
     public LineStyle(ReadonlyLineStyle other) {
         setMainColor(other.getMainReadonlyColor().copy());
         setMainWidth(other.getMainWidth());
-        setSecondaryColor(other.getSecondaryReadonlyColor().copy());
+        setSecondaryColor(other.getSecondaryReadonlyColor() == null ? null : other.getSecondaryReadonlyColor().copy());
         setSecondaryWidth(other.getSecondaryWidth());
     }
     public LineStyle copy() {
