@@ -262,5 +262,6 @@ public class Color implements ReadonlyColor {
     // Bob Ross approves
 
     // Other useful named colors
-    public static final ReadonlyColor TRANSPARENT = new Color(0x00000000);
+    public static final ReadonlyColor TRANSPARENT_BLACK = new Color(0x00000000);
+    public static final ReadonlyColor TRANSPARENT_WHITE = new Color(0xffffff00);
 }
