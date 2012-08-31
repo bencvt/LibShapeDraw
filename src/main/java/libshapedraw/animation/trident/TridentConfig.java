@@ -85,8 +85,7 @@ public class TridentConfig {
         ClassLoader classLoader = Thread.currentThread()
                 .getContextClassLoader();
         try {
-            Enumeration urls = classLoader
-                    .getResources("META-INF/trident-plugin.properties");
+            Enumeration urls = classLoader.getResources("trident-plugin.properties");
             while (urls.hasMoreElements()) {
                 URL pluginUrl = (URL) urls.nextElement();
                 BufferedReader reader = null;
