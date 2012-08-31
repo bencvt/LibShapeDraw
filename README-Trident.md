@@ -46,6 +46,8 @@ modifications:
 LibShapeDraw is only loosely integrated with Trident; client-code is *not*
 obliged to use Trident.
 
+See `src/test/java/mod_LSDDemoTrident*.java` for sample usage.
+
 # Licenses
 
 See `LICENSE.txt` for LibShapeDraw's license. (TL;DR: it's the MIT license.)

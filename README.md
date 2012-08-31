@@ -2,7 +2,7 @@
 
 LibShapeDraw is a Minecraft client mod that is required by other mods.
 It doesn't do anything on its own. Rather, it provides a set of flexible and
-powerful drawing tools for those other mods to use.
+powerful drawing and animation tools for those other mods to use.
 
 See the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/???-)
 for some screenshots and videos of what sort visual effects are possible.
@@ -47,7 +47,8 @@ bottom. Please have the crash report handy.
 ## Using the LibShapeDraw API in your project
 
 Quick version: Add the jar to your project's classpath, instantiate
-`libshapedraw.LibShapeDraw` somewhere in your code, and go nuts.
+`libshapedraw.LibShapeDraw` somewhere in your code, and go nuts. Use the
+`libshapedraw.animation.trident.Timeline` class for animations.
 
 For a gentler introduction, browse the demos: `src/test/java/mod_LSDDemo*.java`.
 
@@ -106,25 +107,8 @@ Planned features, in no specific order:
  +  Add a plugin channel to allow servers to access the API on the client.
     The end user would be able to disable this feature if they'd rather not let
     the server draw shapes on their screen.
- +  Trident animation library integration.
-
-### About Trident
-
-Trident is pretty much the only mature open-source Java animation library out
-there that isn't part of a much larger framework.
-
-It's also inactive as of August 2010, which actually isn't as bad as it sounds
-because the project was already fairly mature and robust. And hey, it's
-open-source; nothing's stopping anyone from running with a fork should the need
-arise.
-
-Limited documentation, full source code, and releases are available in several
-places: the [Trident author's blog](http://www.pushing-pixels.org/category/trident),
-the [kenai.com project](http://kenai.com/projects/trident/pages/Home), and
-the [GitHub snapshot](https://github.com/kirillcool/trident).
-
-For the sake of simplicity, LibShapeDraw will likely include the Trident classes
-in its release jar.
+ +  Improved Trident animation library integration: built-in interpolators for
+    types in libshapedraw.primitive.
 
 ## Contributing
 
