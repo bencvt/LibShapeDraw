@@ -15,8 +15,14 @@ the [GitHub snapshot](https://github.com/kirillcool/trident).
 
 # Usage in LibShapeDraw
 
-LibShapeDraw includes a built-in version of Trident, with the following
-modifications:
+Rather than reinvent the wheel, LibShapeDraw includes Trident to assist client
+code in animating its shapes. The integration is intentionally loose; client
+code using LibShapeDraw is *not* obliged to use any part of Trident.
+
+See `src/test/java/mod_LSDDemoTrident*.java` for sample usage.
+
+For ease of distribution, LibShapeDraw includes a built-in version of Trident.
+It has been modified in several ways:
 
  +  Repackaged as `libshapedraw.animation.trident`.
 
@@ -42,11 +48,6 @@ modifications:
             private double x;
             public MyFluentClass setX(double x) { this.x = x; return this; }
         }
-
-LibShapeDraw is only loosely integrated with Trident; client-code is *not*
-obliged to use Trident.
-
-See `src/test/java/mod_LSDDemoTrident*.java` for sample usage.
 
 # Licenses
 
