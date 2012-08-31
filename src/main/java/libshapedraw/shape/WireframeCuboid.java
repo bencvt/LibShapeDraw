@@ -11,12 +11,10 @@ import org.lwjgl.opengl.GL11;
  * You can use a ShapeRotate transform to make it non-orthogonal.
  */
 public class WireframeCuboid extends WireframeShape {
-    private final Vector3 center;
     private Vector3 lowerCorner;
     private Vector3 upperCorner;
 
     public WireframeCuboid(Vector3 lowerCorner, Vector3 upperCorner) {
-        center = Vector3.ZEROS.copy();
         this.lowerCorner = lowerCorner;
         this.upperCorner = upperCorner;
         normalize();
@@ -71,10 +69,10 @@ public class WireframeCuboid extends WireframeShape {
     @Override
     public ReadonlyVector3 getOrigin() {
         normalize();
-        center.setX(midpoint(lowerCorner.getX(), upperCorner.getX()));
-        center.setY(midpoint(lowerCorner.getY(), upperCorner.getY()));
-        center.setZ(midpoint(lowerCorner.getZ(), upperCorner.getZ()));
-        return center;
+        return new Vector3(
+                midpoint(lowerCorner.getX(), upperCorner.getX()),
+                midpoint(lowerCorner.getY(), upperCorner.getY()),
+                midpoint(lowerCorner.getZ(), upperCorner.getZ()));
     }
     private static double midpoint(double lo, double hi) {
         return lo + (hi - lo)/2.0;

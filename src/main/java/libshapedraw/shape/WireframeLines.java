@@ -21,6 +21,11 @@ public class WireframeLines extends WireframeShape {
         setPoints(points).setRenderCap(-1);
     }
 
+    /**
+     * The points defining the connected line segments to render.
+     * The number of line segments rendered will be at most
+     * getPoints().size() - 1.
+     */
     public Collection<Vector3> getPoints() {
         return points;
     }

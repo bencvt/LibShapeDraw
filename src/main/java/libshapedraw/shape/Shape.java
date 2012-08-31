@@ -14,15 +14,28 @@ public abstract class Shape {
     private boolean visible = true;
     private List<ShapeTransform> transforms;
 
+    /**
+     * The point around which ShapeTransforms should occur. Must not be null.
+     * This should generally be the center point of the Shape, if that makes
+     * sense for the Shape type.
+     */
     public abstract ReadonlyVector3 getOrigin();
 
+    /**
+     * If false, the Shape will not be rendered.
+     */
     public boolean isVisible() {
         return visible;
     }
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-    /** This is not thread-safe. */
+
+    /**
+     * Get the list of ShapeTransforms to perform right before rendering this
+     * Shape, if any.
+     * This is not thread-safe.
+     */
     public List<ShapeTransform> getTransforms() {
         if (transforms == null) {
             // lazily create the list; many shapes don't need transforms
@@ -40,6 +53,11 @@ public abstract class Shape {
         return this;
     }
 
+    /**
+     * Render the Shape, if visible. Also perform any ShapeTransforms
+     * registered to this Shape. This should normally only be called internally
+     * by the Controller.
+     */
     public final void render(MinecraftAccess mc) {
         if (!isVisible()) {
             return;
@@ -61,6 +79,9 @@ public abstract class Shape {
         GL11.glPopMatrix();
     }
 
+    /**
+     * Render the Shape, called by the Shape's main render method.
+     */
     protected abstract void renderShape(MinecraftAccess mc);
 
     @Override
