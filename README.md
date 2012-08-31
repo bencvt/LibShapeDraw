@@ -4,21 +4,21 @@ LibShapeDraw is a Minecraft client mod that is required by other mods.
 It doesn't do anything on its own. Rather, it provides a set of flexible and
 powerful drawing and animation tools for those other mods to use.
 
-See the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/???-)
+See the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/1458931-libshapedraw/)
 for some screenshots and videos of what sort visual effects are possible.
 
 ## Installation
 
 Installing this mod works exactly the same as any other Minecraft client mod.
 
-1.  Make sure [ModLoader](http://www.minecraftforum.net/topic/75440-/) is
+1.  Make sure [ModLoader](http://www.minecraftforum.net/topic/75440-modloader/) is
     installed as it is a base requirement.
 2.  Download and extract the jar for the latest release. You can rename it to a
     .zip if that helps.
 3.  Patch the contents of the jar file into your `minecraft.jar`, being sure to
     remove the `META-INF` folders.
 
-Utilities like [Magic Launcher](http://www.minecraftforum.net/topic/939149-/)
+Utilities like [Magic Launcher](http://www.minecraftforum.net/topic/939149-magiclauncher/)
 can automate this process. Highly recommended! Manually copying `.class` files
 is for the birds.
 
@@ -44,6 +44,9 @@ bottom. Please have the crash report handy.
 
 # For Developers
 
+LibShapeDraw is open source, designed to be as easy to use as possible. Be sure
+to check for updates.
+
 ## Using the LibShapeDraw API in your project
 
 Quick version: Add the jar to your project's classpath, instantiate
@@ -67,7 +70,7 @@ This project's official GitHub repo is located at
 [github.com/bencvt/LibShapeDraw](https://github.com/bencvt/LibShapeDraw).
 Anyone is free to open an issue.
 
-You can also try the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/???-).
+You can also try the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/1458931-libshapedraw/).
 
 Finally, feel free to ping me (bencvt) in IRC. I'm usually idling in various
 channels related to Minecraft development on esper.net and freenode.net.
