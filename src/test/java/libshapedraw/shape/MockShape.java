@@ -3,6 +3,7 @@ package libshapedraw.shape;
 import org.lwjgl.opengl.GL11;
 
 import libshapedraw.MinecraftAccess;
+import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.shape.Shape;
 
 public class MockShape extends Shape {
@@ -10,6 +11,11 @@ public class MockShape extends Shape {
 
     public int getCountRender() {
         return countRender;
+    }
+
+    @Override
+    public ReadonlyVector3 getOrigin() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

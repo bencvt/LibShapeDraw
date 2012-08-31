@@ -14,6 +14,8 @@ public abstract class Shape {
     private boolean visible = true;
     private List<ShapeTransform> transforms;
 
+    public abstract ReadonlyVector3 getOrigin();
+
     public boolean isVisible() {
         return visible;
     }
@@ -38,7 +40,7 @@ public abstract class Shape {
         return this;
     }
 
-    public final void render(MinecraftAccess mc, ReadonlyVector3 coords) {
+    public final void render(MinecraftAccess mc) {
         if (!isVisible()) {
             return;
         }
@@ -46,14 +48,15 @@ public abstract class Shape {
             renderShape(mc);
             return;
         }
+        ReadonlyVector3 origin = getOrigin();
         GL11.glPushMatrix();
-        GL11.glTranslated(coords.getX(), coords.getY(), coords.getZ());
+        GL11.glTranslated(origin.getX(), origin.getY(), origin.getZ());
         for (ShapeTransform t : transforms) {
             if (t != null) {
                 t.preRender();
             }
         }
-        GL11.glTranslated(-coords.getX(), -coords.getY(), -coords.getZ());
+        GL11.glTranslated(-origin.getX(), -origin.getY(), -origin.getZ());
         renderShape(mc);
         GL11.glPopMatrix();
     }

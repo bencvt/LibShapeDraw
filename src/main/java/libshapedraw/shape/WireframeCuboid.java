@@ -1,6 +1,7 @@
 package libshapedraw.shape;
 
 import libshapedraw.MinecraftAccess;
+import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -10,10 +11,12 @@ import org.lwjgl.opengl.GL11;
  * You can use a ShapeRotate transform to make it non-orthogonal.
  */
 public class WireframeCuboid extends WireframeShape {
+    private final Vector3 center;
     private Vector3 lowerCorner;
     private Vector3 upperCorner;
 
     public WireframeCuboid(Vector3 lowerCorner, Vector3 upperCorner) {
+        center = Vector3.ZEROS.copy();
         this.lowerCorner = lowerCorner;
         this.upperCorner = upperCorner;
         normalize();
@@ -27,7 +30,7 @@ public class WireframeCuboid extends WireframeShape {
     }
     public WireframeCuboid setLowerCorner(Vector3 lowerCorner) {
         if (lowerCorner == null) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         this.lowerCorner = lowerCorner;
         normalize();
@@ -38,7 +41,7 @@ public class WireframeCuboid extends WireframeShape {
     }
     public WireframeCuboid setUpperCorner(Vector3 upperCorner) {
         if (upperCorner == null) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
         this.upperCorner = upperCorner;
         normalize();
@@ -63,6 +66,18 @@ public class WireframeCuboid extends WireframeShape {
         hi = Math.max(lowerCorner.getZ(), upperCorner.getZ());
         lowerCorner.setZ(lo);
         upperCorner.setZ(hi);
+    }
+
+    @Override
+    public ReadonlyVector3 getOrigin() {
+        normalize();
+        center.setX(midpoint(lowerCorner.getX(), upperCorner.getX()));
+        center.setY(midpoint(lowerCorner.getY(), upperCorner.getY()));
+        center.setZ(midpoint(lowerCorner.getZ(), upperCorner.getZ()));
+        return center;
+    }
+    private static double midpoint(double lo, double hi) {
+        return lo + (hi - lo)/2.0;
     }
 
     @Override

@@ -163,7 +163,7 @@ public class Controller {
             if (apiInstance.isVisible() && (!isGuiHidden || apiInstance.isVisibleWhenHidingGui())) {
                 for (Shape shape : apiInstance.getShapes()) {
                     if (shape != null) {
-                        shape.render(minecraftAccess, playerCoords);
+                        shape.render(minecraftAccess);
                     }
                 }
             }

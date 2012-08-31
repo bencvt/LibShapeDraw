@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.ReadonlyColor;
+import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -38,6 +39,14 @@ public class WireframeLines extends WireframeShape {
     public WireframeLines setRenderCap(int renderCap) {
         this.renderCap = renderCap;
         return this;
+    }
+
+    @Override
+    public ReadonlyVector3 getOrigin() {
+        if (points.size() == 0) {
+            return Vector3.ZEROS;
+        }
+        return getPoints().iterator().next();
     }
 
     @Override

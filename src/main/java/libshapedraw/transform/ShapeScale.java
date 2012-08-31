@@ -5,22 +5,25 @@ import libshapedraw.primitive.Vector3;
 import org.lwjgl.opengl.GL11;
 
 public class ShapeScale implements ShapeTransform {
-    private Vector3 vector;
-    public ShapeScale(double x, double y, double z) {
-        this(new Vector3(x, y, z));
+    private Vector3 scaleXYZ;
+    public ShapeScale() {
+        this(1.0, 1.0, 1.0);
     }
-    public ShapeScale(Vector3 vector) {
-        setVector(vector);
+    public ShapeScale(double scaleX, double scaleY, double scaleZ) {
+        this(new Vector3(scaleX, scaleY, scaleZ));
     }
-    public Vector3 getVector() {
-        return vector;
+    public ShapeScale(Vector3 scaleXYZ) {
+        setScaleXYZ(scaleXYZ);
     }
-    public ShapeScale setVector(Vector3 vector) {
-        this.vector = vector;
+    public Vector3 getScaleXYZ() {
+        return scaleXYZ;
+    }
+    public ShapeScale setScaleXYZ(Vector3 scaleXYZ) {
+        this.scaleXYZ = scaleXYZ;
         return this;
     }
     @Override
     public void preRender() {
-        GL11.glScaled(vector.getX(), vector.getY(), vector.getZ());
+        GL11.glScaled(scaleXYZ.getX(), scaleXYZ.getY(), scaleXYZ.getZ());
     }
 }

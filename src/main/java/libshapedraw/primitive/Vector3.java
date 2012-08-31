@@ -7,6 +7,8 @@ package libshapedraw.primitive;
  * Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);
  */
 public class Vector3 implements ReadonlyVector3 {
+    public static ReadonlyVector3 ZEROS = new Vector3(0.0, 0.0, 0.0);
+
     private double x;
     private double y;
     private double z;
