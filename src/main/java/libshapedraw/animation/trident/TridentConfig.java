@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.*;
 
 import libshapedraw.animation.trident.TimelineEngine.TridentAnimationThread;
+import libshapedraw.animation.trident.interpolator.CorePropertyInterpolators;
 import libshapedraw.animation.trident.interpolator.PropertyInterpolator;
 import libshapedraw.animation.trident.interpolator.PropertyInterpolatorSource;
 
@@ -82,10 +83,20 @@ public class TridentConfig {
 
         this.uiToolkitHandlers = new HashSet<UIToolkitHandler>();
         this.propertyInterpolators = new HashSet<PropertyInterpolator>();
+
+        // Simplify Trident config to not load its UIToolkitHandlers and
+        // PropertyInterpolator from properties files. These can still be added
+        // programmatically if needed.
+        PropertyInterpolatorSource piSource = new CorePropertyInterpolators();
+        for (PropertyInterpolator pi : piSource.getPropertyInterpolators()) {
+            this.propertyInterpolators.add(pi);
+        }
+        /*
         ClassLoader classLoader = Thread.currentThread()
                 .getContextClassLoader();
         try {
-            Enumeration urls = classLoader.getResources("trident-plugin.properties");
+            Enumeration urls = classLoader
+                    .getResources("META-INF/trident-plugin.properties");
             while (urls.hasMoreElements()) {
                 URL pluginUrl = (URL) urls.nextElement();
                 BufferedReader reader = null;
@@ -167,6 +178,7 @@ public class TridentConfig {
         } catch (Exception exc) {
             exc.printStackTrace();
         }
+        */
     }
 
     public static synchronized TridentConfig getInstance() {
