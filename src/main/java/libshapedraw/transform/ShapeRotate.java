@@ -28,6 +28,7 @@ public class ShapeRotate implements ShapeTransform {
         this.axis = axis;
         return this;
     }
+    @Override
     public void preRender() {
         // GL11.glRotated not available in Minecraft's LWJGL version
         GL11.glRotatef(angle, (float) axis.getX(), (float) axis.getY(), (float) axis.getZ());

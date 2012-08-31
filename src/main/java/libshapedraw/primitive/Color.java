@@ -27,21 +27,27 @@ public class Color implements ReadonlyColor {
     public Color(ReadonlyColor other) {
         this(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
     }
+    @Override
     public Color copy() {
         return new Color(this);
     }
+    @Override
     public double getRed() {
         return red;
     }
+    @Override
     public double getGreen() {
         return green;
     }
+    @Override
     public double getBlue() {
         return blue;
     }
+    @Override
     public double getAlpha() {
         return alpha;
     }
+    @Override
     public int getRGBA() {
         return ((((int) (getRed() * 255.0)) & 0xff) << 24) |
                 ((((int) (getGreen() * 255.0)) & 0xff) << 16) |

@@ -25,31 +25,36 @@ public class LineStyle implements ReadonlyLineStyle {
         setSecondaryColor(other.getSecondaryReadonlyColor() == null ? null : other.getSecondaryReadonlyColor().copy());
         setSecondaryWidth(other.getSecondaryWidth());
     }
+    @Override
     public LineStyle copy() {
         return new LineStyle(this);
     }
+    @Override
     public ReadonlyColor getMainReadonlyColor() {
         return mainColor;
     }
+    @Override
     public ReadonlyColor getSecondaryReadonlyColor() {
         return secondaryColor;
+    }
+    @Override
+    public float getMainWidth() {
+        return mainWidth;
+    }
+    @Override
+    public float getSecondaryWidth() {
+        return secondaryWidth;
+    }
+    @Override
+    public boolean hasSecondaryColor() {
+        return secondaryColor != null;
     }
     public Color getMainColor() {
         return mainColor;
     }
-    public float getMainWidth() {
-        return mainWidth;
-    }
     public Color getSecondaryColor() {
         return secondaryColor;
     }
-    public float getSecondaryWidth() {
-        return secondaryWidth;
-    }
-    public boolean hasSecondaryColor() {
-        return secondaryColor != null;
-    }
-
     /**
      * Convenience method to set mainColor, mainWidth, secondaryColor, and secondaryWidth at once.
      * Modifies this line style; does NOT create a copy.

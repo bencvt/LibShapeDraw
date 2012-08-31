@@ -19,6 +19,7 @@ public class ShapeScale implements ShapeTransform {
         this.vector = vector;
         return this;
     }
+    @Override
     public void preRender() {
         GL11.glScaled(vector.getX(), vector.getY(), vector.getZ());
     }

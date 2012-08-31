@@ -19,6 +19,7 @@ public class ShapeTranslate implements ShapeTransform {
         this.vector = vector;
         return this;
     }
+    @Override
     public void preRender() {
         GL11.glTranslated(vector.getX(), vector.getY(), vector.getZ());
     }

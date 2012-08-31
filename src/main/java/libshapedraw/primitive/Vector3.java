@@ -19,24 +19,30 @@ public class Vector3 implements ReadonlyVector3 {
     public Vector3(ReadonlyVector3 other) {
         this(other.getX(), other.getY(), other.getZ());
     }
+    @Override
     public Vector3 copy() {
         return new Vector3(this);
     }
+    @Override
     public double getX() {
         return x;
     }
+    @Override
     public double getY() {
         return y;
     }
+    @Override
     public double getZ() {
         return z;
     }
+    @Override
     public double getDistanceSquared(ReadonlyVector3 other) {
         double dx = x - other.getX();
         double dy = y - other.getY();
         double dz = z - other.getZ();
         return dx*dx + dy*dy + dz*dz;
     }
+    @Override
     public double getDistance(ReadonlyVector3 other) {
         double dd = getDistanceSquared(other);
         return dd == 0.0 ? 0.0 : Math.sqrt(dd);
