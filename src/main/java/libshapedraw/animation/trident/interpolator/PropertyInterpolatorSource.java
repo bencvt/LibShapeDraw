@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.interpolator
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /*
  * Copyright (c) 2005-2010 Trident Kirill Grouchnikov. All Rights Reserved.
  *
@@ -32,5 +34,5 @@ package libshapedraw.animation.trident.interpolator;
 import java.util.Set;
 
 public interface PropertyInterpolatorSource {
-	public Set<PropertyInterpolator> getPropertyInterpolators();
+    public Set<PropertyInterpolator> getPropertyInterpolators();
 }

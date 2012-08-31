@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.callback
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /*
  * Copyright (c) 2005-2010 Trident Kirill Grouchnikov. All Rights Reserved.
  *
@@ -37,13 +39,13 @@ import libshapedraw.animation.trident.Timeline.TimelineState;
  * @author Kirill Grouchnikov
  */
 public class TimelineCallbackAdapter implements TimelineCallback {
-	@Override
-	public void onTimelineStateChanged(TimelineState oldState,
-			TimelineState newState, float durationFraction,
-			float timelinePosition) {
-	}
+    @Override
+    public void onTimelineStateChanged(TimelineState oldState,
+            TimelineState newState, float durationFraction,
+            float timelinePosition) {
+    }
 
-	@Override
-	public void onTimelinePulse(float durationFraction, float timelinePosition) {
-	}
+    @Override
+    public void onTimelinePulse(float durationFraction, float timelinePosition) {
+    }
 }

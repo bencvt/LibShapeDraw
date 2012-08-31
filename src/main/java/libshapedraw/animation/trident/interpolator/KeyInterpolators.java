@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.interpolator
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /**
  * Copyright (c) 2006, Sun Microsystems, Inc
  * All rights reserved.
@@ -42,9 +44,9 @@ import libshapedraw.animation.trident.ease.TimelineEase;
  * @author Chet
  */
 class KeyInterpolators {
-    
+
     private ArrayList<TimelineEase> interpolators = new ArrayList<TimelineEase>();
-    
+
     /**
      * Creates a new instance of KeyInterpolators
      */
@@ -63,9 +65,9 @@ class KeyInterpolators {
             }
         }
     }
-    
+
     float interpolate(int interval, float fraction) {
         return interpolators.get(interval).map(fraction);
     }
-    
+
 }

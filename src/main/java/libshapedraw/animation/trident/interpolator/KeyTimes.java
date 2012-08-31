@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.interpolator
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /**
  * Copyright (c) 2005-2006, Sun Microsystems, Inc
  * All rights reserved.
@@ -43,9 +45,9 @@ import java.util.ArrayList;
  * @author Chet
  */
 public class KeyTimes {
-    
+
     private ArrayList<Float> times = new ArrayList<Float>();
-    
+
     /** 
      * Creates a new instance of KeyTimes.  Times should be in increasing
      * order and should all be in the range [0,1], with the first value
@@ -73,11 +75,11 @@ public class KeyTimes {
             prevTime = time;
         }
     }
-    
+
     ArrayList getTimes() {
         return times;
     }
-    
+
     int getSize() {
         return times.size();
     }

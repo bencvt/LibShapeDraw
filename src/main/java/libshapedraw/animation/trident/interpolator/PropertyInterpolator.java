@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.interpolator
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /*
  * Copyright (c) 2005-2010 Trident Kirill Grouchnikov. All Rights Reserved.
  *
@@ -30,7 +32,7 @@
 package libshapedraw.animation.trident.interpolator;
 
 public interface PropertyInterpolator<T> {
-	public Class getBasePropertyClass();
+    public Class getBasePropertyClass();
 
-	public T interpolate(T from, T to, float timelinePosition);
+    public T interpolate(T from, T to, float timelinePosition);
 }

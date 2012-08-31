@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /*
  * Copyright (c) 2005-2010 Trident Kirill Grouchnikov. All Rights Reserved.
  *
@@ -30,9 +32,9 @@
 package libshapedraw.animation.trident;
 
 public interface UIToolkitHandler {
-	public boolean isHandlerFor(Object mainTimelineObject);
+    public boolean isHandlerFor(Object mainTimelineObject);
 
-	public boolean isInReadyState(Object mainTimelineObject);
+    public boolean isInReadyState(Object mainTimelineObject);
 
-	public void runOnUIThread(Object mainTimelineObject, Runnable runnable);
+    public void runOnUIThread(Object mainTimelineObject, Runnable runnable);
 }

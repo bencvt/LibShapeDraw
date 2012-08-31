@@ -1,3 +1,5 @@
+// original package: org.pushingpixels.trident.callback
+// imported from http://kenai.com/projects/trident/ (version 1.3)
 /*
  * Copyright (c) 2005-2010 Trident Kirill Grouchnikov. All Rights Reserved.
  *
