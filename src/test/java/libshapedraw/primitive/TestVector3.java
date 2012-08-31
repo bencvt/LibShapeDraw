@@ -92,14 +92,16 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
 
     @Test
     public void testAddSubtract() {
-        Vector3 v0 = new Vector3(1.0, 2.0, 3.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
+        Vector3 v0 = Vector3.ZEROS.copy();
+
         // add components
-        v0.addX(7.75).addY(8.0).addZ(-60.0);
+        v0.set(1.0, 2.0, 3.0).addX(7.75).addY(8.0).addZ(-60.0);
         assertVectorEquals(8.75, 10.0, -57.0, v0);
+        v0.set(1.0, 2.0, 3.0).add(4.0, -21.5, 50.0);
+        assertVectorEquals(5.0, -19.5, 53.0, v0);
 
+        v0.set(8.75, 10.0, -57.0);
         ReadonlyVector3 v1 = new Vector3(1.0, -2.5, 3.0);
-
         // add vector
         v0.add(v1);
         assertVectorEquals(9.75, 7.5, -54.0, v0);

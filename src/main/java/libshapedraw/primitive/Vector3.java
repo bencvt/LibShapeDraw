@@ -94,6 +94,13 @@ public class Vector3 implements ReadonlyVector3 {
         return this;
     }
     /** Modifies this vector; does NOT create a copy. */
+    public Vector3 add(double xOff, double yOff, double zOff) {
+        x += xOff;
+        y += yOff;
+        z += zOff;
+        return this;
+    }
+    /** Modifies this vector; does NOT create a copy. */
     public Vector3 add(ReadonlyVector3 other) {
         x += other.getX();
         y += other.getY();
