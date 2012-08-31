@@ -415,7 +415,7 @@ public class TimelinePropertyBuilder<T> {
             for (Method m : oClazz.getMethods()) {
                 if (setterMethodName.equals(m.getName())
                         && (m.getParameterTypes().length == 1)
-                        && (m.getReturnType() == Void.TYPE)
+                        && (m.getReturnType() == Void.TYPE || m.getReturnType().equals(oClazz))
                         && (!Modifier.isStatic(m.getModifiers()))) {
                     return m;
                 }
