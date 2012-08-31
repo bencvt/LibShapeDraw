@@ -34,6 +34,7 @@ public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
         libShapeDraw.setVisibleWhenHidingGui(true);
     }
 
+    @Override
     public void onRespawn(LSDRespawnEvent event) {
         // Remove all shapes registered by this mod.
         // If there are other mods using LibShapeDraw, this won't touch their shapes.
@@ -48,6 +49,7 @@ public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
         lastShapeCreated = System.currentTimeMillis() + 2000;
     }
 
+    @Override
     public void onGameTick(LSDGameTickEvent event) {
         // onGameTick is partially redundant with BaseMod.onTickInGame; you're free to leave
         // this method empty and do your work there instead. Just be aware of the difference
@@ -75,6 +77,7 @@ public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
         }
     }
 
+    @Override
     public void onPreRender(LSDPreRenderEvent event) {
         // Update the corners of followBox based on the player's position.
         // We have to do this in onPreRender instead of onGameTick or the animation would be jerky.

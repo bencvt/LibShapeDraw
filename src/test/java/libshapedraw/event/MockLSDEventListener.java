@@ -24,6 +24,7 @@ public class MockLSDEventListener implements LSDEventListener {
         return countPreRender;
     }
 
+    @Override
     public void onRespawn(LSDRespawnEvent event) {
         assertNotNull(event);
         assertTrue(event.getAPI() instanceof LibShapeDraw);
@@ -32,12 +33,14 @@ public class MockLSDEventListener implements LSDEventListener {
         assertNotNull(Boolean.valueOf(event.isNewServer()));
         countRespawn++;
     }
+    @Override
     public void onGameTick(LSDGameTickEvent event) {
         assertNotNull(event);
         assertTrue(event.getAPI() instanceof LibShapeDraw);
         assertTrue(event.getPlayerCoords() instanceof Vector3);
         countGameTick++;
     }
+    @Override
     public void onPreRender(LSDPreRenderEvent event) {
         assertNotNull(event);
         assertTrue(event.getAPI() instanceof LibShapeDraw);

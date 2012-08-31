@@ -8,6 +8,7 @@ public class MockMinecraftAccess implements MinecraftAccess {
     private boolean drawingStarted = false;
     private int numVertices = 0;
 
+    @Override
     public void startDrawing(int mode) {
         assertFalse(isDrawingStarted());
         drawingStarted = true;
@@ -15,16 +16,19 @@ public class MockMinecraftAccess implements MinecraftAccess {
         numVertices = 0;
     }
 
+    @Override
     public void addVertex(double x, double y, double z) {
         assertTrue(isDrawingStarted());
         numVertices++;
     }
 
+    @Override
     public void addVertex(ReadonlyVector3 coords) {
         assertTrue(isDrawingStarted());
         numVertices++;
     }
 
+    @Override
     public void finishDrawing() {
         assertTrue(isDrawingStarted());
         drawingStarted = false;
