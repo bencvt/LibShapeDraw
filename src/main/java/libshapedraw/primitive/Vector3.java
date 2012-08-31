@@ -50,6 +50,20 @@ public class Vector3 implements ReadonlyVector3 {
         return dd == 0.0 ? 0.0 : Math.sqrt(dd);
     }
     /** Modifies this vector; does NOT create a copy. */
+    public Vector3 set(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    }
+    /** Modifies this vector; does NOT create a copy. */
+    public Vector3 set(ReadonlyVector3 other) {
+        this.x = other.getX();
+        this.y = other.getY();
+        this.z = other.getZ();
+        return this;
+    }
+    /** Modifies this vector; does NOT create a copy. */
     public Vector3 setX(double x) {
         this.x = x;
         return this;

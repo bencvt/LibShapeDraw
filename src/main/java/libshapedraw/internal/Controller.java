@@ -14,6 +14,7 @@ import libshapedraw.event.LSDRespawnEvent;
 import libshapedraw.internal.Util.FileLogger;
 import libshapedraw.internal.Util.NullLogger;
 import libshapedraw.primitive.ReadonlyVector3;
+import libshapedraw.primitive.Vector3;
 import libshapedraw.shape.Shape;
 
 import org.lwjgl.opengl.GL11;
@@ -24,6 +25,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class Controller {
     private static Controller instance;
+    /** so we don't create a bunch of throwaway Vector3s every time we render */
+    private static final Vector3 vectorBuf = Vector3.ZEROS.copy();
     private final Logger log;
     private final LinkedHashSet<LibShapeDraw> apiInstances;
     private int topApiInstanceId;
@@ -163,7 +166,7 @@ public class Controller {
             if (apiInstance.isVisible() && (!isGuiHidden || apiInstance.isVisibleWhenHidingGui())) {
                 for (Shape shape : apiInstance.getShapes()) {
                     if (shape != null) {
-                        shape.render(minecraftAccess);
+                        shape.render(minecraftAccess, vectorBuf);
                     }
                 }
             }

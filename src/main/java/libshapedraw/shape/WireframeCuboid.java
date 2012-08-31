@@ -1,7 +1,6 @@
 package libshapedraw.shape;
 
 import libshapedraw.MinecraftAccess;
-import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -67,10 +66,9 @@ public class WireframeCuboid extends WireframeShape {
     }
 
     @Override
-    public ReadonlyVector3 getOrigin() {
+    public void getOrigin(Vector3 buf) {
         normalize();
-        return new Vector3(
-                midpoint(lowerCorner.getX(), upperCorner.getX()),
+        buf.set(midpoint(lowerCorner.getX(), upperCorner.getX()),
                 midpoint(lowerCorner.getY(), upperCorner.getY()),
                 midpoint(lowerCorner.getZ(), upperCorner.getZ()));
     }

@@ -64,6 +64,28 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     public void testSet() {
         Vector3 v = new Vector3(1.0, 2.0, 3.0);
         assertVectorEquals(1.0, 2.0, 3.0, v);
+        v.set(-4.0, 55.55, 62.0);
+        assertVectorEquals(-4.0, 55.55, 62.0, v);
+        v.set(new Vector3(5.4, 2.3, -77.7));
+        assertVectorEquals(5.4, 2.3, -77.7, v);
+
+        v.set(Vector3.ZEROS);
+        assertVectorEquals(0.0, 0.0, 0.0, v);
+        v.setY(22.0);
+        assertVectorEquals(0.0, 22.0, 0.0, v);
+        assertVectorEquals(0.0, 0.0, 0.0, Vector3.ZEROS);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testSetInvalidNull() {
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        v.set(null);
+    }
+
+    @Test
+    public void testSetComponents() {
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
         v.setX(-32.25).setY(78.0).setZ(0.0);
         assertVectorEquals(-32.25, 78.0, 0.0, v);
     }

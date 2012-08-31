@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import libshapedraw.MinecraftAccess;
-import libshapedraw.primitive.ReadonlyVector3;
+import libshapedraw.primitive.Vector3;
 import libshapedraw.transform.ShapeTransform;
 
 import org.lwjgl.opengl.GL11;
@@ -15,11 +15,15 @@ public abstract class Shape {
     private List<ShapeTransform> transforms;
 
     /**
-     * The point around which ShapeTransforms should occur. Must not be null.
-     * This should generally be the center point of the Shape, if that makes
-     * sense for the Shape type.
+     * The point around which ShapeTransforms should occur. This should
+     * generally be the center point of the Shape, if that makes sense for the
+     * Shape type.
+     * <p>
+     * Rather than returning a ReadonlyVector3, the x/y/z components must be
+     * copied into buf, the output parameter. This is to prevent the creation
+     * of thousands of throwaway Vector3 objects during rendering.
      */
-    public abstract ReadonlyVector3 getOrigin();
+    public abstract void getOrigin(Vector3 buf);
 
     /**
      * If false, the Shape will not be rendered.
@@ -58,7 +62,7 @@ public abstract class Shape {
      * registered to this Shape. This should normally only be called internally
      * by the Controller.
      */
-    public final void render(MinecraftAccess mc) {
+    public final void render(MinecraftAccess mc, Vector3 buf) {
         if (!isVisible()) {
             return;
         }
@@ -66,15 +70,15 @@ public abstract class Shape {
             renderShape(mc);
             return;
         }
-        ReadonlyVector3 origin = getOrigin();
+        getOrigin(buf);
         GL11.glPushMatrix();
-        GL11.glTranslated(origin.getX(), origin.getY(), origin.getZ());
+        GL11.glTranslated(buf.getX(), buf.getY(), buf.getZ());
         for (ShapeTransform t : transforms) {
             if (t != null) {
                 t.preRender();
             }
         }
-        GL11.glTranslated(-origin.getX(), -origin.getY(), -origin.getZ());
+        GL11.glTranslated(-buf.getX(), -buf.getY(), -buf.getZ());
         renderShape(mc);
         GL11.glPopMatrix();
     }

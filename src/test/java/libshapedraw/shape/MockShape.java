@@ -1,10 +1,9 @@
 package libshapedraw.shape;
 
-import org.lwjgl.opengl.GL11;
-
 import libshapedraw.MinecraftAccess;
-import libshapedraw.primitive.ReadonlyVector3;
-import libshapedraw.shape.Shape;
+import libshapedraw.primitive.Vector3;
+
+import org.lwjgl.opengl.GL11;
 
 public class MockShape extends Shape {
     private int countRender = 0;
@@ -14,8 +13,8 @@ public class MockShape extends Shape {
     }
 
     @Override
-    public ReadonlyVector3 getOrigin() {
-        throw new UnsupportedOperationException();
+    public void getOrigin(Vector3 buf) {
+        buf.set(Vector3.ZEROS);
     }
 
     @Override

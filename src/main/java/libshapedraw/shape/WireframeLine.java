@@ -1,7 +1,6 @@
 package libshapedraw.shape;
 
 import libshapedraw.MinecraftAccess;
-import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -43,8 +42,8 @@ public class WireframeLine extends WireframeShape {
     }
 
     @Override
-    public ReadonlyVector3 getOrigin() {
-        return getPointA();
+    public void getOrigin(Vector3 buf) {
+        buf.set(pointA);
     }
 
     @Override
