@@ -27,8 +27,12 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident.ease;
+package libshapedraw.animation;
 
-public interface TimelineEase {
-	public float map(float durationFraction);
+public interface UIToolkitHandler {
+	public boolean isHandlerFor(Object mainTimelineObject);
+
+	public boolean isInReadyState(Object mainTimelineObject);
+
+	public void runOnUIThread(Object mainTimelineObject, Runnable runnable);
 }

@@ -27,10 +27,10 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident.callback;
+package libshapedraw.animation.callback;
 
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.Timeline.TimelineState;
+import libshapedraw.animation.Timeline;
+import libshapedraw.animation.Timeline.TimelineState;
 
 /**
  * Callback for the fade tracker. Is used when the application (some UI

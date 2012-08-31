@@ -27,11 +27,12 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation;
 
 import java.util.*;
 
-import org.pushingpixels.trident.callback.TimelineScenarioCallback;
+import libshapedraw.animation.callback.TimelineScenarioCallback;
+
 
 public class TimelineScenario {
 	private Set<TimelineScenarioActor> waitingActors;

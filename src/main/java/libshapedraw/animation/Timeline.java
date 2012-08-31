@@ -27,17 +27,18 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation;
 
 import java.util.*;
 
-import org.pushingpixels.trident.TimelineEngine.FullObjectID;
-import org.pushingpixels.trident.TimelineEngine.TimelineOperationKind;
-import org.pushingpixels.trident.TimelinePropertyBuilder.AbstractFieldInfo;
-import org.pushingpixels.trident.callback.*;
-import org.pushingpixels.trident.ease.Linear;
-import org.pushingpixels.trident.ease.TimelineEase;
-import org.pushingpixels.trident.interpolator.KeyFrames;
+import libshapedraw.animation.TimelineEngine.FullObjectID;
+import libshapedraw.animation.TimelineEngine.TimelineOperationKind;
+import libshapedraw.animation.TimelinePropertyBuilder.AbstractFieldInfo;
+import libshapedraw.animation.callback.*;
+import libshapedraw.animation.ease.Linear;
+import libshapedraw.animation.ease.TimelineEase;
+import libshapedraw.animation.interpolator.KeyFrames;
+
 
 public class Timeline implements TimelineScenario.TimelineScenarioActor {
 	Object mainObject;

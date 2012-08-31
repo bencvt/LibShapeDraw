@@ -27,15 +27,16 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import org.pushingpixels.trident.TimelineEngine.TridentAnimationThread;
-import org.pushingpixels.trident.interpolator.PropertyInterpolator;
-import org.pushingpixels.trident.interpolator.PropertyInterpolatorSource;
+import libshapedraw.animation.TimelineEngine.TridentAnimationThread;
+import libshapedraw.animation.interpolator.PropertyInterpolator;
+import libshapedraw.animation.interpolator.PropertyInterpolatorSource;
+
 
 public class TridentConfig {
 	private static TridentConfig config;

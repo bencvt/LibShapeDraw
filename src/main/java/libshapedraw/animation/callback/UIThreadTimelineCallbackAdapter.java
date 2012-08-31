@@ -27,39 +27,14 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation.callback;
 
-import java.util.concurrent.*;
-
-import org.pushingpixels.trident.TimelineScenario.TimelineScenarioActor;
-
-public abstract class TimelineRunnable implements Runnable,
-		TimelineScenarioActor {
-	private static ExecutorService service = new ThreadPoolExecutor(0,
-			Integer.MAX_VALUE, 10L, TimeUnit.SECONDS,
-			new SynchronousQueue<Runnable>());
-
-	private Future<?> future;
-
-	@Override
-	public void play() {
-		this.future = service.submit(this);
-	}
-
-	@Override
-	public boolean isDone() {
-		if (this.future == null)
-			return false;
-		return this.future.isDone();
-	}
-
-	@Override
-	public boolean supportsReplay() {
-		return false;
-	}
-
-	@Override
-	public void resetDoneFlag() {
-		throw new UnsupportedOperationException();
-	}
+/**
+ * Empty implementation of {@link TimelineCallback} that does nothing but is
+ * marked to run on the EDT.
+ * 
+ * @author Kirill Grouchnikov
+ */
+@RunOnUIThread
+public class UIThreadTimelineCallbackAdapter extends TimelineCallbackAdapter {
 }

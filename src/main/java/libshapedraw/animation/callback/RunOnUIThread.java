@@ -27,10 +27,16 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident.interpolator;
+package libshapedraw.animation.callback;
 
-public interface PropertyInterpolator<T> {
-	public Class getBasePropertyClass();
+import java.lang.annotation.*;
 
-	public T interpolate(T from, T to, float timelinePosition);
+/**
+ * Annotation to mark code that should run on UI thread. 
+ *
+ * @author Kirill Grouchnikov
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RunOnUIThread {
 }

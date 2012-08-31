@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.pushingpixels.trident.interpolator;
+package libshapedraw.animation.interpolator;
 
 import java.util.ArrayList;
 

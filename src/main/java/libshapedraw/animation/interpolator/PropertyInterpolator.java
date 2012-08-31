@@ -27,23 +27,10 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident.callback;
+package libshapedraw.animation.interpolator;
 
-import org.pushingpixels.trident.Timeline.TimelineState;
+public interface PropertyInterpolator<T> {
+	public Class getBasePropertyClass();
 
-/**
- * Default implementation of {@link TimelineCallback} that does nothing.
- * 
- * @author Kirill Grouchnikov
- */
-public class TimelineCallbackAdapter implements TimelineCallback {
-	@Override
-	public void onTimelineStateChanged(TimelineState oldState,
-			TimelineState newState, float durationFraction,
-			float timelinePosition) {
-	}
-
-	@Override
-	public void onTimelinePulse(float durationFraction, float timelinePosition) {
-	}
+	public T interpolate(T from, T to, float timelinePosition);
 }

@@ -27,15 +27,16 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.pushingpixels.trident.Timeline.TimelineState;
-import org.pushingpixels.trident.TimelineScenario.TimelineScenarioState;
-import org.pushingpixels.trident.callback.RunOnUIThread;
+import libshapedraw.animation.Timeline.TimelineState;
+import libshapedraw.animation.TimelineScenario.TimelineScenarioState;
+import libshapedraw.animation.callback.RunOnUIThread;
+
 
 /**
  * The Trident timeline engine. This is the main entry point to play

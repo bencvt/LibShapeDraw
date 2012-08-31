@@ -27,16 +27,8 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident.callback;
+package libshapedraw.animation.ease;
 
-import java.lang.annotation.*;
-
-/**
- * Annotation to mark code that should run on UI thread. 
- *
- * @author Kirill Grouchnikov
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RunOnUIThread {
+public interface TimelineEase {
+	public float map(float durationFraction);
 }

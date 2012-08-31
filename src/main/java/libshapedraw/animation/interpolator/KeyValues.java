@@ -29,12 +29,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.pushingpixels.trident.interpolator;
+package libshapedraw.animation.interpolator;
 
 import java.util.*;
 
-import org.pushingpixels.trident.TridentConfig;
-import org.pushingpixels.trident.TimelinePropertyBuilder.PropertySetter;
+import libshapedraw.animation.TridentConfig;
+import libshapedraw.animation.TimelinePropertyBuilder.PropertySetter;
+
 
 /**
  * Stores a list of values that correspond to the times in a {@link KeyTimes}

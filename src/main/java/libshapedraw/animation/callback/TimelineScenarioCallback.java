@@ -27,12 +27,19 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package org.pushingpixels.trident;
+package libshapedraw.animation.callback;
 
-public interface UIToolkitHandler {
-	public boolean isHandlerFor(Object mainTimelineObject);
+import libshapedraw.animation.TimelineScenario;
 
-	public boolean isInReadyState(Object mainTimelineObject);
-
-	public void runOnUIThread(Object mainTimelineObject, Runnable runnable);
+/**
+ * Callback for tracking the {@link TimelineScenario}s.
+ * 
+ * @author Kirill Grouchnikov
+ */
+public interface TimelineScenarioCallback {
+	/**
+	 * Indicates that the all timelines and swing workers in the timeline
+	 * scenario have finished.
+	 */
+	public void onTimelineScenarioDone();
 }
