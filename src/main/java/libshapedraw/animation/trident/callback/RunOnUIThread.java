@@ -27,40 +27,16 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident.callback;
 
-import java.util.concurrent.*;
+import java.lang.annotation.*;
 
-import libshapedraw.animation.TimelineScenario.TimelineScenarioActor;
-
-
-public abstract class TimelineRunnable implements Runnable,
-		TimelineScenarioActor {
-	private static ExecutorService service = new ThreadPoolExecutor(0,
-			Integer.MAX_VALUE, 10L, TimeUnit.SECONDS,
-			new SynchronousQueue<Runnable>());
-
-	private Future<?> future;
-
-	@Override
-	public void play() {
-		this.future = service.submit(this);
-	}
-
-	@Override
-	public boolean isDone() {
-		if (this.future == null)
-			return false;
-		return this.future.isDone();
-	}
-
-	@Override
-	public boolean supportsReplay() {
-		return false;
-	}
-
-	@Override
-	public void resetDoneFlag() {
-		throw new UnsupportedOperationException();
-	}
+/**
+ * Annotation to mark code that should run on UI thread. 
+ *
+ * @author Kirill Grouchnikov
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RunOnUIThread {
 }

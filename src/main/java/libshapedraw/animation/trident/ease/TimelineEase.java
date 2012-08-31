@@ -27,12 +27,8 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident.ease;
 
-public interface UIToolkitHandler {
-	public boolean isHandlerFor(Object mainTimelineObject);
-
-	public boolean isInReadyState(Object mainTimelineObject);
-
-	public void runOnUIThread(Object mainTimelineObject, Runnable runnable);
+public interface TimelineEase {
+	public float map(float durationFraction);
 }

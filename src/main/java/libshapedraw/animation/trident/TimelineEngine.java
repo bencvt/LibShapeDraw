@@ -27,15 +27,15 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident;
 
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import libshapedraw.animation.Timeline.TimelineState;
-import libshapedraw.animation.TimelineScenario.TimelineScenarioState;
-import libshapedraw.animation.callback.RunOnUIThread;
+import libshapedraw.animation.trident.Timeline.TimelineState;
+import libshapedraw.animation.trident.TimelineScenario.TimelineScenarioState;
+import libshapedraw.animation.trident.callback.RunOnUIThread;
 
 
 /**

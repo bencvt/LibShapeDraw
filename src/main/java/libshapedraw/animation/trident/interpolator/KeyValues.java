@@ -29,12 +29,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package libshapedraw.animation.interpolator;
+package libshapedraw.animation.trident.interpolator;
 
 import java.util.*;
 
-import libshapedraw.animation.TridentConfig;
-import libshapedraw.animation.TimelinePropertyBuilder.PropertySetter;
+import libshapedraw.animation.trident.TridentConfig;
+import libshapedraw.animation.trident.TimelinePropertyBuilder.PropertySetter;
 
 
 /**

@@ -27,16 +27,10 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package libshapedraw.animation.callback;
+package libshapedraw.animation.trident.interpolator;
 
-import java.lang.annotation.*;
+public interface PropertyInterpolator<T> {
+	public Class getBasePropertyClass();
 
-/**
- * Annotation to mark code that should run on UI thread. 
- *
- * @author Kirill Grouchnikov
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RunOnUIThread {
+	public T interpolate(T from, T to, float timelinePosition);
 }

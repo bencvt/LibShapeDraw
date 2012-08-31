@@ -29,12 +29,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package libshapedraw.animation.interpolator;
+package libshapedraw.animation.trident.interpolator;
 
 import java.util.ArrayList;
 
-import libshapedraw.animation.ease.Linear;
-import libshapedraw.animation.ease.TimelineEase;
+import libshapedraw.animation.trident.ease.Linear;
+import libshapedraw.animation.trident.ease.TimelineEase;
 
 
 /**

@@ -27,19 +27,14 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
-package libshapedraw.animation.callback;
-
-import libshapedraw.animation.TimelineScenario;
+package libshapedraw.animation.trident.callback;
 
 /**
- * Callback for tracking the {@link TimelineScenario}s.
+ * Empty implementation of {@link TimelineCallback} that does nothing but is
+ * marked to run on the EDT.
  * 
  * @author Kirill Grouchnikov
  */
-public interface TimelineScenarioCallback {
-	/**
-	 * Indicates that the all timelines and swing workers in the timeline
-	 * scenario have finished.
-	 */
-	public void onTimelineScenarioDone();
+@RunOnUIThread
+public class UIThreadTimelineCallbackAdapter extends TimelineCallbackAdapter {
 }

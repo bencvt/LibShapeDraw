@@ -27,13 +27,13 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import libshapedraw.animation.interpolator.KeyFrames;
-import libshapedraw.animation.interpolator.PropertyInterpolator;
+import libshapedraw.animation.trident.interpolator.KeyFrames;
+import libshapedraw.animation.trident.interpolator.PropertyInterpolator;
 
 
 public class TimelinePropertyBuilder<T> {

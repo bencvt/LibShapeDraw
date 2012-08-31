@@ -27,11 +27,11 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident;
 
 import java.util.*;
 
-import libshapedraw.animation.callback.TimelineScenarioCallback;
+import libshapedraw.animation.trident.callback.TimelineScenarioCallback;
 
 
 public class TimelineScenario {

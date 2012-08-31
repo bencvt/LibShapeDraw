@@ -27,17 +27,17 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package libshapedraw.animation;
+package libshapedraw.animation.trident;
 
 import java.util.*;
 
-import libshapedraw.animation.TimelineEngine.FullObjectID;
-import libshapedraw.animation.TimelineEngine.TimelineOperationKind;
-import libshapedraw.animation.TimelinePropertyBuilder.AbstractFieldInfo;
-import libshapedraw.animation.callback.*;
-import libshapedraw.animation.ease.Linear;
-import libshapedraw.animation.ease.TimelineEase;
-import libshapedraw.animation.interpolator.KeyFrames;
+import libshapedraw.animation.trident.TimelineEngine.FullObjectID;
+import libshapedraw.animation.trident.TimelineEngine.TimelineOperationKind;
+import libshapedraw.animation.trident.TimelinePropertyBuilder.AbstractFieldInfo;
+import libshapedraw.animation.trident.callback.*;
+import libshapedraw.animation.trident.ease.Linear;
+import libshapedraw.animation.trident.ease.TimelineEase;
+import libshapedraw.animation.trident.interpolator.KeyFrames;
 
 
 public class Timeline implements TimelineScenario.TimelineScenarioActor {
