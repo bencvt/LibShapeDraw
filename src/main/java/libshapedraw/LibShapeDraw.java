@@ -38,6 +38,12 @@ public class LibShapeDraw {
         instanceId = Controller.getInstance().registerApiInstance(this, ownerId);
     }
 
+    /**
+     * Permanently unregister from the internal Controller. Normally there's no
+     * need to ever do this; it generally makes more sense to call
+     * setVisible(false), remove event listeners, and/or clear the Shapes
+     * collection if you want to temporarily shut things down.
+     */
     public boolean unregister() {
         return Controller.getInstance().unregisterApiInstance(this);
     }

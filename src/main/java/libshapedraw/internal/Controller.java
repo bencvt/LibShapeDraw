@@ -36,13 +36,13 @@ public class Controller {
 
     private Controller() {
         if (GlobalSettings.isLoggingEnabled()) {
-            log = new FileLogger(ModDirectory.DIRECTORY, ApiInfo.getName(), GlobalSettings.isAppendLog());
+            log = new FileLogger(ModDirectory.DIRECTORY, ApiInfo.getName(), GlobalSettings.isLoggingAppend());
         } else {
             log = new NullLogger();
         }
         apiInstances = new LinkedHashSet<LibShapeDraw>();
         topApiInstanceId = 0;
-        log.info("instantiated " + getClass().getName());
+        log.info(getClass().getName() + " instantiated");
     }
 
     public static Controller getInstance() {
@@ -72,13 +72,16 @@ public class Controller {
         }
         this.minecraftAccess = minecraftAccess;
         initialized = true;
-        log.info("initialized " + getClass().getName());
+        log.info(getClass().getName() + " initialized");
     }
 
     /**
      * Called by LibShapeDraw's constructor.
      */
     public String registerApiInstance(LibShapeDraw apiInstance, String ownerId) {
+        if (apiInstances.contains(apiInstance)) {
+            throw new IllegalStateException("already registered");
+        }
         topApiInstanceId++;
         String apiInstanceId = apiInstance.getClass().getSimpleName() + "#" + topApiInstanceId + ":" + ownerId;
         apiInstances.add(apiInstance);
@@ -91,7 +94,9 @@ public class Controller {
      */
     public boolean unregisterApiInstance(LibShapeDraw apiInstance) {
         boolean result = apiInstances.remove(apiInstance);
-        log.info("unregistered API instance " + apiInstance.getInstanceId());
+        if (result) {
+            log.info("unregistered API instance " + apiInstance.getInstanceId());
+        }
         return result;
     }
 
@@ -118,9 +123,9 @@ public class Controller {
      */
     public void gameTick(ReadonlyVector3 playerCoords) {
         log.finer("gameTick");
-        if (GlobalSettings.getDumpInterval() > 0) {
+        if (GlobalSettings.getLoggingDebugDumpInterval() > 0) {
             long now = System.currentTimeMillis();
-            if (now > lastDump + GlobalSettings.getDumpInterval()) {
+            if (now > lastDump + GlobalSettings.getLoggingDebugDumpInterval()) {
                 dump();
                 lastDump = now;
             }

@@ -7,31 +7,35 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Internal reference class listing all settings affecting the controller itself
- * (and thus all instances of the API).
+ * Internal singleton reference class listing all settings affecting the
+ * controller itself (and thus all instances of the API).
  * <p>
- * The settings are contained in a properties file that lives in the jar. The end user
- * can override these settings by placing an appropriately-named properties file in
- * the mod's directory.
+ * The settings are contained in a properties file that lives in the jar. The
+ * end user can override these settings by placing an appropriately-named
+ * properties file in the mod's directory.
  */
 public class GlobalSettings {
     public static boolean isLoggingEnabled() {
         return getInstance().loggingEnabled;
     }
-    public static boolean isAppendLog() {
-        return getInstance().appendLog;
+    public static boolean isLoggingAppend() {
+        return getInstance().loggingAppend;
+    }
+    public static int getLoggingDebugDumpInterval() {
+        return getInstance().loggingDebugDumpInterval;
     }
     public static int getGhostEntityUpdateTicks() {
         return getInstance().ghostEntityUpdateTicks;
     }
-    public static int getDumpInterval() {
-        return getInstance().dumpInterval;
+    public static boolean isGhostEntityUpdateSort() {
+        return getInstance().ghostEntityUpdateSort;
     }
 
     private final boolean loggingEnabled;
-    private final boolean appendLog;
+    private final boolean loggingAppend;
+    private final int loggingDebugDumpInterval;
     private final int ghostEntityUpdateTicks;
-    private final int dumpInterval;
+    private final boolean ghostEntityUpdateSort;
 
     private static GlobalSettings instance;
 
@@ -52,9 +56,10 @@ public class GlobalSettings {
                 throw new RuntimeException("unable to load resource", e);
             }
             loggingEnabled = Util.parseBooleanStrict(props.getProperty("logging-enabled"));
-            appendLog = Util.parseBooleanStrict(props.getProperty("logging-append"));
+            loggingAppend = Util.parseBooleanStrict(props.getProperty("logging-append"));
+            loggingDebugDumpInterval = Integer.parseInt(props.getProperty("logging-debug-dump-interval"));
             ghostEntityUpdateTicks = Integer.parseInt(props.getProperty("ghost-entity-update-ticks"));
-            dumpInterval = Integer.parseInt(props.getProperty("debug-dump-interval"));
+            ghostEntityUpdateSort = Util.parseBooleanStrict(props.getProperty("ghost-entity-update-sort"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("unable to load global settings", e);

@@ -41,7 +41,8 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * requiring the modification of any vanilla classes beyond what ModLoader
      * has already done.
      * <p>
-     * Credit for this technique goes to lahwran and yetanotherx.
+     * This technique is used by several mods including WorldEditCUI (authors:
+     * lahwran and yetanotherx).
      * @see https://github.com/yetanotherx/WorldEditCUI
      */
     // obf: Entity
@@ -53,10 +54,49 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             this.ak = true; // obf: Entity.ignoreFrustumCheck
             setPositionToPlayer();
         }
+        /**
+         * Set the ghost entity to the player's location. It isn't necessary
+         * for the locations to match exactly, as the ghost entity's rendering
+         * is independent. But to keep Minecraft's entity rendering system
+         * happy, keep it close by.
+         */
         public void setPositionToPlayer() {
             t = curPlayer.t; // obf: Entity.x
             u = curPlayer.u; // obf: Entity.y
             v = curPlayer.v; // obf: Entity.z
+        }
+        /**
+         * Ensure that the ghost entity will be the last entity to be rendered.
+         * Without this, newly-spawned entities may "peek" through rendered
+         * shapes depending on the depth function used (e.g., GL_GREATER for
+         * shapes that should be visible through terrain).
+         * <p>
+         * This isn't a huge deal, and in fact it doesn't prevent all rendering
+         * glitches: water, clouds, and other things will be rendered after us
+         * and can similarly "peek" through shapes depending on the depth func.
+         * <p>
+         * This is a limitation of the hook we're using. A more elegant
+         * solution would be do our rendering after *all* game world elements
+         * have been rendered but before the HUD/GUI. Of course (as of
+         * Minecraft 1.3) this would involve modifying vanilla classes.
+         */
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        public void resortInEntityList() {
+            if (!GlobalSettings.isGhostEntityUpdateSort()) {
+                return;
+            }
+            List loadedEntities = curWorld.y(); // obf: World.getLoadedEntityList
+            if (loadedEntities.get(loadedEntities.size() - 1) != ghostEntity) {
+                int index = loadedEntities.indexOf(ghostEntity);
+                if (index < 0) {
+                    // May be stuck in WorldClient.entitySpawnQueue waiting
+                    // for the chunk to load. Try again in a later tick.
+                    Controller.getLog().info(getClass().getName() + " ghost entity not spawned yet");
+                } else {
+                    //Controller.getLog().info(getClass().getName() + " bump");
+                    loadedEntities.add(loadedEntities.remove(index));
+                }
+            }
         }
         /** obf: Entity.entityInit */
         @Override
@@ -132,7 +172,6 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         ghostEntity = null;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public boolean onTickInGame(float partialTick, Minecraft minecraft) {
         if (curWorld != minecraft.e || curPlayer != minecraft.g) {
@@ -154,27 +193,8 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
         if (ghostEntityUpdateTick-- <= 0) {
             ghostEntityUpdateTick = GlobalSettings.getGhostEntityUpdateTicks();
-
-            // Set the ghost entity to the player's location. It isn't necessary for the
-            // locations to match exactly, as the ghost entity's rendering is independent.
-            // But to keep Minecraft's entity rendering system happy, keep it close by.
             ghostEntity.setPositionToPlayer();
-    
-            // Ensure that the ghost entity will be the last entity to be rendered.
-            // Without this, newly-spawned entities may be visible through rendered shapes
-            // depending on the depth function.
-            List loadedEntities = curWorld.y(); // obf: World.getLoadedEntityList
-            if (loadedEntities.get(loadedEntities.size() - 1) != ghostEntity) {
-                int index = loadedEntities.indexOf(ghostEntity);
-                if (index < 0) {
-                    // May be stuck in WorldClient.entitySpawnQueue waiting for the chunk to load.
-                    // Try again in a later tick.
-                    Controller.getLog().info(getClass().getName() + " ghost entity not spawned yet");
-                } else {
-                    //Controller.getLog().info(getClass().getName() + " bump");
-                    loadedEntities.add(loadedEntities.remove(index));
-                }
-            }
+            ghostEntity.resortInEntityList();
         }
 
         // Dispatch game tick event to Controller.
