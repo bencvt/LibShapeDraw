@@ -132,30 +132,21 @@ public class TestWireframeCuboid extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testRenderNormal() {
-        Vector3 buf = Vector3.ZEROS.copy();
+    public void testRender() {
         MockMinecraftAccess mc = new MockMinecraftAccess();
-        mc.assertCountsEqual(0, 0);
-        Shape shape = new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).setLineStyle(Color.WHITE.copy(), 1.0F, false);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(3, 16);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(12, 64);
-    }
+        Vector3 buf = Vector3.ZEROS.copy();
+        for (boolean twice : new boolean[] {true, false}) {
+            WireframeCuboid shape = new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0);
+            shape.setLineStyle(Color.WHITE.copy(), 1.0F, twice);
+            assertEquals(twice, shape.isVisibleThroughTerrain());
 
-    @Test
-    public void testRenderVisibleThroughTerrain() {
-        Vector3 buf = Vector3.ZEROS.copy();
-        MockMinecraftAccess mc = new MockMinecraftAccess();
-        mc.assertCountsEqual(0, 0);
-        Shape shape = new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).setLineStyle(Color.WHITE.copy(), 1.0F, true);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(6, 32);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(24, 128);
+            mc.reset();
+            shape.render(mc, buf);
+            mc.assertCountsEqual(3, 16, twice);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            mc.assertCountsEqual(12, 64, twice);
+        }
     }
 }

@@ -7,7 +7,7 @@ import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyColor;
-import libshapedraw.primitive.Vector3;
+import libshapedraw.primitive.ReadonlyVector3;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,9 +17,15 @@ import org.lwjgl.opengl.GL11;
  */
 public class WireframeLinesBlend extends WireframeLines {
     private LineStyle blendToLineStyle;
+    private Collection<ReadonlyVector3> pointsCollection;
 
-    public WireframeLinesBlend(Collection<Vector3> points) {
+    /**
+     * Require a Collection rather than just an Iterable because we need to
+     * know the size before iterating for blending.
+     */
+    public WireframeLinesBlend(Collection<ReadonlyVector3> points) {
         super(points);
+        pointsCollection = points;
     }
 
     public LineStyle getBlendToLineStyle() {
@@ -48,7 +54,9 @@ public class WireframeLinesBlend extends WireframeLines {
             super.renderShape(mc);
             return;
         }
-        if (getRenderCap() == 0 || getPoints().size() < 2) {
+
+        final Iterator<ReadonlyVector3> it = getPoints().iterator();
+        if (getRenderCap() == 0 || !it.hasNext() || pointsCollection.size() < 2) {
             return;
         }
 
@@ -61,18 +69,18 @@ public class WireframeLinesBlend extends WireframeLines {
         final ReadonlyColor bc1 = blendToLineStyle.getSecondaryColor(); // can be null
         final float bw0 = blendToLineStyle.getMainWidth();
         final float bw1 = blendToLineStyle.getSecondaryWidth();
-        float percent;
 
-        final int effectiveRenderCap = getRenderCap() < 0 ? getPoints().size()-1 : getRenderCap();
-        final int percentageRenderCap = Math.max(getRenderCap(), effectiveRenderCap);
-        final Iterator<Vector3> it = getPoints().iterator();
-        int i = 0;
-        Vector3 prevPoint = it.next();
-        Vector3 curPoint;
-        while (i < effectiveRenderCap && it.hasNext()) {
-            percent = (float) i / percentageRenderCap;
-            i++;
-            curPoint = it.next();
+        final int effectiveRenderCap = getRenderCap() < 0 ? pointsCollection.size()-1 : getRenderCap();
+        final float percentMax = Math.max(getRenderCap(), effectiveRenderCap);
+
+        int lineNum = 0;
+        ReadonlyVector3 pointA = it.next();
+        ReadonlyVector3 pointB;
+        while (it.hasNext() && lineNum < effectiveRenderCap) {
+            lineNum++;
+            pointB = it.next();
+            float percent = lineNum / percentMax;
+
             mc.startDrawing(GL11.GL_LINES);
             GL11.glDepthFunc(GL11.GL_LEQUAL);
             GL11.glLineWidth(blend(w0, bw0, percent));
@@ -84,9 +92,10 @@ public class WireframeLinesBlend extends WireframeLines {
                     blend(c0.getGreen(), bc0.getGreen(), percent),
                     blend(c0.getBlue(),  bc0.getBlue(),  percent),
                     blend(c0.getAlpha(), bc0.getAlpha(), percent));
-            mc.addVertex(prevPoint);
-            mc.addVertex(curPoint);
+            mc.addVertex(pointA);
+            mc.addVertex(pointB);
             mc.finishDrawing();
+
             if (c1 != null) {
                 mc.startDrawing(GL11.GL_LINES);
                 GL11.glDepthFunc(GL11.GL_GREATER);
@@ -103,11 +112,12 @@ public class WireframeLinesBlend extends WireframeLines {
                     GL11.glLineWidth(w1);
                     GL11.glColor4d(c1.getRed(), c1.getGreen(), c1.getBlue(), c1.getAlpha());
                 }
-                mc.addVertex(prevPoint);
-                mc.addVertex(curPoint);
+                mc.addVertex(pointA);
+                mc.addVertex(pointB);
                 mc.finishDrawing();
             }
-            prevPoint = curPoint;
+
+            pointA = pointB;
         }
     }
 

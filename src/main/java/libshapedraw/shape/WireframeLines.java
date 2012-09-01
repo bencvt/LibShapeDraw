@@ -1,10 +1,10 @@
 package libshapedraw.shape;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.ReadonlyColor;
+import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -13,11 +13,12 @@ import org.lwjgl.opengl.GL11;
  * A series of connected line segments.
  */
 public class WireframeLines extends WireframeShape {
-    private Collection<Vector3> points;
+    private Iterable<ReadonlyVector3> points;
     private int renderCap;
 
-    public WireframeLines(Collection<Vector3> points) {
-        setPoints(points).setRenderCap(-1);
+    public WireframeLines(Iterable<ReadonlyVector3> points) {
+        setPoints(points);
+        setRenderCap(-1);
     }
 
     /**
@@ -25,12 +26,20 @@ public class WireframeLines extends WireframeShape {
      * The number of line segments rendered will be at most
      * getPoints().size() - 1.
      */
-    public Collection<Vector3> getPoints() {
+    public Iterable<ReadonlyVector3> getPoints() {
         return points;
     }
-    public WireframeLines setPoints(Collection<Vector3> points) {
+    public WireframeLines setPoints(Iterable<ReadonlyVector3> points) {
         if (points == null) {
             throw new NullPointerException();
+        }
+        // Sanity check the type of the first element, if there is one.
+        // This doesn't guarantee the ongoing type safety of the entire
+        // iterable, or even of the first element... but anything we can catch
+        // earlier rather than later is good.
+        Iterator<ReadonlyVector3> it = points.iterator();
+        if (it.hasNext() && !(it.next() instanceof ReadonlyVector3)) {
+            throw new IllegalArgumentException("expecting Iterable<" + ReadonlyVector3.class.getName() + ">");
         }
         this.points = points;
         return this;
@@ -47,7 +56,7 @@ public class WireframeLines extends WireframeShape {
 
     @Override
     public void getOrigin(Vector3 buf) {
-        Iterator<Vector3> it = getPoints().iterator();
+        Iterator<ReadonlyVector3> it = getPoints().iterator();
         if (it.hasNext()) {
             buf.set(getPoints().iterator().next());
         } else {
@@ -57,7 +66,9 @@ public class WireframeLines extends WireframeShape {
 
     @Override
     protected void renderShape(MinecraftAccess mc) {
-        if (getRenderCap() == 0 || getPoints().size() < 2) {
+        final int renderCap = getRenderCap();
+        final Iterator<ReadonlyVector3> it = getPoints().iterator();
+        if (renderCap == 0 || !it.hasNext()) {
             return;
         }
 
@@ -66,31 +77,32 @@ public class WireframeLines extends WireframeShape {
         final float w0 = getEffectiveLineStyle().getMainWidth();
         final float w1 = getEffectiveLineStyle().getSecondaryWidth();
 
-        final int effectiveRenderCap = getRenderCap() < 0 ? getPoints().size()-1 : getRenderCap();
-        final Iterator<Vector3> it = getPoints().iterator();
-        int i = 0;
-        Vector3 prevPoint = it.next();
-        Vector3 curPoint;
-        while (i < effectiveRenderCap && it.hasNext()) {
-            i++;
-            curPoint = it.next();
+        int lineNum = 0;
+        ReadonlyVector3 pointA = it.next();
+        ReadonlyVector3 pointB;
+        while (it.hasNext() && (renderCap < 0 || lineNum < renderCap)) {
+            lineNum++;
+            pointB = it.next();
+
             mc.startDrawing(GL11.GL_LINES);
             GL11.glDepthFunc(GL11.GL_LEQUAL);
             GL11.glLineWidth(w0);
             GL11.glColor4d(c0.getRed(), c0.getGreen(), c0.getBlue(), c0.getAlpha());
-            mc.addVertex(prevPoint);
-            mc.addVertex(curPoint);
+            mc.addVertex(pointA);
+            mc.addVertex(pointB);
             mc.finishDrawing();
+
             if (c1 != null) {
                 mc.startDrawing(GL11.GL_LINES);
                 GL11.glDepthFunc(GL11.GL_GREATER);
                 GL11.glLineWidth(w1);
                 GL11.glColor4d(c1.getRed(), c1.getGreen(), c1.getBlue(), c1.getAlpha());
-                mc.addVertex(prevPoint);
-                mc.addVertex(curPoint);
+                mc.addVertex(pointA);
+                mc.addVertex(pointB);
                 mc.finishDrawing();
             }
-            prevPoint = curPoint;
+
+            pointA = pointB;
         }
     }
 }

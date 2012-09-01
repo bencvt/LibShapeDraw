@@ -90,30 +90,34 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testRenderNormal() {
+    public void testRender() {
+        MockMinecraftAccess mc = new MockMinecraftAccess();            
         Vector3 buf = Vector3.ZEROS.copy();
-        MockMinecraftAccess mc = new MockMinecraftAccess();
-        mc.assertCountsEqual(0, 0);
-        Shape shape = new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).setLineStyle(Color.WHITE.copy(), 1.0F, false);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(1, 2);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(4, 8);
-    }
+        for (boolean twice : new boolean[] {true, false}) {
+            WireframeLine shape = new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0);
+            shape.setLineStyle(Color.WHITE.copy(), 1.0F, false);
+            shape.setLineStyle(Color.RED.copy(), 2.0F, twice);
+            assertEquals(twice, shape.isVisibleThroughTerrain());
 
-    @Test
-    public void testRenderVisibleThroughTerrain() {
-        Vector3 buf = Vector3.ZEROS.copy();
-        MockMinecraftAccess mc = new MockMinecraftAccess();
-        mc.assertCountsEqual(0, 0);
-        Shape shape = new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).setLineStyle(Color.WHITE.copy(), 1.0F, true);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(2, 4);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        shape.render(mc, buf);
-        mc.assertCountsEqual(8, 16);
+            mc.reset();
+            shape.render(mc, buf);
+            mc.assertCountsEqual(1, 2, twice);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            mc.assertCountsEqual(4, 8, twice);
+
+            // revert to the default line style
+            shape.setLineStyle(null);
+            assertSame(LineStyle.DEFAULT, shape.getEffectiveLineStyle());
+            assertTrue(shape.isVisibleThroughTerrain());
+            mc.reset();
+            shape.render(mc, buf);
+            mc.assertCountsEqual(1, 2, true);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            mc.assertCountsEqual(4, 8, true);
+        }
     }
 }

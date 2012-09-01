@@ -40,9 +40,7 @@ public class MockMinecraftAccess implements MinecraftAccess {
 
     @Override
     public void addVertex(ReadonlyVector3 coords) {
-        assertTrue(isDrawingStarted());
-        curCountVertices++;
-        countVertices++;
+        addVertex(coords.getX(), coords.getY(), coords.getZ());
     }
 
     @Override
@@ -60,8 +58,13 @@ public class MockMinecraftAccess implements MinecraftAccess {
         countDraw = 0;
         countVertices = 0;
     }
-    public void assertCountsEqual(int expectedCountDraw, int expectedCountVertices) {
-        assertEquals(expectedCountDraw, countDraw);
-        assertEquals(expectedCountVertices, countVertices);
+    public void assertCountsEqual(int expectedCountDraw, int expectedCountVertices, boolean expectDouble) {
+        if (expectDouble) {
+            assertEquals(expectedCountDraw*2, countDraw);
+            assertEquals(expectedCountVertices*2, countVertices);
+        } else {
+            assertEquals(expectedCountDraw, countDraw);
+            assertEquals(expectedCountVertices, countVertices);
+        }
     }
 }
