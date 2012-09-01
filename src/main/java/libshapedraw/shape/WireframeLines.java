@@ -23,8 +23,9 @@ public class WireframeLines extends WireframeShape {
 
     /**
      * The points defining the connected line segments to render.
-     * The number of line segments rendered will be at most
-     * getPoints().size() - 1.
+     * Each point (except for the first and last) is the end of one line
+     * segment and the start of the next. Thus the number of lines rendered
+     * will be at most the number of points yielded minus one.
      */
     public Iterable<ReadonlyVector3> getPoints() {
         return points;
@@ -45,7 +46,10 @@ public class WireframeLines extends WireframeShape {
         return this;
     }
 
-    /** The maximum number of line segments to render. <0 means unlimited. */
+    /**
+     * The maximum number of line segments to render. <0 means unlimited, or
+     * rather limited by the number of points yielded by the iterable.
+     */
     public int getRenderCap() {
         return renderCap;
     }
