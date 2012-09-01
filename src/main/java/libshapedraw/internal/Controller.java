@@ -42,7 +42,7 @@ public class Controller {
         }
         apiInstances = new LinkedHashSet<LibShapeDraw>();
         topApiInstanceId = 0;
-        log.info("instantiated controller");
+        log.info("instantiated " + getClass().getName());
     }
 
     public static Controller getInstance() {
@@ -72,7 +72,7 @@ public class Controller {
         }
         this.minecraftAccess = minecraftAccess;
         initialized = true;
-        log.info("initialized controller");
+        log.info("initialized " + getClass().getName());
     }
 
     /**

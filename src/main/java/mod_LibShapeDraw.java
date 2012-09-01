@@ -119,13 +119,13 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         ModLoader.registerEntityID(GhostEntity.class, getName(), ModLoader.getUniqueEntityId());
         boolean gameTicksOnly = true;
         ModLoader.setInGameHook(this, true, gameTicksOnly);
-        Controller.getLog().info("mod loaded");
+        Controller.getLog().info(getClass().getName() + " loaded");
     }
 
     // obf: NetClientHandler
     @Override
     public void clientConnect(asv netClientHandler) {
-        Controller.getLog().info("new server connection");
+        Controller.getLog().info(getClass().getName() + " new server connection");
         curWorld = null;
         curPlayer = null;
         curDimension = null;
@@ -139,7 +139,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             curWorld = minecraft.e; // obf: Minecraft.theWorld
             curPlayer = minecraft.g; // obf: Minecraft.thePlayer
 
-            Controller.getLog().info("respawning ghost entity");
+            Controller.getLog().info(getClass().getName() + " respawning ghost entity");
             ghostEntity = new GhostEntity(curWorld);
             ghostEntityUpdateTick = 0;
             curWorld.d(ghostEntity); // obf: World.spawnEntityInWorld
@@ -169,9 +169,9 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
                 if (index < 0) {
                     // May be stuck in WorldClient.entitySpawnQueue waiting for the chunk to load.
                     // Try again in a later tick.
-                    Controller.getLog().info("ghost entity not spawned yet");
+                    Controller.getLog().info(getClass().getName() + " ghost entity not spawned yet");
                 } else {
-                    //Controller.getLog().info("bump");
+                    //Controller.getLog().info(getClass().getName() + " bump");
                     loadedEntities.add(loadedEntities.remove(index));
                 }
             }
@@ -198,7 +198,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void addRenderer(Map map) {
-        Controller.getLog().info("adding ghost entity renderer");
+        Controller.getLog().info(getClass().getName() + " adding ghost entity renderer");
         // obf: RenderEntity
         map.put(GhostEntity.class, new avu() {
             /** obf: Render.doRender, Entity */
