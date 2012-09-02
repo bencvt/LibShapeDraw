@@ -175,13 +175,19 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @Override
     public boolean onTickInGame(float partialTick, Minecraft minecraft) {
         if (curWorld != minecraft.e || curPlayer != minecraft.g) {
+            boolean ghostEntityRespawn = curWorld != minecraft.e;
+
             curWorld = minecraft.e; // obf: Minecraft.theWorld
             curPlayer = minecraft.g; // obf: Minecraft.thePlayer
 
-            Controller.getLog().info(getClass().getName() + " respawning ghost entity");
-            ghostEntity = new GhostEntity(curWorld);
-            ghostEntityUpdateTick = 0;
-            curWorld.d(ghostEntity); // obf: World.spawnEntityInWorld
+            if (ghostEntityRespawn) {
+                Controller.getLog().info(getClass().getName() + " respawning ghost entity");
+                ghostEntity = new GhostEntity(curWorld);
+                ghostEntityUpdateTick = 0;
+                minecraft.e.d(ghostEntity); // obf: World.spawnEntityInWorld
+            }
+            // Else we've respawned back into the same dimension in a
+            // single-player world, which reuses its World instance.
 
             // Dispatch respawn event to Controller.
             int newDimension = curPlayer.bK; // obf: EntityPlayer.dimension
