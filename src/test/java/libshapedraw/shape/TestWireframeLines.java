@@ -168,50 +168,50 @@ public class TestWireframeLines extends SetupTestEnvironment.TestCase {
         Vector3 buf = Vector3.ZEROS.copy();
         MockMinecraftAccess mc = new MockMinecraftAccess();
         ArrayList<ReadonlyVector3> arr = new ArrayList<ReadonlyVector3>();
-        for (boolean twice : new boolean[] {true, false}) {
+        for (boolean seeThru : new boolean[] {true, false}) {
             arr.clear();
             WireframeLines shape = new WireframeLines(arr);
-            shape.setLineStyle(Color.WHITE.copy(), 1.0F, twice);
-            assertEquals(twice, shape.isVisibleThroughTerrain());
+            shape.setLineStyle(Color.WHITE.copy(), 1.0F, seeThru);
+            assertEquals(seeThru, shape.isVisibleThroughTerrain());
 
             // No points == nothing to render
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(0, 0, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(0, 0, seeThru);
     
-            // Only one point == nothing to render
+            // Only one point makes no lines
             arr.add(new Vector3(0.0, 5.5, -12.5));
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(1, 1, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(4, 4, seeThru);
     
             // Two points make one line
             arr.add(new Vector3(7.0, 5.5, -12.5));
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(1, 2, twice);
+            mc.assertCountsEqual(1, 2, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(4, 8, twice);
+            mc.assertCountsEqual(4, 8, seeThru);
     
             // Three points make two lines
             arr.add(new Vector3(7.0, 15.5, -12.5));
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(2, 4, twice);
+            mc.assertCountsEqual(1, 3, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(8, 16, twice);
+            mc.assertCountsEqual(4, 12, seeThru);
     
             // Eleven points make ten lines
             arr.add(new Vector3(7.0, 15.5, -6.5));
@@ -225,41 +225,41 @@ public class TestWireframeLines extends SetupTestEnvironment.TestCase {
             assertEquals(11, arr.size());
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(1, 11, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(4, 44, seeThru);
 
             // Add a render cap, we only render that many lines
             shape.setRenderCap(5);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(5, 10, twice);
+            mc.assertCountsEqual(1, 6, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(20, 40, twice);
+            mc.assertCountsEqual(4, 24, seeThru);
 
             // Remove the render cap, we render everything again
             shape.setRenderCap(-1);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(1, 11, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(4, 44, seeThru);
 
             // A render cap that's larger than the number of line segments defined is fine too
             shape.setRenderCap(9001);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(1, 11, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(4, 44, seeThru);
         }
     }
 

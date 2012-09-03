@@ -3,7 +3,6 @@ package libshapedraw.shape;
 import java.util.Iterator;
 
 import libshapedraw.MinecraftAccess;
-import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
@@ -48,7 +47,8 @@ public class WireframeLines extends WireframeShape {
 
     /**
      * The maximum number of line segments to render. <0 means unlimited, or
-     * rather limited by the number of points yielded by the iterable.
+     * rather limited by the number of points yielded by the iterable minus
+     * one.
      */
     public int getRenderCap() {
         return renderCap;
@@ -69,44 +69,25 @@ public class WireframeLines extends WireframeShape {
     }
 
     @Override
-    protected void renderShape(MinecraftAccess mc) {
+    protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
         final int renderCap = getRenderCap();
         final Iterator<ReadonlyVector3> it = getPoints().iterator();
         if (renderCap == 0 || !it.hasNext()) {
             return;
         }
 
-        final ReadonlyColor c0 = getEffectiveLineStyle().getMainReadonlyColor();
-        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryReadonlyColor(); // can be null
-        final float w0 = getEffectiveLineStyle().getMainWidth();
-        final float w1 = getEffectiveLineStyle().getSecondaryWidth();
-
-        int lineNum = 0;
-        ReadonlyVector3 pointA = it.next();
-        ReadonlyVector3 pointB;
-        while (it.hasNext() && (renderCap < 0 || lineNum < renderCap)) {
-            lineNum++;
-            pointB = it.next();
-
-            mc.startDrawing(GL11.GL_LINES);
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
-            GL11.glLineWidth(w0);
-            GL11.glColor4d(c0.getRed(), c0.getGreen(), c0.getBlue(), c0.getAlpha());
-            mc.addVertex(pointA);
-            mc.addVertex(pointB);
-            mc.finishDrawing();
-
-            if (c1 != null) {
-                mc.startDrawing(GL11.GL_LINES);
-                GL11.glDepthFunc(GL11.GL_GREATER);
-                GL11.glLineWidth(w1);
-                GL11.glColor4d(c1.getRed(), c1.getGreen(), c1.getBlue(), c1.getAlpha());
-                mc.addVertex(pointA);
-                mc.addVertex(pointB);
-                mc.finishDrawing();
+        mc.startDrawing(GL11.GL_LINE_STRIP);
+        if (renderCap < 0) {
+            while (it.hasNext()) {
+                mc.addVertex(it.next());
             }
-
-            pointA = pointB;
+        } else {
+            int lineNum = -1; // line #1 doesn't happen until points #1 and #2 have been added
+            while (it.hasNext() && lineNum < renderCap) {
+                mc.addVertex(it.next());
+                lineNum++;
+            }
         }
+        mc.finishDrawing();
     }
 }

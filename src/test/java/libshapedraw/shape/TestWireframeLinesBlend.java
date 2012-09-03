@@ -119,31 +119,31 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
 
         WireframeLinesBlend shape = new WireframeLinesBlend(arr);
         assertEquals(-1, shape.getRenderCap());
-        assertEquals(4, shape.getBlendEndpoint());
+        assertEquals(3, shape.getBlendEndpoint());
 
         shape.setRenderCap(0);
         assertEquals(0, shape.getRenderCap());
-        assertEquals(0, shape.getBlendEndpoint());
+        assertEquals(-1, shape.getBlendEndpoint());
 
         shape.setRenderCap(2);
         assertEquals(2, shape.getRenderCap());
-        assertEquals(2, shape.getBlendEndpoint());
+        assertEquals(1, shape.getBlendEndpoint());
 
         shape.setRenderCap(50);
         assertEquals(50, shape.getRenderCap());
-        assertEquals(50, shape.getBlendEndpoint());
+        assertEquals(49, shape.getBlendEndpoint());
 
         shape.setRenderCap(-20);
         assertEquals(-20, shape.getRenderCap());
-        assertEquals(4, shape.getBlendEndpoint());
+        assertEquals(3, shape.getBlendEndpoint());
 
         shape.setRenderCap(Integer.MAX_VALUE);
         assertEquals(Integer.MAX_VALUE, shape.getRenderCap());
-        assertEquals(Integer.MAX_VALUE, shape.getBlendEndpoint());
+        assertEquals(Integer.MAX_VALUE-1, shape.getBlendEndpoint());
 
         shape.setRenderCap(Integer.MIN_VALUE);
         assertEquals(Integer.MIN_VALUE, shape.getRenderCap());
-        assertEquals(4, shape.getBlendEndpoint());
+        assertEquals(3, shape.getBlendEndpoint());
     }
 
     @Test
@@ -213,51 +213,51 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
         Vector3 buf = Vector3.ZEROS.copy();
         MockMinecraftAccess mc = new MockMinecraftAccess();
         ArrayList<ReadonlyVector3> arr = new ArrayList<ReadonlyVector3>();
-        for (boolean twice : new boolean[] {true, false}) {
+        for (boolean seeThru : new boolean[] {true, false}) {
             arr.clear();
             WireframeLinesBlend shape = new WireframeLinesBlend(arr);
-            shape.setLineStyle(Color.WHITE.copy(), 1.0F, twice);
-            shape.setBlendToLineStyle(Color.RED.copy().setAlpha(0.5), 5.0F, twice);
-            assertEquals(twice, shape.isVisibleThroughTerrain());
+            shape.setLineStyle(Color.WHITE.copy(), 1.0F, seeThru);
+            shape.setBlendToLineStyle(Color.RED.copy().setAlpha(0.5), 5.0F, seeThru);
+            assertEquals(seeThru, shape.isVisibleThroughTerrain());
 
             // No points == nothing to render
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(0, 0, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(0, 0, seeThru);
     
-            // Only one point == nothing to render
+            // Only one point makes no lines
             arr.add(new Vector3(0.0, 5.5, -12.5));
             mc.reset();
+            shape.render(mc, buf); // deferred to WireframeLines
+            mc.assertCountsEqual(1, 1, seeThru);
             shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            shape.render(mc, buf);
-            mc.assertCountsEqual(0, 0, twice);
+            mc.assertCountsEqual(4, 4, seeThru);
     
             // Two points make one line
             arr.add(new Vector3(7.0, 5.5, -12.5));
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(1, 2, twice);
+            mc.assertCountsEqual(1, 2, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(4, 8, twice);
+            mc.assertCountsEqual(4, 8, seeThru);
     
             // Three points make two lines
             arr.add(new Vector3(7.0, 15.5, -12.5));
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(2, 4, twice);
+            mc.assertCountsEqual(2, 4, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(8, 16, twice);
+            mc.assertCountsEqual(8, 16, seeThru);
     
             // Eleven points make ten lines
             arr.add(new Vector3(7.0, 15.5, -6.5));
@@ -271,41 +271,59 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
             assertEquals(11, arr.size());
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(10, 20, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(40, 80, seeThru);
 
             // Add a render cap, we only render that many lines
             shape.setRenderCap(5);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(5, 10, twice);
+            mc.assertCountsEqual(5, 10, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(20, 40, twice);
+            mc.assertCountsEqual(20, 40, seeThru);
 
             // Remove the render cap, we render everything again
             shape.setRenderCap(-1);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(10, 20, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(40, 80, seeThru);
 
             // A render cap that's larger than the number of line segments defined is fine too
             shape.setRenderCap(9001);
             mc.reset();
             shape.render(mc, buf);
-            mc.assertCountsEqual(10, 20, twice);
+            mc.assertCountsEqual(10, 20, seeThru);
             shape.render(mc, buf);
             shape.render(mc, buf);
             shape.render(mc, buf);
-            mc.assertCountsEqual(40, 80, twice);
+            mc.assertCountsEqual(40, 80, seeThru);
+
+            shape.setBlendToLineStyle(Color.YELLOW.copy().setAlpha(0.5), 5.0F, false);
+            shape.setRenderCap(-1);
+            mc.reset();
+            shape.render(mc, buf); // secondary deferred to WireframeLines
+            if (seeThru) {
+                mc.assertCountsEqual(11, 31, false);
+            } else {
+                mc.assertCountsEqual(10, 20, false);
+            }
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            shape.render(mc, buf);
+            if (seeThru) {
+                mc.assertCountsEqual(44, 124, false);
+            } else {
+                mc.assertCountsEqual(40, 80, false);
+            }
         }
     }
 

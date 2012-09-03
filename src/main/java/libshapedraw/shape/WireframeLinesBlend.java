@@ -20,8 +20,16 @@ public class WireframeLinesBlend extends WireframeLinesBlendIterable {
         pointsCollection = points;
     }
 
+    /**
+     * The "blend endpoint" refers to the last line to be rendered, which
+     * should be 100% getBlendToLineStyle().
+     */
     @Override
     protected int getBlendEndpoint() {
-        return Math.max(getRenderCap(), getRenderCap() < 0 ? pointsCollection.size() - 1 : getRenderCap());
+        if (getRenderCap() < 0) {
+            return pointsCollection.size() - 2;
+        } else {
+            return super.getBlendEndpoint();
+        }
     }
 }

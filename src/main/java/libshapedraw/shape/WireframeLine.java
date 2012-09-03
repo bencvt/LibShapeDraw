@@ -47,7 +47,7 @@ public class WireframeLine extends WireframeShape {
     }
 
     @Override
-    protected void renderLines(MinecraftAccess mc) {
+    protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
         mc.startDrawing(GL11.GL_LINES);
         mc.addVertex(pointA);
         mc.addVertex(pointB);

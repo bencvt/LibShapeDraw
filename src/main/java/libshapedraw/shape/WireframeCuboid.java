@@ -77,7 +77,7 @@ public class WireframeCuboid extends WireframeShape {
     }
 
     @Override
-    protected void renderLines(MinecraftAccess mc) {
+    protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
         normalize();
 
         // bottom

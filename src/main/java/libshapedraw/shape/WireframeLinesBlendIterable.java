@@ -6,6 +6,7 @@ import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyColor;
+import libshapedraw.primitive.ReadonlyLineStyle;
 import libshapedraw.primitive.ReadonlyVector3;
 
 import org.lwjgl.opengl.GL11;
@@ -46,80 +47,77 @@ public class WireframeLinesBlendIterable extends WireframeLines {
         return this;
     }
 
+    /**
+     * The "blend endpoint" refers to the last line to be rendered, which
+     * should be 100% getBlendToLineStyle().
+     */
     protected int getBlendEndpoint() {
-        return getRenderCap();
+        return getRenderCap() - 1;
     }
 
     @Override
-    protected void renderShape(MinecraftAccess mc) {
-        if (blendToLineStyle == null || getBlendEndpoint() < 0) {
-            super.renderShape(mc);
+    protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
+        final ReadonlyLineStyle fromStyle = getEffectiveLineStyle();
+        final ReadonlyLineStyle toStyle = getBlendToLineStyle();
+        if (toStyle == null || getBlendEndpoint() <= 0) {
+            super.renderLines(mc, isSecondary);
+            return;
+        }
+        if (isSecondary && !toStyle.hasSecondaryColor()) {
+            super.renderLines(mc, isSecondary);
             return;
         }
 
         final int renderCap = getRenderCap();
         final Iterator<ReadonlyVector3> it = getPoints().iterator();
-        if (getRenderCap() == 0 || !it.hasNext()) {
+        if (renderCap == 0 || !it.hasNext()) {
             return;
         }
 
-        final ReadonlyColor c0 = getEffectiveLineStyle().getMainReadonlyColor();
-        final ReadonlyColor c1 = getEffectiveLineStyle().getSecondaryReadonlyColor(); // can be null
-        final float w0 = getEffectiveLineStyle().getMainWidth();
-        final float w1 = getEffectiveLineStyle().getSecondaryWidth();
-
-        final ReadonlyColor bc0 = blendToLineStyle.getMainColor();
-        final ReadonlyColor bc1 = blendToLineStyle.getSecondaryColor(); // can be null
-        final float bw0 = blendToLineStyle.getMainWidth();
-        final float bw1 = blendToLineStyle.getSecondaryWidth();
-
+        final ReadonlyColor fromColor;
+        final ReadonlyColor toColor;
+        final float fromWidth;
+        final float toWidth;
+        // we've already checked for all null cases earlier
+        if (isSecondary) {
+            fromColor = fromStyle.getSecondaryReadonlyColor();
+            toColor   =   toStyle.getSecondaryReadonlyColor();
+            fromWidth = fromStyle.getSecondaryWidth();
+            toWidth   =   toStyle.getSecondaryWidth();
+        } else {
+            fromColor = fromStyle.getMainReadonlyColor();
+            toColor   =   toStyle.getMainReadonlyColor();
+            fromWidth = fromStyle.getMainWidth();
+            toWidth   =   toStyle.getMainWidth();
+        }
         final float blendEndpoint = getBlendEndpoint();
 
-        int lineNum = 0;
+        // We can't use GL_LINE_STRIP in a single drawing session because each
+        // line segment has its own style.
         ReadonlyVector3 pointA = it.next();
         ReadonlyVector3 pointB;
+        int lineNum = 0;
         while (it.hasNext() && (renderCap < 0 || lineNum < renderCap)) {
-            lineNum++;
             pointB = it.next();
             float percent = lineNum / blendEndpoint;
 
             mc.startDrawing(GL11.GL_LINES);
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
-            GL11.glLineWidth(blend(w0, bw0, percent));
-            // c0.copy().blend(bc0, percent) would work, but this is a
-            // rendering method. Creating thousands of temporary objects that
-            // will just get GC'd should be avoided.
+            GL11.glLineWidth(blend(fromWidth, toWidth, percent));
+            // fromColor.copy().blend(toColor, percent) would work, but this is
+            // a rendering method. Creating thousands of temporary objects that
+            // will just get GC'd should be avoided, so we operate on the
+            // individual RGBA components.
             GL11.glColor4d(
-                    blend(c0.getRed(),   bc0.getRed(),   percent),
-                    blend(c0.getGreen(), bc0.getGreen(), percent),
-                    blend(c0.getBlue(),  bc0.getBlue(),  percent),
-                    blend(c0.getAlpha(), bc0.getAlpha(), percent));
+                    blend(fromColor.getRed(),   toColor.getRed(),   percent),
+                    blend(fromColor.getGreen(), toColor.getGreen(), percent),
+                    blend(fromColor.getBlue(),  toColor.getBlue(),  percent),
+                    blend(fromColor.getAlpha(), toColor.getAlpha(), percent));
             mc.addVertex(pointA);
             mc.addVertex(pointB);
             mc.finishDrawing();
 
-            if (c1 != null) {
-                mc.startDrawing(GL11.GL_LINES);
-                GL11.glDepthFunc(GL11.GL_GREATER);
-                if (blendToLineStyle.hasSecondaryColor()) {
-                    GL11.glLineWidth(blend(w1, bw1, percent));
-                    // c1.copy().blend(bc1, percent)
-                    GL11.glColor4d(
-                            blend(c1.getRed(),   bc1.getRed(),   percent),
-                            blend(c1.getGreen(), bc1.getGreen(), percent),
-                            blend(c1.getBlue(),  bc1.getBlue(),  percent),
-                            blend(c1.getAlpha(), bc1.getAlpha(), percent));
-                } else {
-                    // secondary style is static
-                    GL11.glLineWidth(w1);
-                    GL11.glColor4d(c1.getRed(), c1.getGreen(), c1.getBlue(), c1.getAlpha());
-                }
-                mc.addVertex(pointA);
-                mc.addVertex(pointB);
-                mc.finishDrawing();
-            }
-
             pointA = pointB;
+            lineNum++;
         }
     }
 

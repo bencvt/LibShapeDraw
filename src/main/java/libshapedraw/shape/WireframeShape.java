@@ -20,19 +20,21 @@ public abstract class WireframeShape extends Shape {
     @Override
     protected void renderShape(MinecraftAccess mc) {
         ReadonlyLineStyle drawStyle = getEffectiveLineStyle();
+
         ReadonlyColor color = drawStyle.getMainReadonlyColor();
         float width = drawStyle.getMainWidth();
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         GL11.glLineWidth(width);
-        renderLines(mc);
+        renderLines(mc, false);
+
         if (drawStyle.hasSecondaryColor()) {
             color = drawStyle.getSecondaryReadonlyColor();
             width = drawStyle.getSecondaryWidth();
             GL11.glDepthFunc(GL11.GL_GREATER);
             GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
             GL11.glLineWidth(width);
-            renderLines(mc);
+            renderLines(mc, true);
         }
     }
 
@@ -40,7 +42,7 @@ public abstract class WireframeShape extends Shape {
      * Using the MinecraftAccess param, interact with the Tessellator to draw vertices.
      * The line depth function/width/color has already been set up.
      */
-    protected void renderLines(MinecraftAccess mc) {
+    protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
         // do nothing; it's up to the derived class to override either this
         // method or renderShape.
     }
