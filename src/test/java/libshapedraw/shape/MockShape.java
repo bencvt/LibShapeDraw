@@ -6,15 +6,14 @@ import libshapedraw.primitive.Vector3;
 import org.lwjgl.opengl.GL11;
 
 public class MockShape extends Shape {
+    public MockShape() {
+        super(Vector3.ZEROS.copy());
+    }
+
     private int countRender = 0;
 
     public int getCountRender() {
         return countRender;
-    }
-
-    @Override
-    public void getOrigin(Vector3 buf) {
-        buf.set(Vector3.ZEROS);
     }
 
     @Override

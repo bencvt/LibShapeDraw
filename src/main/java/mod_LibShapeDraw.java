@@ -128,6 +128,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         public void y() {
             // do nothing
         }
+        /** obf: Entity.getBrightnessForRender */
+        @Override
+        public int b(float partialTicks) {
+            return 0xf000f0; // max brightness, regardless of the light the ghost entity is actually in
+        }
     }
 
     private Controller controller;

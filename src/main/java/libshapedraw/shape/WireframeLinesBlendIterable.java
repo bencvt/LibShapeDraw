@@ -8,6 +8,7 @@ import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.ReadonlyLineStyle;
 import libshapedraw.primitive.ReadonlyVector3;
+import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,8 +24,11 @@ import org.lwjgl.opengl.GL11;
 public class WireframeLinesBlendIterable extends WireframeLines {
     private LineStyle blendToLineStyle;
 
-    public WireframeLinesBlendIterable(Iterable<ReadonlyVector3> points) {
-        super(points);
+    public WireframeLinesBlendIterable(Vector3 origin, Iterable<ReadonlyVector3> relativePoints) {
+        super(origin, relativePoints);
+    }
+    public WireframeLinesBlendIterable(Iterable<ReadonlyVector3> absolutePoints) {
+        super(absolutePoints);
     }
 
     public LineStyle getBlendToLineStyle() {

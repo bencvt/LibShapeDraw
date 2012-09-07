@@ -102,7 +102,7 @@ public class TestWireframeCuboid extends SetupTestEnvironment.TestCase {
         shape.getLowerCorner().setX(55.5);
         shape.getUpperCorner().setZ(-99.0);
         assertEquals("(55.5,2.0,3.0)(4.0,5.0,-99.0)", shape.getLowerCorner().toString() + shape.getUpperCorner().toString());
-        shape.render(new MockMinecraftAccess(), Vector3.ZEROS.copy());
+        shape.render(new MockMinecraftAccess());
         assertEquals("(4.0,2.0,-99.0)(55.5,5.0,3.0)", shape.getLowerCorner().toString() + shape.getUpperCorner().toString());
     }
 
@@ -120,32 +120,23 @@ public class TestWireframeCuboid extends SetupTestEnvironment.TestCase {
 
     @Test
     public void testGetOrigin() {
-        Vector3 buf = Vector3.ZEROS.copy();
-        WireframeCuboid shape = new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0);
-        shape.getOrigin(buf);
-        assertEquals("(2.5,3.5,4.5)", buf.toString());
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testGetOriginInvalidNull() {
-        new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).getOrigin(null);
+        assertEquals("(2.5,3.5,4.5)", new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).getOriginReadonly().toString());
     }
 
     @Test
     public void testRender() {
         MockMinecraftAccess mc = new MockMinecraftAccess();
-        Vector3 buf = Vector3.ZEROS.copy();
         for (boolean twice : new boolean[] {true, false}) {
             WireframeCuboid shape = new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0);
             shape.setLineStyle(Color.WHITE.copy(), 1.0F, twice);
             assertEquals(twice, shape.isVisibleThroughTerrain());
 
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(3, 16, twice);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(12, 64, twice);
         }
     }

@@ -15,9 +15,14 @@ public class WireframeLines extends WireframeShape {
     private Iterable<ReadonlyVector3> points;
     private int renderCap;
 
-    public WireframeLines(Iterable<ReadonlyVector3> points) {
-        setPoints(points);
+    public WireframeLines(Vector3 origin, Iterable<ReadonlyVector3> relativePoints) {
+        super(origin);
+        setPoints(relativePoints);
         setRenderCap(-1);
+    }
+    public WireframeLines(Iterable<ReadonlyVector3> absolutePoints) {
+        this(Vector3.ZEROS.copy(), absolutePoints);
+        setRelativeToOrigin(false);
     }
 
     /**
@@ -47,8 +52,7 @@ public class WireframeLines extends WireframeShape {
 
     /**
      * The maximum number of line segments to render. <0 means unlimited, or
-     * rather limited by the number of points yielded by the iterable minus
-     * one.
+     * rather limited by the number of points yielded by the iterable.
      */
     public int getRenderCap() {
         return renderCap;
@@ -59,12 +63,15 @@ public class WireframeLines extends WireframeShape {
     }
 
     @Override
-    public void getOrigin(Vector3 buf) {
+    public ReadonlyVector3 getOriginReadonly() {
+        if (isRelativeToOrigin()) {
+            return super.getOriginReadonly();
+        }
         Iterator<ReadonlyVector3> it = getPoints().iterator();
         if (it.hasNext()) {
-            buf.set(getPoints().iterator().next());
+            return getPoints().iterator().next();
         } else {
-            buf.set(Vector3.ZEROS); // won't be rendering anything anyway
+            return null; // won't be rendering anything anyway
         }
     }
 

@@ -13,6 +13,8 @@ public class WireframeLine extends WireframeShape {
     private Vector3 pointB;
 
     public WireframeLine(Vector3 a, Vector3 b) {
+        super(a);
+        setRelativeToOrigin(false);
         setPointA(a);
         setPointB(b);
     }
@@ -39,11 +41,6 @@ public class WireframeLine extends WireframeShape {
         }
         pointB = b;
         return this;
-    }
-
-    @Override
-    public void getOrigin(Vector3 buf) {
-        buf.set(pointA);
     }
 
     @Override

@@ -183,34 +183,24 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
 
     @Test
     public void testGetOrigin() {
-        Vector3 buf = Vector3.ZEROS.copy();
         ArrayList<ReadonlyVector3> arr = new ArrayList<ReadonlyVector3>();
         WireframeLinesBlend shape = new WireframeLinesBlend(arr);
 
-        // no points at all: 0,0,0
-        shape.getOrigin(buf);
-        assertEquals("(0.0,0.0,0.0)", buf.toString());
+        // no points at all: no origin
+        assertNull(shape.getOriginReadonly());
 
         // the first point is the origin
         arr.add(new Vector3(4.0, 5.5, -3.0));
-        shape.getOrigin(buf);
-        assertEquals("(4.0,5.5,-3.0)", buf.toString());
+        assertEquals("(4.0,5.5,-3.0)", shape.getOriginReadonly().toString());
 
         // additional points are ignored
         arr.add(new Vector3(1.0, 2.0, 3.0));
         arr.add(new Vector3(7.0, -9.0, 213.5));
-        shape.getOrigin(buf);
-        assertEquals("(4.0,5.5,-3.0)", buf.toString());
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testGetOriginInvalidNull() {
-        new WireframeLinesBlend(new ArrayList<ReadonlyVector3>()).getOrigin(null);
+        assertEquals("(4.0,5.5,-3.0)", shape.getOriginReadonly().toString());
     }
 
     @Test
     public void testRender() {
-        Vector3 buf = Vector3.ZEROS.copy();
         MockMinecraftAccess mc = new MockMinecraftAccess();
         ArrayList<ReadonlyVector3> arr = new ArrayList<ReadonlyVector3>();
         for (boolean seeThru : new boolean[] {true, false}) {
@@ -222,41 +212,41 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
 
             // No points == nothing to render
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(0, 0, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(0, 0, seeThru);
     
             // Only one point makes no lines
             arr.add(new Vector3(0.0, 5.5, -12.5));
             mc.reset();
-            shape.render(mc, buf); // deferred to WireframeLines
+            shape.render(mc); // deferred to WireframeLines
             mc.assertCountsEqual(1, 1, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(4, 4, seeThru);
     
             // Two points make one line
             arr.add(new Vector3(7.0, 5.5, -12.5));
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(1, 2, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(4, 8, seeThru);
     
             // Three points make two lines
             arr.add(new Vector3(7.0, 15.5, -12.5));
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(2, 4, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(8, 16, seeThru);
     
             // Eleven points make ten lines
@@ -270,55 +260,55 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
             arr.add(new Vector3(20.0, 17.5, 6.0));
             assertEquals(11, arr.size());
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(10, 20, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(40, 80, seeThru);
 
             // Add a render cap, we only render that many lines
             shape.setRenderCap(5);
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(5, 10, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(20, 40, seeThru);
 
             // Remove the render cap, we render everything again
             shape.setRenderCap(-1);
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(10, 20, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(40, 80, seeThru);
 
             // A render cap that's larger than the number of line segments defined is fine too
             shape.setRenderCap(9001);
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(10, 20, seeThru);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(40, 80, seeThru);
 
             shape.setBlendToLineStyle(Color.YELLOW.copy().setAlpha(0.5), 5.0F, false);
             shape.setRenderCap(-1);
             mc.reset();
-            shape.render(mc, buf); // secondary deferred to WireframeLines
+            shape.render(mc); // secondary deferred to WireframeLines
             if (seeThru) {
                 mc.assertCountsEqual(11, 31, false);
             } else {
                 mc.assertCountsEqual(10, 20, false);
             }
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             if (seeThru) {
                 mc.assertCountsEqual(44, 124, false);
             } else {
@@ -337,7 +327,7 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
         arr.add(new Vector3(7.0, 8.0, 9.0));
         WireframeLinesBlend shape = new WireframeLinesBlend(arr);
         shape.setLineStyle(Color.WHITE.copy(), 1.0F, true);
-        shape.render(new MockMinecraftAccess(), Vector3.ZEROS.copy());
+        shape.render(new MockMinecraftAccess());
     }
 
     @Test(expected=NullPointerException.class)
@@ -349,6 +339,6 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
         arr.add(new Vector3(7.0, 8.0, 9.0));
         WireframeLinesBlend shape = new WireframeLinesBlend(arr);
         shape.setLineStyle(Color.WHITE.copy(), 1.0F, true);
-        shape.render(new MockMinecraftAccess(), Vector3.ZEROS.copy());
+        shape.render(new MockMinecraftAccess());
     }
 }

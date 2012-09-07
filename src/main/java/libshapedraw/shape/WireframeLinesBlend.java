@@ -3,6 +3,7 @@ package libshapedraw.shape;
 import java.util.Collection;
 
 import libshapedraw.primitive.ReadonlyVector3;
+import libshapedraw.primitive.Vector3;
 
 /**
  * A series of connected line segments that smoothly blends from one line style
@@ -15,9 +16,13 @@ public class WireframeLinesBlend extends WireframeLinesBlendIterable {
      * Require a Collection rather than just an Iterable because we need to
      * know the size before iterating for blending.
      */
-    public WireframeLinesBlend(Collection<ReadonlyVector3> points) {
-        super(points);
-        pointsCollection = points;
+    public WireframeLinesBlend(Vector3 origin, Collection<ReadonlyVector3> relativePoints) {
+        super(origin, relativePoints);
+        pointsCollection = relativePoints;
+    }
+    public WireframeLinesBlend(Collection<ReadonlyVector3> absolutePoints) {
+        super(absolutePoints);
+        pointsCollection = absolutePoints;
     }
 
     /**

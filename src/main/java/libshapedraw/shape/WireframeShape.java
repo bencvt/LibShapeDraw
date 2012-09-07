@@ -5,17 +5,23 @@ import libshapedraw.primitive.Color;
 import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.ReadonlyLineStyle;
+import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
 /**
  * Intermediate base class for shapes that are rendered using lines.
  * <p>
- * Supports the concept of "xray" lines: shapes that are occluded by another object
- * can be drawn regardless, using a different style than its non-occluded sections.
+ * Supports the concept of "xray" rendering: shapes that are occluded by
+ * another object can be drawn regardless, using a different style than its
+ * non-occluded sections.
  */
 public abstract class WireframeShape extends Shape {
     private LineStyle lineStyle;
+
+    public WireframeShape(Vector3 origin) {
+        super(origin);
+    }
 
     @Override
     protected void renderShape(MinecraftAccess mc) {

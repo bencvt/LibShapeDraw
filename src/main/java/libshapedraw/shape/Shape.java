@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import libshapedraw.MinecraftAccess;
+import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 import libshapedraw.transform.ShapeTransform;
 
@@ -12,18 +13,13 @@ import org.lwjgl.opengl.GL11;
 
 public abstract class Shape {
     private boolean visible = true;
+    private Vector3 origin;
+    private boolean relativeToOrigin = true;
     private List<ShapeTransform> transforms;
 
-    /**
-     * The point around which ShapeTransforms should occur. This should
-     * generally be the center point of the Shape, if that makes sense for the
-     * Shape type.
-     * <p>
-     * Rather than returning a ReadonlyVector3, the x/y/z components must be
-     * copied into buf, the output parameter. This is to prevent the creation
-     * of thousands of throwaway Vector3 objects during rendering.
-     */
-    public abstract void getOrigin(Vector3 buf);
+    public Shape(Vector3 origin) {
+        setOrigin(origin);
+    }
 
     /**
      * If false, the Shape will not be rendered.
@@ -33,6 +29,35 @@ public abstract class Shape {
     }
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    /**
+     * The point around which ShapeTransforms should occur. This is generally
+     * the center point of the Shape, if that makes sense for the Shape type.
+     */
+    public ReadonlyVector3 getOriginReadonly() {
+        return origin;
+    }
+    protected Vector3 getOrigin() {
+        return origin;
+    }
+    protected void setOrigin(Vector3 origin) {
+        if (origin == null) {
+            throw new NullPointerException();
+        }
+        this.origin = origin;
+    }
+
+    /**
+     * If true, render this shape relative to its own origin x/y/z.
+     * If false, rendering will ignore the shape's origin, operating on
+     * absolute world x/y/z coordinates.
+     */
+    public boolean isRelativeToOrigin() {
+        return relativeToOrigin;
+    }
+    protected void setRelativeToOrigin(boolean relativeToOrigin) {
+        this.relativeToOrigin = relativeToOrigin;
     }
 
     /**
@@ -62,25 +87,38 @@ public abstract class Shape {
      * registered to this Shape. This should normally only be called internally
      * by the Controller.
      */
-    public final void render(MinecraftAccess mc, Vector3 buf) {
+    public final void render(MinecraftAccess mc) {
         if (!isVisible()) {
             return;
         }
-        if (transforms == null || transforms.isEmpty()) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        final boolean absolute = !isRelativeToOrigin();
+        if (absolute && transforms == null) {
             renderShape(mc);
-            return;
-        }
-        getOrigin(buf);
-        GL11.glPushMatrix();
-        GL11.glTranslated(buf.getX(), buf.getY(), buf.getZ());
-        for (ShapeTransform t : transforms) {
-            if (t != null) {
-                t.preRender();
+        } else {
+            final ReadonlyVector3 origin = getOriginReadonly();
+            if (origin == null) {
+                return;
             }
+            GL11.glPushMatrix();
+            GL11.glTranslated(origin.getX(), origin.getY(), origin.getZ());
+            if (transforms != null) {
+                for (ShapeTransform t : transforms) {
+                    if (t != null) {
+                        t.preRender();
+                    }
+                }
+            }
+            if (absolute) {
+                GL11.glTranslated(-origin.getX(), -origin.getY(), -origin.getZ());
+            }
+            renderShape(mc);
+            GL11.glPopMatrix();
         }
-        GL11.glTranslated(-buf.getX(), -buf.getY(), -buf.getZ());
-        renderShape(mc);
-        GL11.glPopMatrix();
     }
 
     /**

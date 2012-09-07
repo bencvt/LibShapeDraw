@@ -4,9 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import libshapedraw.ApiInfo;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.MinecraftAccess;
-import libshapedraw.ApiInfo;
 import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
@@ -14,7 +14,6 @@ import libshapedraw.event.LSDRespawnEvent;
 import libshapedraw.internal.Util.FileLogger;
 import libshapedraw.internal.Util.NullLogger;
 import libshapedraw.primitive.ReadonlyVector3;
-import libshapedraw.primitive.Vector3;
 import libshapedraw.shape.Shape;
 
 import org.lwjgl.opengl.GL11;
@@ -25,8 +24,6 @@ import org.lwjgl.opengl.GL11;
  */
 public class Controller {
     private static Controller instance;
-    /** so we don't create a bunch of throwaway Vector3s every time we render */
-    private static final Vector3 vectorBuf = Vector3.ZEROS.copy();
     private final Logger log;
     private final LinkedHashSet<LibShapeDraw> apiInstances;
     private int topApiInstanceId;
@@ -150,11 +147,6 @@ public class Controller {
     public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden) {
         log.finer("render");
 
-        // For now, every Shape for every API instance gets the same basic OpenGL setup
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LIGHTING);
         int origDepthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
         GL11.glPushMatrix();
         GL11.glTranslated(-playerCoords.getX(), -playerCoords.getY(), -playerCoords.getZ());
@@ -171,7 +163,7 @@ public class Controller {
             if (apiInstance.isVisible() && (!isGuiHidden || apiInstance.isVisibleWhenHidingGui())) {
                 for (Shape shape : apiInstance.getShapes()) {
                     if (shape != null) {
-                        shape.render(minecraftAccess, vectorBuf);
+                        shape.render(minecraftAccess);
                     }
                 }
             }

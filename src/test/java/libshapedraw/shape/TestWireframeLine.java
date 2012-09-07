@@ -78,21 +78,12 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
 
     @Test
     public void testGetOrigin() {
-        Vector3 buf = Vector3.ZEROS.copy();
-        WireframeLine shape = new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0);
-        shape.getOrigin(buf);
-        assertEquals("(1.0,2.0,3.0)", buf.toString());
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testGetOriginInvalidNull() {
-        new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).getOrigin(null);
+        assertEquals("(1.0,2.0,3.0)", new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).getOriginReadonly().toString());
     }
 
     @Test
     public void testRender() {
         MockMinecraftAccess mc = new MockMinecraftAccess();            
-        Vector3 buf = Vector3.ZEROS.copy();
         for (boolean twice : new boolean[] {true, false}) {
             WireframeLine shape = new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0);
             shape.setLineStyle(Color.WHITE.copy(), 1.0F, false);
@@ -100,11 +91,11 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
             assertEquals(twice, shape.isVisibleThroughTerrain());
 
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(1, 2, twice);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(4, 8, twice);
 
             // revert to the default line style
@@ -112,11 +103,11 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
             assertSame(LineStyle.DEFAULT, shape.getEffectiveLineStyle());
             assertTrue(shape.isVisibleThroughTerrain());
             mc.reset();
-            shape.render(mc, buf);
+            shape.render(mc);
             mc.assertCountsEqual(1, 2, true);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
-            shape.render(mc, buf);
+            shape.render(mc);
+            shape.render(mc);
+            shape.render(mc);
             mc.assertCountsEqual(4, 8, true);
         }
     }
