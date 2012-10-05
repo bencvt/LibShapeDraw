@@ -6,9 +6,6 @@ import libshapedraw.primitive.Color;
 import libshapedraw.primitive.Vector3;
 
 public class GLUSphere extends GLUShape {
-    public static final int DEFAULT_SLICES = 24;
-    public static final int DEFAULT_STACKS = 24;
-
     private final Sphere sphere;
     private float radius;
     private int slices;

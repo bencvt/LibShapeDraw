@@ -16,6 +16,10 @@ import org.lwjgl.util.glu.Quadric;
  * non-occluded sections.
  */
 public abstract class GLUShape extends Shape {
+    public static final int DEFAULT_SLICES = 24;
+    public static final int DEFAULT_STACKS = 24;
+    public static final int DEFAULT_LOOPS = 6;
+
     private Color mainColor;
     private Color secondaryColor;
     private Quadric gluQuadric;
