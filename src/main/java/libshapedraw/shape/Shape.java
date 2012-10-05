@@ -95,6 +95,9 @@ public abstract class Shape {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHT0);
+        GL11.glDisable(GL11.GL_LIGHT1);
+        GL11.glDisable(GL11.GL_COLOR_MATERIAL);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         final boolean absolute = !isRelativeToOrigin();
         if (absolute && transforms == null) {

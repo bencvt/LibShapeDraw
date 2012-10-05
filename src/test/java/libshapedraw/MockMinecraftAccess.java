@@ -9,6 +9,7 @@ public class MockMinecraftAccess implements MinecraftAccess {
     private int curCountVertices = 0;
     private int countDraw = 0;
     private int countVertices = 0;
+    private int countEnableStandardLighting = 0;
 
     public boolean isDrawingStarted() {
         return drawingStarted;
@@ -21,6 +22,9 @@ public class MockMinecraftAccess implements MinecraftAccess {
     }
     public int getCountVertices() {
         return countVertices;
+    }
+    public int getCountEnableStandardLighting() {
+        return countEnableStandardLighting;
     }
 
     @Override
@@ -52,11 +56,17 @@ public class MockMinecraftAccess implements MinecraftAccess {
         countDraw++;
     }
 
+    @Override
+    public void enableStandardItemLighting() {
+        countEnableStandardLighting++;
+    }
+
     public void reset() {
         drawingStarted = false;
         curCountVertices = 0;
         countDraw = 0;
         countVertices = 0;
+        countEnableStandardLighting = 0;
     }
     public void assertCountsEqual(int expectedCountDraw, int expectedCountVertices, boolean expectDouble) {
         if (expectDouble) {

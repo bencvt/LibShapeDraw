@@ -53,6 +53,10 @@ public class Controller {
         return getInstance().log;
     }
 
+    public static MinecraftAccess getMinecraftAccess() {
+        return getInstance().minecraftAccess;
+    }
+
     /**
      * @return true if the bootstrapper has been instantiated and is linked up to the controller
      */

@@ -24,4 +24,7 @@ public interface MinecraftAccess {
 
     /** Tessellator.instance.draw */
     public void finishDrawing();
+
+    /** RenderHelper.enableStandardItemLighting */
+    public void enableStandardItemLighting();
 }

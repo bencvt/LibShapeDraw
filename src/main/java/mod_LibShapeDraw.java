@@ -265,4 +265,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         // obf: Tessellator.instance, Tessellator.draw
         ave.a.a();
     }
+
+    @Override
+    public void enableStandardItemLighting() {
+        // obf: RenderHelper.enableStandardItemLighting
+        ang.b();
+    }
 }
