@@ -4,7 +4,7 @@
     <groupId>libshapedraw</groupId>
     <artifactId>LibShapeDraw</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>LibShapeDraw</name>
     <url>https://github.com/bencvt/LibShapeDraw</url>
 
