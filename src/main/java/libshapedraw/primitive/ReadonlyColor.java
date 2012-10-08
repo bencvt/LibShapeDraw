@@ -7,4 +7,5 @@ public interface ReadonlyColor {
     public double getBlue();
     public double getAlpha();
     public int getRGBA();
+    public int getARGB();
 }

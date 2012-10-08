@@ -14,17 +14,17 @@ import libshapedraw.primitive.ReadonlyVector3;
  */
 public interface MinecraftAccess {
     /** Tessellator.instance.startDrawing */
-    public void startDrawing(int mode);
+    public MinecraftAccess startDrawing(int mode);
 
     /** Tessellator.instance.addVertex */
-    public void addVertex(double x, double y, double z);
+    public MinecraftAccess addVertex(double x, double y, double z);
 
     /** Tessellator.instance.addVertex */
-    public void addVertex(ReadonlyVector3 coords);
+    public MinecraftAccess addVertex(ReadonlyVector3 coords);
 
     /** Tessellator.instance.draw */
-    public void finishDrawing();
+    public MinecraftAccess finishDrawing();
 
     /** RenderHelper.enableStandardItemLighting */
-    public void enableStandardItemLighting();
+    public MinecraftAccess enableStandardItemLighting();
 }

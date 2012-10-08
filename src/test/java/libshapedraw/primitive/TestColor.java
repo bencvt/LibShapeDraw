@@ -35,17 +35,19 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     @Test
     public void testModify() {
         Color c = new Color(0x60606060);
-        assertEquals(0x60606060, c.getRGBA());
+        assertEquals("0x60606060", c.toString());
         c.setRed(0.25F);
-        assertEquals(0x3f606060, c.getRGBA());
+        assertEquals("0x3f606060", c.toString());
         c.setGreen(0.75F);
-        assertEquals(0x3fbf6060, c.getRGBA());
+        assertEquals("0x3fbf6060", c.toString());
         c.setBlue(0.5F);
-        assertEquals(0x3fbf7f60, c.getRGBA());
+        assertEquals("0x3fbf7f60", c.toString());
         c.setAlpha(0.95F);
-        assertEquals(0x3fbf7ff2, c.getRGBA());
+        assertEquals("0x3fbf7ff2", c.toString());
         c.setRGBA(0x12345678);
-        assertEquals(0x12345678, c.getRGBA());
+        assertEquals("0x12345678", c.toString());
+        c.set(Color.RED);
+        assertEquals("0xff0000ff", c.toString());
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -132,6 +134,11 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     @Test(expected=IllegalArgumentException.class)
     public void testBlendInvalidHigh() {
         Color.CRIMSON.copy().blend(Color.MEDIUM_BLUE.copy(), 867.5309);
+    }
+
+    @Test
+    public void testARGB() {
+        assertEquals(0xefdeadbe, new Color(0xdeadbeef).getARGB());
     }
 
     @Test

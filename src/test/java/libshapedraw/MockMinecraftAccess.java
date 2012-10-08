@@ -28,37 +28,42 @@ public class MockMinecraftAccess implements MinecraftAccess {
     }
 
     @Override
-    public void startDrawing(int mode) {
+    public MinecraftAccess startDrawing(int mode) {
         assertFalse(isDrawingStarted());
         drawingStarted = true;
         assertEquals(curCountVertices, 0);
         curCountVertices = 0;
+        return this;
     }
 
     @Override
-    public void addVertex(double x, double y, double z) {
+    public MinecraftAccess addVertex(double x, double y, double z) {
         assertTrue(isDrawingStarted());
         curCountVertices++;
         countVertices++;
+        return this;
     }
 
     @Override
-    public void addVertex(ReadonlyVector3 coords) {
+    public MinecraftAccess addVertex(ReadonlyVector3 coords) {
         addVertex(coords.getX(), coords.getY(), coords.getZ());
+        return this;
     }
 
     @Override
-    public void finishDrawing() {
+    public MinecraftAccess finishDrawing() {
         assertTrue(isDrawingStarted());
         drawingStarted = false;
         assertTrue(curCountVertices > 0);
         curCountVertices = 0;
         countDraw++;
+        return this;
     }
 
     @Override
-    public void enableStandardItemLighting() {
+    public MinecraftAccess enableStandardItemLighting() {
         countEnableStandardLighting++;
+        return this;
     }
 
     public void reset() {

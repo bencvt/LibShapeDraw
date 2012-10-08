@@ -19,6 +19,9 @@ public class LineStyle implements ReadonlyLineStyle {
     public LineStyle(Color color, float width, boolean hasSecondaryColor) {
         set(color, width, hasSecondaryColor);
     }
+    public LineStyle(Color mainColor, float mainWidth, Color secondaryColor, float secondaryWidth) {
+        set(mainColor, mainWidth, secondaryColor, secondaryWidth);
+    }
     public LineStyle(ReadonlyLineStyle other) {
         setMainColor(other.getMainReadonlyColor().copy());
         setMainWidth(other.getMainWidth());
@@ -69,6 +72,14 @@ public class LineStyle implements ReadonlyLineStyle {
         setMainWidth(width);
         setSecondaryColor(hasSecondaryColor ? color.copy().scaleAlpha(0.25) : null);
         setSecondaryWidth(width);
+        return this;
+    }
+    /** Modifies this line style; does NOT create a copy. */
+    public LineStyle set(Color mainColor, float mainWidth, Color secondaryColor, float secondaryWidth) {
+        setMainColor(mainColor);
+        setMainWidth(mainWidth);
+        setSecondaryColor(secondaryColor);
+        setSecondaryWidth(secondaryWidth);
         return this;
     }
     /** Modifies this line style; does NOT create a copy. */

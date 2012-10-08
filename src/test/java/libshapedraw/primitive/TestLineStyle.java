@@ -20,6 +20,12 @@ public class TestLineStyle extends SetupTestEnvironment {
                 new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, false).toString());
         assertEquals("(0xff00007f,12.0|0xff00001f,12.0)",
                 new LineStyle(Color.RED.copy().setAlpha(0.5), 12.0F, true).toString());
+
+        assertEquals("(0x0000ffff,2.5)",
+                new LineStyle(Color.BLUE.copy(), 2.5F, null, 0.0F).toString());
+        assertEquals("(0x0000ffff,7.0|0xff0000ff,3.5)",
+                new LineStyle(Color.BLUE.copy(), 7.0F, Color.RED.copy(), 3.5F).toString());
+
     }
 
     @Test(expected=NullPointerException.class)

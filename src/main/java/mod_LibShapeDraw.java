@@ -243,32 +243,37 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     }
 
     @Override
-    public void startDrawing(int mode) {
+    public MinecraftAccess startDrawing(int mode) {
         // obf: Tessellator.instance, Tessellator.startDrawing
         ave.a.b(mode);
+        return this;
     }
 
     @Override
-    public void addVertex(double x, double y, double z) {
+    public MinecraftAccess addVertex(double x, double y, double z) {
         // obf: Tessellator.instance, Tessellator.addVertex
         ave.a.a(x, y, z);
+        return this;
     }
 
     @Override
-    public void addVertex(ReadonlyVector3 coords) {
+    public MinecraftAccess addVertex(ReadonlyVector3 coords) {
         // obf: Tessellator.instance, Tessellator.addVertex
         ave.a.a(coords.getX(), coords.getY(), coords.getZ());
+        return this;
     }
 
     @Override
-    public void finishDrawing() {
+    public MinecraftAccess finishDrawing() {
         // obf: Tessellator.instance, Tessellator.draw
         ave.a.a();
+        return this;
     }
 
     @Override
-    public void enableStandardItemLighting() {
+    public MinecraftAccess enableStandardItemLighting() {
         // obf: RenderHelper.enableStandardItemLighting
         ang.b();
+        return this;
     }
 }

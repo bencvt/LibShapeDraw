@@ -16,7 +16,7 @@ public class Color implements ReadonlyColor {
     private double alpha;
 
     public Color(double red, double green, double blue, double alpha) {
-        setRed(red).setGreen(green).setBlue(blue).setAlpha(alpha);
+        set(red, green, blue, alpha);
     }
     public Color(double red, double green, double blue) {
         this(red, green, blue, 1.0);
@@ -54,6 +54,13 @@ public class Color implements ReadonlyColor {
                 ((((int) (getBlue() * 255.0)) & 0xff) << 8) |
                 (((int) (getAlpha() * 255.0)) & 0xff);
     }
+    @Override
+    public int getARGB() {
+        return ((((int) (getAlpha() * 255.0)) & 0xff) << 24) |
+                ((((int) (getRed() * 255.0)) & 0xff) << 16) |
+                ((((int) (getGreen() * 255.0)) & 0xff) << 8) |
+                (((int) (getBlue() * 255.0)) & 0xff);
+    }
 
     /** Modifies this color; does NOT create a copy. */
     public Color setRed(double red) {
@@ -74,6 +81,14 @@ public class Color implements ReadonlyColor {
     public Color setAlpha(double alpha) {
         this.alpha = validate(alpha);
         return this;
+    }
+    /** Modifies this color; does NOT create a copy. */
+    public Color set(double red, double green, double blue, double alpha) {
+        return setRed(red).setGreen(green).setBlue(blue).setAlpha(alpha);
+    }
+    /** Modifies this color; does NOT create a copy. */
+    public Color set(ReadonlyColor other) {
+        return set(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
     }
     /** Modifies this color; does NOT create a copy. */
     public Color scaleRGB(double factor) {
