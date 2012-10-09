@@ -81,7 +81,7 @@ public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
     public void onPreRender(LSDPreRenderEvent event) {
         // Update the corners of followBox based on the player's position.
         // We have to do this in onPreRender instead of onGameTick or the animation would be jerky.
-        followBox.setLowerCorner(event.getPlayerCoords().copy().subtract(BOX_RADIUS).add(FOLLOW_BOX_OFFSET));
-        followBox.setUpperCorner(event.getPlayerCoords().copy().add(BOX_RADIUS).add(FOLLOW_BOX_OFFSET));
+        followBox.getLowerCorner().set(event.getPlayerCoords()).add(FOLLOW_BOX_OFFSET).subtract(BOX_RADIUS);
+        followBox.getUpperCorner().set(event.getPlayerCoords()).add(FOLLOW_BOX_OFFSET).add(BOX_RADIUS);
     }
 }
