@@ -47,6 +47,7 @@ public class Controller {
         trident.addPropertyInterpolator(new ReadonlyVector3PropertyInterpolator());
         trident.addPropertyInterpolator(new ReadonlyLineStylePropertyInterpolator());
 
+        log.info(ApiInfo.getName() + " v" + ApiInfo.getVersion() + " by " + ApiInfo.getAuthors() + " " + ApiInfo.getUrl());
         log.info(getClass().getName() + " instantiated");
     }
 
