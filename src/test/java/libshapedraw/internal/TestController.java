@@ -82,8 +82,8 @@ public class TestController extends SetupTestEnvironment.TestCase {
         assertTrue(Controller.isInitialized());
         ct.dump();
         ct.gameTick(Vector3.ZEROS);
-        ct.render(Vector3.ZEROS, false, true);
-        ct.render(Vector3.ZEROS, true, true);
+        ct.render(Vector3.ZEROS, false, false);
+        ct.render(Vector3.ZEROS, true, false);
         ct.respawn(Vector3.ZEROS, false, false);
         ct.respawn(Vector3.ZEROS, false, true);
         ct.respawn(Vector3.ZEROS, true, false);
@@ -95,16 +95,18 @@ public class TestController extends SetupTestEnvironment.TestCase {
         mockMinecraftAccess.reset();
         new LibShapeDraw().addShape(new WireframeLine(0.0, 0.0, 0.0, 0.0, 1.0, 0.0).setLineStyle(Color.WHITE.copy(), 1.0F, false));
         assertEquals(0, mockMinecraftAccess.getCountDraw());
-        ct.render(Vector3.ZEROS, false, true);
+        ct.render(Vector3.ZEROS, false, false);
         assertEquals(1, mockMinecraftAccess.getCountDraw());
 
+        // permanently disables the default render hook
+        ct.render(Vector3.ZEROS, false, true);
+        assertEquals(2, mockMinecraftAccess.getCountDraw());
+
+        // subsequent render calls without the isAlternateRenderHook flag should be ignored
         ct.render(Vector3.ZEROS, false, false);
         assertEquals(2, mockMinecraftAccess.getCountDraw());
 
         ct.render(Vector3.ZEROS, false, true);
-        assertEquals(2, mockMinecraftAccess.getCountDraw());
-
-        ct.render(Vector3.ZEROS, false, false);
         assertEquals(3, mockMinecraftAccess.getCountDraw());
     }
 }

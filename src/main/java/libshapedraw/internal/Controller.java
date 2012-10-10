@@ -156,12 +156,12 @@ public class Controller {
      * Dispatch preRender events.
      * Render all registered shapes.
      */
-    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden, boolean isGhostEntityHook) {
-        if (useAlternateRenderHook && isGhostEntityHook) {
+    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden, boolean isAlternateRenderHook) {
+        if (useAlternateRenderHook && !isAlternateRenderHook) {
             return;
-        } else if (!useAlternateRenderHook && !isGhostEntityHook) {
-            // Permanently set flag so subsequent render calls from
-            // mod_LibShapeDraw's ghost entity will be ignored.
+        } else if (!useAlternateRenderHook && isAlternateRenderHook) {
+            // Permanently set flag so subsequent render calls from the default
+            // hook (i.e., mod_LibShapeDraw's ghost entity) will be ignored.
             useAlternateRenderHook = true;
             log.info("using alternate rendering hook");
         }
