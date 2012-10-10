@@ -95,6 +95,15 @@ public class LibShapeDraw {
         getShapes().add(shape);
         return this;
     }
+    /**
+     * Convenience method, equivalent to getShapes().remove(shape).
+     * This is not thread-safe.
+     * @returns the instance (for method chaining)
+     */
+    public LibShapeDraw removeShape(Shape shape) {
+        getShapes().remove(shape);
+        return this;
+    }
 
     /** This is not thread-safe. */
     public Set<LSDEventListener> getEventListeners() {
@@ -107,6 +116,15 @@ public class LibShapeDraw {
      */
     public LibShapeDraw addEventListener(LSDEventListener listener) {
         getEventListeners().add(listener);
+        return this;
+    }
+    /**
+     * Convenience method, equivalent to getEventListeners().remove(listener)
+     * This is not thread-safe.
+     * @returns the instance (for method chaining)
+     */
+    public LibShapeDraw removeEventListener(LSDEventListener listener) {
+        getEventListeners().remove(listener);
         return this;
     }
 

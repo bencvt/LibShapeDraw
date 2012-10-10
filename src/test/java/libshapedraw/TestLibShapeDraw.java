@@ -63,6 +63,11 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertFalse(lib.unregister()); // still unregistered
     }
 
+    @Test
+    public void testIsControllerInitialized() {
+        assertTrue(LibShapeDraw.isControllerInitialized());
+    }
+
     // ----------------------------------------------------------------------
     // Shapes
     // ----------------------------------------------------------------------
@@ -99,6 +104,30 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertEquals(1, lib.getShapes().size());
     }
 
+    @Test
+    public void testShapesRemove() {
+        MockShape shape0 = new MockShape();
+        MockShape shape1 = new MockShape();
+        MockShape shape2 = new MockShape();
+        MockShape shape3 = new MockShape();
+        lib.addShape(shape0).addShape(shape1).addShape(shape2).addShape(shape3);
+        assertEquals(4, lib.getShapes().size());
+
+        lib.removeShape(shape0);
+        assertEquals(3, lib.getShapes().size());
+
+        lib.removeShape(shape0);
+        assertEquals(3, lib.getShapes().size());
+        lib.removeShape(new MockShape());
+        assertEquals(3, lib.getShapes().size());
+        lib.removeShape(null);
+        assertEquals(3, lib.getShapes().size());
+
+        lib.removeShape(shape1).removeShape(shape2);
+        assertEquals(1, lib.getShapes().size());
+        assertTrue(lib.getShapes().contains(shape3));
+    }
+
     // ----------------------------------------------------------------------
     // Event Listeners
     // ----------------------------------------------------------------------
@@ -133,6 +162,30 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertEquals(1, lib.getEventListeners().size());
         lib.addEventListener(dupe);
         assertEquals(1, lib.getEventListeners().size());
+    }
+
+    @Test
+    public void testEventListenersRemove() {
+        MockLSDEventListener listener0 = new MockLSDEventListener();
+        MockLSDEventListener listener1 = new MockLSDEventListener();
+        MockLSDEventListener listener2 = new MockLSDEventListener();
+        MockLSDEventListener listener3 = new MockLSDEventListener();
+        lib.addEventListener(listener0).addEventListener(listener1).addEventListener(listener2).addEventListener(listener3);
+        assertEquals(4, lib.getEventListeners().size());
+
+        lib.removeEventListener(listener0);
+        assertEquals(3, lib.getEventListeners().size());
+
+        lib.removeEventListener(listener0);
+        assertEquals(3, lib.getEventListeners().size());
+        lib.removeEventListener(new MockLSDEventListener());
+        assertEquals(3, lib.getEventListeners().size());
+        lib.removeEventListener(null);
+        assertEquals(3, lib.getEventListeners().size());
+
+        lib.removeEventListener(listener1).removeEventListener(listener2);
+        assertEquals(1, lib.getEventListeners().size());
+        assertTrue(lib.getEventListeners().contains(listener3));
     }
 
     @Test

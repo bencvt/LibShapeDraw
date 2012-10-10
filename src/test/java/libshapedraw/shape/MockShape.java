@@ -25,7 +25,7 @@ public class MockShape extends Shape {
         mc.finishDrawing();
     }
 
-    public void reset() {
+    public void resetCounts() {
         countRender = 0;
     }
 }

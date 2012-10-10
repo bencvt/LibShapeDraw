@@ -81,6 +81,15 @@ public abstract class Shape {
         getTransforms().add(transform);
         return this;
     }
+    /**
+     * Convenience method, equivalent to getTransforms().remove(transform)
+     * This is not thread-safe.
+     * @returns the instance (for method chaining)
+     */
+    public Shape removeTransform(ShapeTransform transform) {
+        getTransforms().remove(transform);
+        return this;
+    }
 
     /**
      * Render the Shape, if visible. Also perform any ShapeTransforms
