@@ -2,6 +2,8 @@ package libshapedraw.internal;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
+
 import libshapedraw.LibShapeDraw;
 import libshapedraw.MockMinecraftAccess;
 import libshapedraw.SetupTestEnvironment;
@@ -108,5 +110,16 @@ public class TestController extends SetupTestEnvironment.TestCase {
 
         ct.render(Vector3.ZEROS, false, true);
         assertEquals(3, mockMinecraftAccess.getCountDraw());
+
+        // restore the default render hook so we don't affect other test cases
+        try {
+            Field field = Controller.class.getDeclaredField("useAlternateRenderHook");
+            field.setAccessible(true);
+            field.set(ct, false);
+        } catch (Exception e) {
+            throw new RuntimeException("internal reflection error", e);
+        }
+        ct.render(Vector3.ZEROS, false, false);
+        assertEquals(4, mockMinecraftAccess.getCountDraw());
     }
 }
