@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import libshapedraw.ApiInfo;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.MinecraftAccess;
+import libshapedraw.animation.trident.TridentConfig;
 import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
@@ -39,6 +40,12 @@ public class Controller {
         }
         apiInstances = new LinkedHashSet<LibShapeDraw>();
         topApiInstanceId = 0;
+
+        TridentConfig trident = TridentConfig.getInstance();
+        trident.addPropertyInterpolator(new ReadonlyColorPropertyInterpolator());
+        trident.addPropertyInterpolator(new ReadonlyVector3PropertyInterpolator());
+        trident.addPropertyInterpolator(new ReadonlyLineStylePropertyInterpolator());
+
         log.info(getClass().getName() + " instantiated");
     }
 
