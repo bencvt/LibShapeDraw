@@ -237,7 +237,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             public void a(jn entity, double entityX, double entityY, double entityZ, float entityYaw, float partialTick) {
                 boolean hideGui = minecraft.y.O; // obf: Minecraft.gameSettings, GameSettings.hideGUI
                 // Dispatch render event to Controller.
-                controller.render(getPlayerCoords(partialTick), hideGui);
+                controller.render(getPlayerCoords(partialTick), hideGui, true);
             }
         });
     }

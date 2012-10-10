@@ -30,6 +30,7 @@ public class Controller {
     private int topApiInstanceId;
     private MinecraftAccess minecraftAccess;
     private boolean initialized;
+    private boolean useAlternateRenderHook;
     private long lastDump;
 
     private Controller() {
@@ -155,7 +156,16 @@ public class Controller {
      * Dispatch preRender events.
      * Render all registered shapes.
      */
-    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden) {
+    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden, boolean isGhostEntityHook) {
+        if (useAlternateRenderHook && isGhostEntityHook) {
+            return;
+        } else if (!useAlternateRenderHook && !isGhostEntityHook) {
+            // Permanently set flag so subsequent render calls from
+            // mod_LibShapeDraw's ghost entity will be ignored.
+            useAlternateRenderHook = true;
+            log.info("using alternate rendering hook");
+        }
+
         log.finer("render");
 
         int origDepthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);

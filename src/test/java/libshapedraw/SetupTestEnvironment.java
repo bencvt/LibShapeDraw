@@ -30,10 +30,12 @@ public class SetupTestEnvironment {
      * the VM arguments.
      */
     public static class TestCase {
+        protected static final MockMinecraftAccess mockMinecraftAccess = new MockMinecraftAccess();
+
         @BeforeClass
         public static void setupTestEnvironment() throws LWJGLException {
             if (setup()) {
-                Controller.getInstance().initialize(new MockMinecraftAccess());
+                Controller.getInstance().initialize(mockMinecraftAccess);
                 Display.setDisplayMode(new DisplayMode(0, 0));
                 Display.create();
             }
