@@ -60,7 +60,7 @@ Other resources:
  +  Javadocs are available.
  +  See `README-Trident.md` for information about the built-in Trident animation
     library.
- +  See `README-contributing.md` for information about about contributing to
+ +  See `README-contributing.md` for information about contributing to
     LibShapeDraw itself, including build instructions.
  +  If you'd like additional guidance, check the contacts section below.
 

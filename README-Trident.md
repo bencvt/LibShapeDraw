@@ -3,21 +3,21 @@
 Trident is pretty much the only mature open-source Java animation library out
 there that isn't part of a much larger framework.
 
-It's also inactive as of August 2010, which actually isn't as bad as it sounds
-because the project was already fairly mature and robust. And hey, it's
-open-source; nothing's stopping anyone from running with a fork should the need
-arise.
+It's also inactive as of August 2010 (version 1.3), which actually isn't as bad
+as it sounds because the project was already fairly mature and robust. And hey,
+it's open-source; nothing's stopping anyone from running with a fork should the
+need arise.
 
-Limited documentation, full source code, and releases are available in several
-places: the [Trident author's blog](http://www.pushing-pixels.org/category/trident),
+Documentation, full source code, and releases are available in several places:
+the [Trident author's blog](http://www.pushing-pixels.org/category/trident),
 the [kenai.com project](http://kenai.com/projects/trident/pages/Home), and
 the [GitHub snapshot](https://github.com/kirillcool/trident).
 
 # Usage in LibShapeDraw
 
-Rather than reinvent the wheel, LibShapeDraw includes Trident to assist client
-code in animating its shapes. The integration is intentionally loose; client
-code using LibShapeDraw is *not* obliged to use any part of Trident.
+Rather than reinvent the wheel, LibShapeDraw includes Trident 1.3 to assist
+client code in animating its shapes. The integration is intentionally loose;
+client code using LibShapeDraw is *not* obliged to use any part of Trident.
 
 See `src/test/java/mod_LSDDemoTrident*.java` for sample usage.
 
@@ -48,6 +48,42 @@ It has been modified in several ways:
             private double x;
             public MyFluentClass setX(double x) { this.x = x; return this; }
         }
+
+ +  Finally, LibShapeDraw registers custom property interpolators for its
+    primitive objects (Color, LineStyle, and Vector3). This makes it easier to
+    animate these objects, e.g.:
+
+        // We want to fade a sphere's color from opaque yellow to semi-
+        // transparent blue.
+        GLUSphere sphere = new GLUSphere(new Vector3(0,70,0),
+            Color.YELLOW.copy(), null, 0.8F);
+        new LibShapeDraw().addShape(sphere);
+
+        // Without the built-in custom property interpolators:
+        Timeline animVerbose = new Timeline(sphere.getMainColor());
+        ReadonlyColor toColor = Color.BLUE.copy().setAlpha(0.5);
+        animVerbose.addPropertyToInterpolate("red",
+            sphere.getMainColor().getRed(),
+            toColor.getRed());
+        animVerbose.addPropertyToInterpolate("green",
+            sphere.getMainColor().getGreen(),
+            toColor.getGreen());
+        animVerbose.addPropertyToInterpolate("blue",
+            sphere.getMainColor().getBlue(),
+            toColor.getBlue());
+        animVerbose.addPropertyToInterpolate("alpha",
+            sphere.getMainColor().getAlpha(),
+            toColor.getAlpha());
+        animVerbose.setDuration(5000);
+        animVerbose.play();
+
+        // Using the built-ins:
+        Timeline animEasy = new Timeline(sphere);
+        animEasy.addPropertyToInterpolate("mainColor",
+            sphere.getMainColor(),
+            Color.BLUE.copy().setAlpha(0.5));
+        animEasy.setDuration(5000);
+        animEasy.play();
 
 # Licenses
 
