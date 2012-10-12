@@ -11,7 +11,5 @@ public class TestGlobalSettings extends SetupTestEnvironment.TestCase {
         assertTrue(GlobalSettings.isLoggingEnabled());
         assertFalse(GlobalSettings.isLoggingAppend());
         assertEquals(0, GlobalSettings.getLoggingDebugDumpInterval());
-        assertEquals(0, GlobalSettings.getGhostEntityUpdateTicks());
-        assertTrue(GlobalSettings.isGhostEntityUpdateSort());
     }
 }

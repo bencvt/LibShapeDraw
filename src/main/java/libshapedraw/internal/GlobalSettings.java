@@ -24,18 +24,10 @@ public class GlobalSettings {
     public static int getLoggingDebugDumpInterval() {
         return getInstance().loggingDebugDumpInterval;
     }
-    public static int getGhostEntityUpdateTicks() {
-        return getInstance().ghostEntityUpdateTicks;
-    }
-    public static boolean isGhostEntityUpdateSort() {
-        return getInstance().ghostEntityUpdateSort;
-    }
 
     private final boolean loggingEnabled;
     private final boolean loggingAppend;
     private final int loggingDebugDumpInterval;
-    private final int ghostEntityUpdateTicks;
-    private final boolean ghostEntityUpdateSort;
 
     private static GlobalSettings instance;
 
@@ -58,8 +50,6 @@ public class GlobalSettings {
             loggingEnabled = Util.parseBooleanStrict(props.getProperty("logging-enabled"));
             loggingAppend = Util.parseBooleanStrict(props.getProperty("logging-append"));
             loggingDebugDumpInterval = Integer.parseInt(props.getProperty("logging-debug-dump-interval"));
-            ghostEntityUpdateTicks = Integer.parseInt(props.getProperty("ghost-entity-update-ticks"));
-            ghostEntityUpdateSort = Util.parseBooleanStrict(props.getProperty("ghost-entity-update-sort"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("unable to load global settings", e);
