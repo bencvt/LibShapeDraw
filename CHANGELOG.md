@@ -4,8 +4,8 @@
   types in `libshapedraw.primitive`
 - add getPartialTick method to LSDPreRenderEvent and MinecraftAccess.
 - add several other convenience methods
-- add mcmod.info files for improved ForgeModLoader integration (Forge is still
-  supported but *not* required)
+- add mcmod.info files and a logo for improved ForgeModLoader integration (Forge
+  is still supported but *not* required)
 
 ## 1.0
 - initial release

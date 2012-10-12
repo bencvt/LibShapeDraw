@@ -10,7 +10,7 @@ Not a developer? No worries: any bug reports, feature requests, and general
 comments are much appreciated. Please feel free to open an issue on GitHub.
 
 Also if you're handy with graphic design, please contact me (bencvt)!
-LibShapeDraw could use a logo. :)
+LibShapeDraw could use a better logo. :)
 
 ## Building LibShapeDraw from source
 
@@ -60,6 +60,9 @@ Planned features, in no specific order:
  +  Expand the demos and make them easier to run.
 
  +  Investigate the performance impact of making the API thread-safe.
+
+ +  Add more useful methods and test cases to the primitive types, especially
+    Vector3.
 
  +  The official Minecraft API keeps getting pushed back; the current plan is
     for it to be released in 1.5 after a rendering engine overhaul. If possible,

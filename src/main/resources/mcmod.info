@@ -3,7 +3,7 @@
   "modid": "mod_${project.name}",
   "name": "${project.name}",
   "description": "${project.blurb}",
-  "logoFile": "",
+  "logoFile": "/libshapedraw/logo.png",
   "version": "${project.version}",
   "credits": "",
   "authors": [ "${project.authors}" ],
