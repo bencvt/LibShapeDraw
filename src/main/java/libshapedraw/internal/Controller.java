@@ -30,7 +30,6 @@ public class Controller {
     private int topApiInstanceId;
     private MinecraftAccess minecraftAccess;
     private boolean initialized;
-    private boolean useAlternateRenderHook;
     private long lastDump;
 
     private Controller() {
@@ -47,7 +46,8 @@ public class Controller {
         trident.addPropertyInterpolator(new ReadonlyVector3PropertyInterpolator());
         trident.addPropertyInterpolator(new ReadonlyLineStylePropertyInterpolator());
 
-        log.info(ApiInfo.getName() + " v" + ApiInfo.getVersion() + " by " + ApiInfo.getAuthors() + " " + ApiInfo.getUrl());
+        log.info(ApiInfo.getName() + " v" + ApiInfo.getVersion() + " by " + ApiInfo.getAuthors());
+        log.info(ApiInfo.getUrl());
         log.info(getClass().getName() + " instantiated");
     }
 
@@ -157,16 +157,7 @@ public class Controller {
      * Dispatch preRender events.
      * Render all registered shapes.
      */
-    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden, boolean isAlternateRenderHook) {
-        if (useAlternateRenderHook && !isAlternateRenderHook) {
-            return;
-        } else if (!useAlternateRenderHook && isAlternateRenderHook) {
-            // Permanently set flag so subsequent render calls from the default
-            // hook (i.e., mod_LibShapeDraw's ghost entity) will be ignored.
-            useAlternateRenderHook = true;
-            log.info("using alternate rendering hook");
-        }
-
+    public void render(ReadonlyVector3 playerCoords, float partialTick, boolean isGuiHidden) {
         log.finer("render");
 
         int origDepthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
@@ -175,7 +166,7 @@ public class Controller {
 
         for (LibShapeDraw apiInstance : apiInstances) {
             if (!apiInstance.getEventListeners().isEmpty()) {
-                LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, isGuiHidden);
+                LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, partialTick, isGuiHidden);
                 for (LSDEventListener listener : apiInstance.getEventListeners()) {
                     if (listener != null) {
                         listener.onPreRender(event);

@@ -81,7 +81,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         public void c(String sectionName) {
             if (sectionName.equals("hand")) {
                 // obf: Timer.renderPartialTicks, Minecraft.gameSettings, GameSettings.hideGUI
-                controller.render(getPlayerCoords(timer.c), minecraft.y.O, false);
+                controller.render(getPlayerCoords(timer.c), timer.c, minecraft.y.O);
                 renderHeartbeat = true;
             }
             super.c(sectionName);

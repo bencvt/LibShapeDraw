@@ -36,7 +36,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertEquals(expectedCount, counter.getCountRender());
     }
     private void render(boolean hideGui) {
-        Controller.getInstance().render(new Vector3(0,0,0), hideGui, false);
+        Controller.getInstance().render(new Vector3(0,0,0), 0, hideGui);
     }
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void addCollectionTypeErased(Collection c, Object o) {
@@ -196,7 +196,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         // ensure listener doesn't receive events if not registered
         Controller.getInstance().respawn(new Vector3(0,0,0), true, true);
         Controller.getInstance().gameTick(new Vector3(0,0,0));
-        Controller.getInstance().render(new Vector3(0,0,0), false, false);
+        Controller.getInstance().render(new Vector3(0,0,0), 0, false);
         counter.assertCountsEqual(0, 0, 0);
 
         // register listener and ensure events are received
@@ -206,7 +206,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         counter.assertCountsEqual(1, 0, 0);
         Controller.getInstance().gameTick(new Vector3(0,0,0));
         counter.assertCountsEqual(1, 1, 0);
-        Controller.getInstance().render(new Vector3(0,0,0), false, false);
+        Controller.getInstance().render(new Vector3(0,0,0), 0, false);
         counter.assertCountsEqual(1, 1, 1);
     }
 
@@ -224,7 +224,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         counter0.assertCountsEqual(1, 1, 0);
         counter1.assertCountsEqual(1, 1, 0);
         counter2.assertCountsEqual(1, 1, 0);
-        Controller.getInstance().render(new Vector3(0,0,0), false, false);
+        Controller.getInstance().render(new Vector3(0,0,0), 0, false);
         counter0.assertCountsEqual(1, 1, 1);
         counter1.assertCountsEqual(1, 1, 1);
         counter2.assertCountsEqual(1, 1, 1);

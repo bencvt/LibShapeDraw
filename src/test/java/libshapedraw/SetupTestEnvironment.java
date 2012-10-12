@@ -2,7 +2,6 @@ package libshapedraw;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 import libshapedraw.internal.Controller;
 import libshapedraw.internal.ModDirectory;
