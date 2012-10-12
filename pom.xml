@@ -10,6 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.authors>bencvt</project.authors>
+        <project.blurb>LibShapeDraw is a Minecraft client mod that is required by other mods. It doesn't do anything on its own. Rather, it provides a set of flexible and powerful drawing and animation tools for those other mods to use.</project.blurb>
         <minecraft.version>1.3.2</minecraft.version>
         <lib.dir>${project.basedir}/lib</lib.dir>
     </properties>

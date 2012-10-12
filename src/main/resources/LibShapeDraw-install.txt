@@ -6,6 +6,6 @@ Patch the contents of the jar file into your minecraft.jar, being sure to
 remove the META-INF folders. Using a utility like Magic Launcher is highly
 recommended; manually copying .class files is for the birds.
 
-ModLoader is required.
+ModLoader (or Forge) is required.
 
 For more information see ${project.url}

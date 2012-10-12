@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mod_${project.name}",
+  "name": "${project.name}",
+  "description": "${project.blurb}",
+  "logoFile": "",
+  "version": "${project.version}",
+  "credits": "",
+  "authors": [ "${project.authors}" ],
+  "url": "${project.url}",
+  "updateUrl": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
