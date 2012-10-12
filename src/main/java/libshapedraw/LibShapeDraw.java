@@ -56,7 +56,7 @@ public class LibShapeDraw {
     /**
      * @return true if the backend controller is all set up.
      *     If false, the cause is likely one of:
-     *     a) ModLoader is disabled/missing;
+     *     a) ModLoader or Forge is disabled/missing;
      *     b) mod_LibShapeDraw is disabled/missing; or
      *     c) ModLoader hasn't instantiated mod_LibShapeDraw yet
      *        because it's too early in the mod lifecycle.
@@ -64,6 +64,30 @@ public class LibShapeDraw {
      */
     public static boolean isControllerInitialized() {
         return Controller.isInitialized();
+    }
+
+    /**
+     * Convenience method to check isControllerInitialized and throw a
+     * RuntimeException if it returns false.
+     * <p>
+     * Assuming you're waiting to create the API instance until at least the
+     * BaseMod.load method, it's a good idea to include this check, e.g.:
+     * LibShapeDraw api = new LibShapeDraw().verifyInitialized();
+     * <p>
+     * This isn't included in the constructor because you're allowed to create
+     * and populate API instances whenever you like, even if it's before
+     * ModLoader/Forge has a chance to initialize mod_LibShapeDraw and the
+     * Controller.
+     */
+    public LibShapeDraw verifyInitialized() {
+        if (!isControllerInitialized()) {
+            throw new RuntimeException(ApiInfo.getName() +
+                    " is not initialized. Possible causes:" +
+                    " a) ModLoader or Forge is disabled/missing;" +
+                    " b) mod_LibShapeDraw is disabled/missing; or" +
+                    " c) another mod is incorrectly calling verifyInitialized too early.");
+        }
+        return this;
     }
 
     public boolean isVisible() {

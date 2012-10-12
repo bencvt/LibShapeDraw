@@ -66,6 +66,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     @Test
     public void testIsControllerInitialized() {
         assertTrue(LibShapeDraw.isControllerInitialized());
+        lib.verifyInitialized(); // no exception thrown
     }
 
     // ----------------------------------------------------------------------

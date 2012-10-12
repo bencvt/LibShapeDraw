@@ -29,6 +29,7 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
 
     @Override
     public void load() {
+        libShapeDraw.verifyInitialized();
         // The Shapes will be created and their animations will start as soon
         // as ModLoader loads this mod. That means the Shapes are getting
         // updated even if we're on the main menu or on a loading screen.

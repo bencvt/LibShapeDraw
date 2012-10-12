@@ -31,7 +31,7 @@ public class mod_LSDDemoBasicDependSoft extends BaseMod {
             // in this example mod, libShapeDraw is a soft dependency, so we just return early.
             return;
         }
-        LibShapeDraw libShapeDraw = new LibShapeDraw();
+        LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();
         WireframeCuboid box = new WireframeCuboid(1,63,0, 2,64,1);
         box.setLineStyle(Color.ROYAL_BLUE.copy(), 2.0F, true);
         libShapeDraw.getShapes().add(box);

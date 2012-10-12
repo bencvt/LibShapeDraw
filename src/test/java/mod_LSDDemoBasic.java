@@ -24,7 +24,8 @@ public class mod_LSDDemoBasic extends BaseMod {
 
     @Override
     public void load() {
-        // Do nothing.
         // We could have just as easily set up the API here instead of in the constructor.
+        // We don't *have* to call verifyInitialized either. It's just a good idea to do so.
+        libShapeDraw.verifyInitialized();
     }
 }

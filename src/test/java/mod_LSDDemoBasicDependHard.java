@@ -31,7 +31,7 @@ public class mod_LSDDemoBasicDependHard extends BaseMod {
             // in this example mod, libShapeDraw is a hard dependency, so refuse to load without it
             throw new RuntimeException("Missing dependency: LibShapeDraw v0.1+");
         }
-        LibShapeDraw libShapeDraw = new LibShapeDraw();
+        LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();
         WireframeCuboid box = new WireframeCuboid(2,63,0, 3,64,1);
         box.setLineStyle(Color.AZURE.copy(), 2.0F, true);
         libShapeDraw.getShapes().add(box);

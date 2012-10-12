@@ -17,7 +17,7 @@ import libshapedraw.shape.WireframeCuboid;
  * refactor this to use a different class in your mod.
  */
 public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
-    protected LibShapeDraw libShapeDraw = new LibShapeDraw();
+    protected LibShapeDraw libShapeDraw;
     private final ReadonlyVector3 BOX_RADIUS = new Vector3(0.2, 0.5, 0.2);
     private final ReadonlyVector3 FOLLOW_BOX_OFFSET = new Vector3(2.3, 1.9, -2.0);
     private WireframeCuboid followBox;
@@ -30,8 +30,7 @@ public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
 
     @Override
     public void load() {
-        libShapeDraw.addEventListener(this);
-        libShapeDraw.setVisibleWhenHidingGui(true);
+        libShapeDraw = new LibShapeDraw().verifyInitialized().addEventListener(this).setVisibleWhenHidingGui(true);
     }
 
     @Override
