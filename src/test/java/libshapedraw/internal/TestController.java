@@ -81,8 +81,8 @@ public class TestController extends SetupTestEnvironment.TestCase {
         assertTrue(Controller.isInitialized());
         ct.dump();
         ct.gameTick(Vector3.ZEROS);
-        ct.render(Vector3.ZEROS, 0, false);
-        ct.render(Vector3.ZEROS, 0, true);
+        ct.render(Vector3.ZEROS, false);
+        ct.render(Vector3.ZEROS, true);
         ct.respawn(Vector3.ZEROS, false, false);
         ct.respawn(Vector3.ZEROS, false, true);
         ct.respawn(Vector3.ZEROS, true, false);

@@ -44,10 +44,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * elements. This can result in ugly graphical glitches when rendering
      * shapes near water.
      * <p>
-     * Option 4, which is what the this class implements, is an even more
-     * egregious hack than option 1 or 3. The Profiler class is of course
-     * intended for debugging, gathering metrics on how long it takes to render
-     * each element.
+     * Option 4, which is what this class implements, is an even more egregious
+     * hack than option 1 or 3. The Profiler class is of course intended for
+     * debugging, gathering metrics on how long it takes to render each
+     * element.
      * <p>
      * As it happens, the point at which we want to insert our hook occurs just
      * before the player's hand is rendered. The profiler's context gets
@@ -72,22 +72,23 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      */
     // obf: Profiler
     public class ProfilerProxy extends ik {
-        // obf: Timer
-        private aof timer;
         private Minecraft minecraft;
 
         // obf: endStartSection
         @Override
         public void c(String sectionName) {
             if (sectionName.equals("hand")) {
-                // obf: Timer.renderPartialTicks, Minecraft.gameSettings, GameSettings.hideGUI
-                controller.render(getPlayerCoords(timer.c), timer.c, minecraft.y.O);
+                float partialTick = getPartialTick();
+                // obf: Minecraft.gameSettings, GameSettings.hideGUI
+                controller.render(getPlayerCoords(partialTick), minecraft.y.O);
                 renderHeartbeat = true;
             }
             super.c(sectionName);
         }
     }
 
+    // obf: Timer
+    private aof timer;
     private Controller controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
@@ -112,7 +113,12 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     public void load() {
-        installRenderHook(ModLoader.getMinecraftInstance());
+        Minecraft minecraft = ModLoader.getMinecraftInstance();
+        // Get a reference to Minecraft's timer so we can get the partial
+        // tick time for rendering (it's not passed to the profiler directly).
+        timer = (aof) Util.getFieldValue(Util.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
+
+        installRenderHook(minecraft);
         ModLoader.setInGameHook(this, true, true); // game ticks only, not every render frame.
         Controller.getLog().info(getClass().getName() + " loaded");
     }
@@ -137,11 +143,6 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             Controller.getLog().fine("copied profiler field " +
                     f + " = " + String.valueOf(origValue));
         }
-        // Also set a reference to Minecraft's timer so we can get the partial
-        // tick time for rendering (it's not passed to the profiler directly).
-        // obf: Timer
-        profilerProxy.timer = (aof) Util.getFieldValue(
-                Util.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
         profilerProxy.minecraft = minecraft;
     }
 
@@ -235,5 +236,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         // obf: RenderHelper.enableStandardItemLighting
         ang.b();
         return this;
+    }
+
+    @Override
+    public float getPartialTick() {
+        // obf: Timer.renderPartialTicks
+        return timer.c;
     }
 }

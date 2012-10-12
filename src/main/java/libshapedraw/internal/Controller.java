@@ -157,7 +157,7 @@ public class Controller {
      * Dispatch preRender events.
      * Render all registered shapes.
      */
-    public void render(ReadonlyVector3 playerCoords, float partialTick, boolean isGuiHidden) {
+    public void render(ReadonlyVector3 playerCoords, boolean isGuiHidden) {
         log.finer("render");
 
         int origDepthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
@@ -166,7 +166,7 @@ public class Controller {
 
         for (LibShapeDraw apiInstance : apiInstances) {
             if (!apiInstance.getEventListeners().isEmpty()) {
-                LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, partialTick, isGuiHidden);
+                LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, minecraftAccess.getPartialTick(), isGuiHidden);
                 for (LSDEventListener listener : apiInstance.getEventListeners()) {
                     if (listener != null) {
                         listener.onPreRender(event);

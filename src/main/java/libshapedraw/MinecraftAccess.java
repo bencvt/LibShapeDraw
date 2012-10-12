@@ -27,4 +27,7 @@ public interface MinecraftAccess {
 
     /** RenderHelper.enableStandardItemLighting */
     public MinecraftAccess enableStandardItemLighting();
+
+    /** Minecraft.timer.renderPartialTicks */
+    public float getPartialTick();
 }

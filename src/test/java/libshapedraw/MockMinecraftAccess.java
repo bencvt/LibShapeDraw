@@ -66,6 +66,11 @@ public class MockMinecraftAccess implements MinecraftAccess {
         return this;
     }
 
+    @Override
+    public float getPartialTick() {
+        return 0;
+    }
+
     public void reset() {
         drawingStarted = false;
         curCountVertices = 0;
