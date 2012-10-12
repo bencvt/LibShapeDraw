@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
@@ -101,6 +103,69 @@ public class Util {
                     return tempDir;
                 }
             }
+        }
+    }
+
+    public static class InternalReflectionException extends RuntimeException {
+        public InternalReflectionException(String message) {
+            super(message);
+        }
+        public InternalReflectionException(String message, Exception e) {
+            super(message, e);
+        }
+        private static final long serialVersionUID = 1L;
+    };
+
+    /**
+     * For getting at those pesky private and obfuscated fields.
+     * @return the nth field of the specified type declared by specified class.
+     */
+    @SuppressWarnings("rawtypes")
+    public static Field getFieldByType(Class objClass, Class fieldType, int n) {
+        try {
+            int index = 0;
+            for (Field field : objClass.getDeclaredFields()) {
+                field.setAccessible(true);
+                if (field.getType().equals(fieldType)) {
+                    if (index == n) {
+                        return field;
+                    }
+                    index++;
+                }
+            }
+            throw new InternalReflectionException("field not found");
+        } catch (Exception e) {
+            throw new InternalReflectionException("unable to reflect field type " +
+                    String.valueOf(fieldType) + "#" + n + " for " + String.valueOf(objClass), e);
+        }
+    }
+
+    /**
+     * Convenience wrapper for reflecting a field, eliminating the checked exceptions.
+     */
+    public static Object getFieldValue(Field field, Object obj) {
+        try {
+            return field.get(obj);
+        } catch (Exception e) {
+            throw new InternalReflectionException("unable to get field \"" +
+                    String.valueOf(field) + "\" for " + String.valueOf(obj), e);
+        }
+    }
+
+    /**
+     * Set a field's value even if it's marked as final.
+     * @see http://stackoverflow.com/questions/3301635/change-private-static-final-field-using-java-reflection
+     */
+    public static void setFinalField(Field field, Object obj, Object value) {
+        try {
+            field.setAccessible(true);
+            Field fieldField = Field.class.getDeclaredField("modifiers");
+            fieldField.setAccessible(true);
+            fieldField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+            field.set(obj, value);
+        } catch (Exception e) {
+            throw new InternalReflectionException("unable to set final field \"" +
+                    String.valueOf(field) + "\" for " + String.valueOf(obj), e);
         }
     }
 }

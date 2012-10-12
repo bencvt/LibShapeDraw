@@ -50,20 +50,16 @@ Planned features, in no specific order:
  +  Mavenize Javadoc generation and publish them somewhere, probably GitHub.
  +  Improve JUnit test coverage.
  +  Expand the demos and make them easier to run.
- +  Investigate the performance impact of making the API thread-safe, maybe
-    provide a parallel implementation (LibShapeDrawThreadSafe).
+ +  Investigate the performance impact of making the API thread-safe.
  +  The Minecraft API keeps getting pushed back; the current plan is for it to
     be released in 1.5 after a rendering engine overhaul. If possible,
     LibShapeDraw's semantics will *not* change, but the underlying
     implementation will certainly have to change. An additional goal is to make
     LibShapeDraw a plugin rather than a mod, to vastly simplify installation.
  +  If there is community interest before the Minecraft plugin API is released,
-    add Forge compability. Additionally, it would be possible to make
-    ModLoader/Forge optional. This would involve making a custom bootstrapper
-    that modifies vanilla classes, basically a minimalistic built-in version of
-    ModLoader.
+    make ModLoader/Forge optional. This would involve making a custom
+    bootstrapper that modifies vanilla classes, basically a minimalistic
+    built-in version of ModLoader.
  +  Add a plugin channel to allow servers to access the API on the client.
     The end user would be able to disable this feature if they'd rather not let
     the server draw shapes on their screen.
- +  Improved Trident animation library integration: built-in interpolators for
-    types in libshapedraw.primitive.

@@ -59,20 +59,14 @@ public class SetupTestEnvironment {
         }
 
         // Force ModDirectory class load and monkey patch ModDirectory.DIRECTORY.
-        // I.e. use reflection to change the static field, even though it's marked as final.
-        // @see http://stackoverflow.com/questions/3301635/change-private-static-final-field-using-java-reflection
         File origDir = ModDirectory.DIRECTORY;
+        Field field;
         try {
-            Field field = ModDirectory.class.getDeclaredField(MODDIRECTORY_FIELD_NAME);
-            field.setAccessible(true);
-            // yo dawg
-            Field fieldField = Field.class.getDeclaredField("modifiers");
-            fieldField.setAccessible(true);
-            fieldField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-            field.set(null, testMinecraftDirectory);
+            field = ModDirectory.class.getDeclaredField(MODDIRECTORY_FIELD_NAME);
         } catch (Exception e) {
-            throw new RuntimeException("internal error, " + MODDIRECTORY_CLASS_NAME + " reflection failed", e);
+            throw new Util.InternalReflectionException("unable to get field named " + MODDIRECTORY_FIELD_NAME, e);
         }
+        Util.setFinalField(field, null, testMinecraftDirectory);
 
         println("monkey patched directory field from:\n  " + origDir + "\nto:\n  " + testMinecraftDirectory);
 

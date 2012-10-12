@@ -1,6 +1,5 @@
 ## implemented but not yet released
-- add support for an alternate rendering hook that eliminates some graphical
-  glitches
+- use a new rendering hook, eliminating graphical glitches near water
 - improved Trident animation library integration: built-in interpolators for
   types in `libshapedraw.primitive`
 - add several convenience methods
