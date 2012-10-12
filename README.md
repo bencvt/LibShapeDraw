@@ -41,7 +41,9 @@ open it in a text editor. If this file doesn't exist or has an old timestamp
 then LibShapeDraw is not installed correctly. Try reinstalling.
 
 If you're still stuck with a specific problem, see the contact section at the
-bottom. Please have the crash report handy.
+bottom. Please have the crash report and `LibShapeDraw.log` handy.
+
+----
 
 # For Developers
 
