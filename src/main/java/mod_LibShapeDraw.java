@@ -87,8 +87,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         }
     }
 
-    // obf: Timer
-    private aof timer;
+    private aof timer; // obf: Timer
     private Controller controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
@@ -157,20 +156,22 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     public boolean onTickInGame(float partialTick, Minecraft minecraft) {
+        ReadonlyVector3 playerCoords = getPlayerCoords(partialTick);
+
         if (curWorld != minecraft.e || curPlayer != minecraft.g) {
             curWorld = minecraft.e; // obf: Minecraft.theWorld
             curPlayer = minecraft.g; // obf: Minecraft.thePlayer
 
             // Dispatch respawn event to Controller.
             int newDimension = curPlayer.bK; // obf: EntityPlayer.dimension
-            controller.respawn(getPlayerCoords(partialTick),
+            controller.respawn(playerCoords,
                     curDimension == null,
                     curDimension == null || curDimension != newDimension);
             curDimension = newDimension;
         }
 
         // Dispatch game tick event to Controller.
-        controller.gameTick(getPlayerCoords(partialTick));
+        controller.gameTick(playerCoords);
 
         // Make sure our render hook is still working.
         // obf: skipRenderWorld
@@ -190,7 +191,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      */
     private ReadonlyVector3 getPlayerCoords(float partialTick) {
         if (curPlayer == null) {
-            return Vector3.ZEROS.copy();
+            return Vector3.ZEROS;
         }
         // obf: Entity.prevPosX, Entity.prevPosY, Entity.prevPosZ
         return new Vector3(
