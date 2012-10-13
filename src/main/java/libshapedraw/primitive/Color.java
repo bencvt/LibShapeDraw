@@ -20,35 +20,44 @@ public class Color implements ReadonlyColor {
     public Color(double red, double green, double blue, double alpha) {
         set(red, green, blue, alpha);
     }
+
     public Color(double red, double green, double blue) {
-        this(red, green, blue, 1.0);
+        set(red, green, blue, 1.0);
     }
+
     public Color(int rgba) {
         setRGBA(rgba);
     }
+
     public Color(ReadonlyColor other) {
-        this(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
+        set(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
     }
+
     @Override
     public Color copy() {
-        return new Color(this);
+        return new Color(red, green, blue, alpha);
     }
+
     @Override
     public double getRed() {
         return red;
     }
+
     @Override
     public double getGreen() {
         return green;
     }
+
     @Override
     public double getBlue() {
         return blue;
     }
+
     @Override
     public double getAlpha() {
         return alpha;
     }
+
     @Override
     public int getRGBA() {
         return ((((int) (getRed() * 255.0)) & 0xff) << 24) |
@@ -56,6 +65,7 @@ public class Color implements ReadonlyColor {
                 ((((int) (getBlue() * 255.0)) & 0xff) << 8) |
                 (((int) (getAlpha() * 255.0)) & 0xff);
     }
+
     @Override
     public int getARGB() {
         return ((((int) (getAlpha() * 255.0)) & 0xff) << 24) |
@@ -64,47 +74,101 @@ public class Color implements ReadonlyColor {
                 (((int) (getBlue() * 255.0)) & 0xff);
     }
 
-    /** Modifies this color; does NOT create a copy. */
+    @Override
+    public String toString() {
+        return String.format("0x%08x", getRGBA());
+    }
+
+    // ========
+    // Mutators
+    // ========
+
+    /**
+     * Set this color's red component, clamped to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color setRed(double red) {
-        this.red = validate(red);
+        this.red = clamp(red);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set this color's green component, clamped to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color setGreen(double green) {
-        this.green = validate(green);
+        this.green = clamp(green);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set this color's blue component, clamped to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color setBlue(double blue) {
-        this.blue = validate(blue);
+        this.blue = clamp(blue);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set this color's alpha component, clamped to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color setAlpha(double alpha) {
-        this.alpha = validate(alpha);
+        this.alpha = clamp(alpha);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set all of this color's component, clamped to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color set(double red, double green, double blue, double alpha) {
-        return setRed(red).setGreen(green).setBlue(blue).setAlpha(alpha);
+        this.red = clamp(red);
+        this.green = clamp(green);
+        this.blue = clamp(blue);
+        this.alpha = clamp(alpha);
+        return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set all of this color components to match another color's.
+     * @return the same vector object, modified in-place.
+     */
     public Color set(ReadonlyColor other) {
-        return set(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
+        red = clamp(other.getRed());
+        green = clamp(other.getGreen());
+        blue = clamp(other.getBlue());
+        alpha = clamp(other.getAlpha());
+        return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Multiply each of the red/green/blue color components by the given
+     * factor, clamping the results to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color scaleRGB(double factor) {
-        setRed(Math.min(Math.max(0.0, getRed() * factor), 1.0));
-        setGreen(Math.min(Math.max(0.0, getGreen() * factor), 1.0));
-        setBlue(Math.min(Math.max(0.0, getBlue() * factor), 1.0));
+        red = clamp(red*factor);
+        green = clamp(green*factor);
+        blue = clamp(blue*factor);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Multiply the alpha color component by the given factor, clamping the
+     * result to [0.0, 1.0].
+     * @return the same color object, modified in-place.
+     */
     public Color scaleAlpha(double factor) {
-        setAlpha(Math.min(Math.max(0.0, getAlpha() * factor), 1.0));
+        alpha = clamp(alpha*factor);
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Blend all color components with another color's.
+     * @return the same color object, modified in-place.
+     */
     public Color blend(ReadonlyColor other, double percent) {
         setRed(blend(getRed(), other.getRed(), percent));
         setGreen(blend(getGreen(), other.getGreen(), percent));
@@ -112,7 +176,12 @@ public class Color implements ReadonlyColor {
         setAlpha(blend(getAlpha(), other.getAlpha(), percent));
         return this;
     }
-    /** Modifies this color; does NOT create a copy. */
+
+    /**
+     * Set all color components from a packed 32-bit integer.
+     * This is the reverse of {@link #getRGBA()}.
+     * @return the same color object, modified in-place.
+     */
     public Color setRGBA(int rgba) {
         setRed(((rgba & 0xff000000) >>> 24) / 255.0);
         setGreen(((rgba & 0xff0000) >>> 16) / 255.0);
@@ -121,19 +190,41 @@ public class Color implements ReadonlyColor {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return String.format("0x%08x", getRGBA());
+    /**
+     * Set each of this color's components to a random value in [0.0, 1.0).
+     * @return the same color object, modified in-place.
+     */
+    public Color setRandom() {
+        red = Math.random();
+        green = Math.random();
+        blue = Math.random();
+        alpha = Math.random();
+        return this;
     }
 
-    private static double validate(double x) {
-        if (x < 0.0 || x > 1.0) {
-            throw new IllegalArgumentException(x + " not in range [0.0, 1.0]");
-        }
-        return x;
+    /**
+     * Set this color's red, green, and blue (excluding alpha) components to a
+     * random value in [0.0, 1.0).
+     * @return the same color object, modified in-place.
+     */
+    public Color setRandomRGB() {
+        red = Math.random();
+        green = Math.random();
+        blue = Math.random();
+        return this;
     }
+
+    private static double clamp(double x) {
+        if (x < 0.0) {
+            return 0.0;
+        } else if (x > 1.0) {
+            return 1.0;
+        } else {
+            return x;
+        }
+    }
+
     private static double blend(double fromValue, double toValue, double percent) {
-        validate(percent);
         return fromValue + (toValue - fromValue)*percent;
     }
 

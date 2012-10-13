@@ -8,8 +8,8 @@ import org.junit.Test;
 public class TestColor extends SetupTestEnvironment.TestCase {
     @Test
     public void testConstructors() {
-        assertEquals(0x3fbf7ff2, new Color(0.25F, 0.75F, 0.5F, 0.95F).getRGBA());
-        assertEquals(0x3fbf7fff, new Color(0.25F, 0.75F, 0.5F).getRGBA());
+        assertEquals(0x3fbf7ff2, new Color(0.25, 0.75, 0.5, 0.95).getRGBA());
+        assertEquals(0x3fbf7fff, new Color(0.25, 0.75, 0.5).getRGBA());
         assertEquals(0xff00ffff, new Color(Color.MAGENTA).getRGBA());
         assertEquals(0xdeadbeef, new Color(0xdeadbeef).getRGBA());
         assertEquals(0xffffff85, new Color(-123).getRGBA());
@@ -20,9 +20,15 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         new Color(null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testConstructorInvalidBounds() {
-        new Color(-123.456F, 1.0F, 1.0F);
+    @Test
+    public void testConstructorClampBounds() {
+        assertEquals("0x00ffffff", new Color(-123.456, 1.0, 1.0).toString());
+        assertEquals("0xff003fff", new Color(999.9, -4.2, 0.25, 67.8).toString());
+    }
+
+    @Test
+    public void testARGB() {
+        assertEquals(0xefdeadbe, new Color(0xdeadbeef).getARGB());
     }
 
     @Test
@@ -50,14 +56,10 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         assertEquals("0xff0000ff", c.toString());
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testModifyInvalidValueLow() {
-        new Color(0xdeadbeef).setBlue(-0.5F);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void testModifyInvalidValueHigh() {
-        new Color(0xdeadbeef).setBlue(123.456F);
+    @Test
+    public void testModifyClampValue() {
+        assertEquals("0xdead00ef", new Color(0xdeadbeef).setBlue(-0.5F).toString());
+        assertEquals("0xdeadffef", new Color(0xdeadbeef).setBlue(123.456F).toString());
     }
 
     @Test
@@ -119,6 +121,12 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         assertEquals("0x3705a86f", c.toString());
         c = fromColor.copy().blend(toColor, 1.0);
         assertEquals("0x0000cd3f", c.toString());
+
+        // percentage out of normal bounds is fine
+        assertEquals("0xff5200ff", fromColor.copy().blend(toColor, -3.14).toString());
+        assertEquals("0xffff00ff", fromColor.copy().blend(toColor, -999.99).toString());
+        assertEquals("0x0000f806", fromColor.copy().blend(toColor, 1.3).toString());
+        assertEquals("0x0000ff00", fromColor.copy().blend(toColor, 867.5309).toString());
     }
 
     @Test(expected=NullPointerException.class)
@@ -126,19 +134,13 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         Color.CRIMSON.copy().blend(null, 0.5);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testBlendInvalidLow() {
-        Color.CRIMSON.copy().blend(Color.MEDIUM_BLUE.copy(), -3.14);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void testBlendInvalidHigh() {
-        Color.CRIMSON.copy().blend(Color.MEDIUM_BLUE.copy(), 867.5309);
-    }
-
     @Test
-    public void testARGB() {
-        assertEquals(0xefdeadbe, new Color(0xdeadbeef).getARGB());
+    public void testSetRandom() {
+        // no exceptions thrown
+        Color.WHITE.copy().setRandom();
+
+        // setRandomRGB doesn't touch alpha
+        assertTrue(1.0 == Color.WHITE.copy().setRandomRGB().getAlpha());
     }
 
     @Test
