@@ -19,14 +19,19 @@ and use the prebuilt jar.
 
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
-    include the `natives` subdirectory; the test suite needs them.  
-    `minecraft.jar` should be vanilla with only ModLoader (or Forge) patched in.
+    include the `natives` subdirectory; the test suite needs them.
+    `minecraft.jar` should be vanilla with only ModLoader patched in.
 3.  Run Maven.
 
-That's all there is to it. There is no need to install MCP as LibShapeDraw
-handles obfuscation on its own. The main reason for this is that MCP really
-doesn't integrate well with Maven. You can still use MCP along with LibShapeDraw
-in your own mod if you prefer; it decompiles just fine.
+That's all there is to it.
+
+There is no need to install MCP as LibShapeDraw handles obfuscation on its own.
+The main reason for this is that MCP really doesn't integrate well with Maven.
+You can still use MCP along with LibShapeDraw in your own mod if you prefer; it
+decompiles just fine.
+
+There is no need to use Forge or reference any Forge classes when compiling
+either. ModLoader is enough.
 
 If you prefer to use an IDE, here's one way:
 
