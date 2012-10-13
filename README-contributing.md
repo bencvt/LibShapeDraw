@@ -61,9 +61,6 @@ Planned features, in no specific order:
 
  +  Investigate the performance impact of making the API thread-safe.
 
- +  Add more useful methods and test cases to the primitive types, especially
-    Vector3.
-
  +  The official Minecraft API keeps getting pushed back; the current plan is
     for it to be released in 1.5 after a rendering engine overhaul. If possible,
     LibShapeDraw's semantics will *not* change, but the underlying

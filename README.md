@@ -11,10 +11,11 @@ for some screenshots and videos of what sort visual effects are possible.
 
 Installing this mod works exactly the same as any other Minecraft client mod.
 
-1.  Make sure that *either*
-    [ModLoader](http://www.minecraftforum.net/topic/75440-modloader/) or
-    [Forge](http://www.minecraftforge.net/forum/) is installed; this is a base
-    requirement.
+1.  Make sure that
+    [ModLoader](http://www.minecraftforum.net/topic/75440-modloader/)
+    is installed as it is a base requirement. If you prefer, you can use
+    [Forge](http://www.minecraftforge.net/forum/) instead;
+    LibShapeDraw is compatible with either.
 2.  Download and extract the jar for the latest release. You can rename it to a
     .zip if that helps.
 3.  Patch the contents of the jar file into your `minecraft.jar`, being sure to
@@ -24,10 +25,14 @@ Utilities like [Magic Launcher](http://www.minecraftforum.net/topic/939149-magic
 can automate this process. Highly recommended! Manually copying `.class` files
 is for the birds.
 
+Also, if you prefer to place the jar file in the `mods/` directory instead of
+patching `minecraft.jar` directly, you can.
+
 ## Compatibility
 
 LibShapeDraw was designed with compatibility in mind. It does not modify *any*
-vanilla classes and therefore should be compatible with virtually every mod.
+vanilla classes directly and therefore should be compatible with virtually every
+mod. Forge is supported but *not* required.
 
 ## Troubleshooting
 

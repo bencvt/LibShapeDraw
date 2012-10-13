@@ -19,99 +19,48 @@ public class LineStyle implements ReadonlyLineStyle {
     public LineStyle(Color color, float width, boolean hasSecondaryColor) {
         set(color, width, hasSecondaryColor);
     }
+
     public LineStyle(Color mainColor, float mainWidth, Color secondaryColor, float secondaryWidth) {
         set(mainColor, mainWidth, secondaryColor, secondaryWidth);
     }
+
     public LineStyle(ReadonlyLineStyle other) {
         setMainColor(other.getMainReadonlyColor().copy());
         setMainWidth(other.getMainWidth());
         setSecondaryColor(other.getSecondaryReadonlyColor() == null ? null : other.getSecondaryReadonlyColor().copy());
         setSecondaryWidth(other.getSecondaryWidth());
     }
+
     @Override
     public LineStyle copy() {
         return new LineStyle(this);
     }
+
     @Override
     public ReadonlyColor getMainReadonlyColor() {
         return mainColor;
     }
+
     @Override
     public ReadonlyColor getSecondaryReadonlyColor() {
         return secondaryColor;
     }
+
     @Override
     public float getMainWidth() {
         return mainWidth;
     }
+
     @Override
     public float getSecondaryWidth() {
         return secondaryWidth;
     }
+
     @Override
     public boolean hasSecondaryColor() {
         return secondaryColor != null;
     }
-    public Color getMainColor() {
-        return mainColor;
-    }
-    public Color getSecondaryColor() {
-        return secondaryColor;
-    }
-    /**
-     * Convenience method to set mainColor, mainWidth, secondaryColor, and secondaryWidth at once.
-     * Modifies this line style; does NOT create a copy.
-     * @param color
-     * @param width
-     * @param hasSecondaryColor if true, secondaryColor will be a 25% transparent version
-     *     of mainColor. If false, secondaryColor is null.
-     * @return the instance (for method chaining)
-     */
-    public LineStyle set(Color color, float width, boolean hasSecondaryColor) {
-        setMainColor(color);
-        setMainWidth(width);
-        setSecondaryColor(hasSecondaryColor ? color.copy().scaleAlpha(0.25) : null);
-        setSecondaryWidth(width);
-        return this;
-    }
-    /** Modifies this line style; does NOT create a copy. */
-    public LineStyle set(Color mainColor, float mainWidth, Color secondaryColor, float secondaryWidth) {
-        setMainColor(mainColor);
-        setMainWidth(mainWidth);
-        setSecondaryColor(secondaryColor);
-        setSecondaryWidth(secondaryWidth);
-        return this;
-    }
-    /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setMainColor(Color mainColor) {
-        if (mainColor == null) {
-            throw new NullPointerException("main color cannot be null");
-        }
-        this.mainColor = mainColor;
-        return this;
-    }
-    /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setMainWidth(float mainWidth) {
-        if (mainWidth < 0) {
-            throw new IllegalArgumentException("line width must be positive");
-        }
-        this.mainWidth = mainWidth;
-        return this;
-    }
-    /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setSecondaryColor(Color secondaryColor) {
-        // null allowed
-        this.secondaryColor = secondaryColor;
-        return this;
-    }
-    /** Modifies this line style; does NOT create a copy. */
-    public LineStyle setSecondaryWidth(float secondaryWidth) {
-        if (secondaryWidth < 0) {
-            throw new IllegalArgumentException("line width must be positive");
-        }
-        this.secondaryWidth = secondaryWidth;
-        return this;
-    }
+
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder("(");
@@ -120,5 +69,111 @@ public class LineStyle implements ReadonlyLineStyle {
             b.append('|').append(getSecondaryColor()).append(',').append(getSecondaryWidth());
         }
         return b.append(')').toString();
+    }
+
+    // ========
+    // Accessors for mutable properties
+    // ========
+
+    /** @return the main line color, mutable. */
+    public Color getMainColor() {
+        return mainColor;
+    }
+
+    /** @return the secondary line color, mutable. May be null. */
+    public Color getSecondaryColor() {
+        return secondaryColor;
+    }
+
+    // ========
+    // Mutators
+    // ========
+
+    /**
+     * Convenience method to set mainColor, mainWidth, secondaryColor, and secondaryWidth at once.
+     * @param color sets mainColor
+     * @param width sets both mainWidth and secondaryWidth
+     * @param hasSecondaryColor if true, secondaryColor will be a 25% transparent version
+     *     of mainColor. If false, secondaryColor is null.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle set(Color color, float width, boolean hasSecondaryColor) {
+        setMainColor(color);
+        setMainWidth(width);
+        if (hasSecondaryColor) {
+            setSecondaryColorFromMain();
+        } else {
+            setSecondaryColor(null);
+        }
+        setSecondaryWidth(width);
+        return this;
+    }
+
+    /**
+     * Set all components of this line style.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle set(Color mainColor, float mainWidth, Color secondaryColor, float secondaryWidth) {
+        setMainColor(mainColor);
+        setMainWidth(mainWidth);
+        setSecondaryColor(secondaryColor);
+        setSecondaryWidth(secondaryWidth);
+        return this;
+    }
+
+    /**
+     * Set the line style's main color, which cannot be null.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle setMainColor(Color mainColor) {
+        if (mainColor == null) {
+            throw new NullPointerException("main color cannot be null");
+        }
+        this.mainColor = mainColor;
+        return this;
+    }
+
+    /**
+     * Set the line style's main width.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle setMainWidth(float mainWidth) {
+        if (mainWidth < 0) {
+            throw new IllegalArgumentException("line width must be positive");
+        }
+        this.mainWidth = mainWidth;
+        return this;
+    }
+
+    /**
+     * Set the line style's secondary color, which can be null.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle setSecondaryColor(Color secondaryColor) {
+        // null allowed
+        this.secondaryColor = secondaryColor;
+        return this;
+    }
+
+    /**
+     * Set the line style's secondary color to a 25% transparent version of the
+     * main line color.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle setSecondaryColorFromMain() {
+        secondaryColor = mainColor.copy().scaleAlpha(0.25);
+        return this;
+    }
+
+    /**
+     * Set the line style's secondary width.
+     * @return the same line style object, modified in-place.
+     */
+    public LineStyle setSecondaryWidth(float secondaryWidth) {
+        if (secondaryWidth < 0) {
+            throw new IllegalArgumentException("line width must be positive");
+        }
+        this.secondaryWidth = secondaryWidth;
+        return this;
     }
 }

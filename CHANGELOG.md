@@ -3,7 +3,7 @@
 - improved Trident animation library integration: built-in interpolators for
   types in `libshapedraw.primitive`
 - add getPartialTick method to LSDPreRenderEvent and MinecraftAccess.
-- add several other convenience methods
+- add many other convenience methods, especially for Vector3
 - add mcmod.info files and a logo for improved ForgeModLoader integration (Forge
   is still supported but *not* required)
 
