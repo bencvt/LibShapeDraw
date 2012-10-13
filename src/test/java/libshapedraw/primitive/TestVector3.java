@@ -6,10 +6,11 @@ import libshapedraw.SetupTestEnvironment;
 import org.junit.Test;
 
 public class TestVector3 extends SetupTestEnvironment.TestCase {
+    private static double EPSILON = 0.000001;
     private static void assertVectorEquals(double expectedX, double expectedY, double expectedZ, ReadonlyVector3 v) {
-        assertEquals(expectedX, v.getX(), 0.0);
-        assertEquals(expectedY, v.getY(), 0.0);
-        assertEquals(expectedZ, v.getZ(), 0.0);
+        assertEquals(expectedX, v.getX(), EPSILON);
+        assertEquals(expectedY, v.getY(), EPSILON);
+        assertEquals(expectedZ, v.getZ(), EPSILON);
     }
 
     @Test
@@ -43,22 +44,233 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testLengthSquared() {
+        assertEquals(0.0, new Vector3(0, 0, 0).lengthSquared(), EPSILON);
+        assertEquals(1.0, new Vector3(1, 0, 0).lengthSquared(), EPSILON);
+        assertEquals(1.0, new Vector3(0, 1, 0).lengthSquared(), EPSILON);
+        assertEquals(1.0, new Vector3(0, -1, 0).lengthSquared(), EPSILON);
+        assertEquals(2.0, new Vector3(0, 1, 1).lengthSquared(), EPSILON);
+        assertEquals(4.0, new Vector3(0, 2, 0).lengthSquared(), EPSILON);
+        assertEquals(13.0, new Vector3(2, -3, 0).lengthSquared(), EPSILON);
+        assertEquals(8088.5625, new Vector3(13.25, 32.0, 83.0).lengthSquared(), EPSILON);
+        assertEquals(8088.5625, new Vector3(-13.25, 32.0, -83.0).lengthSquared(), EPSILON);
+    }
+
+    @Test
+    public void testLength() {
+        assertEquals(0.0, new Vector3(0, 0, 0).length(), EPSILON);
+        assertEquals(1.0, new Vector3(1, 0, 0).length(), EPSILON);
+        assertEquals(1.0, new Vector3(0, 1, 0).length(), EPSILON);
+        assertEquals(1.0, new Vector3(0, -1, 0).length(), EPSILON);
+        assertEquals(Math.sqrt(2.0), new Vector3(0, 1, 1).length(), EPSILON);
+        assertEquals(2.0, new Vector3(0, 2, 0).length(), EPSILON);
+        assertEquals(Math.sqrt(13.0), new Vector3(2, -3, 0).length(), EPSILON);
+        assertEquals(Math.sqrt(8088.5625), new Vector3(13.25, 32.0, 83.0).length(), EPSILON);
+        assertEquals(Math.sqrt(8088.5625), new Vector3(-13.25, 32.0, -83.0).length(), EPSILON);
+    }
+
+    @Test
     public void testDistance() {
         ReadonlyVector3 v0 = new Vector3(13.25, 32.0, 83.0);
-        // distance from self is 0
-        assertEquals(0.0, v0.getDistanceSquared(v0), 0.0);
-        assertEquals(0.0, v0.getDistance(v0), 0.0);
-        // simple
-        assertEquals(12.25, v0.getDistanceSquared(v0.copy().addZ(3.5)), 0.0);
-        assertEquals(3.5, v0.getDistance(v0.copy().addZ(3.5)), 0.0);
-        // complex
         ReadonlyVector3 v1 = new Vector3(21.0, 55.5, -213.0);
-        assertEquals(88228.3125, v0.getDistanceSquared(v1), 0.0);
-        assertEquals(Math.sqrt(88228.3125), v0.getDistance(v1), 0.0);
+        // distance from self is 0
+        assertEquals(0.0, v0.distanceSquared(v0), EPSILON);
+        assertEquals(0.0, v0.distance(v0), EPSILON);
+        // simple
+        assertEquals(12.25, v0.distanceSquared(v0.copy().addZ(3.5)), EPSILON);
+        assertEquals(3.5, v0.distance(v0.copy().addZ(3.5)), EPSILON);
+        // complex
+        assertEquals(88228.3125, v0.distanceSquared(v1), EPSILON);
+        assertEquals(Math.sqrt(88228.3125), v0.distance(v1), EPSILON);
         // commutative
-        assertEquals(v0.getDistance(v1), v1.getDistance(v0), 0.0);
-        assertEquals(v0.getDistanceSquared(v1), v1.getDistanceSquared(v0), 0.0);
+        assertEquals(v0.distanceSquared(v1), v1.distanceSquared(v0), EPSILON);
+        assertEquals(v0.distance(v1), v1.distance(v0), EPSILON);
+        // overflow
+        final double B = Double.MAX_VALUE / 2;
+        ReadonlyVector3 big0 = new Vector3(-B, -B, -B);
+        ReadonlyVector3 big1 = new Vector3(B, B, B);
+        assertEquals(Double.POSITIVE_INFINITY, big0.distanceSquared(big1), EPSILON);
+        assertEquals(Double.POSITIVE_INFINITY, big0.distance(big1), EPSILON);
     }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testDistanceDeprecated() {
+        ReadonlyVector3 v0 = new Vector3(13.25, 32.0, 83.0);
+        ReadonlyVector3 v1 = new Vector3(21.0, 55.5, -213.0);
+        // distance from self is 0
+        assertEquals(0.0, v0.getDistanceSquared(v0), EPSILON);
+        assertEquals(0.0, v0.getDistance(v0), EPSILON);
+        // simple
+        assertEquals(12.25, v0.getDistanceSquared(v0.copy().addZ(3.5)), EPSILON);
+        assertEquals(3.5, v0.getDistance(v0.copy().addZ(3.5)), EPSILON);
+        // complex
+        assertEquals(88228.3125, v0.getDistanceSquared(v1), EPSILON);
+        assertEquals(Math.sqrt(88228.3125), v0.getDistance(v1), EPSILON);
+        // commutative
+        assertEquals(v0.getDistanceSquared(v1), v1.getDistanceSquared(v0), EPSILON);
+        assertEquals(v0.getDistance(v1), v1.getDistance(v0), EPSILON);
+        // overflow
+        final double B = Double.MAX_VALUE / 2;
+        ReadonlyVector3 big0 = new Vector3(-B, -B, -B);
+        ReadonlyVector3 big1 = new Vector3(B, B, B);
+        assertEquals(Double.POSITIVE_INFINITY, big0.getDistanceSquared(big1), EPSILON);
+        assertEquals(Double.POSITIVE_INFINITY, big0.getDistance(big1), EPSILON);
+    }
+
+    @Test
+    public void testDot() {
+        ReadonlyVector3 v0 = new Vector3(13.25, 32.0, 83.0);
+        ReadonlyVector3 v1 = new Vector3(21.0, 55.5, -213.0);
+
+        assertEquals(0.0, v0.dot(Vector3.ZEROS), EPSILON);
+        assertEquals(0.0, Vector3.ZEROS.dot(v0), EPSILON);
+        assertEquals(0.0, Vector3.ZEROS.dot(Vector3.ZEROS), EPSILON);
+
+        assertEquals(0.0, new Vector3(0, 0, 1).dot(new Vector3(0, 1, 0)), EPSILON);
+        assertEquals(1.0, new Vector3(0, 0, 1).dot(new Vector3(0, 0, 1)), EPSILON);
+
+        assertEquals(-15624.75, v0.dot(v1), EPSILON);
+        assertEquals(-15624.75, v1.dot(v0), EPSILON);
+
+        assertEquals(8088.5625, v0.dot(v0), EPSILON);
+        assertEquals(48890.25, v1.dot(v1), EPSILON);
+    }
+
+    @Test
+    public void testAngle() {
+        ReadonlyVector3 v000 = new Vector3(0, 0, 0);
+        ReadonlyVector3 v001 = new Vector3(0, 0, 1);
+        ReadonlyVector3 v010 = new Vector3(0, 1, 0);
+        ReadonlyVector3 v101 = new Vector3(1, 0, 1);
+        ReadonlyVector3 v111 = new Vector3(1, 1, 1);
+        ReadonlyVector3 vA = new Vector3(13.25, 32.0, 83.0);
+        ReadonlyVector3 vB = new Vector3(21.0, 55.5, -213.0);
+
+        // if either vector is all zeros, the angle is zero
+        assertAngle(0.0, 0.0, vA, v000);
+        assertAngle(0.0, 0.0, v000, v000);
+
+        // angle between a non-zero vector and itself (or any vector pointing
+        // in the same direction) is always zero
+        assertAngle(0.0, 0.0, v010, v010);
+        assertAngle(0.0, 0.0, v111, v111);
+        assertAngle(0.0, 0.0, vA, vA);
+        assertAngle(0.0, 0.0, vB, vB);
+        assertAngle(0.0, 0.0, vB, vB.copy().scale(123.456));
+
+        // opposite directions
+        assertAngle(Math.PI, 180.0, v010, v010.copy().negate());
+        assertAngle(Math.PI, 180.0, v111, v111.copy().negate());
+        assertAngle(Math.PI, 180.0, vB, vB.copy().negate());
+
+        // right angles
+        assertAngle(Math.PI / 2, 90.0, v001, v010);
+        assertAngle(Math.PI / 2, 90.0, v010, v101);
+
+        // arbitrary angles
+        assertAngle(2.4746510644677144, 141.7870617615563, vA, vB);
+    }
+    private static void assertAngle(double expectedRadians, double expectedDegrees, ReadonlyVector3 v0, ReadonlyVector3 v1) {
+        assertEquals(expectedDegrees, v0.angleDegrees(v1), EPSILON);
+        assertEquals(expectedDegrees, v1.angleDegrees(v0), EPSILON);
+        assertEquals(expectedRadians, v0.angle(v1), EPSILON);
+        assertEquals(expectedRadians, v1.angle(v0), EPSILON);
+    }
+
+    @Test
+    public void testYaw() {
+        // any vector without either x or z components has a yaw of 0
+        assertYaw(0.0, 0.0, Vector3.ZEROS);
+        assertYaw(0.0, 0.0, new Vector3(0, 1, 0));
+        assertYaw(0.0, 0.0, new Vector3(0, -1, 0));
+        assertYaw(0.0, 0.0, new Vector3(0, 123.456, 0));
+
+        // the y component is not a factor
+        for (double y : new double[] {0.0, 1.0, -1.0, 123.456}) {
+            // nor is the magnitude of the vector
+            for (double scale : new double[] {1.0, 0.1, 867.5309}) {
+                // go around the circle
+                assertYaw(Math.PI *  0 / 4,    0.0, new Vector3( 0, y,  1).scale(scale));
+                assertYaw(Math.PI *  1 / 4,   45.0, new Vector3( 1, y,  1).scale(scale));
+                assertYaw(Math.PI *  2 / 4,   90.0, new Vector3( 1, y,  0).scale(scale));
+                assertYaw(Math.PI *  3 / 4,  135.0, new Vector3( 1, y, -1).scale(scale));
+                assertYaw(Math.PI *  4 / 4,  180.0, new Vector3( 0, y, -1).scale(scale));
+                assertYaw(Math.PI * -3 / 4, -135.0, new Vector3(-1, y, -1).scale(scale));
+                assertYaw(Math.PI * -2 / 4,  -90.0, new Vector3(-1, y,  0).scale(scale));
+                assertYaw(Math.PI * -1 / 4,  -45.0, new Vector3(-1, y,  1).scale(scale));
+            }
+        }
+    }
+    private static void assertYaw(double expectedRadians, double expectedDegrees, ReadonlyVector3 v) {
+        assertEquals(expectedDegrees, v.yawDegrees(), EPSILON);
+        assertEquals(expectedRadians, v.yaw(), EPSILON);
+    }
+
+    @Test
+    public void testPitch() {
+        assertPitch(0.0, 0.0, Vector3.ZEROS);
+
+        assertPitch(-Math.PI/2, -90.0, new Vector3(0, -1, 0));
+        assertPitch(Math.PI/2, 90.0, new Vector3(0, 1, 0));
+        assertPitch(Math.PI/2, 90.0, new Vector3(0, 123.456, 0));
+
+        assertPitch(-Math.PI/4, -45.0, new Vector3(1, -1, 1));
+        assertPitch(0.0, 0.0, new Vector3(1, 0, 1));
+        assertPitch(Math.PI/4, 45.0, new Vector3(1, 1, 1));
+    }
+    private static void assertPitch(double expectedRadians, double expectedDegrees, ReadonlyVector3 v) {
+        assertEquals(expectedDegrees, v.pitchDegrees(), EPSILON);
+        assertEquals(expectedRadians, v.pitch(), EPSILON);
+    }
+
+    @Test
+    public void testIsInAABB() {
+        ReadonlyVector3 vA = new Vector3(3.5, -23.0, 1324.0);
+        ReadonlyVector3 vB = new Vector3(17.0, 42.5, 1872.0);
+
+        assertTrue(new Vector3(5.0, 0.0, 1522.0).isInAABB(vA, vB));
+        assertTrue(new Vector3(5.0, -23.0, 1522.0).isInAABB(vA, vB));
+        assertTrue(vA.isInAABB(vA, vB));
+        assertTrue(vB.isInAABB(vA, vB));
+
+        assertFalse(new Vector3(0.0, 0.0, 1522.0).isInAABB(vA, vB));
+        assertFalse(new Vector3(5.0, -23.0, 2522.0).isInAABB(vA, vB));
+
+        assertTrue(Vector3.ZEROS.isInAABB(new Vector3(-1,-1,-1), new Vector3(1,1,1)));
+        // still works even if the corners are specified incorrectly
+        assertTrue(Vector3.ZEROS.isInAABB(new Vector3(1,1,1), new Vector3(-1,-1,-1)));
+        assertTrue(Vector3.ZEROS.isInAABB(new Vector3(1,-1,-1), new Vector3(-1,1,1)));
+        assertTrue(Vector3.ZEROS.isInAABB(new Vector3(-1,1,-1), new Vector3(1,-1,1)));
+        assertTrue(Vector3.ZEROS.isInAABB(new Vector3(-1,-1,1), new Vector3(1,1,-1)));
+    }
+
+    @Test
+    public void testIsInSphere() {
+        ReadonlyVector3 v = new Vector3(3.5, -23.0, 1324.0);
+
+        for (double radius : new double[] {1.0, 0.01, 20.5, -20.5, 0.0}) {
+            assertTrue(Vector3.ZEROS.isInSphere(Vector3.ZEROS, radius));
+            assertTrue(v.isInSphere(v, radius));
+        }
+
+        assertTrue(v.isInSphere(v.copy().addX(5.0), 6.0));
+        assertTrue(v.isInSphere(v.copy().addX(5.0), 5.0));
+        assertFalse(v.isInSphere(v.copy().addX(5.0), 4.0));
+        assertFalse(v.isInSphere(v.copy().addX(5.0), -4.0));
+        assertTrue(v.isInSphere(v.copy().addX(5.0), -5.0));
+        assertTrue(v.isInSphere(v.copy().addX(5.0), -6.0));
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals("(1.0,2.0,3.0)", new Vector3(1.0, 2.0, 3.0).toString());
+        assertEquals("(-531.25,25.0,2312.0)", new Vector3(-531.25, 25.0, 2312.0).toString());
+    }
+
+    // ========
+    // Mutators
+    // ========
 
     @Test
     public void testSet() {
@@ -74,6 +286,11 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         v.setY(22.0);
         assertVectorEquals(0.0, 22.0, 0.0, v);
         assertVectorEquals(0.0, 0.0, 0.0, Vector3.ZEROS);
+
+        assertFalse(v.isZero());
+        assertTrue(Vector3.ZEROS.isZero());
+        v.set(0, 0, 0);
+        assertTrue(v.isZero());
     }
 
     @Test(expected=NullPointerException.class)
@@ -151,8 +368,129 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testToString() {
-        assertEquals("(1.0,2.0,3.0)", new Vector3(1.0, 2.0, 3.0).toString());
-        assertEquals("(-531.25,25.0,2312.0)", new Vector3(-531.25, 25.0, 2312.0).toString());
+    public void testZero() {
+        assertVectorEquals(0.0, 0.0, 0.0, new Vector3(1, 2, 3).zero());
+        assertVectorEquals(0.0, 0.0, 0.0, new Vector3(-4, 0, 4).zero());
+    }
+
+    @Test
+    public void testSetRandom() {
+        // no exception thrown
+        new Vector3(1, 2, 3).setRandom();
+        new Vector3(-4, 0, 4).setRandom();
+    }
+
+    @Test
+    public void testSetMinMax() {
+        ReadonlyVector3 vA = new Vector3(53.5, -6521.0, -32.0);
+        ReadonlyVector3 vB = new Vector3(22.0, -322.0, 3.0);
+        Vector3 v0 = new Vector3(1.0, 2.0, 3.0);
+        assertVectorEquals(22.0, -6521.0, -32.0, v0.setMinimum(vA, vB));
+        assertVectorEquals(22.0, -6521.0, -32.0, v0.setMinimum(vB, vA));
+        assertVectorEquals(53.5, -322.0, 3.0, v0.setMaximum(vA, vB));
+        assertVectorEquals(53.5, -322.0, 3.0, v0.setMaximum(vB, vA));
+    }
+
+    @Test
+    public void testSetFromYawPitch() {
+        Vector3 v = Vector3.ZEROS.copy();
+
+        assertVectorEquals(0, 1, 0, v.setFromYawPitchDegrees(0.0, 90.0));
+        assertVectorEquals(0, -1, 0, v.setFromYawPitchDegrees(0.0, -90.0));
+        assertVectorEquals(0, -1, 0, v.setFromYawPitchDegrees(0.0, 270.0));
+
+        assertVectorEquals(0, 0, 1, v.setFromYawPitchDegrees(0.0, 0.0));
+        assertVectorEquals(0, 0, 1, v.setFromYawPitchDegrees(0.0, 360.0));
+        assertVectorEquals(0, 0, 1, v.setFromYawPitchDegrees(360.0, 0.0));
+        assertVectorEquals(0, 0, 1, v.setFromYawPitchDegrees(-360.0, 0.0));
+        assertVectorEquals(0, 0, 1, v.setFromYawPitchDegrees(720.0, 0.0));
+
+        assertVectorEquals(1, 0, 0, v.setFromYawPitchDegrees(90.0, 0.0));
+        assertVectorEquals(0, 0, -1, v.setFromYawPitchDegrees(180.0, 0.0));
+        assertVectorEquals(-1, 0, 0, v.setFromYawPitchDegrees(270.0, 0.0));
+        assertVectorEquals(-1, 0, 0, v.setFromYawPitchDegrees(-90.0, 0.0));
+
+        final double D = 0.7071067811865475;
+        assertVectorEquals(0, D, D, v.setFromYawPitchDegrees(0.0, 45.0));
+        assertVectorEquals(D, D, 0, v.setFromYawPitchDegrees(90.0, 45.0));
+        assertVectorEquals(0, D, -D, v.setFromYawPitchDegrees(180.0, 45.0));
+    }
+
+    @Test
+    public void testAbsolute() {
+        assertVectorEquals(1, 2, 3, new Vector3(1, 2, 3).absolute());
+        assertVectorEquals(1, 2, 3, new Vector3(1, -2, 3).absolute());
+        assertVectorEquals(1, 2, 3, new Vector3(-1, -2, -3).absolute());
+        assertVectorEquals(0, 0, 0, Vector3.ZEROS.copy().absolute());
+    }
+
+    @Test
+    public void testClamp() {
+        assertVectorEquals(1.5, 2, 2.5, new Vector3(1, 2, 3).clamp(1.5, 2.5));
+        assertVectorEquals(1.5, 2, 3, new Vector3(1, 2, 3).clampX(1.5, 2.5));
+        assertVectorEquals(1, 2, 3, new Vector3(1, 2, 3).clampY(1.5, 2.5));
+        assertVectorEquals(1, 2, 2.5, new Vector3(1, 2, 3).clampZ(1.5, 2.5));
+
+        // if the arguments disagree (clampMax < clampMin), clampMin wins
+        assertVectorEquals(1.5, 1.5, 1.5, new Vector3(1, 2, 3).clamp(2.5, 1.5));
+    }
+
+    @Test
+    public void testInterpolate() {
+        ReadonlyVector3 target = new Vector3(1, 2, 3);
+        assertVectorEquals(6, 5, 4, new Vector3(6, 5, 4).interpolate(target, 0.0));
+        assertVectorEquals(1, 2, 3, new Vector3(6, 5, 4).interpolate(target, 1.0));
+        assertVectorEquals(3.5, 3.5, 3.5, new Vector3(6, 5, 4).interpolate(target, 0.5));
+        assertVectorEquals(3.5, 3.5, 3.5, new Vector3(6, 5, 4).midpoint(target));
+        assertVectorEquals(4.75, 4.25, 3.75, new Vector3(6, 5, 4).interpolate(target, 0.25));
+        assertVectorEquals(-4, -1, 2, new Vector3(6, 5, 4).interpolate(target, 2.0));
+        assertVectorEquals(-44, -25, -6, new Vector3(6, 5, 4).interpolate(target, 10.0));
+        assertVectorEquals(11, 8, 5, new Vector3(6, 5, 4).interpolate(target, -1.0));
+    }
+
+    @Test
+    public void testCross() {
+        ReadonlyVector3 v001 = new Vector3(0, 0, 1);
+        ReadonlyVector3 v010 = new Vector3(0, 1, 0);
+        ReadonlyVector3 v101 = new Vector3(1, 0, 1);
+        ReadonlyVector3 vA = new Vector3(13.25, 32.0, 83.0);
+        ReadonlyVector3 vB = new Vector3(21.0, 55.5, -213.0);
+        Vector3 v = Vector3.ZEROS.copy();
+
+        assertVectorEquals(0, 0, 0, v.zero().cross(Vector3.ZEROS));
+        assertVectorEquals(0, 0, 0, v.zero().cross(vA));
+        assertVectorEquals(0, 0, 0, v.set(vA).cross(Vector3.ZEROS));
+
+        assertVectorEquals(-1, 0, 0, v.set(v001).cross(v010));
+        assertVectorEquals(1, 0, 0, v.set(v010).cross(v001));
+
+        assertVectorEquals(0, 1, 0, v.set(v001).cross(v101));
+        assertVectorEquals(0, -1, 0, v.set(v101).cross(v001));
+
+        assertVectorEquals(-11422.5, 4565.25, 63.375, v.set(vA).cross(vB));
+        assertVectorEquals(11422.5, -4565.25, -63.375, v.set(vB).cross(vA));
+    }
+
+    @Test
+    public void testNormalize() {
+        assertVectorEquals(0, 0, 0, new Vector3(0, 0, 0).normalize());
+
+        for (double i : new double[] {1.0, 0.1, 0.000123, 123.456}) {
+            assertVectorEquals(1, 0, 0, new Vector3(i, 0, 0).normalize());
+            assertVectorEquals(0, 1, 0, new Vector3(0, i, 0).normalize());
+            assertVectorEquals(0, 0, 1, new Vector3(0, 0, i).normalize());
+            assertVectorEquals(-1, 0, 0, new Vector3(-i, 0, 0).normalize());
+            assertVectorEquals(0, -1, 0, new Vector3(0, -i, 0).normalize());
+            assertVectorEquals(0, 0, -1, new Vector3(0, 0, -i).normalize());
+        }
+
+        assertVectorEquals(
+                0.8390263620915781,
+                0.536044620225175,
+                -0.09322515134350869,
+                new Vector3(31.5, 20.125, -3.5).normalize());
+
+        assertEquals(1.0, new Vector3(31.5, 20.125, -3.5).normalize().length(), EPSILON);
+        assertEquals(1.0, new Vector3(-77.7, 0.0, 9.1).normalize().length(), EPSILON);
     }
 }
