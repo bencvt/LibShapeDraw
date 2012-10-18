@@ -14,8 +14,17 @@ public class ApiInfo {
     public static String getVersion() {
         return getInstance().version;
     }
-    public static String getUrl() {
-        return getInstance().url;
+    @Deprecated public static String getUrl() {
+        return getInstance().urlMain;
+    }
+    public static String getUrlMain() {
+        return getInstance().urlMain;
+    }
+    public static String getUrlSource() {
+        return getInstance().urlSource;
+    }
+    public static String getUrlUpdate() {
+        return getInstance().urlUpdate;
     }
     public static String getAuthors() {
         return getInstance().authors;
@@ -23,7 +32,9 @@ public class ApiInfo {
 
     private final String name;
     private final String version;
-    private final String url;
+    private final String urlMain;
+    private final String urlSource;
+    private final String urlUpdate;
     private final String authors;
 
     private static ApiInfo instance;
@@ -39,7 +50,9 @@ public class ApiInfo {
         }
         name = notNull(props.getProperty("name"));
         version = notNull(props.getProperty("version"));
-        url = notNull(props.getProperty("url"));
+        urlMain = notNull(props.getProperty("url-main"));
+        urlSource = notNull(props.getProperty("url-source"));
+        urlUpdate = notNull(props.getProperty("url-update"));
         authors = notNull(props.getProperty("authors"));
     }
 

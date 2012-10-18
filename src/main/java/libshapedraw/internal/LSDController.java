@@ -47,7 +47,8 @@ public class LSDController {
         trident.addPropertyInterpolator(new ReadonlyLineStylePropertyInterpolator());
 
         log.info(ApiInfo.getName() + " v" + ApiInfo.getVersion() + " by " + ApiInfo.getAuthors());
-        log.info(ApiInfo.getUrl());
+        log.info(ApiInfo.getUrlMain());
+        log.info(ApiInfo.getUrlSource());
         log.info(getClass().getName() + " instantiated");
     }
 

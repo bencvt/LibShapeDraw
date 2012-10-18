@@ -24,10 +24,14 @@ public class LSDGlobalSettings {
     public static int getLoggingDebugDumpInterval() {
         return getInstance().loggingDebugDumpInterval;
     }
+    public static boolean isUpdateCheckEnabled() {
+        return getInstance().updateCheckEnabled;
+    }
 
     private final boolean loggingEnabled;
     private final boolean loggingAppend;
     private final int loggingDebugDumpInterval;
+    private final boolean updateCheckEnabled;
 
     private static LSDGlobalSettings instance;
 
@@ -50,6 +54,7 @@ public class LSDGlobalSettings {
             loggingEnabled = LSDUtil.parseBooleanStrict(props.getProperty("logging-enabled"));
             loggingAppend = LSDUtil.parseBooleanStrict(props.getProperty("logging-append"));
             loggingDebugDumpInterval = Integer.parseInt(props.getProperty("logging-debug-dump-interval"));
+            updateCheckEnabled = LSDUtil.parseBooleanStrict(props.getProperty("update-check-enabled"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("unable to load global settings", e);

@@ -11,5 +11,6 @@ public class TestLSDGlobalSettings extends SetupTestEnvironment.TestCase {
         assertTrue(LSDGlobalSettings.isLoggingEnabled());
         assertFalse(LSDGlobalSettings.isLoggingAppend());
         assertEquals(0, LSDGlobalSettings.getLoggingDebugDumpInterval());
+        assertTrue(LSDGlobalSettings.isUpdateCheckEnabled());
     }
 }

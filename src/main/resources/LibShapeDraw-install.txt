@@ -8,4 +8,5 @@ recommended; manually copying .class files is for the birds.
 
 ModLoader (or Forge) is required.
 
-For more information see ${project.url}
+For more information see ${project.url.main}
+or ${project.url.source}
