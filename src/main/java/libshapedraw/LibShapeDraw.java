@@ -49,8 +49,8 @@ public class LibShapeDraw {
         return LSDController.getInstance().unregisterApiInstance(this);
     }
 
-    /** @see ApiInfo */
-    public static String getVersion() {
+    /** @deprecated use {@link ApiInfo#getVersion} */
+    @Deprecated public static String getVersion() {
         return ApiInfo.getVersion();
     }
 

@@ -12,7 +12,7 @@ import libshapedraw.shape.WireframeCuboid;
  * If the API is not available, the mod still loads, though of course
  * it can't use any API features.
  */
-public class mod_LSDDemoBasicDependSoft extends BaseMod {
+public class mod_LSDDemoBasicCheckInstall extends BaseMod {
     public static boolean isLibShapeDrawLoaded(String minVersion) {
         try {
             return ApiInfo.isVersionAtLeast(minVersion);
@@ -20,6 +20,8 @@ public class mod_LSDDemoBasicDependSoft extends BaseMod {
             return false;
         }
     }
+
+    boolean missingApi;
 
     @Override
     public String getVersion() {
@@ -29,7 +31,15 @@ public class mod_LSDDemoBasicDependSoft extends BaseMod {
     @Override
     public void load() {
         if (!isLibShapeDrawLoaded("0.1")) {
-            // in this example mod, libShapeDraw is a soft dependency, so we just return early.
+            // Gracefully handle the missing dependency: set a flag and exit
+            // early before instantiating any LibShapeDraw classes.
+            //
+            // We could check this flag later on and give the user a useful
+            // message, explaining that this mod (or at least its features that
+            // depend on LibShapeDraw) are disabled.
+            //
+            // Much more user friendly than crashing.
+            missingApi = true;
             return;
         }
         LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();

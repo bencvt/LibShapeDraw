@@ -43,6 +43,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         c.add(o);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testVersion() {
         assertFalse(LibShapeDraw.getVersion().isEmpty());
