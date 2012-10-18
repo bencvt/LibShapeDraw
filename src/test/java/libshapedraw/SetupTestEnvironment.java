@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 import libshapedraw.internal.LSDController;
+import libshapedraw.internal.LSDGlobalSettings;
 import libshapedraw.internal.LSDInternalException;
 import libshapedraw.internal.LSDInternalReflectionException;
 import libshapedraw.internal.LSDModDirectory;
@@ -75,6 +76,24 @@ public class SetupTestEnvironment {
                 || !LSDUtil.isClassLoaded(MODDIRECTORY_CLASS_NAME)
                 || !LSDModDirectory.DIRECTORY.equals(testMinecraftDirectory)) {
             throw new LSDInternalException("internal error, sanity check failed");
+        }
+
+        disableUpdateCheck();
+    }
+
+    private static void disableUpdateCheck() {
+        if (!LSDGlobalSettings.isUpdateCheckEnabled()) {
+            return;
+        }
+        try {
+            Field field0 = LSDGlobalSettings.class.getDeclaredField("instance");
+            Field field1 = LSDGlobalSettings.class.getDeclaredField("updateCheckEnabled");
+            field0.setAccessible(true);
+            field1.setAccessible(true);
+            field1.setBoolean(field0.get(null), false);
+            println("set updateCheckEnabled=" + LSDGlobalSettings.isUpdateCheckEnabled());
+        } catch (Exception e) {
+            throw new LSDInternalReflectionException("unable to disable update check", e);
         }
     }
 

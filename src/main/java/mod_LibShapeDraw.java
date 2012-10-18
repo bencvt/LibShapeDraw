@@ -72,8 +72,6 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      */
     // obf: Profiler
     public class ProfilerProxy extends ik {
-        private Minecraft minecraft;
-
         // obf: endStartSection
         @Override
         public void c(String sectionName) {
@@ -87,6 +85,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         }
     }
 
+    private Minecraft minecraft;
     private aof timer; // obf: Timer
     private LSDController controller;
     private boolean renderHeartbeat;
@@ -112,18 +111,18 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     public void load() {
-        Minecraft minecraft = ModLoader.getMinecraftInstance();
+        minecraft = ModLoader.getMinecraftInstance();
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
         timer = (aof) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
 
-        installRenderHook(minecraft);
+        installRenderHook();
         ModLoader.setInGameHook(this, true, true); // game ticks only, not every render frame.
         LSDController.getLog().info(getClass().getName() + " loaded");
     }
 
     /** Use reflection to install the profiler proxy class. */
-    private void installRenderHook(Minecraft minecraft) {
+    private void installRenderHook() {
         // obf: Profiler
         Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, ik.class, 0);
         ik profilerOrig = (ik) LSDUtil.getFieldValue(fieldProfiler, minecraft);
@@ -142,7 +141,6 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             LSDController.getLog().fine("copied profiler field " +
                     f + " = " + String.valueOf(origValue));
         }
-        profilerProxy.minecraft = minecraft;
     }
 
     // obf: NetClientHandler
@@ -240,8 +238,25 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     }
 
     @Override
+    public MinecraftAccess sendChatMessage(String message) {
+        boolean visible = chatWindowExists();
+        LSDController.getLog().info("sendChatMessage visible=" + visible + " message=" + message);
+        if (visible) {
+            // obf: Minecraft.ingameGUI, GuiIngame.getChatGUI, GuiNewChat.printChatMessage
+            minecraft.v.b().a(message);
+        }
+        return this;
+    }
+
+    @Override
+    public boolean chatWindowExists() {
+        // obf: Minecraft.ingameGUI, GuiIngame.getChatGUI, GuiNewChat.printChatMessage
+        return minecraft != null && minecraft.v != null && minecraft.v.b() != null;
+    }
+
+    @Override
     public float getPartialTick() {
         // obf: Timer.renderPartialTicks
-        return timer.c;
+        return timer == null ? 0.0F : timer.c;
     }
 }

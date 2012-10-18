@@ -1,12 +1,16 @@
 package libshapedraw.internal;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
@@ -103,6 +107,34 @@ public class LSDUtil {
                     return tempDir;
                 }
             }
+        }
+    }
+
+    /**
+     * Attempt to retrieve the contents at the specified URL as a UTF8-encoded,
+     * newline-normalized string. No special handling for redirects or other
+     * HTTP return codes; just a quick-and-dirty GET. Return null if anything
+     * breaks.
+     */
+    public static String getUrlContents(URL url) {
+        try {
+            StringBuilder result = new StringBuilder();
+            URLConnection conn = url.openConnection();
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                if (result.length() > 0) {
+                    result.append('\n');
+                }
+                result.append(line);
+            }
+            in.close();
+            return result.toString();
+        } catch (IOException e) {
+            LSDController.getLog().log(Level.WARNING, "unable to read " + url, e);
+            return null;
         }
     }
 

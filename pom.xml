@@ -11,6 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.url.main>http://www.minecraftforum.net/topic/1458931-</project.url.main>
+        <project.url.short>http://bit.ly/LibShapeDraw</project.url.short>
         <project.url.source>${project.url}</project.url.source>
         <project.url.update>http://update.bencvt.com/u/LibShapeDraw</project.url.update>
         <project.authors>bencvt</project.authors>

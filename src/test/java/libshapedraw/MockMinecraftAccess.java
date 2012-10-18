@@ -10,6 +10,7 @@ public class MockMinecraftAccess implements MinecraftAccess {
     private int countDraw = 0;
     private int countVertices = 0;
     private int countEnableStandardLighting = 0;
+    private int countSendChatMessage = 0;
 
     public boolean isDrawingStarted() {
         return drawingStarted;
@@ -25,6 +26,9 @@ public class MockMinecraftAccess implements MinecraftAccess {
     }
     public int getCountEnableStandardLighting() {
         return countEnableStandardLighting;
+    }
+    public int getCountSendChatMessage() {
+        return countSendChatMessage;
     }
 
     @Override
@@ -67,6 +71,17 @@ public class MockMinecraftAccess implements MinecraftAccess {
     }
 
     @Override
+    public MinecraftAccess sendChatMessage(String message) {
+        countSendChatMessage++;
+        return this;
+    }
+
+    @Override
+    public boolean chatWindowExists() {
+        return true;
+    }
+
+    @Override
     public float getPartialTick() {
         return 0;
     }
@@ -77,7 +92,9 @@ public class MockMinecraftAccess implements MinecraftAccess {
         countDraw = 0;
         countVertices = 0;
         countEnableStandardLighting = 0;
+        countSendChatMessage = 0;
     }
+
     public void assertCountsEqual(int expectedCountDraw, int expectedCountVertices, boolean expectDouble) {
         if (expectDouble) {
             assertEquals(expectedCountDraw*2, countDraw);

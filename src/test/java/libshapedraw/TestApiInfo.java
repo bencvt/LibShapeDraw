@@ -2,6 +2,8 @@ package libshapedraw;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
+
 import org.junit.Test;
 
 public class TestApiInfo extends SetupTestEnvironment.TestCase {
@@ -12,19 +14,21 @@ public class TestApiInfo extends SetupTestEnvironment.TestCase {
 
         assertFalse(ApiInfo.getVersion().isEmpty());
 
-        assertValidUrl(ApiInfo.getUrlMain());
-        assertValidUrl(ApiInfo.getUrlSource());
-        assertValidUrl(ApiInfo.getUrlUpdate());
+        assertValidHttpUrl(ApiInfo.getUrlMain());
+        assertValidHttpUrl(ApiInfo.getUrlShort());
+        assertValidHttpUrl(ApiInfo.getUrlSource());
+        assertValidHttpUrl(ApiInfo.getUrlUpdate());
 
-        assertEquals(ApiInfo.getUrlMain(), ApiInfo.getUrl());
+        assertEquals(ApiInfo.getUrlMain().toString(), ApiInfo.getUrl());
 
         assertFalse(ApiInfo.getAuthors().isEmpty());
     }
 
-    private static void assertValidUrl(String url) {
+    private static void assertValidHttpUrl(URL url) {
         assertNotNull(url);
-        assertFalse(url.isEmpty());
-        assertTrue(url.contains("://"));
+        assertFalse(url.toString().isEmpty());
+        assertTrue(url.toString().contains("://"));
+        assertTrue(url.toString().startsWith("http"));
     }
 
     @Test

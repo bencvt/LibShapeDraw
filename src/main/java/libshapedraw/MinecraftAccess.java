@@ -28,6 +28,12 @@ public interface MinecraftAccess {
     /** RenderHelper.enableStandardItemLighting */
     public MinecraftAccess enableStandardItemLighting();
 
+    /** Minecraft.ingameGUI.getChatGUI().printChatMessage */
+    public MinecraftAccess sendChatMessage(String message);
+
+    /** Minecraft.ingameGUI.getChatGUI() */
+    public boolean chatWindowExists();
+
     /** Minecraft.timer.renderPartialTicks */
     public float getPartialTick();
 }

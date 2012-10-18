@@ -2,6 +2,8 @@ package libshapedraw;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import libshapedraw.internal.LSDInternalException;
@@ -20,15 +22,18 @@ public class ApiInfo {
         return minVersion.compareTo(getInstance().version) <= 0;
     }
     @Deprecated public static String getUrl() {
+        return getInstance().urlMain.toString();
+    }
+    public static URL getUrlMain() {
         return getInstance().urlMain;
     }
-    public static String getUrlMain() {
-        return getInstance().urlMain;
+    public static URL getUrlShort() {
+        return getInstance().urlShort;
     }
-    public static String getUrlSource() {
+    public static URL getUrlSource() {
         return getInstance().urlSource;
     }
-    public static String getUrlUpdate() {
+    public static URL getUrlUpdate() {
         return getInstance().urlUpdate;
     }
     public static String getAuthors() {
@@ -37,9 +42,10 @@ public class ApiInfo {
 
     private final String name;
     private final String version;
-    private final String urlMain;
-    private final String urlSource;
-    private final String urlUpdate;
+    private final URL urlMain;
+    private final URL urlShort;
+    private final URL urlSource;
+    private final URL urlUpdate;
     private final String authors;
 
     private static ApiInfo instance;
@@ -55,9 +61,10 @@ public class ApiInfo {
         }
         name = notNull(props.getProperty("name"));
         version = notNull(props.getProperty("version"));
-        urlMain = notNull(props.getProperty("url-main"));
-        urlSource = notNull(props.getProperty("url-source"));
-        urlUpdate = notNull(props.getProperty("url-update"));
+        urlMain = validUrl(props.getProperty("url-main"));
+        urlShort = validUrl(props.getProperty("url-short"));
+        urlSource = validUrl(props.getProperty("url-source"));
+        urlUpdate = validUrl(props.getProperty("url-update"));
         authors = notNull(props.getProperty("authors"));
     }
 
@@ -73,5 +80,13 @@ public class ApiInfo {
             throw new IllegalArgumentException("value cannot be null");
         }
         return value;
+    }
+
+    private URL validUrl(String value) {
+        try {
+            return new URL(notNull(value));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("invalid url", e);
+        }
     }
 }
