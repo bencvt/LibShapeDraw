@@ -14,7 +14,7 @@ import java.util.Properties;
  * end user can override these settings by placing an appropriately-named
  * properties file in the mod's directory.
  */
-public class GlobalSettings {
+public class LSDGlobalSettings {
     public static boolean isLoggingEnabled() {
         return getInstance().loggingEnabled;
     }
@@ -29,14 +29,14 @@ public class GlobalSettings {
     private final boolean loggingAppend;
     private final int loggingDebugDumpInterval;
 
-    private static GlobalSettings instance;
+    private static LSDGlobalSettings instance;
 
-    private GlobalSettings() {
+    private LSDGlobalSettings() {
         try {
             Properties props = new Properties();
             try {
                 InputStream in;
-                File file = new File(ModDirectory.DIRECTORY, "settings.properties");
+                File file = new File(LSDModDirectory.DIRECTORY, "settings.properties");
                 if (file.exists()) {
                     in = new FileInputStream(file);
                 } else {
@@ -47,8 +47,8 @@ public class GlobalSettings {
             } catch (IOException e) {
                 throw new RuntimeException("unable to load resource", e);
             }
-            loggingEnabled = Util.parseBooleanStrict(props.getProperty("logging-enabled"));
-            loggingAppend = Util.parseBooleanStrict(props.getProperty("logging-append"));
+            loggingEnabled = LSDUtil.parseBooleanStrict(props.getProperty("logging-enabled"));
+            loggingAppend = LSDUtil.parseBooleanStrict(props.getProperty("logging-append"));
             loggingDebugDumpInterval = Integer.parseInt(props.getProperty("logging-debug-dump-interval"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,9 +56,9 @@ public class GlobalSettings {
         }
     }
 
-    private static GlobalSettings getInstance() {
+    private static LSDGlobalSettings getInstance() {
         if (instance == null) {
-            instance = new GlobalSettings();
+            instance = new LSDGlobalSettings();
         }
         return instance;
     }

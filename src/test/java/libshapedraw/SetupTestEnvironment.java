@@ -3,9 +3,9 @@ package libshapedraw;
 import java.io.File;
 import java.lang.reflect.Field;
 
-import libshapedraw.internal.Controller;
-import libshapedraw.internal.ModDirectory;
-import libshapedraw.internal.Util;
+import libshapedraw.internal.LSDController;
+import libshapedraw.internal.LSDModDirectory;
+import libshapedraw.internal.LSDUtil;
 
 import org.junit.BeforeClass;
 import org.lwjgl.LWJGLException;
@@ -20,7 +20,7 @@ import org.lwjgl.opengl.DisplayMode;
  */
 public class SetupTestEnvironment {
     private static File testMinecraftDirectory = null;
-    private static final String MODDIRECTORY_CLASS_NAME = "libshapedraw.internal.ModDirectory";
+    private static final String MODDIRECTORY_CLASS_NAME = "libshapedraw.internal.LSDModDirectory";
     private static final String MODDIRECTORY_FIELD_NAME = "DIRECTORY";
 
     /**
@@ -34,7 +34,7 @@ public class SetupTestEnvironment {
         @BeforeClass
         public static void setupTestEnvironment() throws LWJGLException {
             if (setup()) {
-                Controller.getInstance().initialize(mockMinecraftAccess);
+                LSDController.getInstance().initialize(mockMinecraftAccess);
                 Display.setDisplayMode(new DisplayMode(0, 0));
                 Display.create();
             }
@@ -44,7 +44,7 @@ public class SetupTestEnvironment {
     private static boolean setup() {
         println("setup test environment");
         if (testMinecraftDirectory == null) {
-            testMinecraftDirectory = Util.createTempDirectory("LibShapeDrawJUnitTemp");
+            testMinecraftDirectory = LSDUtil.createTempDirectory("LibShapeDrawJUnitTemp");
             monkeyPatch();
             return true;
         }
@@ -53,25 +53,25 @@ public class SetupTestEnvironment {
     }
 
     private static void monkeyPatch() {
-        if (Util.isClassLoaded(MODDIRECTORY_CLASS_NAME)) {
+        if (LSDUtil.isClassLoaded(MODDIRECTORY_CLASS_NAME)) {
             throw new RuntimeException("internal error, " + MODDIRECTORY_CLASS_NAME + " already loaded");
         }
 
         // Force ModDirectory class load and monkey patch ModDirectory.DIRECTORY.
-        File origDir = ModDirectory.DIRECTORY;
+        File origDir = LSDModDirectory.DIRECTORY;
         Field field;
         try {
-            field = ModDirectory.class.getDeclaredField(MODDIRECTORY_FIELD_NAME);
+            field = LSDModDirectory.class.getDeclaredField(MODDIRECTORY_FIELD_NAME);
         } catch (Exception e) {
-            throw new Util.InternalReflectionException("unable to get field named " + MODDIRECTORY_FIELD_NAME, e);
+            throw new LSDUtil.InternalReflectionException("unable to get field named " + MODDIRECTORY_FIELD_NAME, e);
         }
-        Util.setFinalField(field, null, testMinecraftDirectory);
+        LSDUtil.setFinalField(field, null, testMinecraftDirectory);
 
         println("monkey patched directory field from:\n  " + origDir + "\nto:\n  " + testMinecraftDirectory);
 
-        if (!ModDirectory.class.getName().equals(MODDIRECTORY_CLASS_NAME)
-                || !Util.isClassLoaded(MODDIRECTORY_CLASS_NAME)
-                || !ModDirectory.DIRECTORY.equals(testMinecraftDirectory)) {
+        if (!LSDModDirectory.class.getName().equals(MODDIRECTORY_CLASS_NAME)
+                || !LSDUtil.isClassLoaded(MODDIRECTORY_CLASS_NAME)
+                || !LSDModDirectory.DIRECTORY.equals(testMinecraftDirectory)) {
             throw new RuntimeException("internal error, sanity check failed");
         }
     }

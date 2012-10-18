@@ -3,7 +3,7 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import libshapedraw.internal.Util;
+import libshapedraw.internal.LSDUtil;
 
 /**
  * Yet another class representing a Red/Green/Blue/Alpha color 4-tuple.
@@ -397,7 +397,7 @@ public class Color implements ReadonlyColor {
                     }
                 }
             } catch (Exception e) {
-                throw new Util.InternalReflectionException("unable to reflect named colors", e);
+                throw new LSDUtil.InternalReflectionException("unable to reflect named colors", e);
             }
         }
         return namedColors.get(name.toUpperCase().replaceAll("[_\\s]", ""));

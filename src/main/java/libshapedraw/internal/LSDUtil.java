@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Miscellaneous general-purpose utility classes and methods.
  */
-public class Util {
+public class LSDUtil {
     public static final Random random = new Random();
 
     public static class FileLogger extends Logger {

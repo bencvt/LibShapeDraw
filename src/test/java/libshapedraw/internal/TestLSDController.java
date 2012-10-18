@@ -11,24 +11,24 @@ import libshapedraw.primitive.Vector3;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestController extends SetupTestEnvironment.TestCase {
-    private Controller ct;
+public class TestLSDController extends SetupTestEnvironment.TestCase {
+    private LSDController ct;
 
     @Before
     public void initController() {
-        ct = Controller.getInstance();
+        ct = LSDController.getInstance();
     }
 
     @Test
     public void testLog() {
-        assertNotNull(Controller.getLog());
-        assertTrue(Controller.getLog() instanceof Util.FileLogger);
+        assertNotNull(LSDController.getLog());
+        assertTrue(LSDController.getLog() instanceof LSDUtil.FileLogger);
     }
 
     @Test
     public void testIsInitialized() {
         // initialization done by SetupTestEnvironment
-        assertTrue(Controller.isInitialized());
+        assertTrue(LSDController.isInitialized());
     }
 
     @Test(expected=IllegalStateException.class)
@@ -78,7 +78,7 @@ public class TestController extends SetupTestEnvironment.TestCase {
     @Test
     public void testMethods() {
         // none of these calls should throw anything
-        assertTrue(Controller.isInitialized());
+        assertTrue(LSDController.isInitialized());
         ct.dump();
         ct.gameTick(Vector3.ZEROS);
         ct.render(Vector3.ZEROS, false);

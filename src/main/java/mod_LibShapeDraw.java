@@ -2,8 +2,8 @@ import java.lang.reflect.Field;
 
 import libshapedraw.ApiInfo;
 import libshapedraw.MinecraftAccess;
-import libshapedraw.internal.Controller;
-import libshapedraw.internal.Util;
+import libshapedraw.internal.LSDController;
+import libshapedraw.internal.LSDUtil;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 import net.minecraft.client.Minecraft;
@@ -19,7 +19,7 @@ import net.minecraft.client.Minecraft;
  * <p>
  * As a wrapper, all direct interaction with Minecraft objects passes through
  * this class, making the LibShapeDraw API itself clean and free of obfuscated
- * code. (There is a single exception: ModDirectory.DIRECTORY.)
+ * code. (There is a single exception: LSDModDirectory.DIRECTORY.)
  */
 public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     /**
@@ -88,7 +88,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     }
 
     private aof timer; // obf: Timer
-    private Controller controller;
+    private LSDController controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
     private atd curWorld; // obf: WorldClient
@@ -96,7 +96,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     private Integer curDimension;
 
     public mod_LibShapeDraw() {
-        controller = Controller.getInstance();
+        controller = LSDController.getInstance();
         controller.initialize(this);
     }
 
@@ -115,31 +115,31 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         Minecraft minecraft = ModLoader.getMinecraftInstance();
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
-        timer = (aof) Util.getFieldValue(Util.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
+        timer = (aof) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
 
         installRenderHook(minecraft);
         ModLoader.setInGameHook(this, true, true); // game ticks only, not every render frame.
-        Controller.getLog().info(getClass().getName() + " loaded");
+        LSDController.getLog().info(getClass().getName() + " loaded");
     }
 
     /** Use reflection to install the profiler proxy class. */
     private void installRenderHook(Minecraft minecraft) {
         // obf: Profiler
-        Field fieldProfiler = Util.getFieldByType(Minecraft.class, ik.class, 0);
-        ik profilerOrig = (ik) Util.getFieldValue(fieldProfiler, minecraft);
+        Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, ik.class, 0);
+        ik profilerOrig = (ik) LSDUtil.getFieldValue(fieldProfiler, minecraft);
         if (profilerOrig.getClass() != ik.class) {
             // We probably overwrote some other mod's hook. :-(
-            Controller.getLog().warning("mod incompatibility detected: profiler already proxied!");
+            LSDController.getLog().warning("mod incompatibility detected: profiler already proxied!");
         }
         ProfilerProxy profilerProxy = new ProfilerProxy();
-        Util.setFinalField(fieldProfiler, minecraft, profilerProxy);
+        LSDUtil.setFinalField(fieldProfiler, minecraft, profilerProxy);
 
         // Copy all field values from origProfiler to newProfiler
         for (Field f : ik.class.getDeclaredFields()) {
             f.setAccessible(true);
-            Object origValue = Util.getFieldValue(f, profilerOrig);
-            Util.setFinalField(f, profilerProxy, origValue);
-            Controller.getLog().fine("copied profiler field " +
+            Object origValue = LSDUtil.getFieldValue(f, profilerOrig);
+            LSDUtil.setFinalField(f, profilerProxy, origValue);
+            LSDController.getLog().fine("copied profiler field " +
                     f + " = " + String.valueOf(origValue));
         }
         profilerProxy.minecraft = minecraft;
@@ -148,7 +148,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     // obf: NetClientHandler
     @Override
     public void clientConnect(asv netClientHandler) {
-        Controller.getLog().info(getClass().getName() + " new server connection");
+        LSDController.getLog().info(getClass().getName() + " new server connection");
         curWorld = null;
         curPlayer = null;
         curDimension = null;
@@ -177,7 +177,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         // obf: skipRenderWorld
         if (!renderHeartbeat && !renderHeartbroken && !minecraft.w) {
             // Some other mod probably overwrote our hook. :-(
-            Controller.getLog().warning("mod incompatibility detected: render hook not working!");
+            LSDController.getLog().warning("mod incompatibility detected: render hook not working!");
             renderHeartbroken = true; // don't spam log
         }
         renderHeartbeat = false;

@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import libshapedraw.LibShapeDraw;
 import libshapedraw.event.MockLSDEventListener;
-import libshapedraw.internal.Controller;
+import libshapedraw.internal.LSDController;
 import libshapedraw.primitive.Vector3;
 import libshapedraw.shape.MockShape;
 
@@ -36,7 +36,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertEquals(expectedCount, counter.getCountRender());
     }
     private void render(boolean hideGui) {
-        Controller.getInstance().render(new Vector3(0,0,0), hideGui);
+        LSDController.getInstance().render(new Vector3(0,0,0), hideGui);
     }
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void addCollectionTypeErased(Collection c, Object o) {
@@ -195,19 +195,19 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         counter.assertCountsEqual(0, 0, 0);
 
         // ensure listener doesn't receive events if not registered
-        Controller.getInstance().respawn(new Vector3(0,0,0), true, true);
-        Controller.getInstance().gameTick(new Vector3(0,0,0));
-        Controller.getInstance().render(new Vector3(0,0,0), false);
+        LSDController.getInstance().respawn(new Vector3(0,0,0), true, true);
+        LSDController.getInstance().gameTick(new Vector3(0,0,0));
+        LSDController.getInstance().render(new Vector3(0,0,0), false);
         counter.assertCountsEqual(0, 0, 0);
 
         // register listener and ensure events are received
         lib.addEventListener(counter);
 
-        Controller.getInstance().respawn(new Vector3(0,0,0), true, true);
+        LSDController.getInstance().respawn(new Vector3(0,0,0), true, true);
         counter.assertCountsEqual(1, 0, 0);
-        Controller.getInstance().gameTick(new Vector3(0,0,0));
+        LSDController.getInstance().gameTick(new Vector3(0,0,0));
         counter.assertCountsEqual(1, 1, 0);
-        Controller.getInstance().render(new Vector3(0,0,0), false);
+        LSDController.getInstance().render(new Vector3(0,0,0), false);
         counter.assertCountsEqual(1, 1, 1);
     }
 
@@ -217,15 +217,15 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         MockLSDEventListener counter1 = new MockLSDEventListener();
         MockLSDEventListener counter2 = new MockLSDEventListener();
         lib.addEventListener(counter0).addEventListener(counter1).addEventListener(counter2);
-        Controller.getInstance().respawn(new Vector3(0,0,0), true, true);
+        LSDController.getInstance().respawn(new Vector3(0,0,0), true, true);
         counter0.assertCountsEqual(1, 0, 0);
         counter1.assertCountsEqual(1, 0, 0);
         counter2.assertCountsEqual(1, 0, 0);
-        Controller.getInstance().gameTick(new Vector3(0,0,0));
+        LSDController.getInstance().gameTick(new Vector3(0,0,0));
         counter0.assertCountsEqual(1, 1, 0);
         counter1.assertCountsEqual(1, 1, 0);
         counter2.assertCountsEqual(1, 1, 0);
-        Controller.getInstance().render(new Vector3(0,0,0), false);
+        LSDController.getInstance().render(new Vector3(0,0,0), false);
         counter0.assertCountsEqual(1, 1, 1);
         counter1.assertCountsEqual(1, 1, 1);
         counter2.assertCountsEqual(1, 1, 1);

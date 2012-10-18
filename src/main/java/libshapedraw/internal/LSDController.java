@@ -12,8 +12,8 @@ import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
 import libshapedraw.event.LSDRespawnEvent;
-import libshapedraw.internal.Util.FileLogger;
-import libshapedraw.internal.Util.NullLogger;
+import libshapedraw.internal.LSDUtil.FileLogger;
+import libshapedraw.internal.LSDUtil.NullLogger;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.shape.Shape;
 
@@ -23,8 +23,8 @@ import org.lwjgl.opengl.GL11;
  * Internal singleton controller class, lazily instantiated.
  * Relies on a bootstrapper (mod_LibShapeDraw) to feed it Minecraft game events.
  */
-public class Controller {
-    private static Controller instance;
+public class LSDController {
+    private static LSDController instance;
     private final Logger log;
     private final LinkedHashSet<LibShapeDraw> apiInstances;
     private int topApiInstanceId;
@@ -32,9 +32,9 @@ public class Controller {
     private boolean initialized;
     private long lastDump;
 
-    private Controller() {
-        if (GlobalSettings.isLoggingEnabled()) {
-            log = new FileLogger(ModDirectory.DIRECTORY, ApiInfo.getName(), GlobalSettings.isLoggingAppend());
+    private LSDController() {
+        if (LSDGlobalSettings.isLoggingEnabled()) {
+            log = new FileLogger(LSDModDirectory.DIRECTORY, ApiInfo.getName(), LSDGlobalSettings.isLoggingAppend());
         } else {
             log = new NullLogger();
         }
@@ -51,9 +51,9 @@ public class Controller {
         log.info(getClass().getName() + " instantiated");
     }
 
-    public static Controller getInstance() {
+    public static LSDController getInstance() {
         if (instance == null) {
-            instance = new Controller();
+            instance = new LSDController();
         }
         return instance;
     }
@@ -133,9 +133,9 @@ public class Controller {
      */
     public void gameTick(ReadonlyVector3 playerCoords) {
         log.finer("gameTick");
-        if (GlobalSettings.getLoggingDebugDumpInterval() > 0) {
+        if (LSDGlobalSettings.getLoggingDebugDumpInterval() > 0) {
             long now = System.currentTimeMillis();
-            if (now > lastDump + GlobalSettings.getLoggingDebugDumpInterval()) {
+            if (now > lastDump + LSDGlobalSettings.getLoggingDebugDumpInterval()) {
                 dump();
                 lastDump = now;
             }

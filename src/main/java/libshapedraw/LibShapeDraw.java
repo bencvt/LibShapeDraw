@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import libshapedraw.event.LSDEventListener;
-import libshapedraw.internal.Controller;
+import libshapedraw.internal.LSDController;
 import libshapedraw.shape.Shape;
 
 /**
@@ -35,7 +35,7 @@ public class LibShapeDraw {
     public LibShapeDraw(String ownerId) {
         shapes = Collections.checkedSet(new LinkedHashSet<Shape>(), Shape.class);
         eventListeners = Collections.checkedSet(new LinkedHashSet<LSDEventListener>(), LSDEventListener.class);
-        instanceId = Controller.getInstance().registerApiInstance(this, ownerId);
+        instanceId = LSDController.getInstance().registerApiInstance(this, ownerId);
     }
 
     /**
@@ -45,7 +45,7 @@ public class LibShapeDraw {
      * collection if you want to temporarily shut things down.
      */
     public boolean unregister() {
-        return Controller.getInstance().unregisterApiInstance(this);
+        return LSDController.getInstance().unregisterApiInstance(this);
     }
 
     /** @see ApiInfo */
@@ -63,7 +63,7 @@ public class LibShapeDraw {
      *        Wait until the load method or later.
      */
     public static boolean isControllerInitialized() {
-        return Controller.isInitialized();
+        return LSDController.isInitialized();
     }
 
     /**
