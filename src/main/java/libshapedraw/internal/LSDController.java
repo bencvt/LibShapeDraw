@@ -287,7 +287,10 @@ public class LSDController {
                 StringBuilder b = new StringBuilder();
                 for (int i = 1; i < lines.length; i++) {
                     if (!lines[i].isEmpty()) {
-                        b.append(lines[i]).append('\n');
+                        if (b.length() > 0) {
+                            b.append('\n');
+                        }
+                        b.append(lines[i]);
                     }
                 }
                 if (b.length() > 0) {

@@ -1,3 +1,6 @@
+## implemented but not yet release
+- update check
+
 ## 1.1
 - use a new rendering hook, eliminating graphical glitches near water
 - improved Trident animation library integration: built-in interpolators for
