@@ -63,6 +63,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertFalse(lib.unregister()); // still unregistered
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testIsControllerInitialized() {
         assertTrue(LibShapeDraw.isControllerInitialized());

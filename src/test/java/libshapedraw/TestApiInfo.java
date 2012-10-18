@@ -26,4 +26,16 @@ public class TestApiInfo extends SetupTestEnvironment.TestCase {
         assertFalse(url.isEmpty());
         assertTrue(url.contains("://"));
     }
+
+    @Test
+    public void testIsVersionAtLeast() {
+        assertTrue(ApiInfo.isVersionAtLeast("0.1"));
+        assertTrue(ApiInfo.isVersionAtLeast(ApiInfo.getVersion()));
+        assertFalse(ApiInfo.isVersionAtLeast("9999.0"));
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testIsVersionAtLeastNull() {
+        ApiInfo.isVersionAtLeast(null);
+    }
 }

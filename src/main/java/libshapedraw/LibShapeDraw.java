@@ -61,8 +61,10 @@ public class LibShapeDraw {
      *     c) ModLoader hasn't instantiated mod_LibShapeDraw yet
      *        because it's too early in the mod lifecycle.
      *        Wait until the load method or later.
+     * 
+     * @deprecated use {@link #verifyInitialized}
      */
-    public static boolean isControllerInitialized() {
+    @Deprecated public static boolean isControllerInitialized() {
         return LSDController.isInitialized();
     }
 
@@ -80,7 +82,7 @@ public class LibShapeDraw {
      * Controller.
      */
     public LibShapeDraw verifyInitialized() {
-        if (!isControllerInitialized()) {
+        if (!LSDController.isInitialized()) {
             throw new RuntimeException(ApiInfo.getName() +
                     " is not initialized. Possible causes:" +
                     " a) ModLoader or Forge is disabled/missing;" +

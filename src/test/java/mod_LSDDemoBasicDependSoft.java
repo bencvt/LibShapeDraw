@@ -1,3 +1,4 @@
+import libshapedraw.ApiInfo;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.primitive.Color;
 import libshapedraw.shape.WireframeCuboid;
@@ -14,7 +15,7 @@ import libshapedraw.shape.WireframeCuboid;
 public class mod_LSDDemoBasicDependSoft extends BaseMod {
     public static boolean isLibShapeDrawLoaded(String minVersion) {
         try {
-            return LibShapeDraw.isControllerInitialized() && LibShapeDraw.getVersion().compareTo(minVersion) >= 0;
+            return ApiInfo.isVersionAtLeast(minVersion);
         } catch (LinkageError e) {
             return false;
         }

@@ -14,6 +14,9 @@ public class ApiInfo {
     public static String getVersion() {
         return getInstance().version;
     }
+    public static boolean isVersionAtLeast(String minVersion) {
+        return minVersion.compareTo(getInstance().version) <= 0;
+    }
     @Deprecated public static String getUrl() {
         return getInstance().urlMain;
     }
