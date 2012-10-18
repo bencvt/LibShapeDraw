@@ -4,6 +4,8 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import libshapedraw.internal.LSDInternalException;
+
 import net.minecraft.client.Minecraft;
 
 /**
@@ -23,7 +25,7 @@ public class StartMinecraftDev {
             // Change the minecraft data folder to a portable location.
             Field dataFolder = Minecraft.class.getDeclaredField("am");
             if (dataFolder.getType() != File.class) {
-                throw new RuntimeException("expected File field not found on Minecraft; obfuscation may be out of date");
+                throw new LSDInternalException("expected File field not found on Minecraft; obfuscation may be out of date");
             }
             dataFolder.setAccessible(true);
             dataFolder.set(null, mcdev);

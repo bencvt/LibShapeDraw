@@ -4,6 +4,8 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 import libshapedraw.internal.LSDController;
+import libshapedraw.internal.LSDInternalException;
+import libshapedraw.internal.LSDInternalReflectionException;
 import libshapedraw.internal.LSDModDirectory;
 import libshapedraw.internal.LSDUtil;
 
@@ -54,7 +56,7 @@ public class SetupTestEnvironment {
 
     private static void monkeyPatch() {
         if (LSDUtil.isClassLoaded(MODDIRECTORY_CLASS_NAME)) {
-            throw new RuntimeException("internal error, " + MODDIRECTORY_CLASS_NAME + " already loaded");
+            throw new LSDInternalException("internal error, " + MODDIRECTORY_CLASS_NAME + " already loaded");
         }
 
         // Force ModDirectory class load and monkey patch ModDirectory.DIRECTORY.
@@ -63,7 +65,7 @@ public class SetupTestEnvironment {
         try {
             field = LSDModDirectory.class.getDeclaredField(MODDIRECTORY_FIELD_NAME);
         } catch (Exception e) {
-            throw new LSDUtil.InternalReflectionException("unable to get field named " + MODDIRECTORY_FIELD_NAME, e);
+            throw new LSDInternalReflectionException("unable to get field named " + MODDIRECTORY_FIELD_NAME, e);
         }
         LSDUtil.setFinalField(field, null, testMinecraftDirectory);
 
@@ -72,7 +74,7 @@ public class SetupTestEnvironment {
         if (!LSDModDirectory.class.getName().equals(MODDIRECTORY_CLASS_NAME)
                 || !LSDUtil.isClassLoaded(MODDIRECTORY_CLASS_NAME)
                 || !LSDModDirectory.DIRECTORY.equals(testMinecraftDirectory)) {
-            throw new RuntimeException("internal error, sanity check failed");
+            throw new LSDInternalException("internal error, sanity check failed");
         }
     }
 

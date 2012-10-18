@@ -6,6 +6,7 @@ import java.util.Set;
 
 import libshapedraw.event.LSDEventListener;
 import libshapedraw.internal.LSDController;
+import libshapedraw.internal.LSDInternalException;
 import libshapedraw.shape.Shape;
 
 /**
@@ -69,8 +70,8 @@ public class LibShapeDraw {
     }
 
     /**
-     * Convenience method to check isControllerInitialized and throw a
-     * RuntimeException if it returns false.
+     * Convenience method to make sure that LibShapeDraw is fully initialized,
+     * with its rendering hooks properly installed. Throw an exception if not.
      * <p>
      * Assuming you're waiting to create the API instance until at least the
      * BaseMod.load method, it's a good idea to include this check, e.g.:
@@ -78,12 +79,11 @@ public class LibShapeDraw {
      * <p>
      * This isn't included in the constructor because you're allowed to create
      * and populate API instances whenever you like, even if it's before
-     * ModLoader/Forge has a chance to initialize mod_LibShapeDraw and the
-     * Controller.
+     * ModLoader/Forge has a chance to initialize mod_LibShapeDraw.
      */
     public LibShapeDraw verifyInitialized() {
         if (!LSDController.isInitialized()) {
-            throw new RuntimeException(ApiInfo.getName() +
+            throw new LSDInternalException(ApiInfo.getName() +
                     " is not initialized. Possible causes:" +
                     " a) ModLoader or Forge is disabled/missing;" +
                     " b) mod_LibShapeDraw is disabled/missing; or" +

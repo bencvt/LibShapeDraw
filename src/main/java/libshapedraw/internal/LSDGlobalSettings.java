@@ -49,7 +49,7 @@ public class LSDGlobalSettings {
                 props.load(in);
                 in.close();
             } catch (IOException e) {
-                throw new RuntimeException("unable to load resource", e);
+                throw new LSDInternalException("unable to load resource", e);
             }
             loggingEnabled = LSDUtil.parseBooleanStrict(props.getProperty("logging-enabled"));
             loggingAppend = LSDUtil.parseBooleanStrict(props.getProperty("logging-append"));
@@ -57,7 +57,7 @@ public class LSDGlobalSettings {
             updateCheckEnabled = LSDUtil.parseBooleanStrict(props.getProperty("update-check-enabled"));
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("unable to load global settings", e);
+            throw new LSDInternalException("unable to load global settings", e);
         }
     }
 

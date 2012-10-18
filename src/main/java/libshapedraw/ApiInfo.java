@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import libshapedraw.internal.LSDInternalException;
+
 /**
  * Reference class giving basic information about the LibShapeDraw API.
  */
@@ -49,7 +51,7 @@ public class ApiInfo {
             props.load(in);
             in.close();
         } catch (IOException e) {
-            throw new RuntimeException("unable to load resource", e);
+            throw new LSDInternalException("unable to load resource", e);
         }
         name = notNull(props.getProperty("name"));
         version = notNull(props.getProperty("version"));

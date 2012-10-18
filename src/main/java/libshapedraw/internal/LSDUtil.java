@@ -51,7 +51,7 @@ public class LSDUtil {
                 handler.setFormatter(new LineFormatter());
                 addHandler(handler);
             } catch (IOException e) {
-                throw new RuntimeException("unable to add file handler for " + logFilePattern, e);
+                throw new LSDInternalException("unable to add file handler for " + logFilePattern, e);
             }
         }
     }
@@ -85,7 +85,7 @@ public class LSDUtil {
             m.setAccessible(true);
             return m.invoke(ClassLoader.getSystemClassLoader(), className) != null;
         } catch (Exception e) {
-            throw new RuntimeException("ClassLoader.findLoadedClass reflection failed", e);
+            throw new LSDInternalException("ClassLoader.findLoadedClass reflection failed", e);
         }
     }
 
@@ -106,16 +106,6 @@ public class LSDUtil {
         }
     }
 
-    public static class InternalReflectionException extends RuntimeException {
-        public InternalReflectionException(String message) {
-            super(message);
-        }
-        public InternalReflectionException(String message, Exception e) {
-            super(message, e);
-        }
-        private static final long serialVersionUID = 1L;
-    };
-
     /**
      * For getting at those pesky private and obfuscated fields.
      * @return the nth field of the specified type declared by specified class.
@@ -133,9 +123,9 @@ public class LSDUtil {
                     index++;
                 }
             }
-            throw new InternalReflectionException("field not found");
+            throw new LSDInternalReflectionException("field not found");
         } catch (Exception e) {
-            throw new InternalReflectionException("unable to reflect field type " +
+            throw new LSDInternalReflectionException("unable to reflect field type " +
                     String.valueOf(fieldType) + "#" + n + " for " + String.valueOf(objClass), e);
         }
     }
@@ -147,7 +137,7 @@ public class LSDUtil {
         try {
             return field.get(obj);
         } catch (Exception e) {
-            throw new InternalReflectionException("unable to get field \"" +
+            throw new LSDInternalReflectionException("unable to get field \"" +
                     String.valueOf(field) + "\" for " + String.valueOf(obj), e);
         }
     }
@@ -164,7 +154,7 @@ public class LSDUtil {
             fieldField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
             field.set(obj, value);
         } catch (Exception e) {
-            throw new InternalReflectionException("unable to set final field \"" +
+            throw new LSDInternalReflectionException("unable to set final field \"" +
                     String.valueOf(field) + "\" for " + String.valueOf(obj), e);
         }
     }
