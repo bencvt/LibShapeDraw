@@ -166,7 +166,7 @@ public class Vector3 implements ReadonlyVector3 {
 
     @Override
     public String toString() {
-        return "(" + getX() + "," + getY() + "," + getZ() + ")";
+        return "(" + x + "," + y + "," + z + ")";
     }
 
     // ========
@@ -331,7 +331,7 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     /**
-     * Set this vector's to a unit vector (i.e. length=1) facing the direction
+     * Set this vector to a unit vector (i.e. length=1) facing the direction
      * specified by yaw and pitch angles, both in radians.
      * @return the same vector object, modified in-place.
      */
@@ -343,7 +343,7 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     /**
-     * Set this vector's to a unit vector (i.e. length=1) facing the direction
+     * Set this vector to a unit vector (i.e. length=1) facing the direction
      * specified by yaw and pitch angles, both in degrees.
      * @return the same vector object, modified in-place.
      */

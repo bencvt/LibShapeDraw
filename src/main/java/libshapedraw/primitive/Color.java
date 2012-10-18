@@ -120,7 +120,7 @@ public class Color implements ReadonlyColor {
     }
 
     /**
-     * Set all of this color's component, clamped to [0.0, 1.0].
+     * Set all of this color's components, clamped to [0.0, 1.0].
      * @return the same color object, modified in-place.
      */
     public Color set(double red, double green, double blue, double alpha) {
@@ -133,7 +133,7 @@ public class Color implements ReadonlyColor {
 
     /**
      * Set all of this color components to match another color's.
-     * @return the same vector object, modified in-place.
+     * @return the same color object, modified in-place.
      */
     public Color set(ReadonlyColor other) {
         red = clamp(other.getRed());
