@@ -26,7 +26,7 @@ public class LSDPreRenderEvent extends LSDEvent {
     }
 
     /**
-     * Whether the user has hidden the GUI (F1).
+     * True if the user has hidden the GUI (F1) and there is no active GUI screen.
      */
     public boolean isGuiHidden() {
         return guiHidden;

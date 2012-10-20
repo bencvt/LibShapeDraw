@@ -92,17 +92,32 @@ public class LibShapeDraw {
         return this;
     }
 
+    /** @see {@link #setVisible} */
     public boolean isVisible() {
         return visible;
     }
+    /**
+     * If set to false, none of the shapes owned by this API instance will be
+     * rendered. Defaults to true.
+     */
     public LibShapeDraw setVisible(boolean visible) {
         this.visible = visible;
         return this;
     }
 
+    /** @see {@link #setVisibleWhenHidingGui} */
     public boolean isVisibleWhenHidingGui() {
         return visibleWhenHidingGui;
     }
+    /**
+     * If set to true, the shapes owned by this API instance are treated as
+     * in-game objects, rendered regardless of whether the GUI is visible.
+     * <p>
+     * If set to false (default), the shapes are treated as part of the GUI and
+     * will be appropriately hidden when the user presses F1 to hide the GUI.
+     * <p>
+     * @see {@link #setVisible}, which overrides this property when set.
+     */
     public LibShapeDraw setVisibleWhenHidingGui(boolean visibleWhenHidingGui) {
         this.visibleWhenHidingGui = visibleWhenHidingGui;
         return this;

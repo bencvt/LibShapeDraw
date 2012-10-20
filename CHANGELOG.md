@@ -1,5 +1,6 @@
-## implemented but not yet release
-- update check
+## implemented but not yet released
+- add update check
+- fix minor bug with isVisibleWhenHidingGui logic
 
 ## 1.1
 - use a new rendering hook, eliminating graphical glitches near water
