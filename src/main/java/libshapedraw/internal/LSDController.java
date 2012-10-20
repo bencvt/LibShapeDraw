@@ -29,15 +29,9 @@ public class LSDController {
     private final LinkedHashSet<LibShapeDraw> apiInstances;
     private int topApiInstanceId;
     private MinecraftAccess minecraftAccess;
+    private LSDUpdateCheck updateCheck;
     private boolean initialized;
     private long lastDump;
-    /**
-     * empty: need update check
-     * non-empty: new version available; need to send notification
-     * null: no update check needed (version is current, update check disabled,
-     *       update check failed, or new version notification sent)
-     */
-    private String updateCheckResult = "";
 
     private LSDController() {
         if (LSDGlobalSettings.isLoggingEnabled()) {
@@ -134,16 +128,13 @@ public class LSDController {
                 }
             }
         }
-
-        // Wait until respawn to start the update check because we don't have a
-        // standard method of notifying the user until the chat GUI exists.
-        startUpdateCheck();
     }
 
     /**
      * Called by the bootstrapper.
      * Periodically dump API state to log if configured to do so.
      * Dispatch gameTick events.
+     * Handle update check.
      */
     public void gameTick(ReadonlyVector3 playerCoords) {
         log.finer("gameTick");
@@ -169,12 +160,15 @@ public class LSDController {
             }
         }
 
-        // Output results of update check.
-        if (updateCheckResult != null && !updateCheckResult.isEmpty()) {
-            for (String line : updateCheckResult.split("\n")) {
-                minecraftAccess.sendChatMessage(line);
-            }
-            updateCheckResult = null;
+        if (updateCheck == null) {
+            // Launch a new thread to send an update check through the network.
+            // Will only happen once per Minecraft session.
+            //
+            // We waited until the first game tick event to start the check
+            // because we didn't have a place to notify the user until now.
+            updateCheck = new LSDUpdateCheck();
+        } else {
+            updateCheck.announceResultIfReady(minecraftAccess);
         }
     }
 
@@ -251,63 +245,5 @@ public class LSDController {
         }
         log.info(line.toString());
         return true;
-    }
-
-    private void startUpdateCheck() {
-        if (updateCheckResult == null || !updateCheckResult.isEmpty()) {
-            return;
-        }
-        updateCheckResult = null;
-        if (!LSDGlobalSettings.isUpdateCheckEnabled()) {
-            return;
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("update check request: " + ApiInfo.getUrlUpdate());
-                String response = LSDUtil.getUrlContents(ApiInfo.getUrlUpdate());
-                log.info("update check response: " + String.valueOf(response));
-                if (response == null) {
-                    return;
-                }
-                // Parse response and set updateCheckResult, which will be
-                // consumed and output later in the main thread.
-                String[] lines = response.replaceAll("\t", "  ").split("\n");
-                if (lines[0].startsWith("{")) {
-                    // In case we ever want to switch to JSON in the future
-                    updateCheckResult = buildOutput("");
-                    return;
-                }
-                // The first line is simply the latest published version.
-                if (ApiInfo.isVersionAtLeast(lines[0])) {
-                    return;
-                }
-                // If the response contains lines of text after the version,
-                // that's what we'll output to the user.
-                StringBuilder b = new StringBuilder();
-                for (int i = 1; i < lines.length; i++) {
-                    if (!lines[i].isEmpty()) {
-                        if (b.length() > 0) {
-                            b.append('\n');
-                        }
-                        b.append(lines[i]);
-                    }
-                }
-                if (b.length() > 0) {
-                    updateCheckResult = b.toString();
-                } else {
-                    // The response was just the version.
-                    updateCheckResult = buildOutput(lines[0]);
-                }
-            }
-            private String buildOutput(String newVersion) {
-                return new StringBuilder().append("\u00a7c")
-                        .append(ApiInfo.getName()).append(" is out of date. ")
-                        .append(newVersion.isEmpty() ? "A new version" : "Version ")
-                        .append(newVersion)
-                        .append(" is available at\n  \u00a7c")
-                        .append(ApiInfo.getUrlShort()).toString();
-            }
-        }).start();
     }
 }
