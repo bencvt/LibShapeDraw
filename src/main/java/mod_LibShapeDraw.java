@@ -111,9 +111,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     public void load() {
-        minecraft = ModLoader.getMinecraftInstance();
+        // obf: Minecraft.getMinecraft
+        minecraft = Minecraft.x();
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
+        // obf: Timer
         timer = (aof) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, aof.class, 0), minecraft);
 
         installRenderHook();
