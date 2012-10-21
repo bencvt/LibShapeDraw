@@ -1,4 +1,5 @@
 ## implemented but not yet released
+- update for Minecraft 1.4
 - add update check
 - add a few more convenience methods for Vector3
 - fix minor bug with isVisibleWhenHidingGui logic
