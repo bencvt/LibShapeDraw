@@ -24,6 +24,7 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         v1.setX(0.0);
         assertVectorEquals(0.0, 2.0, -888.25, v1);
         assertVectorEquals(1.0, 2.0, -888.25, v0);
+        assertVectorEquals(0, 0, 0, new Vector3());
     }
 
     @Test(expected=NullPointerException.class)
@@ -433,6 +434,28 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
 
         // if the arguments disagree (clampMax < clampMin), clampMin wins
         assertVectorEquals(1.5, 1.5, 1.5, new Vector3(1, 2, 3).clamp(2.5, 1.5));
+    }
+
+    @Test
+    public void testDropFraction() {
+        ReadonlyVector3 v = new Vector3();
+        assertVectorEquals(0, 0, 0, v.copy().truncate());
+        assertVectorEquals(0, 0, 0, v.copy().floor());
+        assertVectorEquals(0, 0, 0, v.copy().ceiling());
+        assertVectorEquals(0, 0, 0, v.copy().round());
+
+        v = new Vector3(0.3, -3.3, 23.7);
+        assertVectorEquals(0, -3, 23, v.copy().truncate());
+        assertVectorEquals(0, -4, 23, v.copy().floor());
+        assertVectorEquals(1, -3, 24, v.copy().ceiling());
+        assertVectorEquals(0, -3, 24, v.copy().round());
+
+        v = new Vector3(-0.5, 0.5, -3.96875);
+        assertVectorEquals( 0, 0, -3, v.copy().truncate());
+        assertVectorEquals(-1, 0, -4, v.copy().floor());
+        assertVectorEquals( 0, 1, -3, v.copy().ceiling());
+        // Always round up if exactly in between two whole numbers, even if negative.
+        assertVectorEquals( 0, 1, -4, v.copy().round());
     }
 
     @Test

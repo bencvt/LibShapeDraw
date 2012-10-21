@@ -7,7 +7,7 @@ package libshapedraw.primitive;
  * Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);
  */
 public class Vector3 implements ReadonlyVector3 {
-    public static final ReadonlyVector3 ZEROS = new Vector3(0.0, 0.0, 0.0);
+    public static final ReadonlyVector3 ZEROS = new Vector3();
 
     private static final double R2D = 180.0 / Math.PI;
     private static final double D2R = Math.PI / 180.0;
@@ -15,6 +15,11 @@ public class Vector3 implements ReadonlyVector3 {
     private double x;
     private double y;
     private double z;
+
+    /** Create a new vector with all components set to zero. */
+    public Vector3() {
+        // do nothing; 0.0 is the default double value already
+    }
 
     public Vector3(double x, double y, double z) {
         this.x = x;
@@ -289,9 +294,9 @@ public class Vector3 implements ReadonlyVector3 {
      * @return the same vector object, modified in-place.
      */
     public Vector3 zero() {
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
         return this;
     }
 
@@ -447,6 +452,58 @@ public class Vector3 implements ReadonlyVector3 {
      */
     public Vector3 clampZ(double min, double max) {
         z = Math.min(max, Math.max(min, z));
+        return this;
+    }
+
+    /**
+     * Drop the fractional portion of each component by casting each to an int,
+     * then back to a double. Values move closer to zero.
+     * <p>E.g.: -3.25 to -3.0; -0.6 to 0.0; 0.4 to 0.0; 5.3 to 5.0.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 truncate() {
+        x = (int) x;
+        y = (int) y;
+        z = (int) z;
+        return this;
+    }
+
+    /**
+     * Drop the fractional portion of each component using {@link Math#floor}.
+     * Values move closer to negative infinity.
+     * <p>E.g.: -3.25 to -4.0; -0.6 to -1.0; 0.4 to 0.0; 5.3 to 5.0. 
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 floor() {
+        x = Math.floor(x);
+        y = Math.floor(y);
+        z = Math.floor(z);
+        return this;
+    }
+
+    /**
+     * Drop the fractional portion of each component using {@link Math#ceil}.
+     * Values move closer to positive infinity.
+     * <p>E.g.: -3.25 to -3.0; -0.6 to 0.0; 0.4 to 1.0; 5.3 to 6.0. 
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 ceiling() {
+        x = Math.ceil(x);
+        y = Math.ceil(y);
+        z = Math.ceil(z);
+        return this;
+    }
+
+    /**
+     * Drop the fractional portion of each component using {@link Math#round}.
+     * Values move to the closest whole number.
+     * <p>E.g.: -3.25 to -3.0; -0.6 to -1.0; 0.4 to 0.0; 5.3 to 5.0. 
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 round() {
+        x = Math.round(x);
+        y = Math.round(y);
+        z = Math.round(z);
         return this;
     }
 

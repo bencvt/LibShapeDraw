@@ -1,5 +1,6 @@
 ## implemented but not yet released
 - add update check
+- add a few more convenience methods for Vector3
 - fix minor bug with isVisibleWhenHidingGui logic
 
 ## 1.1
