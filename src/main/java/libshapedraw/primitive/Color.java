@@ -3,6 +3,8 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.GL11;
+
 import libshapedraw.internal.LSDInternalReflectionException;
 
 /**
@@ -72,6 +74,16 @@ public class Color implements ReadonlyColor {
                 ((((int) (getRed() * 255.0)) & 0xff) << 16) |
                 ((((int) (getGreen() * 255.0)) & 0xff) << 8) |
                 (((int) (getBlue() * 255.0)) & 0xff);
+    }
+
+    @Override
+    public void glApply() {
+        GL11.glColor4d(red, green, blue, alpha);
+    }
+
+    @Override
+    public void glApply(double alphaScale) {
+        GL11.glColor4d(red, green, blue, clamp(alpha * alphaScale));
     }
 
     @Override

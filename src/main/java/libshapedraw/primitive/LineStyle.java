@@ -1,5 +1,7 @@
 package libshapedraw.primitive;
 
+import org.lwjgl.opengl.GL11;
+
 /**
  * Represent a line style: a Color and a floating point width.
  * Optionally, the line style can have a secondary Color/width as well.
@@ -59,6 +61,23 @@ public class LineStyle implements ReadonlyLineStyle {
     @Override
     public boolean hasSecondaryColor() {
         return secondaryColor != null;
+    }
+
+    @Override
+    public boolean glApply(boolean useSecondary) {
+        if (useSecondary) {
+            if (secondaryColor == null) {
+                return false;
+            }
+            GL11.glDepthFunc(GL11.GL_GREATER);
+            secondaryColor.glApply();
+            GL11.glLineWidth(secondaryWidth);
+        } else {
+            GL11.glDepthFunc(GL11.GL_LEQUAL);
+            mainColor.glApply();
+            GL11.glLineWidth(mainWidth);
+        }
+        return true;
     }
 
     @Override

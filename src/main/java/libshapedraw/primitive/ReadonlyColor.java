@@ -25,4 +25,20 @@ public interface ReadonlyColor {
      *         alpha, red, green, blue.
      */
     public int getARGB();
+
+    /**
+     * Convenience method, equivalent to:
+     * GL11.glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+     */
+    public void glApply();
+
+    /**
+     * Convenience method similar to {@link #glApply} that also applies an
+     * alpha scaling factor. The final alpha passed to OpenGL is clamped to
+     * [0.0, 1.0]. The Color instance remains unchanged.
+     * <p>
+     * Equivalent to c.copy().scaleAlpha(alphaScale).glApply(), without the
+     * extra Color instance creation.
+     */
+    public void glApply(double alphaScale);
 }

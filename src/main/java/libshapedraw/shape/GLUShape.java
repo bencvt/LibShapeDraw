@@ -32,15 +32,12 @@ public abstract class GLUShape extends Shape {
 
     @Override
     protected void renderShape(MinecraftAccess mc) {
-        Color color = getMainColor();
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        mainColor.glApply();
         renderGLUQuadric();
-
-        if (getSecondaryColor() != null) {
-            color = getSecondaryColor();
+        if (secondaryColor != null) {
             GL11.glDepthFunc(GL11.GL_GREATER);
-            GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            secondaryColor.glApply();
             renderGLUQuadric();
         }
     }
