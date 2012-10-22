@@ -1,3 +1,6 @@
+## implemented but not yet released
+- nothing so far
+
 ## 1.2
 - update for Minecraft 1.4
 - add update check
