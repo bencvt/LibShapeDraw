@@ -90,7 +90,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     private LSDController controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
-    private awy curWorld; // obf: WorldClient
+    private Object curWorld;
     private axb curPlayer; // obf: EntityClientPlayerMP
     private Integer curDimension;
 
@@ -125,10 +125,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     /** Use reflection to install the profiler proxy class. */
     private void installRenderHook() {
-        // obf: Profiler
-        Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, jx.class, 0);
-        jx profilerOrig = (jx) LSDUtil.getFieldValue(fieldProfiler, minecraft);
-        if (profilerOrig.getClass() != jx.class) {
+        Class<? super ProfilerProxy> profilerClass = ProfilerProxy.class.getSuperclass();
+        Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, profilerClass, 0);
+        Object profilerOrig = LSDUtil.getFieldValue(fieldProfiler, minecraft);
+        if (profilerOrig.getClass() != profilerClass) {
             // We probably overwrote some other mod's hook. :-(
             LSDController.getLog().warning("mod incompatibility detected: profiler already proxied!");
         }
@@ -136,7 +136,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         LSDUtil.setFinalField(fieldProfiler, minecraft, profilerProxy);
 
         // Copy all field values from origProfiler to newProfiler
-        for (Field f : jx.class.getDeclaredFields()) {
+        for (Field f : profilerClass.getDeclaredFields()) {
             f.setAccessible(true);
             Object origValue = LSDUtil.getFieldValue(f, profilerOrig);
             LSDUtil.setFinalField(f, profilerProxy, origValue);
@@ -158,9 +158,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     public boolean onTickInGame(float partialTick, Minecraft minecraft) {
         ReadonlyVector3 playerCoords = getPlayerCoords(partialTick);
 
+        // obf: Minecraft.theWorld, Minecraft.thePlayer
         if (curWorld != minecraft.e || curPlayer != minecraft.g) {
-            curWorld = minecraft.e; // obf: Minecraft.theWorld
-            curPlayer = minecraft.g; // obf: Minecraft.thePlayer
+            curWorld = minecraft.e;
+            curPlayer = minecraft.g; 
 
             // Dispatch respawn event to Controller.
             int newDimension = curPlayer.ap; // obf: Entity.dimension
