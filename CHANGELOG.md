@@ -1,7 +1,7 @@
-## implemented but not yet released
+## 1.2
 - update for Minecraft 1.4
 - add update check
-- add a few more convenience methods for Vector3
+- add a few more convenience methods for primitive types
 - fix minor bug with isVisibleWhenHidingGui logic
 
 ## 1.1
