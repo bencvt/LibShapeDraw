@@ -95,7 +95,7 @@ public class LSDUtil {
 
     /**
      * Create a uniquely-named temporary directory.
-     * @see java.nio.file.Files.createTempDirectory
+     * @see {@link java.nio.file.Files#createTempDirectory} (Java 7+)
      */
     public static synchronized File createTempDirectory(String prefix) {
         File baseDir = new File(System.getProperty("java.io.tmpdir"));

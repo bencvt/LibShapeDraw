@@ -1,10 +1,13 @@
 package libshapedraw.shape;
 
-import org.lwjgl.util.glu.Sphere;
-
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.Vector3;
 
+import org.lwjgl.util.glu.Sphere;
+
+/**
+ * Render a GLU (OpenGL Utility Library) sphere.
+ */
 public class GLUSphere extends GLUShape {
     private final Sphere sphere;
     private float radius;

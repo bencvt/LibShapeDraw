@@ -3,7 +3,6 @@ package libshapedraw.internal;
 import java.io.File;
 
 import libshapedraw.ApiInfo;
-
 import net.minecraft.client.Minecraft;
 
 public class LSDModDirectory {

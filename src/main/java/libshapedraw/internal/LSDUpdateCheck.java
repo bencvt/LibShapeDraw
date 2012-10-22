@@ -5,6 +5,9 @@ import libshapedraw.MinecraftAccess;
 
 /**
  * Check the remote website for updates.
+ * <p>
+ * The server-side part of this is dead simple: a static text file hosted on a
+ * web server.
  */
 public class LSDUpdateCheck {
     public class UrlRetriever implements Runnable {

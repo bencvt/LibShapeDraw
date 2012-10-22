@@ -4,6 +4,9 @@ import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Rotate a Shape by any number of degrees around any axis using glRotate.
+ */
 public class ShapeRotate implements ShapeTransform {
     private double angle;
     private Vector3 axis;
@@ -20,6 +23,7 @@ public class ShapeRotate implements ShapeTransform {
     public double getAngle() {
         return angle;
     }
+    /** @see #getAngle */
     public ShapeRotate setAngle(double angle) {
         this.angle = angle;
         return this;
@@ -30,10 +34,12 @@ public class ShapeRotate implements ShapeTransform {
     public Vector3 getAxis() {
         return axis;
     }
+    /** @see #getAxis */
     public ShapeRotate setAxis(Vector3 axis) {
         this.axis = axis;
         return this;
     }
+
     @Override
     public void preRender() {
         // GL11.glRotated not available in Minecraft's LWJGL version

@@ -11,6 +11,9 @@ import libshapedraw.transform.ShapeTransform;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Generic base class for a renderable object.
+ */
 public abstract class Shape {
     private boolean visible = true;
     private Vector3 origin;

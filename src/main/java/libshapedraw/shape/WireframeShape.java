@@ -58,7 +58,7 @@ public abstract class WireframeShape extends Shape {
 
     /**
      * Convenience method.
-     * @see LineStyle.set
+     * @see LineStyle#set
      */
     public WireframeShape setLineStyle(Color color, float width, boolean visibleThroughTerrain) {
         if (lineStyle == null) {

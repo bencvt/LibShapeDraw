@@ -3,9 +3,9 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
-
 import libshapedraw.internal.LSDInternalReflectionException;
+
+import org.lwjgl.opengl.GL11;
 
 /**
  * Yet another class representing a Red/Green/Blue/Alpha color 4-tuple.

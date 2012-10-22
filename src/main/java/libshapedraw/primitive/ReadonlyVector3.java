@@ -1,16 +1,23 @@
 package libshapedraw.primitive;
 
+/**
+ * Read-only interface for Vector3 objects, allowing for compile-time safety.
+ * @see Vector3
+ */
 public interface ReadonlyVector3 {
     /** @return a new deep-copied mutable Vector3. */
     public Vector3 copy();
 
+    /** @return the vector's x component. */
     public double getX();
 
+    /** @return the vector's y component. */
     public double getY();
 
+    /** @return the vector's z component. */
     public double getZ();
 
-    /** @return true if all of this vector's components are zero. */
+    /** @return true if all of this vector's components are exactly zero. */
     public boolean isZero();
 
     /**

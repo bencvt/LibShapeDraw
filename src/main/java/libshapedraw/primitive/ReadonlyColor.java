@@ -1,15 +1,26 @@
 package libshapedraw.primitive;
 
+/**
+ * Read-only interface for Color objects, allowing for compile-time safety.
+ * @see Color
+ */
 public interface ReadonlyColor {
     /** @return a new deep-copied mutable Color. */
     public Color copy();
 
+    /** @return this color's red component, in the range [0.0, 1.0]. */
     public double getRed();
 
+    /** @return this color's green component, in the range [0.0, 1.0]. */
     public double getGreen();
 
+    /** @return this color's blue component, in the range [0.0, 1.0]. */
     public double getBlue();
 
+    /**
+     * @return this color's alpha component, in the range [0.0, 1.0].
+     *         0.0 is fully transparent; 1.0 is fully opaque.
+     */
     public double getAlpha();
 
     /**
@@ -27,15 +38,18 @@ public interface ReadonlyColor {
     public int getARGB();
 
     /**
-     * Convenience method, equivalent to:
+     * Convenience method to update the OpenGL state to use this color.
+     * <p>
+     * Equivalent to
      * GL11.glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
      */
     public void glApply();
 
     /**
-     * Convenience method similar to {@link #glApply} that also applies an
-     * alpha scaling factor. The final alpha passed to OpenGL is clamped to
-     * [0.0, 1.0]. The Color instance remains unchanged.
+     * Convenience method to update the OpenGL state to use this color, with
+     * the alpha value scaled by a specified factor. The Color instance remains
+     * unchanged by the factor. The final alpha value passed to OpenGL is
+     * clamped to [0.0, 1.0]. 
      * <p>
      * Equivalent to c.copy().scaleAlpha(alphaScale).glApply(), without the
      * extra Color instance creation.

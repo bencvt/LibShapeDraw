@@ -92,7 +92,7 @@ public class LibShapeDraw {
         return this;
     }
 
-    /** @see {@link #setVisible} */
+    /** @see #setVisible */
     public boolean isVisible() {
         return visible;
     }
@@ -105,7 +105,7 @@ public class LibShapeDraw {
         return this;
     }
 
-    /** @see {@link #setVisibleWhenHidingGui} */
+    /** @see #setVisibleWhenHidingGui */
     public boolean isVisibleWhenHidingGui() {
         return visibleWhenHidingGui;
     }

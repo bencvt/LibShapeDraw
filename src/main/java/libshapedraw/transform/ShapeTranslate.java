@@ -4,6 +4,9 @@ import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Adjust the x/y/z coordinates of a Shape using glTranslate.
+ */
 public class ShapeTranslate implements ShapeTransform {
     private Vector3 translateXYZ;
     public ShapeTranslate() {

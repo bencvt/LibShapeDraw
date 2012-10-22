@@ -5,6 +5,9 @@ import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.util.glu.Disk;
 
+/**
+ * Render a GLU (OpenGL Utility Library) disk.
+ */
 public class GLUDisk extends GLUShape {
     private final Disk disk;
     private float innerRadius;

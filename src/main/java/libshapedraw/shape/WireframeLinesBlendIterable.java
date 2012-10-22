@@ -40,7 +40,7 @@ public class WireframeLinesBlendIterable extends WireframeLines {
     }
     /**
      * Convenience method.
-     * @see LineStyle.set
+     * @see LineStyle#set
      */
     public WireframeLinesBlendIterable setBlendToLineStyle(Color color, float width, boolean visibleThroughTerrain) {
         if (blendToLineStyle == null) {

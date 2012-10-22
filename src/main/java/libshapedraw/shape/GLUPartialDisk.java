@@ -5,6 +5,9 @@ import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.util.glu.PartialDisk;
 
+/**
+ * Render a GLU (OpenGL Utility Library) partial disk.
+ */
 public class GLUPartialDisk extends GLUShape {
     private final PartialDisk partialDisk;
     private float innerRadius;

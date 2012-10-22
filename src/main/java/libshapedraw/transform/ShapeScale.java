@@ -4,6 +4,9 @@ import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Resize a Shape using glScale.
+ */
 public class ShapeScale implements ShapeTransform {
     private Vector3 scaleXYZ;
     public ShapeScale() {

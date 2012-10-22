@@ -1,5 +1,9 @@
 package libshapedraw.primitive;
 
+/**
+ * Read-only interface for LineStyle objects, allowing for compile-time safety.
+ * @see LineStyle
+ */
 public interface ReadonlyLineStyle {
     /** @return a new deep-copied mutable LineStyle. */
     public LineStyle copy();
