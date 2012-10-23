@@ -76,9 +76,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         @Override
         public void c(String sectionName) {
             if (sectionName.equals("hand")) {
-                float partialTick = getPartialTick();
+                super.c("LSD");
+                // Dispatch respawn event to Controller.
                 // obf: Minecraft.gameSettings, GameSettings.hideGUI, Minecraft.currentScreen
-                controller.render(getPlayerCoords(partialTick), minecraft.y.R && minecraft.r == null);
+                controller.render(getPlayerCoords(), minecraft.y.R && minecraft.r == null);
                 renderHeartbeat = true;
             }
             super.c(sectionName);
@@ -156,7 +157,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     public boolean onTickInGame(float partialTick, Minecraft minecraft) {
-        ReadonlyVector3 playerCoords = getPlayerCoords(partialTick);
+        ReadonlyVector3 playerCoords = getPlayerCoords();
 
         // obf: Minecraft.theWorld, Minecraft.thePlayer
         if (curWorld != minecraft.e || curPlayer != minecraft.g) {
@@ -190,10 +191,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * Get the player's current coordinates, adjusted for movement that occurs
      * between game ticks.
      */
-    private ReadonlyVector3 getPlayerCoords(float partialTick) {
+    private ReadonlyVector3 getPlayerCoords() {
         if (curPlayer == null) {
             return Vector3.ZEROS;
         }
+        float partialTick = getPartialTick();
         // obf: Entity.prevPosX, Entity.prevPosY, Entity.prevPosZ, Entity.posX, Entity.posY, Entity.posZ
         return new Vector3(
                 curPlayer.q + partialTick*(curPlayer.t - curPlayer.q),
