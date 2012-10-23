@@ -89,7 +89,41 @@ Quick version: Add the jar to your project's classpath, instantiate
 
 For a gentler introduction, browse the demos: `src/test/java/mod_LSDDemo*.java`.
 
-Other resources:
+### How to add the LibShapeDraw jar to the classpath in MCP
+
+[Minecraft Coder Pack (MCP)](http://mcp.ocean-labs.de/index.php/MCP_Releases)
+can be a useful tool for creating mods, letting you work with deobfuscated
+Minecraft code. LibShapeDraw itself does not use MCP, but if you want to create
+a mod using both tools you can.
+
+It's possible to simply patch LibShapeDraw into `minecraft.jar` and have MCP
+decompile it. This works for ModLoader, but the decompiling process can mess up
+some class names. This doesn't work for Forge, which insists on a pure vanilla
+`minecraft.jar`.
+
+A better alternative is to keep the LibShapeDraw binary separate and reference
+it via classpath. Here's a step-by-step:
+
+1.  Get a copy of a LibShapeDraw release jar. You can use either the normal
+    release or the special dev release (named `LibShapeDraw-VERSION-deobf.jar`).
+    Check the [downloads list](https://github.com/bencvt/LibShapeDraw/downloads).
+    Either release type will work for *compiling* your mod, but the dev release
+    is recommended as its identifiers are all MCP-deobfuscated. Without this
+    deobfuscation, you wouldn't be able to *test/debug* your mod without doing a
+    full reobfuscate/deploy.
+
+2.  Copy the LibShapeDraw jar to `jars/bin`.
+
+3.  Open `conf/mcp.cfg` and scroll down to the `[RECOMPILE]` section. There is
+    a property named `ClassPathClient`; this is where we will add a reference to
+    the LibShapeDraw jar. Add `,%(DirJars)s/bin/LibShapeDraw-VERSION-deobf.jar`
+    (changing `VERSION` as appropriate) to the end of the line.
+
+If you want to use an IDE, you'll need to add the LibShapeDraw jar to the build
+path there as well. In Eclipse, go to the Project Explorer pane and expand
+`jars/bin`. Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
+
+### Other resources
 
  +  Javadocs are available.
  +  See `README-Trident.md` for information about the built-in Trident animation

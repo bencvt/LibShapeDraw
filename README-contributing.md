@@ -15,7 +15,9 @@ LibShapeDraw could use a better logo. :)
 ## Building LibShapeDraw from source
 
 If you just want to use the API in your own mod, feel free to skip this section
-and use the prebuilt jar.
+and use a prebuilt jar.
+
+### Main jar (`LibShapeDraw-VERSION.jar`)
 
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
@@ -26,9 +28,10 @@ and use the prebuilt jar.
 That's all there is to it.
 
 There is no need to install MCP as LibShapeDraw handles obfuscation on its own.
-The main reason for this is that MCP really doesn't integrate well with Maven.
-You can still use MCP along with LibShapeDraw in your own mod if you prefer; it
-decompiles just fine.
+The main reason for this is that MCP really doesn't integrate well with Maven
+and Git. You can still use MCP along with LibShapeDraw in your own mod if you
+prefer; see the *How to add the LibShapeDraw jar to the classpath in MCP*
+section in the main `README.md` for details.
 
 There is no need to use Forge or reference any Forge classes when compiling
 either. ModLoader is enough. You *can* compile against a `lib/minecraft.jar`
@@ -40,6 +43,32 @@ If you prefer to use an IDE, here's one recommended method:
 2.  Install [Eclipse](http://www.eclipse.org/) and a
     [Maven integration plugin](http://wiki.eclipse.org/M2E).
 3.  Import the Maven project to your workspace.
+
+### Dev jar (`LibShapeDraw-VERSION-deobf.jar`)
+
+This process isn't Mavenized yet. Manual process:
+
+1.  Make a temporary backup copy of `lib/minecraft.jar` and of
+    `src/main/java/mod_LibShapeDraw.java`.
+2.  Install MCP and decompile a `minecraft.jar` with ModLoader patched in.
+    Or install MCP with the Forge sources. Either works.
+3.  Open up a terminal window and change to the `bin/` subdirectory under the
+    MCP directory.
+4.  Type `jar cfv (repo-dir)/LibShapeDraw/lib/minecraft.jar .` (including the
+    dot at the end, and substituting `(repo-dir)` as appropriate.)
+5.  You should see a bunch of `.class` file names scroll past. Verify that
+    `lib/minecraft.jar` was overwritten.
+6.  Overwrite `src/main/java/mod_LibShapeDraw.java` with
+    `src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java`.
+7.  Temporarily disable the test suite by renaming/deleting `src/test`.
+8.  Run Maven.
+9.  Rename the output jar in `target/` so it ends with `-deobf`.
+10. Restore `lib/minecraft.jar`, `src/main/java/mod_LibShapeDraw.java`, and
+    `src/test`.
+
+### Demos jar (`LibShapeDraw-VERSION-demos.jar`)
+
+This process isn't defined yet... pending creation of `src/demos`.
 
 ## Tips and tricks
 
@@ -72,14 +101,17 @@ released along with Minecraft 1.5, with the following adjustments:
 
 Planned documentation improvements:
 
- +  Mavenize Javadoc generation and publish them somewhere, probably GitHub.
+ +  Automate Javadoc generation and publish them somewhere, probably GitHub.
 
  +  Maintain high JUnit test code coverage.
 
  +  Expand the demos and make them easier to run, perhaps publishing a separate
     `LibShapeDraw-VERSION-demos.jar` containing just the demos.
 
- +  Create a tutorial on how to start a fresh mod that uses LibShapeDraw.
+ +  Automate creation of the dev release jar (`LibShapeDraw-VERSION-deobf.jar`).
+
+ +  Create a complete tutorial on how to start a fresh mod that uses
+    LibShapeDraw.
 
 Possible features, unprioritized (maybe before 2.0, maybe after, maybe never...
 feedback and patches welcome):
