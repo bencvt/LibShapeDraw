@@ -95,7 +95,8 @@ Other resources:
  +  See `README-Trident.md` for information about the built-in Trident animation
     library.
  +  See `README-contributing.md` for information about contributing to
-    LibShapeDraw itself, including build instructions.
+    LibShapeDraw itself, including build instructions and a list of features
+    planned for future releases.
  +  If you'd like additional guidance, check the contacts section below.
 
 # Contact
