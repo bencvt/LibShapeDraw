@@ -49,6 +49,12 @@ It has been modified in several ways:
             public MyFluentClass setX(double x) { this.x = x; return this; }
         }
 
+ +  Added `Timeline.playLoop(boolean reverse)` convenience method, equivalent to
+    `Timeline.playLoop(reverse ? RepeatBehavior.REVERSE : RepeatBehavior.LOOP)`.
+    This provides a workaround for internal class name munging (e.g.,
+    `RepeatBehavior$REVERSE`) that can occur when decompiling, a frequent thing
+    in Minecraft development.
+
  +  Finally, LibShapeDraw registers custom property interpolators for its
     primitive objects (Color, LineStyle, and Vector3). This makes it easier to
     animate these objects, e.g.:
