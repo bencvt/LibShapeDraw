@@ -76,7 +76,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         @Override
         public void c(String sectionName) {
             if (sectionName.equals("hand")) {
-                super.c("LSD");
+                super.c("LibShapeDraw"); // we'll take the blame :-)
                 // Dispatch respawn event to Controller.
                 // obf: Minecraft.gameSettings, GameSettings.hideGUI, Minecraft.currentScreen
                 controller.render(getPlayerCoords(), minecraft.y.R && minecraft.r == null);

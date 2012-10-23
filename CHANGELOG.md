@@ -1,6 +1,7 @@
 ## implemented but not yet released
-- add an "LSD" section to the profiler so users can see the performance impact
-  of LibShapeDraw on the F3 debug screen
+- add a section to the profiler so users can see the performance impact of
+  LibShapeDraw on the shift-F3 debug screen; accessible under
+  `root.gameRenderer.level.LibShapeDraw`
 
 ## 1.2
 - update for Minecraft 1.4
