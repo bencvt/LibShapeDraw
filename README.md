@@ -52,8 +52,23 @@ bottom. Please have the crash report and `LibShapeDraw.log` handy.
 
 # For Developers
 
-LibShapeDraw is open source, designed to be as easy to use as possible. Be sure
-to check for updates.
+LibShapeDraw is designed to be easy to use, both for devs and for players. These
+are the design goals to that end:
+
+ +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
+    and running. That's all.
+ +  **Maximal compatibility.** LibShapeDraw does not directly modify the
+    bytecode of *any* vanilla Minecraft class. You are free to modify Minecraft
+    classes in your own mod if needed; LibShapeDraw will not interfere.
+ +  **Unobtrusive.** Pick and choose the components you want to use.
+    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
+    DoEverythingThisWay framework.
+ +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
+    write less code to do more. That's what LibShapeDraw is all about.
+ +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
+    the demos for some of the many possibilities.
+ +  **Well-documented.** The key to success for any API, really.
+ +  **Open source.** MIT-licensed and open to community feedback and patches.
 
 ## Using the LibShapeDraw API in your project
 
