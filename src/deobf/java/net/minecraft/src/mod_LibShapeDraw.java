@@ -1,6 +1,4 @@
-// THIS SOURCE FILE WAS AUTOMATICALLY GENERATED. DO NOT MANUALLY EDIT.
-// Instead, edit src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java
-// and then run the src/deobf/python/obfuscate.py script.
+package net.minecraft.src;
 
 import java.lang.reflect.Field;
 
@@ -75,32 +73,32 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * The sooner the better.
      */
     // obf: Profiler
-    public class Proxy extends jx {
+    public class Proxy extends Profiler {
         @Override
         // obf: Profiler.endStartSection
-        public void c(String sectionName) {
+        public void endStartSection(String sectionName) {
             if (sectionName.equals("hand")) {
                 // obf: Profiler.endStartSection
-                super.c("LibShapeDraw"); // we'll take the blame :-)
+                super.endStartSection("LibShapeDraw"); // we'll take the blame :-)
                 // Dispatch respawn event to Controller.
                 // obf: Minecraft.gameSettings, GameSettings.hideGUI, Minecraft.currentScreen
-                controller.render(getPlayerCoords(), minecraft.y.R && minecraft.r == null);
+                controller.render(getPlayerCoords(), minecraft.gameSettings.hideGUI && minecraft.currentScreen == null);
                 renderHeartbeat = true;
             }
             // obf: Profiler.endStartSection
-            super.c(sectionName);
+            super.endStartSection(sectionName);
         }
     }
 
     private Minecraft minecraft;
     // obf: Timer
-    private ari timer;
+    private Timer timer;
     private LSDController controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
     private Object curWorld;
     // obf: EntityClientPlayerMP
-    private axb curPlayer;
+    private EntityClientPlayerMP curPlayer;
     private Integer curDimension;
 
     public mod_LibShapeDraw() {
@@ -121,11 +119,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @Override
     public void load() {
         // obf: Minecraft.getMinecraft
-        minecraft = Minecraft.x();
+        minecraft = Minecraft.getMinecraft();
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
         // obf: Timer
-        timer = (ari) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, ari.class, 0), minecraft);
+        timer = (Timer) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, Timer.class, 0), minecraft);
 
         installRenderHook();
         ModLoader.setInGameHook(this, true, true); // game ticks only, not every render frame.
@@ -156,7 +154,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     // obf: NetClientHandler
-    public void clientConnect(awq netClientHandler) {
+    public void clientConnect(NetClientHandler netClientHandler) {
         LSDController.getLog().info(getClass().getName() + " new server connection");
         curWorld = null;
         curPlayer = null;
@@ -168,15 +166,15 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         ReadonlyVector3 playerCoords = getPlayerCoords();
 
         // obf: Minecraft.theWorld, Minecraft.thePlayer
-        if (curWorld != minecraft.e || curPlayer != minecraft.g) {
+        if (curWorld != minecraft.theWorld || curPlayer != minecraft.thePlayer) {
             // obf: Minecraft.theWorld
-            curWorld = minecraft.e;
+            curWorld = minecraft.theWorld;
             // obf: Minecraft.thePlayer
-            curPlayer = minecraft.g; 
+            curPlayer = minecraft.thePlayer; 
 
             // Dispatch respawn event to Controller.
             // obf: Entity.dimension
-            int newDimension = curPlayer.ap;
+            int newDimension = curPlayer.dimension;
             controller.respawn(playerCoords,
                     curDimension == null,
                     curDimension == null || curDimension != newDimension);
@@ -188,7 +186,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
         // Make sure our render hook is still working.
         // obf: Minecraft.skipRenderWorld
-        if (!renderHeartbeat && !renderHeartbroken && !minecraft.w) {
+        if (!renderHeartbeat && !renderHeartbroken && !minecraft.skipRenderWorld) {
             // Some other mod probably overwrote our hook. :-(
             LSDController.getLog().warning("mod incompatibility detected: render hook not working!");
             renderHeartbroken = true; // don't spam log
@@ -209,11 +207,11 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         float partialTick = getPartialTick();
         return new Vector3(
                 // obf: Entity.prevPosX, Entity.posX
-                curPlayer.q + partialTick*(curPlayer.t - curPlayer.q),
+                curPlayer.prevPosX + partialTick*(curPlayer.posX - curPlayer.prevPosX),
                 // obf: Entity.prevPosY, Entity.posY
-                curPlayer.r + partialTick*(curPlayer.u - curPlayer.r),
+                curPlayer.prevPosY + partialTick*(curPlayer.posY - curPlayer.prevPosY),
                 // obf: Entity.prevPosZ, Entity.posZ
-                curPlayer.s + partialTick*(curPlayer.v - curPlayer.s));
+                curPlayer.prevPosZ + partialTick*(curPlayer.posZ - curPlayer.prevPosZ));
     }
 
     // ====
@@ -223,35 +221,35 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @Override
     public MinecraftAccess startDrawing(int mode) {
         // obf: Tessellator, Tessellator.instance, Tessellator.startDrawing
-        aza.a.b(mode);
+        Tessellator.instance.startDrawing(mode);
         return this;
     }
 
     @Override
     public MinecraftAccess addVertex(double x, double y, double z) {
         // obf: Tessellator, Tessellator.instance, Tessellator.addVertex
-        aza.a.a(x, y, z);
+        Tessellator.instance.addVertex(x, y, z);
         return this;
     }
 
     @Override
     public MinecraftAccess addVertex(ReadonlyVector3 coords) {
         // obf: Tessellator, Tessellator.instance, Tessellator.addVertex
-        aza.a.a(coords.getX(), coords.getY(), coords.getZ());
+        Tessellator.instance.addVertex(coords.getX(), coords.getY(), coords.getZ());
         return this;
     }
 
     @Override
     public MinecraftAccess finishDrawing() {
         // obf: Tessellator, Tessellator.instance, Tessellator.draw
-        aza.a.a();
+        Tessellator.instance.draw();
         return this;
     }
 
     @Override
     public MinecraftAccess enableStandardItemLighting() {
         // obf: RenderHelper, RenderHelper.enableStandardItemLighting
-        aqi.b();
+        RenderHelper.enableStandardItemLighting();
         return this;
     }
 
@@ -261,7 +259,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         LSDController.getLog().info("sendChatMessage visible=" + visible + " message=" + message);
         if (visible) {
             // obf: Minecraft.ingameGUI, GuiIngame.getChatGUI, GuiNewChat.printChatMessage
-            minecraft.v.b().a(message);
+            minecraft.ingameGUI.getChatGUI().printChatMessage(message);
         }
         return this;
     }
@@ -269,12 +267,12 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @Override
     public boolean chatWindowExists() {
         // obf: Minecraft.ingameGUI, GuiIngame.getChatGUI
-        return minecraft != null && minecraft.v != null && minecraft.v.b() != null;
+        return minecraft != null && minecraft.ingameGUI != null && minecraft.ingameGUI.getChatGUI() != null;
     }
 
     @Override
     public float getPartialTick() {
         // obf: Timer.renderPartialTicks
-        return timer == null ? 0.0F : timer.c;
+        return timer == null ? 0.0F : timer.renderPartialTicks;
     }
 }

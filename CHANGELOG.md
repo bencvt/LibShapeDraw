@@ -2,6 +2,7 @@
 - add a section to the profiler so users can see the performance impact of
   LibShapeDraw on the shift-F3 debug screen; accessible under
   `root.gameRenderer.level.LibShapeDraw`
+- a few minor internal changes to better support deobfuscation
 
 ## 1.2
 - update for Minecraft 1.4
