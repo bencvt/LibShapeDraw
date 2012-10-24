@@ -1,4 +1,5 @@
-## implemented but not yet released
+## 1.2.1
+- updated for Minecraft 1.4.2
 - added a section to the profiler so users can see the performance impact of
   LibShapeDraw on the shift-F3 debug screen; accessible under
   `root.gameRenderer.level.LibShapeDraw`

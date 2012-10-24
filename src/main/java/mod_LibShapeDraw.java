@@ -75,7 +75,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * The sooner the better.
      */
     // obf: Profiler
-    public class Proxy extends jx {
+    public class Proxy extends jy {
         @Override
         // obf: Profiler.endStartSection
         public void c(String sectionName) {
@@ -94,13 +94,13 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     private Minecraft minecraft;
     // obf: Timer
-    private ari timer;
+    private arj timer;
     private LSDController controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
     private Object curWorld;
     // obf: EntityClientPlayerMP
-    private axb curPlayer;
+    private axc curPlayer;
     private Integer curDimension;
 
     public mod_LibShapeDraw() {
@@ -125,7 +125,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
         // obf: Timer
-        timer = (ari) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, ari.class, 0), minecraft);
+        timer = (arj) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, arj.class, 0), minecraft);
 
         installRenderHook();
         ModLoader.setInGameHook(this, true, true); // game ticks only, not every render frame.
@@ -156,7 +156,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
 
     @Override
     // obf: NetClientHandler
-    public void clientConnect(awq netClientHandler) {
+    public void clientConnect(awr netClientHandler) {
         LSDController.getLog().info(getClass().getName() + " new server connection");
         curWorld = null;
         curPlayer = null;
@@ -223,35 +223,35 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     @Override
     public MinecraftAccess startDrawing(int mode) {
         // obf: Tessellator, Tessellator.instance, Tessellator.startDrawing
-        aza.a.b(mode);
+        azb.a.b(mode);
         return this;
     }
 
     @Override
     public MinecraftAccess addVertex(double x, double y, double z) {
         // obf: Tessellator, Tessellator.instance, Tessellator.addVertex
-        aza.a.a(x, y, z);
+        azb.a.a(x, y, z);
         return this;
     }
 
     @Override
     public MinecraftAccess addVertex(ReadonlyVector3 coords) {
         // obf: Tessellator, Tessellator.instance, Tessellator.addVertex
-        aza.a.a(coords.getX(), coords.getY(), coords.getZ());
+        azb.a.a(coords.getX(), coords.getY(), coords.getZ());
         return this;
     }
 
     @Override
     public MinecraftAccess finishDrawing() {
         // obf: Tessellator, Tessellator.instance, Tessellator.draw
-        aza.a.a();
+        azb.a.a();
         return this;
     }
 
     @Override
     public MinecraftAccess enableStandardItemLighting() {
         // obf: RenderHelper, RenderHelper.enableStandardItemLighting
-        aqi.b();
+        aqj.b();
         return this;
     }
 

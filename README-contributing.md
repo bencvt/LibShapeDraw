@@ -48,8 +48,7 @@ If you prefer to use an IDE, here's one recommended method:
 
 This process isn't Mavenized yet. Manual process:
 
-1.  Make a temporary backup copy of `lib/minecraft.jar` and of
-    `src/main/java/mod_LibShapeDraw.java`.
+1.  Make a temporary backup copy of `lib/minecraft.jar`.
 2.  Install MCP and decompile a `minecraft.jar` with ModLoader patched in.
     Or install MCP with the Forge sources. Either works.
 3.  Open up a terminal window and change to the `bin/` subdirectory under the
@@ -58,12 +57,13 @@ This process isn't Mavenized yet. Manual process:
     dot at the end, and substituting `(repo-dir)` as appropriate.)
 5.  You should see a bunch of `.class` file names scroll past. Verify that
     `lib/minecraft.jar` was overwritten.
-6.  Overwrite `src/main/java/mod_LibShapeDraw.java` with
-    `src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java`.
-7.  Temporarily disable the test suite by renaming/deleting `src/test`.
-8.  Run Maven.
-9.  Rename the output jar in `target/` so it ends with `-deobf`.
-10. Restore `lib/minecraft.jar`, `src/main/java/mod_LibShapeDraw.java`, and
+6.  Temporarily rename/delete `src/main/java/mod_LibShapeDraw.java`.
+7.  Temporarily copy `src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java`
+    to `src/main/java/net/minecraft/src/mod_LibShapeDraw.java`
+8.  Temporarily disable the test suite by renaming/deleting `src/test`.
+9.  Run Maven.
+10. Rename the output jar in `target/` so it ends with `-deobf`.
+11. Restore `lib/minecraft.jar`, `src/main/java/mod_LibShapeDraw.java`, and
     `src/test`.
 
 ### Demos jar (`LibShapeDraw-VERSION-demos.jar`)

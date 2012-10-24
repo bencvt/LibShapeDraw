@@ -19,7 +19,7 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     q   Entity.prevPosX
     r   Entity.prevPosY
     s   Entity.prevPosZ
-    axb EntityClientPlayerMP
+    axc EntityClientPlayerMP
     R   GameSettings.hideGUI
     b   GuiIngame.getChatGUI
     a   GuiNewChat.printChatMessage
@@ -30,17 +30,17 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     w   Minecraft.skipRenderWorld
     g   Minecraft.thePlayer
     e   Minecraft.theWorld
-    awq NetClientHandler
-    jx  Profiler
+    awr NetClientHandler
+    jy  Profiler
     c   Profiler.endStartSection
-    aqi RenderHelper
+    aqj RenderHelper
     b   RenderHelper.enableStandardItemLighting
-    aza Tessellator
+    azb Tessellator
     a   Tessellator.addVertex
     a   Tessellator.draw
     a   Tessellator.instance
     b   Tessellator.startDrawing
-    ari Timer
+    arj Timer
     c   Timer.renderPartialTicks
 """.strip().split('\n'))
 HEADER = """
@@ -52,10 +52,12 @@ HEADER = """
 def main():
     output = open(OUTPUT_SRC, 'w')
     output.write(HEADER)
+    count = 0
     repl = None
     for line in open(INPUT_SRC):
         if line.strip() == 'package net.minecraft.src;':
             # Filter out. Obfuscated classes live in the root package.
+            count += 1
             continue
         if line.strip().startswith('// obf:'):
             # Marker listing the obfuscateable names that will be present in
@@ -71,11 +73,14 @@ def main():
             # replacements, then forget the repl map for subsequent lines.
             for text in repl:
                 line = line.replace(text, repl[text])
+            count += 1
             repl = None
         output.write(line)
     output.close()
     print('input:  ' + os.path.abspath(INPUT_SRC))
     print('output: ' + os.path.abspath(OUTPUT_SRC))
+    print(str(count) + ' lines adjusted')
 
 if __name__ == '__main__':
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     main()
