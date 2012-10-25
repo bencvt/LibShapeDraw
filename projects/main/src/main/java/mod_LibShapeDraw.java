@@ -1,6 +1,6 @@
 // THIS SOURCE FILE WAS AUTOMATICALLY GENERATED. DO NOT MANUALLY EDIT.
-// Instead, edit src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java
-// and then run the src/deobf/python/obfuscate.py script.
+// Edit projects/dev/src/main/java/net/minecraft/src/mod_LibShapeDraw.java
+// and then run the projects/dev/src/main/python/obfuscate.py script.
 
 import java.lang.reflect.Field;
 

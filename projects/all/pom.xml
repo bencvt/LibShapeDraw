@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>libshapedraw</groupId>
-    <artifactId>LibShapeDraw</artifactId>
+    <artifactId>LibShapeDraw-all</artifactId>
     <packaging>pom</packaging>
     <version>1</version>
 
@@ -20,8 +20,7 @@
         <libshapedraw.version>1.2.1-SNAPSHOT</libshapedraw.version>
         <minecraft.version>1.4.2</minecraft.version>
         <lwjgl.version>2.4.2</lwjgl.version>
-        <lib.dir.parent>${project.basedir}/lib/</lib.dir.parent>
-        <lib.dir>${project.basedir}/../../lib/</lib.dir>
+        <lib.dir>${project.basedir}/../../lib</lib.dir>
     </properties>
 
     <build>
@@ -46,6 +45,14 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.2</version>
+                <configuration>
+                    <argLine>-Djava.library.path=${lib.dir}/natives</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -55,7 +62,7 @@
             <artifactId>minecraft</artifactId>
             <version>${minecraft.version}</version>
             <scope>system</scope>
-            <systemPath>${lib.dir.parent}/minecraft.jar</systemPath>
+            <systemPath>${lib.dir}/minecraft.jar</systemPath>
         </dependency>
         <!--
             LWJGL is actually available through the Maven central repo, but only
@@ -68,14 +75,14 @@
             <artifactId>lwjgl</artifactId>
             <version>${lwjgl.version}</version>
             <scope>system</scope>
-            <systemPath>${lib.dir.parent}/lwjgl.jar</systemPath>
+            <systemPath>${lib.dir}/lwjgl.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl_util</artifactId>
             <version>${lwjgl.version}</version>
             <scope>system</scope>
-            <systemPath>${lib.dir.parent}/lwjgl_util.jar</systemPath>
+            <systemPath>${lib.dir}/lwjgl_util.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -86,8 +93,8 @@
     </dependencies>
 
     <modules>
-        <module>projects/release</module>
-        <module>projects/dev</module>
-        <module>projects/demos</module>
+        <module>../main</module>
+        <module>../dev</module>
+        <module>../demos</module>
     </modules>
 </project>

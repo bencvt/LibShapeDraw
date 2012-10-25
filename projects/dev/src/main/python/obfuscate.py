@@ -10,7 +10,8 @@ thousands of entries. We only use a small subset here!
 import os.path
 NAME_SRC = 'mod_LibShapeDraw.java'
 INPUT_SRC = os.path.join('..', 'java', 'net', 'minecraft', 'src', NAME_SRC)
-OUTPUT_SRC = os.path.join('..', '..', 'main', 'java', NAME_SRC)
+OUTPUT_SRC = os.path.join('..', '..', '..', '..', 'main', 'src', 'main', 'java',
+    NAME_SRC)
 OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     ap  Entity.dimension
     t   Entity.posX
@@ -47,8 +48,8 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
 """.strip().split('\n'))
 HEADER = """
 // THIS SOURCE FILE WAS AUTOMATICALLY GENERATED. DO NOT MANUALLY EDIT.
-// Instead, edit src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java
-// and then run the src/deobf/python/obfuscate.py script.
+// Edit projects/dev/src/main/java/net/minecraft/src/mod_LibShapeDraw.java
+// and then run the projects/dev/src/main/python/obfuscate.py script.
 """.lstrip()
 
 def main():

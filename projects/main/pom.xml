@@ -8,11 +8,11 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>LibShapeDraw-demos</artifactId>
+    <artifactId>LibShapeDraw-main</artifactId>
     <packaging>jar</packaging>
 
     <build>
-        <finalName>${libshapedraw.name}-${libshapedraw.version}-demos</finalName>
+        <finalName>${libshapedraw.name}-${libshapedraw.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -20,13 +20,5 @@
             </resource>
         </resources>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>libshapedraw</groupId>
-            <artifactId>LibShapeDraw-main</artifactId>
-            <version>1</version>
-        </dependency>
-    </dependencies>
 
 </project>

@@ -2,9 +2,9 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>libshapedraw</groupId>
-        <artifactId>LibShapeDraw</artifactId>
+        <artifactId>LibShapeDraw-all</artifactId>
         <version>1</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../all/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,10 +17,9 @@
     
     <build>
         <finalName>${libshapedraw.name}-${libshapedraw.version}-dev</finalName>
-        <sourceDirectory>../../src/deobf/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>../../src/main/resources</directory>
+                <directory>../main/src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -35,7 +34,7 @@
                         <goals><goal>add-source</goal></goals>
                         <configuration>
                             <sources>
-                                <sourceDirectory>../../src/main/java/libshapedraw</sourceDirectory>
+                                <sourceDirectory>../main/src/main/java/libshapedraw</sourceDirectory>
                             </sources>
                         </configuration>
                     </execution>
@@ -51,20 +50,6 @@
             <version>${minecraft.version}</version>
             <scope>system</scope>
             <systemPath>${lib.dir}/minecraft-deobf.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-            <version>${lwjgl.version}</version>
-            <scope>system</scope>
-            <systemPath>${lib.dir}/lwjgl.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl.lwjgl</groupId>
-            <artifactId>lwjgl_util</artifactId>
-            <version>${lwjgl.version}</version>
-            <scope>system</scope>
-            <systemPath>${lib.dir}/lwjgl_util.jar</systemPath>
         </dependency>
     </dependencies>
 

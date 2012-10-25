@@ -22,9 +22,8 @@ and use a prebuilt jar.
     include the `natives` subdirectory; the test suite needs them.
     `minecraft.jar` should be vanilla with only ModLoader (or Forge) patched in.
 3.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
-4.  Run Maven; the jars are located in `projects/*/target/`.
-
-That's all there is to it.
+4.  Change directory to `projects/all`.
+4.  Run Maven. The output jars are located in `projects/*/target/`.
 
 There is no need to use Forge or reference any Forge classes when compiling
 either. ModLoader is enough. You *can* compile against a `lib/minecraft.jar`
