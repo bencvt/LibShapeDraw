@@ -9,7 +9,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <libshapedraw.name>LibShapeDraw</libshapedraw.name>
-        <libshapedraw.version>1.2.1-SNAPSHOT</libshapedraw.version>
         <libshapedraw.url.main>http://www.minecraftforum.net/topic/1458931-</libshapedraw.url.main>
         <libshapedraw.url.short>http://bit.ly/LibShapeDraw</libshapedraw.url.short>
         <libshapedraw.url.source>https://github.com/bencvt/LibShapeDraw</libshapedraw.url.source>
@@ -18,7 +17,8 @@
         <libshapedraw.authors>bencvt</libshapedraw.authors>
         <libshapedraw.blurb>LibShapeDraw is a Minecraft client mod that is required by other mods. It doesn't do anything on its own. Rather, it provides a set of flexible and powerful drawing and animation tools for those other mods to use.</libshapedraw.blurb>
         <libshapedraw.blurb.demos>A set of simple mods demonstrating some of the ways that you, as a mod author, can use LibShapeDraw in your own mod!</libshapedraw.blurb.demos>
-        <minecraft.version>1.4</minecraft.version>
+        <libshapedraw.version>1.2.1-SNAPSHOT</libshapedraw.version>
+        <minecraft.version>1.4.2</minecraft.version>
         <lwjgl.version>2.4.2</lwjgl.version>
         <lib.dir.parent>${project.basedir}/lib/</lib.dir.parent>
         <lib.dir>${project.basedir}/../../lib/</lib.dir>
