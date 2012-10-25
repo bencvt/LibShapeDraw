@@ -5,7 +5,11 @@ import libshapedraw.shape.WireframeCuboid;
 /**
  * A bare-bones example, sets up a 1x1x1 cyan wireframe cube at x=0, y=63 (sea level), z=0
  */
-public class mod_LSDDemoBasic extends BaseMod {
+public class LSDDemoBasic extends BaseMod {
+    public static final String ABOUT =
+            "A bare-bones example.\n" +
+                    "Go to x=0, z=0 to see the shape!";
+
     private LibShapeDraw libShapeDraw;
 
     @Override

@@ -35,7 +35,11 @@ import org.lwjgl.input.Keyboard;
  * updating it. This wastes both CPU and memory (the Shape won't ever get
  * garbage collected as the Timeline keeps a reference to it).
  */
-public class mod_LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
+public class LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
+    public static final String ABOUT =
+            "Animate shapes dynamically using the Trident animation library.\n" +
+                    "Press V to spawn a random animated shape!";
+
     protected LibShapeDraw libShapeDraw = new LibShapeDraw().addEventListener(this);
     private HashSet<Timeline> shapeTimelines = new HashSet<Timeline>();
     private long lastShapeSpawn; // so we can pause between each new shape spawned
@@ -76,7 +80,7 @@ public class mod_LSDDemoTridentDynamic extends BaseMod implements LSDEventListen
 
     @Override
     public void onPreRender(LSDPreRenderEvent event) {
-        if (!Keyboard.isKeyDown(Keyboard.KEY_X)) {
+        if (!Keyboard.isKeyDown(Keyboard.KEY_V)) {
             return;
         }
         long now = System.currentTimeMillis();

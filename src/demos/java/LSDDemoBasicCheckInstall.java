@@ -12,7 +12,11 @@ import libshapedraw.shape.WireframeCuboid;
  * If the API is not available, the mod still loads, though of course
  * it can't use any API features.
  */
-public class mod_LSDDemoBasicCheckInstall extends BaseMod {
+public class LSDDemoBasicCheckInstall extends BaseMod {
+    public static final String ABOUT =
+            "Shows how to gracefully handle missing dependencies.\n" +
+            "Not much to see in-game; see the source code!";
+
     public static boolean isLibShapeDrawLoaded(String minVersion) {
         try {
             return ApiInfo.isVersionAtLeast(minVersion);
@@ -43,7 +47,7 @@ public class mod_LSDDemoBasicCheckInstall extends BaseMod {
             return;
         }
         LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();
-        WireframeCuboid box = new WireframeCuboid(1,63,0, 2,64,1);
+        WireframeCuboid box = new WireframeCuboid(2,63,0, 3,64,1);
         box.setLineStyle(Color.ROYAL_BLUE.copy(), 2.0F, true);
         libShapeDraw.getShapes().add(box);
     }

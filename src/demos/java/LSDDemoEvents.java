@@ -16,7 +16,12 @@ import libshapedraw.shape.WireframeCuboid;
  * This mod implements the LSDEventListener interface itself, though you could easily
  * refactor this to use a different class in your mod.
  */
-public class mod_LSDDemoEvents extends BaseMod implements LSDEventListener {
+public class LSDDemoEvents extends BaseMod implements LSDEventListener {
+    public static final String ABOUT =
+            "Demonstrates basic events.\n" +
+                    "Each time you respawn, several dozen shapes spawn behind you as you move!\n" +
+                    "There's also a box following you...";
+
     protected LibShapeDraw libShapeDraw;
     private final ReadonlyVector3 BOX_RADIUS = new Vector3(0.2, 0.5, 0.2);
     private final ReadonlyVector3 FOLLOW_BOX_OFFSET = new Vector3(2.3, 1.9, -2.0);

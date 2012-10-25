@@ -18,7 +18,11 @@ import org.lwjgl.input.Keyboard;
  * Demonstrates how LibShapeDraw can be used to draw arbitrary shapes: in this
  * case, the word "LibShapeDraw" in a handwritten font.
  */
-public class mod_LSDDemoLogo extends BaseMod implements LSDEventListener {
+public class LSDDemoLogo extends BaseMod implements LSDEventListener {
+    public static final String ABOUT =
+            "Draw arbitrary shapes with LibShapeDraw.\n" +
+                    "Press Z/X/C!";
+
     // path data from a freehand SVG drawing
     private static final int[][] LINE_DATA = {
         {-496,131, -500,99, -506,63, -518,15, -526,-29, -528,-49, -522,-57, -482,-59, -438,-53},

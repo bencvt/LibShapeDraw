@@ -14,6 +14,12 @@
     <build>
         <finalName>${libshapedraw.name}-${libshapedraw.version}-demos</finalName>
         <sourceDirectory>../../src/demos/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>../../src/demos/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>

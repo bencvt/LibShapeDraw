@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mod_${libshapedraw.name}Demos",
+  "name": "${libshapedraw.name} Demos",
+  "description": "${libshapedraw.blurb.demos}",
+  "logoFile": "/mod_${libshapedraw.name}Demos.png",
+  "version": "${libshapedraw.version}",
+  "credits": "",
+  "authors": [ "${libshapedraw.authors}" ],
+  "url": "${libshapedraw.url.short}",
+  "updateUrl": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

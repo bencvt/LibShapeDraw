@@ -19,7 +19,11 @@ import libshapedraw.transform.ShapeScale;
  * code for you to write. Also, Trident uses threading internally for better
  * performance.
  */
-public class mod_LSDDemoTridentBasic extends BaseMod {
+public class LSDDemoTridentBasic extends BaseMod {
+    public static final String ABOUT =
+            "Animate some shapes using the Trident animation library.\n" +
+                    "Go to x=0, z=0 to see the shapes in action!";
+
     protected LibShapeDraw libShapeDraw = new LibShapeDraw();
 
     @Override

@@ -87,7 +87,8 @@ Quick version: Add the jar to your project's classpath, instantiate
 `libshapedraw.LibShapeDraw` somewhere in your code, and go nuts. Use the
 `libshapedraw.animation.trident.Timeline` class for animations.
 
-For a gentler introduction, browse the demos: `src/test/java/mod_LSDDemo*.java`.
+For a gentler introduction, browse the demos: `src/demos/java/LSDDemo*.java`.
+You can install the demos jar as you would a regular mod.
 
 ### How to add the LibShapeDraw jar to the classpath in MCP
 
