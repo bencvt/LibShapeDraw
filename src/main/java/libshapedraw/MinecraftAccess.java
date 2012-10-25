@@ -36,4 +36,13 @@ public interface MinecraftAccess {
 
     /** Minecraft.timer.renderPartialTicks */
     public float getPartialTick();
+
+    /** Minecraft.mcProfiler.startSection */
+    public MinecraftAccess profilerStartSection(String sectionName);
+
+    /** Minecraft.mcProfiler.endSection */
+    public MinecraftAccess profilerEndSection();
+
+    /** Minecraft.mcProfiler.endStartSection */
+    public MinecraftAccess profilerEndStartSection(String sectionName);
 }

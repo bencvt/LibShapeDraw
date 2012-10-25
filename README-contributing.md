@@ -75,15 +75,18 @@ That's the story behind `minecraft-deobf.jar`. Here's how to generate it:
 
 ## Tips and tricks
 
- +  You can enable debug dumps and tweak a few other global settings by copying  
-    `libshapedraw/internal/default-settings.properties`  
+ +  You can enable automatic debug dumps and tweak a few other global settings
+    by copying `libshapedraw/internal/default-settings.properties`  
     from the jar to the file system at  
-    `<minecraft dir>/mods/LibShapeDraw/settings.properties`.
+    `(minecraft-dir)/mods/LibShapeDraw/settings.properties`. A future version
+    of LibShapeDraw will probably auto-copy this file but for now the default
+    settings are left in the archive.
 
- +  If you're not using MCP or another system that provides a handy way to
-    launch Minecraft in a dev environment (i.e., insulated from your actual
-    Minecraft installation), see
-    `src/test/java/launcher/StartMinecraftDev`.
+ +  Minecraft's built-in profiler (accessible via `shift-F3`) includes a
+    section named `root.gameRenderer.level.LibShapeDraw`. You can drill down to
+    it using the number keys. It should come as no surprise that having a ton of
+    Shapes on-screen simulatenously can cause a significant performance hit. The
+    profiler can tell you exactly how much of a hit.
 
 ## Development roadmap
 

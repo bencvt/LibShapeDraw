@@ -32,7 +32,9 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     e   Minecraft.theWorld
     awr NetClientHandler
     jy  Profiler
+    b   Profiler.endSection
     c   Profiler.endStartSection
+    a   Profiler.startSection
     aqj RenderHelper
     b   RenderHelper.enableStandardItemLighting
     azb Tessellator

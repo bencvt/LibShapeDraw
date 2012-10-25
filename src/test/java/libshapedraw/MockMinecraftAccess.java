@@ -86,6 +86,24 @@ public class MockMinecraftAccess implements MinecraftAccess {
         return 0;
     }
 
+    @Override
+    public MinecraftAccess profilerStartSection(String sectionName) {
+        // do nothing
+        return this;
+    }
+
+    @Override
+    public MinecraftAccess profilerEndSection() {
+        // do nothing
+        return this;
+    }
+
+    @Override
+    public MinecraftAccess profilerEndStartSection(String sectionName) {
+        // do nothing
+        return this;
+    }
+
     public void reset() {
         drawingStarted = false;
         curCountVertices = 0;

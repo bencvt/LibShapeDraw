@@ -187,6 +187,7 @@ public class LSDController {
 
         // Dispatch prerender event and render.
         for (LibShapeDraw apiInstance : apiInstances) {
+            minecraftAccess.profilerStartSection("prerender events");
             if (!apiInstance.getEventListeners().isEmpty()) {
                 LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, minecraftAccess.getPartialTick(), isGuiHidden);
                 for (LSDEventListener listener : apiInstance.getEventListeners()) {
@@ -195,6 +196,7 @@ public class LSDController {
                     }
                 }
             }
+            minecraftAccess.profilerEndStartSection("render shapes");
             if (apiInstance.isVisible() && (!isGuiHidden || apiInstance.isVisibleWhenHidingGui())) {
                 for (Shape shape : apiInstance.getShapes()) {
                     if (shape != null) {
@@ -202,6 +204,7 @@ public class LSDController {
                     }
                 }
             }
+            minecraftAccess.profilerEndSection();
         }
 
         // Revert OpenGL settings so we don't impact any elements Minecraft has

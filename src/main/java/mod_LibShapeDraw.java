@@ -95,6 +95,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     private Minecraft minecraft;
     // obf: Timer
     private arj timer;
+    private Proxy proxy;
     private LSDController controller;
     private boolean renderHeartbeat;
     private boolean renderHeartbroken;
@@ -141,7 +142,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             // We probably overwrote some other mod's hook. :-(
             LSDController.getLog().warning("mod incompatibility detected: profiler already proxied!");
         }
-        Proxy proxy = new Proxy();
+        proxy = new Proxy();
         LSDUtil.setFinalField(fieldProfiler, minecraft, proxy);
 
         // Copy all field values from origProfiler to newProfiler
@@ -276,5 +277,33 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     public float getPartialTick() {
         // obf: Timer.renderPartialTicks
         return timer == null ? 0.0F : timer.c;
+    }
+
+
+    @Override
+    public MinecraftAccess profilerStartSection(String sectionName) {
+        if (proxy != null) {
+            // obf: Profiler.startSection
+            proxy.a(sectionName);
+        }
+        return this;
+    }
+
+    @Override
+    public MinecraftAccess profilerEndSection() {
+        if (proxy != null) {
+            // obf: Profiler.endSection
+            proxy.b();
+        }
+        return this;
+    }
+
+    @Override
+    public MinecraftAccess profilerEndStartSection(String sectionName) {
+        if (proxy != null) {
+            // obf: Profiler.endStartSection
+            proxy.c(sectionName);
+        }
+        return this;
     }
 }
