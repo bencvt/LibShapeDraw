@@ -87,5 +87,6 @@
     <modules>
         <module>projects/release</module>
         <module>projects/dev</module>
+        <module>projects/demos</module>
     </modules>
 </project>

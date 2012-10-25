@@ -8,32 +8,20 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>LibShapeDraw-release</artifactId>
+    <artifactId>LibShapeDraw-demos</artifactId>
     <packaging>jar</packaging>
 
     <build>
-        <finalName>${libshapedraw.name}-${libshapedraw.version}</finalName>
-        <sourceDirectory>../../src/main/java</sourceDirectory>
-        <testSourceDirectory>../../src/test/java</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>../../src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.2</version>
-                <configuration>
-                    <argLine>-Djava.library.path=${lib.dir}/natives</argLine>
-                </configuration>
-            </plugin>
-        </plugins>
+        <finalName>${libshapedraw.name}-${libshapedraw.version}-demos</finalName>
+        <sourceDirectory>../../src/demos/java</sourceDirectory>
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>libshapedraw</groupId>
+            <artifactId>LibShapeDraw-release</artifactId>
+            <version>1</version>
+        </dependency>
         <dependency>
             <groupId>net.minecraft</groupId>
             <artifactId>minecraft</artifactId>

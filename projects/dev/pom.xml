@@ -8,10 +8,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>libshapedraw</groupId>
     <artifactId>LibShapeDraw-dev</artifactId>
     <packaging>jar</packaging>
-    <version>1</version>
 
     <properties>
         <libshapedraw.updatecheck>false</libshapedraw.updatecheck>
