@@ -17,21 +17,14 @@ LibShapeDraw could use a better logo. :)
 If you just want to use the API in your own mod, feel free to skip this section
 and use a prebuilt jar.
 
-### Main jar (`LibShapeDraw-VERSION.jar`)
-
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
     include the `natives` subdirectory; the test suite needs them.
     `minecraft.jar` should be vanilla with only ModLoader (or Forge) patched in.
-3.  Run Maven.
+3.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
+4.  Run Maven; the jars are located in `projects/*/target/`.
 
 That's all there is to it.
-
-There is no need to install MCP as LibShapeDraw handles obfuscation on its own.
-The main reason for this is that MCP really doesn't integrate well with Maven
-and Git. You can still use MCP along with LibShapeDraw in your own mod if you
-prefer; see the *How to add the LibShapeDraw jar to the classpath in MCP*
-section in the main `README.md` for details.
 
 There is no need to use Forge or reference any Forge classes when compiling
 either. ModLoader is enough. You *can* compile against a `lib/minecraft.jar`
@@ -44,31 +37,41 @@ If you prefer to use an IDE, here's one recommended method:
     [Maven integration plugin](http://wiki.eclipse.org/M2E).
 3.  Import the Maven project to your workspace.
 
-### Dev jar (`LibShapeDraw-VERSION-deobf.jar`)
+### Creating a `minecraft-deobf.jar` for `LibShapeDraw-VERSION-dev.jar`
 
-This process isn't Mavenized yet. Manual process:
+First of all, what's the point of these jars? Short answer: to make developers'
+lives easier.
 
-1.  Make a temporary backup copy of `lib/minecraft.jar`.
-2.  Install MCP and decompile a `minecraft.jar` with ModLoader patched in.
-    Or install MCP with the Forge sources. Either works.
-3.  Open up a terminal window and change to the `bin/` subdirectory under the
+Long answer: Writing a mod using Minecraft code deobfuscated by MCP works fine.
+Adding the LibShapeDraw jar to the classpath works fine too; you'll be able to
+compile without issue. However, trying to debug such a mod is problematic.
+Obfuscation and deobfuscation won't mix.
+
+By necessity, the main release jar for LibShapeDraw references obfuscated
+Minecraft code. As a side note, LibShapeDraw does not use MCP directly, instead
+handling obfuscation on its own. The main reason for this is that MCP really
+doesn't integrate well with Maven and Git.
+
+However, mod developers can (and generally should) still use MCP along with
+LibShapeDraw. The *How to add the LibShapeDraw jar to the classpath in MCP*
+section in the main `README.md` has the details.
+
+So, the special dev jar (`LibShapeDraw-VERSION-dev.jar`) exists to support mod
+devs using MCP. It's identical to the normal release except that:
+
+ +  `mod_LibShapeDraw` links to deobfuscated identifiers in
+    `minecraft-deobf.jar` rather than `minecraft.jar`. This allows devs to run
+    their mod with the dev jar without having to reobfuscate and redeploy.
+ +  The update check is disabled by default.
+
+That's the story behind `minecraft-deobf.jar`. Here's how to generate it:
+
+1.  Install MCP in another directory and decompile a `minecraft.jar` with
+    ModLoader patched in. Or install MCP with the Forge sources. Either works.
+2.  Open up a terminal window and change to the `bin/` subdirectory under the
     MCP directory.
-4.  Type `jar cfv (repo-dir)/LibShapeDraw/lib/minecraft.jar .` (including the
-    dot at the end, and substituting `(repo-dir)` as appropriate.)
-5.  You should see a bunch of `.class` file names scroll past. Verify that
-    `lib/minecraft.jar` was overwritten.
-6.  Temporarily rename/delete `src/main/java/mod_LibShapeDraw.java`.
-7.  Temporarily copy `src/deobf/java/net/minecraft/src/mod_LibShapeDraw.java`
-    to `src/main/java/net/minecraft/src/mod_LibShapeDraw.java`
-8.  Temporarily disable the test suite by renaming/deleting `src/test`.
-9.  Run Maven.
-10. Rename the output jar in `target/` so it ends with `-deobf`.
-11. Restore `lib/minecraft.jar`, `src/main/java/mod_LibShapeDraw.java`, and
-    `src/test`.
-
-### Demos jar (`LibShapeDraw-VERSION-demos.jar`)
-
-This process isn't defined yet... pending creation of `src/demos`.
+3.  Type `jar cfv (repo-dir)/LibShapeDraw/lib/minecraft-deobf.jar .` (including
+    the dot at the end, and substituting `(repo-dir)` as appropriate.)
 
 ## Tips and tricks
 

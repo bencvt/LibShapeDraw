@@ -6,9 +6,13 @@
 /.classpath
 /.project
 /.settings
+/projects/*/.classpath
+/projects/*/.project
+/projects/*/.settings
 
 # maven
 /target
+/projects/*/target
 
 # Mac
 .DS_Store
