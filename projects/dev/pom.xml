@@ -51,6 +51,11 @@
             <scope>system</scope>
             <systemPath>${lib.dir}/minecraft-deobf.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>libshapedraw</groupId>
+            <artifactId>LibShapeDraw-main</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 
 </project>

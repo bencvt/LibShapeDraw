@@ -34,7 +34,7 @@ If you prefer to use an IDE, here's one recommended method:
 1.  Follow the above steps first, making sure everything compiles.
 2.  Install [Eclipse](http://www.eclipse.org/) and a
     [Maven integration plugin](http://wiki.eclipse.org/M2E).
-3.  Import the Maven project to your workspace.
+3.  Import the Maven projects to your workspace.
 
 ### Creating a `minecraft-deobf.jar` for `LibShapeDraw-VERSION-dev.jar`
 
