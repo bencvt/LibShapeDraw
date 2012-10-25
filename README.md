@@ -55,31 +55,26 @@ bottom. Please have the crash report and `LibShapeDraw.log` handy.
 LibShapeDraw is designed to be easy to use, both for devs and for players. These
 are the design goals to that end:
 
- +  **Minimal dependencies.**  
-    Either ModLoader or Forge is required to get up and running. That's all.
+ +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
+    and running. That's all.
 
- +  **Maximal compatibility.**  
-    LibShapeDraw does not modify the bytecode of *any* vanilla Minecraft class.
-    You are free to modify Minecraft classes in your own mod if needed;
-    LibShapeDraw will not interfere.
+ +  **Maximal compatibility.** LibShapeDraw does not modify the bytecode of
+    *any* vanilla Minecraft class. You are free to modify Minecraft classes in
+    your own mod if needed; LibShapeDraw will not interfere.
 
- +  **Unobtrusive.**  
-    Pick and choose the components you want to use. LibShapeDraw is a toolkit
-    for your mod to use. It is *not* a heavy DoEverythingThisWay framework.
+ +  **Unobtrusive.** Pick and choose the components you want to use.
+    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
+    DoEverythingThisWay framework.
 
- +  **Concise and clear.**  
-    Convenience methods, fluent interfaces, etc. let you write less code to do
-    more. That's what LibShapeDraw is all about.
+ +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
+    write less code to do more. That's what LibShapeDraw is all about.
 
- +  **Powerful.**  
-    What good is an API that doesn't let you do cool stuff? Check the demos for
-    some of the many possibilities.
+ +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
+    the demos for some of the many possibilities.
 
- +  **Well-documented.**  
-    The key to success for any API, really.
+ +  **Well-documented.** The key to success for any API, really.
 
- +  **Open source.**  
-    MIT-licensed and open to community feedback and patches.
+ +  **Open source.** MIT-licensed and open to community feedback and patches.
 
 ## Using the LibShapeDraw API in your project
 
@@ -88,7 +83,7 @@ Quick version: Add the jar to your project's classpath, instantiate
 `libshapedraw.animation.trident.Timeline` class for animations.
 
 For a gentler introduction, browse the demos: `src/demos/java/LSDDemo*.java`.
-You can install the demos jar as you would a regular mod.
+You can download the pre-built demos jar; install it like any other mod.
 
 ### How to add the LibShapeDraw jar to the classpath in MCP
 
@@ -105,23 +100,22 @@ some class names. This doesn't work for Forge, which insists on a pure vanilla
 A better alternative is to keep the LibShapeDraw binary separate and reference
 it via classpath. Here's a step-by-step:
 
-1.  Get a copy of a LibShapeDraw release jar. You can use either the normal
+1.  **Get a copy of a LibShapeDraw release jar.** You can use either the normal
     release or the special dev release (named `LibShapeDraw-VERSION-deobf.jar`).
     Check the [downloads list](https://github.com/bencvt/LibShapeDraw/downloads).
-    Either release type will work for *compiling* your mod, but the dev release
-    is recommended as its identifiers are all MCP-deobfuscated. Without this
-    deobfuscation, you wouldn't be able to *test/debug* your mod without doing a
-    full reobfuscate/deploy.
+    Either release type will work for *compiling* your mod, but only the dev
+    release lets you *test/debug* your MCP mod without doing a full
+    reobfuscate/deploy.
 
-2.  Copy the LibShapeDraw jar to `jars/bin`.
+2.  **Copy the LibShapeDraw jar to `jars/bin`.**
 
-3.  Open `conf/mcp.cfg` and scroll down to the `[RECOMPILE]` section. There is
+3.  **Edit `conf/mcp.cfg`.** Scroll down to the `[RECOMPILE]` section. There is
     a property named `ClassPathClient`; this is where we will add a reference to
     the LibShapeDraw jar. Add `,%(DirJars)s/bin/LibShapeDraw-VERSION-deobf.jar`
     (changing `VERSION` as appropriate) to the end of the line.
 
-If you want to use an IDE, you'll need to add the LibShapeDraw jar to the build
-path there as well. In Eclipse, go to the Project Explorer pane and expand
+If you prefer to use an IDE, you'll need to add the LibShapeDraw jar to the
+build path there as well. In Eclipse, go to the Project Explorer pane and expand
 `jars/bin`. Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
 
 ### Other resources
