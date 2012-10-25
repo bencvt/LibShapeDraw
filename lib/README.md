@@ -1,6 +1,8 @@
 Copy the contents of your Minecraft's `bin` directory to this directory,
 including the LWJGL libraries and natives.
 
-`minecraft.jar` should be vanilla with only ModLoader patched in.
+`minecraft.jar` should be vanilla with only ModLoader (or Forge) patched in.
 
-See the main `README.md` for more info.
+You'll also need to create a `minecraft-deobf.jar` using MCP.
+
+See `../README-contributing.md` for more info.
