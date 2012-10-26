@@ -20,17 +20,16 @@ import org.lwjgl.opengl.DisplayMode;
  * every test case should extend SetupTestEnvironment.TestCase.
  * <p>
  * Involves some ClassLoader and Reflection hackery.
+ * <p>
+ * If you're running one of these test case classes individually in Eclipse or
+ * another IDE, you'll probably need to add "-Djava.library.path=../../lib/natives" to
+ * the VM arguments.
  */
 public class SetupTestEnvironment {
     private static File testMinecraftDirectory = null;
     private static final String MODDIRECTORY_CLASS_NAME = "libshapedraw.internal.LSDModDirectory";
     private static final String MODDIRECTORY_FIELD_NAME = "DIRECTORY";
 
-    /**
-     * If you're running one of these test case classes individually in Eclipse or
-     * another IDE, you'll probably need to add "-Djava.library.path=lib/natives" to
-     * the VM arguments.
-     */
     public static class TestCase {
         protected static final MockMinecraftAccess mockMinecraftAccess = new MockMinecraftAccess();
 
@@ -38,8 +37,14 @@ public class SetupTestEnvironment {
         public static void setupTestEnvironment() throws LWJGLException {
             if (setup()) {
                 LSDController.getInstance().initialize(mockMinecraftAccess);
-                Display.setDisplayMode(new DisplayMode(0, 0));
-                Display.create();
+                try {
+                    Display.setDisplayMode(new DisplayMode(0, 0));
+                    Display.create();
+                } catch (UnsatisfiedLinkError e) {
+                    throw new LSDInternalException("LWJGL link error, " +
+                            "probably caused by missing VM argument:\n" +
+                            "-Djava.library.path=../../lib/natives", e);
+                }
             }
         }
     }

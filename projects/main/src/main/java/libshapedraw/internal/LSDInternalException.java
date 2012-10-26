@@ -7,7 +7,7 @@ public class LSDInternalException extends RuntimeException {
         super(message);
     }
 
-    public LSDInternalException(String message, Exception e) {
-        super(message, e);
+    public LSDInternalException(String message, Throwable t) {
+        super(message, t);
     }
 }

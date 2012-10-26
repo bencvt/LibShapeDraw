@@ -89,7 +89,7 @@ public class LSDUtil {
             m.setAccessible(true);
             return m.invoke(ClassLoader.getSystemClassLoader(), className) != null;
         } catch (Exception e) {
-            throw new LSDInternalException("ClassLoader.findLoadedClass reflection failed", e);
+            throw new LSDInternalReflectionException("ClassLoader.findLoadedClass reflection failed", e);
         }
     }
 
