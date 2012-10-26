@@ -32,6 +32,19 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testGlApply() {
+        // no exceptions thrown
+        Color.AQUA.glApply();
+        Color.BLANCHED_ALMOND.copy().scaleRGB(0.8).glApply();
+        Color.AQUA.glApply(-35.3);
+        Color.AQUA.glApply(0.0);
+        Color.AQUA.glApply(0.5);
+        Color.AQUA.glApply(1.0);
+        Color.AQUA.glApply(1.3);
+        Color.AQUA.glApply(99999.9);
+    }
+
+    @Test
     public void testToString() {
         assertEquals("0xdeadbeef", new Color(0xdeadbeef).toString());
         assertEquals("0x00000000", new Color(0).toString());
