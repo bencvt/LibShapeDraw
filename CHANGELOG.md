@@ -1,3 +1,6 @@
+## implemented but not yet released
+- added animation convenience methods to `Color` and `ShapeTransform` objects
+
 ## 1.2.1
 - updated for Minecraft 1.4.2
 - added a section to the profiler so users can see the performance impact of
