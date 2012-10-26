@@ -5,7 +5,9 @@ package libshapedraw.primitive;
  * @see Color
  */
 public interface ReadonlyColor {
-    /** @return a new deep-copied mutable Color. */
+    /**
+     * @return a new deep-copied mutable Color. Does not copy animations.
+     */
     public Color copy();
 
     /** @return this color's red component, in the range [0.0, 1.0]. */
@@ -55,4 +57,10 @@ public interface ReadonlyColor {
      * extra Color instance creation.
      */
     public void glApply(double alphaScale);
+
+    /**
+     * @return true if this color's components are being updated by an active
+     *         animation.
+     */
+    public boolean isAnimating();
 }

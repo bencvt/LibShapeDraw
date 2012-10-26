@@ -157,6 +157,54 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testAnimate() {
+        final Color c0 = Color.BLUE_VIOLET.copy();
+        final ReadonlyColor c0view = c0;
+        final Color c1 = Color.AZURE.copy();
+
+        assertFalse(c0.isAnimating());
+        assertFalse(c0view.isAnimating());
+        assertFalse(c1.isAnimating());
+
+        // harmless to stop an animation that doesn't exist
+        c0.animateStop();
+        assertFalse(c0.isAnimating());
+        c0.animateStop().animateStop();
+        assertFalse(c0.isAnimating());
+
+        // starting an animation only affects the one color instance
+        c0.animateStart(Color.GREEN_YELLOW, 5000);
+        assertTrue(c0.isAnimating());
+        assertTrue(c0view.isAnimating());
+        assertFalse(c1.isAnimating());
+
+        // stoppable
+        c0.animateStop();
+        assertFalse(c0.isAnimating());
+        assertFalse(c0view.isAnimating());
+
+        // loop animation
+        c0.animateStartLoop(Color.GREEN_YELLOW, true, 3000);
+        assertTrue(c0.isAnimating());
+        assertTrue(c0view.isAnimating());
+        assertFalse(c1.isAnimating());
+        c0.animateStop();
+
+        // starting an animation multiple times is allowed; it just overwrites itself
+        c0.animateStart(Color.GREEN_YELLOW, 5000);
+        c0.animateStart(Color.ANTIQUE_WHITE, 300);
+        c0.animateStartLoop(c0, false, 10000); // animating to self is pointless but allowed
+        assertTrue(c0.isAnimating());
+        c0.animateStop();
+        assertFalse(c0.isAnimating());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testAnimateInvalidNull() {
+        Color.RED.copy().animateStart(null, 5000);
+    }
+
+    @Test
     public void testGetNamedColor() {
         assertSame(Color.RED, Color.getNamedColor("RED"));
         assertSame(Color.RED, Color.getNamedColor("red"));

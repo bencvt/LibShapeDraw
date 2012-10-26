@@ -3,6 +3,7 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import libshapedraw.animation.trident.Timeline;
 import libshapedraw.internal.LSDInternalReflectionException;
 
 import org.lwjgl.opengl.GL11;
@@ -18,6 +19,7 @@ public class Color implements ReadonlyColor {
     private double green;
     private double blue;
     private double alpha;
+    private Timeline timeline;
 
     public Color(double red, double green, double blue, double alpha) {
         set(red, green, blue, alpha);
@@ -84,6 +86,11 @@ public class Color implements ReadonlyColor {
     @Override
     public void glApply(double alphaScale) {
         GL11.glColor4d(red, green, blue, clamp(alpha * alphaScale));
+    }
+
+    @Override
+    public boolean isAnimating() {
+        return timeline != null && !timeline.isDone();
     }
 
     @Override
@@ -224,6 +231,86 @@ public class Color implements ReadonlyColor {
         green = Math.random();
         blue = Math.random();
         return this;
+    }
+
+    /**
+     * If there is an active animation changing this color's components, stop
+     * it abruptly, likely leaving this color's components partially faded.
+     * <p>
+     * However after calling this method it is safe to use other methods to
+     * modify the color's components without them being overwritten by the
+     * animation.
+     * 
+     * @return the same color object, modified in-place.
+     */
+    public Color animateStop() {
+        if (timeline != null && !timeline.isDone()) {
+            timeline.abort();
+            timeline = null;
+        }
+        return this;
+    }
+
+    /**
+     * Start animating this color's components, fading them to match the
+     * specified color over the specified interval.
+     * <p>
+     * After starting an animation, using other methods to modify the color's
+     * components is a bad idea, as the animation will be frequently
+     * overwriting those components. Either wait for the animation to complete
+     * or use {@link #animateStop} to halt the animation early.
+     * <p>
+     * This is a convenience method; for more control over the animation,
+     * an external Timeline can be used. Just don't have two Timelines trying
+     * to update the same properties.
+     * 
+     * @param toColor the color to fade to
+     * @param durationMs interval in milliseconds
+     * @return the same color object, modified in-place.
+     */
+    public Color animateStart(ReadonlyColor toColor, long durationMs) {
+        newTimeline(toColor, durationMs);
+        timeline.play();
+        return this;
+    }
+
+    /**
+     * Start animating this color's components, fading them to match the
+     * specified color over the specified interval.
+     * <p>
+     * The animation loops indefinitely, going back and forth between the
+     * original color and the specified color.
+     * <p>
+     * After starting an animation, using other methods to modify the color's
+     * components is a bad idea, as the animation will be frequently
+     * overwriting those components. Use {@link #animateStop} to halt the
+     * animation.
+     * <p>
+     * This is a convenience method; for more control over the animation,
+     * an external Timeline can be used. Just don't have two Timelines trying
+     * to update the same properties.
+     * 
+     * @param toColor the color to fade to
+     * @param reverse if true, fade back to the original color each time the
+     *                animation loops. If false, jump directly back to the
+     *                original color each time.
+     * @param durationMs interval in milliseconds of each repetition
+     * @return the same color object, modified in-place.
+     */
+    public Color animateStartLoop(ReadonlyColor toColor, boolean reverse, long durationMs) {
+        newTimeline(toColor, durationMs);
+        timeline.playLoop(reverse);
+        return this;
+    }
+
+    private void newTimeline(ReadonlyColor toColor, long durationMs) {
+        animateStop();
+        timeline = new Timeline(this);
+        timeline.addPropertyToInterpolate("red",   red,   toColor.getRed());
+        timeline.addPropertyToInterpolate("green", green, toColor.getGreen());
+        timeline.addPropertyToInterpolate("blue",  blue,  toColor.getBlue());
+        timeline.addPropertyToInterpolate("alpha", alpha, toColor.getAlpha());
+        timeline.setDuration(durationMs);
     }
 
     private static double clamp(double x) {
