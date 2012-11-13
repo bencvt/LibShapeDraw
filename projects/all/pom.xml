@@ -17,8 +17,8 @@
         <libshapedraw.authors>bencvt</libshapedraw.authors>
         <libshapedraw.blurb>LibShapeDraw is an open-source API mod that provides a set of flexible and powerful drawing and animation tools for other Minecraft client mods to use.</libshapedraw.blurb>
         <libshapedraw.blurb.demos>A set of simple mods demonstrating some of the ways that you, as a mod author, can use LibShapeDraw in your own mod!</libshapedraw.blurb.demos>
-        <libshapedraw.version>1.2.1-SNAPSHOT</libshapedraw.version>
-        <minecraft.version>1.4.2</minecraft.version>
+        <libshapedraw.version>1.2.2</libshapedraw.version>
+        <minecraft.version>1.4.4</minecraft.version>
         <lwjgl.version>2.4.2</lwjgl.version>
         <lib.dir>${project.basedir}/../../lib</lib.dir>
     </properties>
@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.2</version>
+                <version>2.12.4</version>
                 <configuration>
                     <argLine>-Djava.library.path=${lib.dir}/natives</argLine>
                 </configuration>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.2</version>
+            <version>4.10</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

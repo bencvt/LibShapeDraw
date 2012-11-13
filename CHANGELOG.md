@@ -1,4 +1,5 @@
-## implemented but not yet released
+## 1.2.2
+- updated for Minecraft 1.4.4
 - added animation convenience methods to `Color` and `ShapeTransform` objects
 
 ## 1.2.1

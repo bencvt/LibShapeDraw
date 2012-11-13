@@ -20,8 +20,8 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     q   Entity.prevPosX
     r   Entity.prevPosY
     s   Entity.prevPosZ
-    axc EntityClientPlayerMP
-    R   GameSettings.hideGUI
+    ayk EntityClientPlayerMP
+    S   GameSettings.hideGUI
     b   GuiIngame.getChatGUI
     a   GuiNewChat.printChatMessage
     r   Minecraft.currentScreen
@@ -31,19 +31,19 @@ OBFUSCATION_MAP = dict(reversed(x.split()) for x in """
     w   Minecraft.skipRenderWorld
     g   Minecraft.thePlayer
     e   Minecraft.theWorld
-    awr NetClientHandler
-    jy  Profiler
+    axz NetClientHandler
+    kh  Profiler
     b   Profiler.endSection
     c   Profiler.endStartSection
     a   Profiler.startSection
-    aqj RenderHelper
+    aro RenderHelper
     b   RenderHelper.enableStandardItemLighting
-    azb Tessellator
+    bao Tessellator
     a   Tessellator.addVertex
     a   Tessellator.draw
     a   Tessellator.instance
     b   Tessellator.startDrawing
-    arj Timer
+    asr Timer
     c   Timer.renderPartialTicks
 """.strip().split('\n'))
 HEADER = """
