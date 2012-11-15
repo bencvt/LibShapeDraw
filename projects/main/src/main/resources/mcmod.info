@@ -1,16 +1,21 @@
-[
 {
-  "modid": "mod_${libshapedraw.name}",
-  "name": "${libshapedraw.name}",
-  "description": "${libshapedraw.blurb}",
-  "logoFile": "/libshapedraw/logo.png",
-  "version": "${libshapedraw.version}",
-  "credits": "",
-  "authors": [ "${libshapedraw.authors}" ],
-  "url": "${libshapedraw.url.short}",
-  "updateUrl": "",
-  "parent": "",
-  "screenshots": [],
-  "dependencies": []
+  "modinfoversion": 2,
+  "modlist": [{
+    "modid": "mod_${libshapedraw.name}",
+    "name": "${libshapedraw.name}",
+    "description": "${libshapedraw.blurb}",
+    "version": "${libshapedraw.version}",
+    "mcversion": "${minecraft.version}",
+    "url": "${libshapedraw.url.short}",
+    "updateUrl": "",
+    "authors": [ "${libshapedraw.authors}" ],
+    "credits": "",
+    "logoFile": "/libshapedraw/logo.png",
+    "screenshots": [],
+    "parent": "",
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "useDependencyInformation": "true"
+  }]
 }
-]
