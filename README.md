@@ -11,10 +11,9 @@ for some screenshots and videos of what sort visual effects are possible.
 
 Installing this mod works exactly the same as any other Minecraft client mod.
 
-1.  Make sure that
+1.  Make sure that either
     [ModLoader](http://www.minecraftforum.net/topic/75440-modloader/)
-    is installed as it is a base requirement. If you prefer, you can use
-    [Forge](http://www.minecraftforge.net/forum/) instead;
+    or [Forge](http://www.minecraftforge.net/forum/) is installed.
     LibShapeDraw is compatible with either.
 2.  Download and extract the jar for the latest release. You can rename it to a
     .zip if that helps.
@@ -32,7 +31,7 @@ patching `minecraft.jar` directly, you can.
 
 LibShapeDraw was designed with compatibility in mind. It does not modify *any*
 vanilla classes directly and therefore should be compatible with virtually every
-mod. Forge is supported but *not* required.
+mod that works with ModLoader or Forge.
 
 ## Troubleshooting
 
@@ -82,7 +81,8 @@ Quick version: Add the jar to your project's classpath, instantiate
 `libshapedraw.LibShapeDraw` somewhere in your code, and go nuts. Use the
 `libshapedraw.animation.trident.Timeline` class for animations.
 
-For a gentler introduction, browse the demos: `src/demos/java/LSDDemo*.java`.
+For a gentler introduction, browse the demos:
+`projects/demos/src/main/java/LSDDemo*.java`.
 You can download the pre-built demos jar; install it like any other mod.
 
 ### How to add the LibShapeDraw jar to the classpath in MCP
@@ -93,9 +93,8 @@ Minecraft code. LibShapeDraw itself does not use MCP, but if you want to create
 a mod using both tools you can.
 
 It's possible to simply patch LibShapeDraw into `minecraft.jar` and have MCP
-decompile it. This works for ModLoader, but the decompiling process can mess up
-some class names. This doesn't work for Forge, which insists on a pure vanilla
-`minecraft.jar`.
+decompile it. This works fine for if you're using ModLoader, but not for Forge,
+which insists on a pure vanilla `minecraft.jar`.
 
 A better alternative is to keep the LibShapeDraw binary separate and reference
 it via classpath. Here's a step-by-step:
