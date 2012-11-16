@@ -20,14 +20,10 @@ and use a prebuilt jar.
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
     include the `natives` subdirectory; the test suite needs them.
-    `minecraft.jar` should be vanilla with only ModLoader (or Forge) patched in.
+    `minecraft.jar` should be vanilla with either ModLoader or Forge patched in.
 3.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
 4.  Change directory to `projects/all`.
-4.  Run Maven. The output jars are located in `projects/*/target/`.
-
-There is no need to use Forge or reference any Forge classes when compiling
-either. ModLoader is enough. You *can* compile against a `lib/minecraft.jar`
-with Forge patched in instead of ModLoader, however.
+5.  Run Maven. The output jars are located in `projects/*/target/`.
 
 If you prefer to use an IDE, here's one recommended method:
 
@@ -52,8 +48,8 @@ handling obfuscation on its own. The main reason for this is that MCP really
 doesn't integrate well with Maven and Git.
 
 However, mod developers can (and generally should) still use MCP along with
-LibShapeDraw. The *How to add the LibShapeDraw jar to the classpath in MCP*
-section in the main `README.md` has the details.
+LibShapeDraw. See the *How to add the LibShapeDraw jar to the classpath in MCP*
+section in the main `README.md` for details.
 
 So, the special dev jar (`LibShapeDraw-VERSION-dev.jar`) exists to support mod
 devs using MCP. It's identical to the normal release except that:
@@ -61,6 +57,7 @@ devs using MCP. It's identical to the normal release except that:
  +  `mod_LibShapeDraw` links to deobfuscated identifiers in
     `minecraft-deobf.jar` rather than `minecraft.jar`. This allows devs to run
     their mod with the dev jar without having to reobfuscate and redeploy.
+ +  The source code is included.
  +  The update check is disabled by default.
 
 That's the story behind `minecraft-deobf.jar`. Here's how to generate it:
@@ -96,30 +93,38 @@ Obviously both the Minecraft API and the rendering engine overhaul are very
 relevant to LibShapeDraw. The current plan is for **LibShapeDraw 2.0** to be
 released along with Minecraft 1.5, with the following adjustments:
 
- +  Make LibShapeDraw a *plugin* rather than a *mod*, to standardize and
-    simplify installation (no more messing with .class files!) This will also
-    remove the ModLoader/Forge requirement.
+ +  If the Minecraft API includes a client-side plugin loading mechanism, make
+    LibShapeDraw a *plugin* rather than a *mod*, to standardize and simplify
+    installation (no more messing with .class files!) This would also remove the
+    ModLoader/Forge requirement.
 
  +  If possible, LibShapeDraw's semantics will *not* change significantly, but
-    the underlying implementation will certainly have to change to match
+    the underlying implementation will likely have to change to match
     Minecraft's overhauled rendering engine. More details to come.
+
+ +  Any method marked as deprecated in LibShapeDraw 1.x will likely be removed
+    in 2.0.
 
 Planned documentation improvements:
 
  +  Automate Javadoc generation and publish them somewhere, probably GitHub.
 
- +  Maintain high JUnit test code coverage.
+ +  Maintain high (except for Trident) JUnit test code coverage.
 
- +  Expand the demos and make them easier to run, perhaps publishing a separate
-    `LibShapeDraw-VERSION-demos.jar` containing just the demos.
-
- +  Automate creation of the dev release jar (`LibShapeDraw-VERSION-deobf.jar`).
+ +  Expand the demos, perhaps including an example Forge mod as well. Demo
+    videos would be nice to have as well so you don't actually have to install
+    the demos jar to see it in action.
 
  +  Create a complete tutorial on how to start a fresh mod that uses
-    LibShapeDraw.
+    LibShapeDraw, perhaps using a GitHub wiki.
 
 Possible features, unprioritized (maybe before 2.0, maybe after, maybe never...
 feedback and patches welcome):
+
+ +  Optimization: where possible, bypass Minecraft's Tessellator and instead use
+    OpenGL VBO (Vertex Buffer Objects). For complex shapes this can be
+    significantly faster as data can persist in VRAM rather than being copied
+    every render frame.
 
  +  More built-in Shapes, perhaps with texture support as well.
 

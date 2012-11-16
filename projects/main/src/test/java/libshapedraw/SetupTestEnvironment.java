@@ -16,14 +16,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 /**
- * To ensure that JUnit testing does not touch the production Minecraft installation,
- * every test case should extend SetupTestEnvironment.TestCase.
+ * To ensure that JUnit testing does not touch the production Minecraft
+ * installation, every test case should extend SetupTestEnvironment.TestCase.
  * <p>
  * Involves some ClassLoader and Reflection hackery.
  * <p>
  * If you're running one of these test case classes individually in Eclipse or
- * another IDE, you'll probably need to add "-Djava.library.path=../../lib/natives" to
- * the VM arguments.
+ * another IDE, you'll probably need to add the following to the VM arguments:
+ *  -Djava.library.path=../../lib/natives
  */
 public class SetupTestEnvironment {
     private static File testMinecraftDirectory = null;

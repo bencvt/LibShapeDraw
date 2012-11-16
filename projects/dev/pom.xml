@@ -22,6 +22,14 @@
                 <directory>../main/src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>../main/src/main/java</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>false</filtering>
+            </resource>
         </resources>
         <plugins>
             <plugin>

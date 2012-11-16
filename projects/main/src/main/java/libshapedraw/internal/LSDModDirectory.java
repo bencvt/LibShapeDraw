@@ -18,6 +18,10 @@ import net.minecraft.client.Minecraft;
  * LSDController needs to know where to locate the log file. We have to ask
  * Minecraft directly instead of going through the potentially non-existing
  * mod_LibShapeDraw.
+ * <p>
+ * We can't easily make this a static method on mod_LibShapeDraw either because
+ * that class lives in the root package for non-dev environments: there's no way
+ * to reference it other than reflection.
  */
 public class LSDModDirectory {
     public static final File DIRECTORY = new File(getMinecraftDir(), "mods" + File.separator + ApiInfo.getName());

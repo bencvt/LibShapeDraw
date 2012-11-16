@@ -88,34 +88,32 @@ You can download the pre-built demos jar; install it like any other mod.
 ### How to add the LibShapeDraw jar to the classpath in MCP
 
 [Minecraft Coder Pack (MCP)](http://mcp.ocean-labs.de/index.php/MCP_Releases)
-can be a useful tool for creating mods, letting you work with deobfuscated
-Minecraft code. LibShapeDraw itself does not use MCP, but if you want to create
-a mod using both tools you can.
-
-It's possible to simply patch LibShapeDraw into `minecraft.jar` and have MCP
-decompile it. This works fine for if you're using ModLoader, but not for Forge,
-which insists on a pure vanilla `minecraft.jar`.
-
-A better alternative is to keep the LibShapeDraw binary separate and reference
-it via classpath. Here's a step-by-step:
+is an excellent tool for creating mods, letting you work with deobfuscated
+Minecraft code. Using external libraries (such as LibShapeDraw) involves a few
+extra steps:
 
 1.  **Get a copy of a LibShapeDraw release jar.** You can use either the normal
-    release or the special dev release (named `LibShapeDraw-VERSION-deobf.jar`).
-    Check the [downloads list](https://github.com/bencvt/LibShapeDraw/downloads).
-    Either release type will work for *compiling* your mod, but only the dev
-    release lets you *test/debug* your MCP mod without doing a full
-    reobfuscate/deploy.
+    release or the special dev release (named `LibShapeDraw-VERSION-dev.jar`).
+    Check the [downloads list](https://github.com/bencvt/LibShapeDraw/downloads)
+    for the latest.
+    
+    The dev release is recommended: either release type will work for
+    *compiling* your mod, but the dev release also lets you *test/debug* your
+    MCP mod without doing a full reobfuscate/deploy.
 
 2.  **Copy the LibShapeDraw jar to `jars/bin`.**
 
 3.  **Edit `conf/mcp.cfg`.** Scroll down to the `[RECOMPILE]` section. There is
     a property named `ClassPathClient`; this is where we will add a reference to
-    the LibShapeDraw jar. Add `,%(DirJars)s/bin/LibShapeDraw-VERSION-deobf.jar`
+    the LibShapeDraw jar. Add `,%(DirJars)s/bin/LibShapeDraw-VERSION-dev.jar`
     (changing `VERSION` as appropriate) to the end of the line.
 
-If you prefer to use an IDE, you'll need to add the LibShapeDraw jar to the
-build path there as well. In Eclipse, go to the Project Explorer pane and expand
-`jars/bin`. Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
+4.  **If you prefer to use an IDE, add the LibShapeDraw jar to the Eclipse
+    project's build path.** Go to the Project Explorer pane and expand
+    `jars/bin`. Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
+    
+    The dev release also includes the source code for convenience, giving you
+    easy access to the Javadocs in your IDE.
 
 ### Other resources
 
