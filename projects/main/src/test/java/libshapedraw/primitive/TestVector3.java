@@ -54,21 +54,26 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         ReadonlyVector3 v1 = new Vector3(1.0, 2.0, 3.0);
         compareVectors(true, true, v0, v1, EPSILON);
 
+        // Transitive: if A==B and B==C then A==C.
+        ReadonlyVector3 v2 = new Vector3(1.0, 2.0, 3.0);
+        compareVectors(true, true, v0, v2, EPSILON);
+        compareVectors(true, true, v1, v2, EPSILON);
+
         // Components differ by an amount below the margin of error (epsilon).
-        ReadonlyVector3 v2 = v0.copy().addZ(EPSILON/2.0);
-        compareVectors(false, true, v0, v2, EPSILON);
+        ReadonlyVector3 v3 = v0.copy().addZ(EPSILON/2.0);
+        compareVectors(false, true, v0, v3, EPSILON);
 
         // Components differ by an amount above the margin of error.
-        ReadonlyVector3 v3 = new Vector3(-31.214, 21333.7, 867.5309);
-        compareVectors(false, false, v0, v3, EPSILON);
+        ReadonlyVector3 v4 = new Vector3(-31.214, 21333.7, 867.5309);
+        compareVectors(false, false, v0, v4, EPSILON);
 
         // Same as above, but also try adjusting the margin of error.
-        ReadonlyVector3 v4 = new Vector3(1.3, 1.9, 3.2);
-        compareVectors(false, false, v0, v4, EPSILON);
-        compareVectors(false, true, v0, v4, 0.5);
+        ReadonlyVector3 v5 = new Vector3(1.3, 1.9, 3.2);
+        compareVectors(false, false, v0, v5, EPSILON);
+        compareVectors(false, true, v0, v5, 0.5);
 
         // Reflexive: a vector is always exactly equal to itself.
-        for (ReadonlyVector3 v : new ReadonlyVector3[] {v0, v1, v2, v3, v4}) {
+        for (ReadonlyVector3 v : new ReadonlyVector3[] {v0, v1, v2, v3, v4, v5}) {
             compareVectors(true, true, v, v, EPSILON);
             compareVectors(true, true, v, v, 0.5);
         }
