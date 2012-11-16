@@ -47,9 +47,6 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     public void testEquals() {
         ReadonlyVector3 v0 = new Vector3(1.0, 2.0, 3.0);
 
-        // Comparisons to null are always false.
-        compareVectors(false, false, v0, null, EPSILON);
-
         // Different instances with exactly the same components.
         ReadonlyVector3 v1 = new Vector3(1.0, 2.0, 3.0);
         compareVectors(true, true, v0, v1, EPSILON);
@@ -76,6 +73,9 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         for (ReadonlyVector3 v : new ReadonlyVector3[] {v0, v1, v2, v3, v4, v5}) {
             compareVectors(true, true, v, v, EPSILON);
             compareVectors(true, true, v, v, 0.5);
+
+            // Comparisons to null are always false.
+            compareVectors(false, false, v, null, EPSILON);
         }
     }
 
