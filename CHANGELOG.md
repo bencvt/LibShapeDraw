@@ -1,5 +1,5 @@
 ## implemented but not yet released
-- nothing so far
+- added `equalsExact`, `equals`, and `hashCode` methods to `Vector3`
 
 ## 1.2.2
 - updated for Minecraft 1.4.4

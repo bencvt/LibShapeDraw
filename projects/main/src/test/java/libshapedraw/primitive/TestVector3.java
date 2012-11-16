@@ -6,11 +6,10 @@ import libshapedraw.SetupTestEnvironment;
 import org.junit.Test;
 
 public class TestVector3 extends SetupTestEnvironment.TestCase {
-    private static double EPSILON = 0.000001;
+    private static final double EPSILON = ReadonlyVector3.EPSILON;
+
     private static void assertVectorEquals(double expectedX, double expectedY, double expectedZ, ReadonlyVector3 v) {
-        assertEquals(expectedX, v.getX(), EPSILON);
-        assertEquals(expectedY, v.getY(), EPSILON);
-        assertEquals(expectedZ, v.getZ(), EPSILON);
+        assertTrue(v.equals(expectedX, expectedY, expectedZ, EPSILON));
     }
 
     @Test
@@ -42,6 +41,91 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertTrue(v0.getZ() == v1.getZ());
         v0.setX(0.0);
         assertFalse(v0.getX() == v1.getX());
+    }
+
+    @Test
+    public void testEquals() {
+        ReadonlyVector3 v0 = new Vector3(1.0, 2.0, 3.0);
+
+        // Comparisons to null are always false.
+        compareVectors(false, false, v0, null, EPSILON);
+
+        // Different instances with exactly the same components.
+        ReadonlyVector3 v1 = new Vector3(1.0, 2.0, 3.0);
+        compareVectors(true, true, v0, v1, EPSILON);
+
+        // Components differ by an amount below the margin of error (epsilon).
+        ReadonlyVector3 v2 = v0.copy().addZ(EPSILON/2.0);
+        compareVectors(false, true, v0, v2, EPSILON);
+
+        // Components differ by an amount above the margin of error.
+        ReadonlyVector3 v3 = new Vector3(-31.214, 21333.7, 867.5309);
+        compareVectors(false, false, v0, v3, EPSILON);
+
+        // Same as above, but also try adjusting the margin of error.
+        ReadonlyVector3 v4 = new Vector3(1.3, 1.9, 3.2);
+        compareVectors(false, false, v0, v4, EPSILON);
+        compareVectors(false, true, v0, v4, 0.5);
+
+        // Reflexive: a vector is always exactly equal to itself.
+        for (ReadonlyVector3 v : new ReadonlyVector3[] {v0, v1, v2, v3, v4}) {
+            compareVectors(true, true, v, v, EPSILON);
+            compareVectors(true, true, v, v, 0.5);
+        }
+    }
+
+    private static void compareVectors(boolean expectedExact, boolean expectedFuzzy, ReadonlyVector3 v, ReadonlyVector3 other, double epsilon) {
+        // Commutative: it doesn't matter what order vectors are compared in.
+        compareVectorsWork(expectedExact, expectedFuzzy, v, other, epsilon);
+        if (other != null) {
+            compareVectorsWork(expectedExact, expectedFuzzy, other, v, epsilon);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void compareVectorsWork(boolean expectedExact, boolean expectedFuzzy, ReadonlyVector3 v, ReadonlyVector3 other, double epsilon) {
+        assertEquals(expectedExact, v.equals(other));
+
+        assertEquals(expectedExact, v.equalsExact(other));
+        assertEquals(expectedFuzzy, v.equals(other, epsilon));
+        assertFalse(v.equals(other, -1.0)); // a negative epsilon is pointless but allowed
+
+        if (other != null) {
+            assertEquals(expectedExact, v.equalsExact(other.getX(), other.getY(), other.getZ()));
+            assertEquals(expectedFuzzy, v.equals(other.getX(), other.getY(), other.getZ(), epsilon));
+            assertFalse(v.equals(other.getX(), other.getY(), other.getZ(), -1.0));
+        }
+    }
+
+    @Test
+    public void testHashCode() {
+        assertEquals(29791, new Vector3().hashCode());
+        assertEquals(29791, Vector3.ZEROS.hashCode());
+
+        assertEquals(66614367, new Vector3(1.0, 2.0, 3.0).hashCode());
+
+        // Different instance, same exact components, same hash code.
+        assertEquals(66614367, new Vector3(1.0, 2.0, 3.0).hashCode());
+
+        // Hash code doesn't consider margins of error.
+        // It's all based on bits, devoid of semantic meaning.
+        assertEquals(-956017950, new Vector3(1.0, 2.0, 3.0).addZ(EPSILON/2.0).hashCode());
+    }
+
+    @Test
+    public void testIsZero() {
+        assertTrue(Vector3.ZEROS.isZero());
+
+        Vector3 v = new Vector3();
+        assertTrue(v.isZero());
+        v.setY(22.0);
+        assertFalse(v.isZero());
+        v.set(Vector3.ZEROS);
+        assertTrue(v.isZero());
+        v.setZ(0.00000001);
+        assertFalse(v.isZero());
+        v.set(0, 0, 0);
+        assertTrue(v.isZero());
     }
 
     @Test
@@ -281,17 +365,6 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertVectorEquals(-4.0, 55.55, 62.0, v);
         v.set(new Vector3(5.4, 2.3, -77.7));
         assertVectorEquals(5.4, 2.3, -77.7, v);
-
-        v.set(Vector3.ZEROS);
-        assertVectorEquals(0.0, 0.0, 0.0, v);
-        v.setY(22.0);
-        assertVectorEquals(0.0, 22.0, 0.0, v);
-        assertVectorEquals(0.0, 0.0, 0.0, Vector3.ZEROS);
-
-        assertFalse(v.isZero());
-        assertTrue(Vector3.ZEROS.isZero());
-        v.set(0, 0, 0);
-        assertTrue(v.isZero());
     }
 
     @Test(expected=NullPointerException.class)

@@ -1,5 +1,6 @@
 package libshapedraw.primitive;
 
+
 /**
  * Yet another class representing a (X, Y, Z) vector or coordinate 3-tuple.
  * <p>
@@ -49,6 +50,51 @@ public class Vector3 implements ReadonlyVector3 {
     @Override
     public double getZ() {
         return z;
+    }
+
+    @Override
+    public boolean equalsExact(ReadonlyVector3 other) {
+        return other != null && equalsExact(other.getX(), other.getY(), other.getZ());
+    }
+
+    @Override
+    public boolean equalsExact(double otherX, double otherY, double otherZ) {
+        return x == otherX && y == otherY && z == otherZ;
+    }
+
+    @Override
+    public boolean equals(ReadonlyVector3 other, double epsilon) {
+        return other != null && equals(other.getX(), other.getY(), other.getZ(), epsilon);
+    }
+
+    @Override
+    public boolean equals(double otherX, double otherY, double otherZ, double epsilon) {
+        // A negative epsilon is pointless (causing this check to always
+        // return false), but still valid.
+        return (Math.abs(x - otherX) <= epsilon &&
+                Math.abs(y - otherY) <= epsilon &&
+                Math.abs(z - otherZ) <= epsilon);
+    }
+
+    @Deprecated
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof ReadonlyVector3 && equalsExact((ReadonlyVector3) other);
+    }
+
+    @Override
+    public int hashCode() {
+        // Equivalent to java.util.Arrays.hashCode(new double[] {x, y, z})
+        // without the extra object allocation.
+        long bits;
+        int hash = 1;
+        bits = Double.doubleToLongBits(x);
+        hash = 31*hash + (int) (bits ^ (bits >>> 32));
+        bits = Double.doubleToLongBits(y);
+        hash = 31*hash + (int) (bits ^ (bits >>> 32));
+        bits = Double.doubleToLongBits(z);
+        hash = 31*hash + (int) (bits ^ (bits >>> 32));
+        return hash;
     }
 
     @Override

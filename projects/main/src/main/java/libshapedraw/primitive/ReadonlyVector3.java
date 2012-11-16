@@ -17,6 +17,47 @@ public interface ReadonlyVector3 {
     /** @return the vector's z component. */
     public double getZ();
 
+    /** @return true if the vector components match the other's exactly. */
+    public boolean equalsExact(ReadonlyVector3 other);
+
+    /** @return true if the vector components match the other's exactly. */
+    public boolean equalsExact(double otherX, double otherY, double otherZ);
+
+    /**
+     * @return true if the vector components match the other's within a margin
+     *         of error (epsilon).
+     * @see #EPSILON
+     */
+    public boolean equals(ReadonlyVector3 other, double epsilon);
+
+    /**
+     * @return true if the vector components match the other's within a margin
+     *         of error (epsilon).
+     * @see #EPSILON
+     */
+    public boolean equals(double otherX, double otherY, double otherZ, double epsilon);
+
+    /**
+     * A recommended margin of error to use with
+     * {@link #equals(ReadonlyVector3, double)}.
+     */
+    public static final double EPSILON = 1E-6;
+
+    /**
+     * Equivalent to {@link #equalsExact(ReadonlyVector3)}.
+     * <p>
+     * This method is marked as deprecated because it's better practice to
+     * explicitly state margins of error for floating-point comparisons. For a
+     * non-zero margin of error, use {@link #equals(ReadonlyVector3, double)}.
+     * @deprecated
+     */
+    @Override
+    @Deprecated
+    public boolean equals(Object other);
+
+    @Override
+    public int hashCode();
+
     /** @return true if all of this vector's components are exactly zero. */
     public boolean isZero();
 
