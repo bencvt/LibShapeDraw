@@ -75,7 +75,15 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     }
 
     private static void compareVectors(boolean expectedExact, boolean expectedFuzzy, ReadonlyVector3 v, ReadonlyVector3 other, double epsilon) {
-        // Commutative: it doesn't matter what order vectors are compared in.
+        // Consistent: as long as the vectors aren't changed in the meantime,
+        // repeated comparisons always return the same value.
+        compareVectorsSymmetric(expectedExact, expectedFuzzy, v, other, epsilon);
+        compareVectorsSymmetric(expectedExact, expectedFuzzy, v, other, epsilon);
+        compareVectorsSymmetric(expectedExact, expectedFuzzy, v, other, epsilon);
+    }
+
+    private static void compareVectorsSymmetric(boolean expectedExact, boolean expectedFuzzy, ReadonlyVector3 v, ReadonlyVector3 other, double epsilon) {
+        // Symmetric: it doesn't matter what order vectors are compared in.
         compareVectorsWork(expectedExact, expectedFuzzy, v, other, epsilon);
         if (other != null) {
             compareVectorsWork(expectedExact, expectedFuzzy, other, v, epsilon);
