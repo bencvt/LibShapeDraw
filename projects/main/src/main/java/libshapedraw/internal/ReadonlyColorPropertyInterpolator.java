@@ -3,6 +3,15 @@ package libshapedraw.internal;
 import libshapedraw.animation.trident.interpolator.PropertyInterpolator;
 import libshapedraw.primitive.ReadonlyColor;
 
+/**
+ * Internal class. Allows fields of type Color/ReadonlyColor to be easily
+ * animated using Trident.
+ * <p>
+ * Note that the color object will be reinstantiated each tick. If this is not
+ * the desired behavior, animate the color's individual components instead.
+ * 
+ * @see libshapedraw.primitive.Color#animateStart
+ */
 public class ReadonlyColorPropertyInterpolator implements PropertyInterpolator<ReadonlyColor> {
     @Override
     public Class<ReadonlyColor> getBasePropertyClass() {

@@ -4,7 +4,7 @@ import libshapedraw.ApiInfo;
 import libshapedraw.MinecraftAccess;
 
 /**
- * Check the remote website for updates.
+ * Internal class. Check the remote website for updates.
  * <p>
  * The server-side part of this is dead simple: a static text file hosted on a
  * web server.

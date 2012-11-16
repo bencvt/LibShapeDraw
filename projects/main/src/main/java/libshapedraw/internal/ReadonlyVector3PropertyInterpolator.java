@@ -4,6 +4,13 @@ import libshapedraw.animation.trident.interpolator.PropertyInterpolator;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
+/**
+ * Internal class. Allows fields of type Vector3/ReadonlyVector3 to be easily
+ * animated using Trident.
+ * <p>
+ * Note that the vector object will be reinstantiated each tick. If this is not
+ * the desired behavior, animate the vector's individual components instead.
+ */
 public class ReadonlyVector3PropertyInterpolator implements PropertyInterpolator<ReadonlyVector3> {
     @Override
     public Class<ReadonlyVector3> getBasePropertyClass() {

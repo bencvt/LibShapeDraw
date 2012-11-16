@@ -29,9 +29,9 @@ It has been modified in several ways:
  +  Removed Android/Swing/SWT subpackages as they're not relevant to a Minecraft
     environment.
 
- +  Removed support for loading `META-INF/trident-plugin.properties`, as this is
-    typically nuked for Minecraft client modding purposes. Core property
-    interpolators are now hard-coded.
+ +  Removed support for loading `META-INF/trident-plugin.properties`, as this
+    directory is often nuked for Minecraft client modding purposes. Core
+    property interpolators are now hard-coded.
 
  +  Added support for fluent property setters, e.g.:
 
@@ -57,39 +57,7 @@ It has been modified in several ways:
 
  +  Finally, LibShapeDraw registers custom property interpolators for its
     primitive objects (Color, LineStyle, and Vector3). This makes it easier to
-    animate these objects, e.g.:
-
-        // We want to fade a sphere's color from opaque yellow to semi-
-        // transparent blue.
-        GLUSphere sphere = new GLUSphere(new Vector3(0,70,0),
-            Color.YELLOW.copy(), null, 0.8F);
-        new LibShapeDraw().addShape(sphere);
-
-        // Without the built-in custom property interpolators:
-        Timeline animVerbose = new Timeline(sphere.getMainColor());
-        ReadonlyColor toColor = Color.BLUE.copy().setAlpha(0.5);
-        animVerbose.addPropertyToInterpolate("red",
-            sphere.getMainColor().getRed(),
-            toColor.getRed());
-        animVerbose.addPropertyToInterpolate("green",
-            sphere.getMainColor().getGreen(),
-            toColor.getGreen());
-        animVerbose.addPropertyToInterpolate("blue",
-            sphere.getMainColor().getBlue(),
-            toColor.getBlue());
-        animVerbose.addPropertyToInterpolate("alpha",
-            sphere.getMainColor().getAlpha(),
-            toColor.getAlpha());
-        animVerbose.setDuration(5000);
-        animVerbose.play();
-
-        // Using the built-ins:
-        Timeline animEasy = new Timeline(sphere);
-        animEasy.addPropertyToInterpolate("mainColor",
-            sphere.getMainColor(),
-            Color.BLUE.copy().setAlpha(0.5));
-        animEasy.setDuration(5000);
-        animEasy.play();
+    animate these objects.
 
 # Licenses
 

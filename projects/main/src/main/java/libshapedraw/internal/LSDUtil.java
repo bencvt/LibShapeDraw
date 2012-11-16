@@ -21,7 +21,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * Miscellaneous general-purpose utility classes and methods.
+ * Interal class. Miscellaneous general-purpose utility classes and methods.
  */
 public class LSDUtil {
     public static final Random random = new Random();
@@ -140,7 +140,18 @@ public class LSDUtil {
 
     /**
      * For getting at those pesky private and obfuscated fields.
-     * @return the nth field of the specified type declared by specified class.
+     * <p>
+     * Caveat: this is not guaranteed to work correctly if there are more than
+     * one declared fields of the same exact type on obj.
+     * <p>
+     * From {@link Class#getDeclaredFields}: "The elements in the array
+     * returned are not sorted and are not in any particular order."
+     * <p>
+     * In practice things work as expected even if there are multiple fields of
+     * the same type, but this is dependent on the JVM implementation.
+     * 
+     * @return the nth (usually 0) field of the specified type declared by
+     *         obj's class.
      */
     @SuppressWarnings("rawtypes")
     public static Field getFieldByType(Class objClass, Class fieldType, int n) {
@@ -163,7 +174,8 @@ public class LSDUtil {
     }
 
     /**
-     * Convenience wrapper for reflecting a field, eliminating the checked exceptions.
+     * Convenience wrapper for reflecting a field, eliminating the checked
+     * exceptions.
      */
     public static Object getFieldValue(Field field, Object obj) {
         try {

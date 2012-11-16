@@ -123,6 +123,9 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         minecraft = Minecraft.getMinecraft();
         // Get a reference to Minecraft's timer so we can get the partial
         // tick time for rendering (it's not passed to the profiler directly).
+        // 
+        // There's only one Timer field declared by Minecraft so it's safe to
+        // look it up by type.
         // obf: Timer
         timer = (Timer) LSDUtil.getFieldValue(LSDUtil.getFieldByType(Minecraft.class, Timer.class, 0), minecraft);
 
@@ -134,6 +137,8 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     /** Use reflection to install the profiler proxy class. */
     private void installRenderHook() {
         Class<? super Proxy> profilerClass = Proxy.class.getSuperclass();
+        // There's only one Profiler field declared by Minecraft so it's safe
+        // to look it up by type.
         Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, profilerClass, 0);
         Object profilerOrig = LSDUtil.getFieldValue(fieldProfiler, minecraft);
         if (profilerOrig.getClass() != profilerClass) {

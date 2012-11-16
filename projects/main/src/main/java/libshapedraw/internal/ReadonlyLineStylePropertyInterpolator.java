@@ -4,6 +4,13 @@ import libshapedraw.animation.trident.interpolator.PropertyInterpolator;
 import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyLineStyle;
 
+/**
+ * Internal class. Allows fields of type LineStyle/ReadonlyLineStyle to be
+ * easily animated using Trident.
+ * <p>
+ * Note that the style object will be reinstantiated each tick. If this is not
+ * the desired behavior, animate the style's individual components instead.
+ */
 public class ReadonlyLineStylePropertyInterpolator implements PropertyInterpolator<ReadonlyLineStyle> {
     @Override
     public Class<ReadonlyLineStyle> getBasePropertyClass() {
