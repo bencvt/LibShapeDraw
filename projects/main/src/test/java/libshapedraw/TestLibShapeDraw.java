@@ -2,8 +2,6 @@ package libshapedraw;
 
 import static org.junit.Assert.*;
 
-import java.util.Collection;
-
 import libshapedraw.LibShapeDraw;
 import libshapedraw.event.MockLSDEventListener;
 import libshapedraw.internal.LSDController;
@@ -37,10 +35,6 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     }
     private void render(boolean hideGui) {
         LSDController.getInstance().render(new Vector3(0,0,0), hideGui);
-    }
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void addCollectionTypeErased(Collection c, Object o) {
-        c.add(o);
     }
 
     @SuppressWarnings("deprecation")
@@ -78,7 +72,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     @Test
     public void testShapesAdd() {
         assertEquals(0, lib.getShapes().size());
-        lib.getShapes().add(new MockShape());
+        lib.addShape(new MockShape());
         assertEquals(1, lib.getShapes().size());
         lib.addShape(new MockShape());
         assertEquals(2, lib.getShapes().size());
@@ -87,15 +81,14 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         render(false);
     }
 
-    // This test is disabled because it would pass for Java 6 and earlier but fail for Java 7
-    //@Test(expected=NullPointerException.class)
-    //public void testShapesAddNull() {
-    //    lib.addShape(null);
-    //}
+    @Test(expected=IllegalArgumentException.class)
+    public void testShapesAddNull() {
+        lib.addShape(null);
+    }
 
-    @Test(expected=ClassCastException.class)
-    public void testShapesAddInvalid() {
-        addCollectionTypeErased(lib.getShapes(), new Object());
+    @Test(expected=UnsupportedOperationException.class)
+    public void testShapesUnmodifiable() {
+        lib.getShapes().add(new MockShape());
     }
 
     @Test
@@ -108,7 +101,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testShapesRemove() {
+    public void testShapesRemoveClear() {
         MockShape shape0 = new MockShape();
         MockShape shape1 = new MockShape();
         MockShape shape2 = new MockShape();
@@ -129,6 +122,18 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         lib.removeShape(shape1).removeShape(shape2);
         assertEquals(1, lib.getShapes().size());
         assertTrue(lib.getShapes().contains(shape3));
+
+        lib.clearShapes();
+        assertEquals(0, lib.getShapes().size());
+    }
+
+    @Test
+    public void testShapesRemoveInvalid() {
+        MockShape shape = new MockShape();
+        assertFalse(lib.getShapes().contains(shape));
+        lib.removeShape(shape); // allowed no-op
+
+        lib.removeShape(null); // also allowed
     }
 
     // ----------------------------------------------------------------------
@@ -138,7 +143,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     @Test
     public void testEventListenersAdd() {
         assertEquals(0, lib.getEventListeners().size());
-        lib.getEventListeners().add(new MockLSDEventListener());
+        lib.addEventListener(new MockLSDEventListener());
         assertEquals(1, lib.getEventListeners().size());
         lib.addEventListener(new MockLSDEventListener());
         assertEquals(2, lib.getEventListeners().size());
@@ -147,15 +152,14 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         render(false);
     }
 
-    // This test is disabled because it would pass for Java 6 and earlier but fail for Java 7
-    //@Test(expected=NullPointerException.class)
-    //public void testEventListenersAddNull() {
-    //    lib.addEventListener(null);
-    //}
+    @Test(expected=IllegalArgumentException.class)
+    public void testEventListenersAddNull() {
+        lib.addEventListener(null);
+    }
 
-    @Test(expected=ClassCastException.class)
-    public void testEventListenersAddInvalid() {
-        addCollectionTypeErased(lib.getEventListeners(), new Object());
+    @Test(expected=UnsupportedOperationException.class)
+    public void testEventListenersUnmodifiable() {
+        lib.getEventListeners().add(new MockLSDEventListener());
     }
 
     @Test
@@ -168,7 +172,7 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testEventListenersRemove() {
+    public void testEventListenersRemoveClear() {
         MockLSDEventListener listener0 = new MockLSDEventListener();
         MockLSDEventListener listener1 = new MockLSDEventListener();
         MockLSDEventListener listener2 = new MockLSDEventListener();
@@ -189,6 +193,18 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         lib.removeEventListener(listener1).removeEventListener(listener2);
         assertEquals(1, lib.getEventListeners().size());
         assertTrue(lib.getEventListeners().contains(listener3));
+
+        lib.clearEventListeners();
+        assertEquals(0, lib.getEventListeners().size());
+    }
+
+    @Test
+    public void testEventListenersRemoveInvalid() {
+        MockLSDEventListener listener = new MockLSDEventListener();
+        assertFalse(lib.getEventListeners().contains(listener));
+        lib.removeEventListener(listener); // allowed no-op
+
+        lib.removeEventListener(null); // also allowed
     }
 
     @Test

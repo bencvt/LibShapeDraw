@@ -134,10 +134,6 @@ feedback and patches welcome):
     likely be minimalistic until at least Minecraft 1.5, which overhauls the
     rendering process (see above).
 
- +  Make the API thread-safe if it's possible to do so without a major
-    performance hit. (And if mods actually have a need to modify shapes/etc.
-    from a different thread.)
-
  +  Add a plugin channel to allow servers to access the API on the client.
     The end user would be able to disable this feature if they'd rather not let
     the server draw shapes on their screen.

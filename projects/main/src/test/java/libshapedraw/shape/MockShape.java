@@ -1,19 +1,28 @@
 package libshapedraw.shape;
 
+import libshapedraw.LibShapeDraw;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
 
 public class MockShape extends Shape {
+    private int countRender;
+    private int countOnAdd;
+    private int countOnRemove;
+
     public MockShape() {
         super(Vector3.ZEROS.copy());
     }
 
-    private int countRender = 0;
+    @Override
+    public void onAdd(LibShapeDraw apiInstance) {
+        countOnAdd++;
+    }
 
-    public int getCountRender() {
-        return countRender;
+    @Override
+    public void onRemove(LibShapeDraw apiInstance) {
+        countOnRemove++;
     }
 
     @Override
@@ -25,7 +34,21 @@ public class MockShape extends Shape {
         mc.finishDrawing();
     }
 
+    public int getCountRender() {
+        return countRender;
+    }
+
+    public int getCountOnAdd() {
+        return countOnAdd;
+    }
+
+    public int getCountOnRemove() {
+        return countOnRemove;
+    }
+
     public void resetCounts() {
         countRender = 0;
+        countOnAdd = 0;
+        countOnRemove = 0;
     }
 }

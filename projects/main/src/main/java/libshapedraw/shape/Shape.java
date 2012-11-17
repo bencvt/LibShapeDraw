@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import libshapedraw.LibShapeDraw;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
@@ -19,17 +20,17 @@ public abstract class Shape {
     private Vector3 origin;
     private boolean relativeToOrigin = true;
     private List<ShapeTransform> transforms;
+    private List<ShapeTransform> transformsReadonly;
 
     public Shape(Vector3 origin) {
         setOrigin(origin);
     }
 
-    /**
-     * If false, the Shape will not be rendered.
-     */
+    /** If false, the Shape will not be rendered. */
     public boolean isVisible() {
         return visible;
     }
+    /** If false, the Shape will not be rendered. */
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -63,41 +64,100 @@ public abstract class Shape {
         this.relativeToOrigin = relativeToOrigin;
     }
 
+    /** Lazily create the lists. Many shapes don't need transforms. */
+    private void makeTransforms() {
+        if (transforms == null) {
+            transforms = Collections.checkedList(new LinkedList<ShapeTransform>(), ShapeTransform.class);
+            transformsReadonly = Collections.unmodifiableList(transforms);
+        }
+    }
+
     /**
-     * Get the list of ShapeTransforms to perform right before rendering this
-     * Shape, if any.
-     * This is not thread-safe.
+     * Get a read-only view of the list of ShapeTransforms to perform right
+     * before rendering this Shape, if any. To modify this list use
+     * addTransform, removeTransform, and clearTransforms.
      */
     public List<ShapeTransform> getTransforms() {
-        if (transforms == null) {
-            // lazily create the list; many shapes don't need transforms
-            transforms = Collections.checkedList(new LinkedList<ShapeTransform>(), ShapeTransform.class);
-        }
-        return transforms;
+        makeTransforms();
+        return transformsReadonly;
     }
+
     /**
-     * Convenience method, equivalent to getTransforms().add(transform)
-     * This is not thread-safe.
+     * Register a ShapeTransform to be applied to this Shape.
+     * <p>
+     * Thread safety is not guaranteed. To avoid non-deterministic behavior,
+     * only call this method from the main Minecraft thread.
+     * 
      * @returns the instance (for method chaining)
      */
     public Shape addTransform(ShapeTransform transform) {
-        getTransforms().add(transform);
-        return this;
-    }
-    /**
-     * Convenience method, equivalent to getTransforms().remove(transform)
-     * This is not thread-safe.
-     * @returns the instance (for method chaining)
-     */
-    public Shape removeTransform(ShapeTransform transform) {
-        getTransforms().remove(transform);
+        makeTransforms();
+        if (transform == null) {
+            throw new IllegalArgumentException();
+        }
+        transforms.add(transform);
         return this;
     }
 
     /**
+     * Unregister a ShapeTransform, no longer applying it to this Shape.
+     * <p>
+     * Attempting to remove a transform that is not registered to this shape
+     * is allowed but won't do anything.
+     * <p>
+     * Thread safety is not guaranteed. To avoid non-deterministic behavior,
+     * only call this method from the main Minecraft thread.
+     * 
+     * @returns the instance (for method chaining)
+     */
+    public Shape removeTransform(ShapeTransform transform) {
+        makeTransforms();
+        transforms.remove(transform);
+        return this;
+    }
+
+    /**
+     * Unregister all ShapeTransforms registered to this Shape.
+     * <p>
+     * Thread safety is not guaranteed. To avoid non-deterministic behavior,
+     * only call this method from the main Minecraft thread.
+     * 
+     * @returns the instance (for method chaining)
+     */
+    public Shape clearTransforms() {
+        makeTransforms();
+        transforms.clear();
+        return this;
+    }
+
+    /**
+     * Called whenever this Shape is added to a LibShapeDraw API instance's set
+     * of shapes to render.
+     */
+    public void onAdd(LibShapeDraw apiInstance) {
+        // do nothing; derived classes can override as needed.
+    }
+
+    /**
+     * Called whenever this Shape is removed from a LibShapeDraw API instance's
+     * set of shapes to render.
+     * <p>
+     * This method should clean up any external resources (such as VBOs) that
+     * were owned by this Shape.
+     */
+    public void onRemove(LibShapeDraw apiInstance) {
+        // do nothing; derived classes can override as needed.
+    }
+
+    /**
      * Render the Shape, if visible. Also perform any ShapeTransforms
-     * registered to this Shape. This should normally only be called internally
-     * by the Controller.
+     * registered to this Shape.
+     * <p>
+     * This method is automatically called as appropriate when a Shape has been
+     * registered to a LibShapeDraw API instance using addShape.
+     * <p>
+     * It can also be called manually for Shapes not associated with an API
+     * instance.
      */
     public final void render(MinecraftAccess mc) {
         if (!isVisible()) {

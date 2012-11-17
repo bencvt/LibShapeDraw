@@ -1,5 +1,10 @@
-## implemented but not yet released
-- added `equalsExact`, `equals`, and `hashCode` methods to `Vector3`
+## implemented but not yet released, slated for LibShapeDraw 1.3
+- added `equalsExact`, `equals`, and `hashCode` methods for primitive types
+- added `Shape.onAdd` and `Shape.onRemove` methods
+- `LibShapeDraw.getShapes`, `LibShapeDraw.getEventListeners`, and
+  `Shape.getTransforms` now return read-only views. All modifications must use
+  addShape, removeShape, clearShape, etc.
+- many documentation improvements
 
 ## 1.2.2
 - updated for Minecraft 1.4.4

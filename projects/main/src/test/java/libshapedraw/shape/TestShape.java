@@ -41,7 +41,7 @@ public class TestShape extends SetupTestEnvironment.TestCase {
         shape.render(mc);
         assertEquals(1, shape.getCountRender());
 
-        shape.getTransforms().add(new ShapeRotate(45.0, 0.0, 1.0, 0.0));
+        shape.addTransform(new ShapeRotate(45.0, 0.0, 1.0, 0.0));
         assertEquals(1, shape.getTransforms().size());
         shape.addTransform(new ShapeScale(1.0, 1.5, 1.0));
         assertEquals(2, shape.getTransforms().size());
@@ -62,6 +62,19 @@ public class TestShape extends SetupTestEnvironment.TestCase {
 
         shape.render(mc);
         assertEquals(3, shape.getCountRender());
+
+        shape.clearTransforms();
+        assertEquals(0, shape.getTransforms().size());
+    }
+
+    @Test(expected=UnsupportedOperationException.class)
+    public void testTransformsUnmodifiable() {
+        new MockShape().getTransforms().add(new ShapeTranslate());
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testTransformAddInvalidNull() {
+        new MockShape().addTransform(null);
     }
 
     @Test
@@ -77,7 +90,7 @@ public class TestShape extends SetupTestEnvironment.TestCase {
         assertEquals(prefix+"{TT}", shape.toString());
         shape.setVisible(true);
         assertEquals(prefix+"{VTT}", shape.toString());
-        shape.getTransforms().clear();
+        shape.clearTransforms();
         assertEquals(prefix+"{V}", shape.toString());
     }
 }
