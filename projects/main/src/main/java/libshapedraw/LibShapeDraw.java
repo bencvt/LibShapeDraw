@@ -38,9 +38,9 @@ public class LibShapeDraw {
      *                instance.
      */
     public LibShapeDraw(String ownerId) {
-        shapes = Collections.checkedSet(new LinkedHashSet<Shape>(), Shape.class);
+        shapes = new LinkedHashSet<Shape>();
         shapesReadonly = Collections.unmodifiableSet(shapes);
-        eventListeners = Collections.checkedSet(new LinkedHashSet<LSDEventListener>(), LSDEventListener.class);
+        eventListeners = new LinkedHashSet<LSDEventListener>();
         eventListenersReadonly = Collections.unmodifiableSet(eventListeners);
         instanceId = LSDController.getInstance().registerApiInstance(this, ownerId);
     }

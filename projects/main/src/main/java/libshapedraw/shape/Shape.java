@@ -67,7 +67,7 @@ public abstract class Shape {
     /** Lazily create the lists. Many shapes don't need transforms. */
     private void makeTransforms() {
         if (transforms == null) {
-            transforms = Collections.checkedList(new LinkedList<ShapeTransform>(), ShapeTransform.class);
+            transforms = new LinkedList<ShapeTransform>();
             transformsReadonly = Collections.unmodifiableList(transforms);
         }
     }
