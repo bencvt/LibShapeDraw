@@ -3,17 +3,14 @@ package libshapedraw.shape;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.LineStyle;
+import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.ReadonlyLineStyle;
 import libshapedraw.primitive.Vector3;
 
 /**
  * Intermediate base class for shapes that are rendered using lines.
- * <p>
- * Supports the concept of "xray" rendering: shapes that are occluded by
- * another object can be drawn regardless, using a different style than its
- * non-occluded sections.
  */
-public abstract class WireframeShape extends Shape {
+public abstract class WireframeShape extends Shape implements XrayShape {
     private LineStyle lineStyle;
 
     public WireframeShape(Vector3 origin) {
@@ -37,10 +34,6 @@ public abstract class WireframeShape extends Shape {
     protected void renderLines(MinecraftAccess mc, boolean isSecondary) {
         // do nothing; it's up to the derived class to override either this
         // method or renderShape.
-    }
-
-    public boolean isVisibleThroughTerrain() {
-        return getEffectiveLineStyle().hasSecondaryColor();
     }
 
     public LineStyle getLineStyle() {
@@ -67,5 +60,20 @@ public abstract class WireframeShape extends Shape {
             lineStyle.set(color, width, visibleThroughTerrain);
         }
         return this;
+    }
+
+    @Override
+    public ReadonlyColor getMainColorReadonly() {
+        return getEffectiveLineStyle().getMainReadonlyColor();
+    }
+
+    @Override
+    public ReadonlyColor getSecondaryColorReadonly() {
+        return getEffectiveLineStyle().getSecondaryReadonlyColor();
+    }
+
+    @Override
+    public boolean isVisibleThroughTerrain() {
+        return getEffectiveLineStyle().hasSecondaryColor();
     }
 }

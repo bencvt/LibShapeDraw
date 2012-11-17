@@ -2,6 +2,7 @@ package libshapedraw.shape;
 
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
+import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -10,12 +11,8 @@ import org.lwjgl.util.glu.Quadric;
 /**
  * Intermediate base class for simple shapes rendered using GLU (OpenGL Utility
  * Library).
- * <p>
- * Supports the concept of "xray" rendering: shapes that are occluded by
- * another object can be drawn regardless, using a different style than its
- * non-occluded sections.
  */
-public abstract class GLUShape extends Shape {
+public abstract class GLUShape extends Shape implements XrayShape {
     public static final int DEFAULT_SLICES = 24;
     public static final int DEFAULT_STACKS = 24;
     public static final int DEFAULT_LOOPS = 6;
@@ -53,6 +50,10 @@ public abstract class GLUShape extends Shape {
         super.setOrigin(origin);
     }
 
+    @Override
+    public ReadonlyColor getMainColorReadonly() {
+        return mainColor;
+    }
     public Color getMainColor() {
         return mainColor;
     }
@@ -64,6 +65,10 @@ public abstract class GLUShape extends Shape {
         return this;
     }
 
+    @Override
+    public ReadonlyColor getSecondaryColorReadonly() {
+        return secondaryColor;
+    }
     public Color getSecondaryColor() {
         return secondaryColor;
     }
@@ -71,6 +76,11 @@ public abstract class GLUShape extends Shape {
         // null allowed
         this.secondaryColor = secondaryColor;
         return this;
+    }
+
+    @Override
+    public boolean isVisibleThroughTerrain() {
+        return secondaryColor == null;
     }
 
     public Quadric getGLUQuadric() {
