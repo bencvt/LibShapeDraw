@@ -169,6 +169,15 @@ public class LibShapeDraw {
     /**
      * Unregister a Shape, no longer rendering it.
      * <p>
+     * If the Shape has Colors or ShapeTransforms that are busy animating, they
+     * will continue to do so even after the Shape is unregistered. The
+     * animations can be manually stopped using animateStop, or simply allowed
+     * to expire normally (if non-looping).
+     * <p>
+     * Animations are not automatically stopped here because it is perfectly
+     * valid (and often desired, for synchronized animation) for multiple
+     * Shapes to share Color/ShapeTransform instances.
+     * <p>
      * Attempting to remove a shape that is not part of this API instance's
      * shape collection is allowed but won't do anything.
      * <p>
@@ -192,6 +201,9 @@ public class LibShapeDraw {
     /**
      * Unregister all Shapes owned by this API instance, no longer rendering
      * them.
+     * <p>
+     * Any animations affecting the Shapes are <b>not</b> automatically
+     * stopped. See {@link #removeShape}'s documentation for more details.
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
