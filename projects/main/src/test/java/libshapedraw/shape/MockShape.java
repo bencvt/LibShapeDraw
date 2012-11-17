@@ -1,5 +1,6 @@
 package libshapedraw.shape;
 
+import static org.junit.Assert.assertEquals;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Vector3;
@@ -44,6 +45,11 @@ public class MockShape extends Shape {
 
     public int getCountOnRemove() {
         return countOnRemove;
+    }
+
+    public void assertAddRemoveCounts(int expectedOnAdd, int expectedOnRemove) {
+        assertEquals(expectedOnAdd, countOnAdd);
+        assertEquals(expectedOnRemove, countOnRemove);
     }
 
     public void resetCounts() {

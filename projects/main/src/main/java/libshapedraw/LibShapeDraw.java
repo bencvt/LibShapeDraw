@@ -160,8 +160,9 @@ public class LibShapeDraw {
         if (shape == null) {
             throw new IllegalArgumentException();
         }
-        shapes.add(shape);
-        shape.onAdd(this);
+        if (shapes.add(shape)) {
+            shape.onAdd(this);
+        }
         return this;
     }
 

@@ -3,6 +3,7 @@ package libshapedraw.shape;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import libshapedraw.LibShapeDraw;
 import libshapedraw.MockMinecraftAccess;
 import libshapedraw.SetupTestEnvironment;
 import libshapedraw.transform.ShapeRotate;
@@ -75,6 +76,46 @@ public class TestShape extends SetupTestEnvironment.TestCase {
     @Test(expected=IllegalArgumentException.class)
     public void testTransformAddInvalidNull() {
         new MockShape().addTransform(null);
+    }
+
+    @Test
+    public void testOnAddAndOnRemove() {
+        LibShapeDraw api0 = new LibShapeDraw();
+        MockShape shape = new MockShape();
+
+        shape.assertAddRemoveCounts(0, 0);
+
+        api0.addShape(shape);
+        shape.assertAddRemoveCounts(1, 0);
+
+        api0.addShape(shape);
+        shape.assertAddRemoveCounts(1, 0);
+
+        api0.removeShape(shape);
+        shape.assertAddRemoveCounts(1, 1);
+
+        api0.removeShape(shape);
+        shape.assertAddRemoveCounts(1, 1);
+
+        api0.addShape(shape);
+        shape.assertAddRemoveCounts(2, 1);
+
+        // One Shape can be registered with multiple API instances.
+        // 
+        // Use case: a mod can have multiple API instances containing partially
+        // overlapping sets of shapes, with only one instance being visible at
+        // once. This allows the mod to easily switch things around.
+        LibShapeDraw api1 = new LibShapeDraw();
+
+        api1.addShape(shape);
+        shape.assertAddRemoveCounts(3, 1);
+        assertTrue(api0.getShapes().contains(shape));
+        assertTrue(api1.getShapes().contains(shape));
+
+        api0.removeShape(shape);
+        shape.assertAddRemoveCounts(3, 2);
+        assertFalse(api0.getShapes().contains(shape));
+        assertTrue(api1.getShapes().contains(shape));
     }
 
     @Test
