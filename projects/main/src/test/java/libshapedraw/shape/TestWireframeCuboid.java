@@ -60,12 +60,12 @@ public class TestWireframeCuboid extends SetupTestEnvironment.TestCase {
         assertEquals("(4.0,5.0,6.0)", shape.getUpperCorner().toString());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testSetInvalidNullLower() {
         new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).setLowerCorner(null);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testSetInvalidNullUpper() {
         new WireframeCuboid(1.0,2.0,3.0, 4.0,5.0,6.0).setUpperCorner(null);
     }

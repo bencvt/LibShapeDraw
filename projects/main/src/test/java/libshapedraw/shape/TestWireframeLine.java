@@ -23,17 +23,17 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
         assertSame(shape.getPointA(), shape.getPointB());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidNullA() {
         new WireframeLine(null, new Vector3(1.0, 2.0, 3.0));
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidNullB() {
         new WireframeLine(new Vector3(1.0, 2.0, 3.0), null);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidNullAB() {
         new WireframeLine(null, null);
     }
@@ -54,12 +54,12 @@ public class TestWireframeLine extends SetupTestEnvironment.TestCase {
         assertEquals("(-1.0,-2.0,-3.0)", shape.getPointB().toString());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testSetInvalidNullA() {
         new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).setPointA(null);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testSetInvalidNullB() {
         new WireframeLine(1.0,2.0,3.0, 4.0,5.0,6.0).setPointB(null);
     }

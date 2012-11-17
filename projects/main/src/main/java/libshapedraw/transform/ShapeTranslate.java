@@ -28,7 +28,7 @@ public class ShapeTranslate implements ShapeTransform {
     }
     public ShapeTranslate setTranslateXYZ(Vector3 translateXYZ) {
         if (translateXYZ == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("translateXYZ cannot be null");
         }
         this.translateXYZ = translateXYZ;
         return this;

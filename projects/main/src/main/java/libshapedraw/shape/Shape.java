@@ -47,7 +47,7 @@ public abstract class Shape {
     }
     protected void setOrigin(Vector3 origin) {
         if (origin == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("origin cannot be null");
         }
         this.origin = origin;
     }
@@ -93,7 +93,7 @@ public abstract class Shape {
     public Shape addTransform(ShapeTransform transform) {
         makeTransforms();
         if (transform == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("transform cannot be null");
         }
         transforms.add(transform);
         return this;

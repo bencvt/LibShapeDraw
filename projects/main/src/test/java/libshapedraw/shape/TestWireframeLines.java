@@ -26,7 +26,7 @@ public class TestWireframeLines extends SetupTestEnvironment.TestCase {
         new WireframeLines(arr);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidNull() {
         new WireframeLines(null);
     }

@@ -42,7 +42,7 @@ public class ShapeRotate implements ShapeTransform {
     /** @see #getAxis */
     public ShapeRotate setAxis(Vector3 axis) {
         if (axis == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("axis cannot be null");
         }
         this.axis = axis;
         return this;

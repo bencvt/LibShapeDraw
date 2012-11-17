@@ -36,7 +36,7 @@ public class WireframeLines extends WireframeShape {
     }
     public WireframeLines setPoints(Iterable<ReadonlyVector3> points) {
         if (points == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("points cannot be null");
         }
         // Sanity check the type of the first element, if there is one.
         // This doesn't guarantee the ongoing type safety of the entire

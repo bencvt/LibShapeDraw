@@ -158,7 +158,7 @@ public class LibShapeDraw {
      */
     public LibShapeDraw addShape(Shape shape) {
         if (shape == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("shape cannot be null");
         }
         if (shapes.add(shape)) {
             shape.onAdd(this);
@@ -233,7 +233,7 @@ public class LibShapeDraw {
      */
     public LibShapeDraw addEventListener(LSDEventListener listener) {
         if (listener == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("listener cannot be null");
         }
         eventListeners.add(listener);
         return this;

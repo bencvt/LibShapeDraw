@@ -157,7 +157,7 @@ public class LineStyle implements ReadonlyLineStyle {
      */
     public LineStyle setMainColor(Color mainColor) {
         if (mainColor == null) {
-            throw new NullPointerException("main color cannot be null");
+            throw new IllegalArgumentException("main color cannot be null");
         }
         this.mainColor = mainColor;
         return this;

@@ -30,7 +30,7 @@ public class WireframeCuboid extends WireframeShape {
     }
     public WireframeCuboid setLowerCorner(Vector3 lowerCorner) {
         if (lowerCorner == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("lower corner cannot be null");
         }
         this.lowerCorner = lowerCorner;
         normalize();
@@ -41,7 +41,7 @@ public class WireframeCuboid extends WireframeShape {
     }
     public WireframeCuboid setUpperCorner(Vector3 upperCorner) {
         if (upperCorner == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("upper corner cannot be null");
         }
         this.upperCorner = upperCorner;
         normalize();

@@ -58,7 +58,7 @@ public abstract class GLUShape extends Shape {
     }
     public GLUShape setMainColor(Color mainColor) {
         if (mainColor == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("main color cannot be null");
         }
         this.mainColor = mainColor;
         return this;
@@ -78,7 +78,7 @@ public abstract class GLUShape extends Shape {
     }
     protected GLUShape setGLUQuadric(Quadric gluQuadric) {
         if (gluQuadric == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("quadric cannot be null");
         }
         this.gluQuadric = gluQuadric;
         return this;

@@ -26,7 +26,7 @@ public class TestWireframeLinesBlend extends SetupTestEnvironment.TestCase {
         new WireframeLinesBlend(arr);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidNull() {
         new WireframeLinesBlend(null);
     }

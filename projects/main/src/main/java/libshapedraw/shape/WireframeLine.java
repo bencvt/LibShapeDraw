@@ -27,7 +27,7 @@ public class WireframeLine extends WireframeShape {
     }
     public WireframeLine setPointA(Vector3 a) {
         if (a == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("point A cannot be null");
         }
         pointA = a;
         return this;
@@ -37,7 +37,7 @@ public class WireframeLine extends WireframeShape {
     }
     public WireframeLine setPointB(Vector3 b) {
         if (b == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("point B cannot be null");
         }
         pointB = b;
         return this;

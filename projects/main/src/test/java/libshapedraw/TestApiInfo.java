@@ -38,7 +38,7 @@ public class TestApiInfo extends SetupTestEnvironment.TestCase {
         assertFalse(ApiInfo.isVersionAtLeast("9999.0"));
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testIsVersionAtLeastNull() {
         ApiInfo.isVersionAtLeast(null);
     }

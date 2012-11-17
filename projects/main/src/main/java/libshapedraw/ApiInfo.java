@@ -19,6 +19,9 @@ public class ApiInfo {
         return getInstance().version;
     }
     public static boolean isVersionAtLeast(String minVersion) {
+        if (minVersion == null) {
+            throw new IllegalArgumentException("minVersion cannot be null");
+        }
         return minVersion.compareTo(getInstance().version) <= 0;
     }
     @Deprecated public static String getUrl() {
@@ -86,7 +89,7 @@ public class ApiInfo {
         try {
             return new URL(notNull(value));
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("invalid url", e);
+            throw new IllegalArgumentException("invalid url: " + value, e);
         }
     }
 }

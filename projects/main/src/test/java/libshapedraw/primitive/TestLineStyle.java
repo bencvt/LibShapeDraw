@@ -28,7 +28,7 @@ public class TestLineStyle extends SetupTestEnvironment {
 
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testConstructorInvalidColor() {
         new LineStyle(null, 1.0F, false);
     }
@@ -195,7 +195,7 @@ public class TestLineStyle extends SetupTestEnvironment {
         assertFalse(s.hasSecondaryColor());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testSetMainColorInvalidNull() {
         LineStyle s = new LineStyle(Color.BLUE.copy(), 5.0F, false);
         s.setMainColor(null);

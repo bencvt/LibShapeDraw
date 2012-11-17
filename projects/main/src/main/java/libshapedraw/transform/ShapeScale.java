@@ -31,7 +31,7 @@ public class ShapeScale implements ShapeTransform {
     }
     public ShapeScale setScaleXYZ(Vector3 scaleXYZ) {
         if (scaleXYZ == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("scaleXYZ cannot be null");
         }
         this.scaleXYZ = scaleXYZ;
         return this;
