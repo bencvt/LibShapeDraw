@@ -19,7 +19,7 @@ Rather than reinvent the wheel, LibShapeDraw includes Trident 1.3 to assist
 client code in animating its shapes. The integration is intentionally loose;
 client code using LibShapeDraw is *not* obliged to use any part of Trident.
 
-See `src/test/java/mod_LSDDemoTrident*.java` for sample usage.
+See `projects/demos/src/main/java/LSDDemoTrident*.java` for sample usage.
 
 For ease of distribution, LibShapeDraw includes a built-in version of Trident.
 It has been modified in several ways:

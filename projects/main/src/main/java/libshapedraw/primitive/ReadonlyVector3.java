@@ -58,6 +58,9 @@ public interface ReadonlyVector3 {
     @Override
     public int hashCode();
 
+    @Override
+    public String toString();
+
     /** @return true if all of this vector's components are exactly zero. */
     public boolean isZero();
 

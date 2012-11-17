@@ -108,6 +108,80 @@ public class TestLineStyle extends SetupTestEnvironment {
     }
 
     @Test
+    public void testEqualsAndHashCode() {
+        ReadonlyLineStyle[] uniqueStyles = new ReadonlyLineStyle[] {
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.BLUE.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy(), 2.5F, false),
+                new LineStyle(Color.GREEN.copy(), 2.0F, true),
+                new LineStyle(Color.MEDIUM_TURQUOISE.copy().setAlpha(0.75), 1.0F, true),
+                LineStyle.DEFAULT};
+
+        for (ReadonlyLineStyle s : uniqueStyles) {
+            // Comparisons to non-LineStyle objects always return false.
+            compareLineStyles(false, s, null);
+            compareLineStyles(false, s, 0xffffffff);
+            compareLineStyles(false, s, "hello");
+            compareLineStyles(false, s, Color.MAGENTA);
+            compareLineStyles(false, s, new Object());
+
+            for (ReadonlyLineStyle other : uniqueStyles) {
+                if (s == other) {
+                    // Reflexive: a line style is always equal to itself.
+                    compareLineStyles(true, s, other);
+                } else {
+                    compareLineStyles(false, s, other);
+                }
+            }
+
+            assertEquals(s.toString().hashCode(), s.hashCode());
+        }
+
+        // Different instances with exactly the same components.
+        compareLineStyles(true,
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy(), 2.0F, false));
+
+        // Instances with different floating point values but below the margin
+        // of error.
+        compareLineStyles(true,
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy().setRed(0.001), 2.0F, false));
+        compareLineStyles(true,
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy(), 2.0000001F, false));
+
+        // Just barely within the margin of error.
+        compareLineStyles(false,
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy(), 2.000001F, false));
+
+        // The secondary line width is properly ignored if there is no
+        // secondary color.
+        compareLineStyles(true,
+                new LineStyle(Color.GREEN.copy(), 2.0F, false),
+                new LineStyle(Color.GREEN.copy(), 2.0F, false).setSecondaryWidth(4.0F));
+        // ...but is considered if there is a secondary color.
+        compareLineStyles(false,
+                new LineStyle(Color.GREEN.copy(), 2.0F, true),
+                new LineStyle(Color.GREEN.copy(), 2.0F, true).setSecondaryWidth(4.0F));
+    }
+
+    private static void compareLineStyles(boolean expected, ReadonlyLineStyle s, Object other) {
+        // Consistent: as long as the line styles aren't changed in the
+        // meantime, repeated comparisons always return the same value.
+        assertEquals(expected, s.equals(other));
+        assertEquals(expected, s.equals(other));
+        assertEquals(expected, s.equals(other));
+        // Symmetric: it doesn't matter what order line styles are compared in.
+        if (other instanceof ReadonlyColor) {
+            assertEquals(expected, other.equals(s));
+            assertEquals(expected, other.equals(s));
+            assertEquals(expected, other.equals(s));
+        }
+    }
+
+    @Test
     public void testSetColors() {
         LineStyle s = new LineStyle(Color.BLUE.copy(), 5.0F, false);
         Color c = Color.BEIGE.copy();

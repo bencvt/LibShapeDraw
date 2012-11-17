@@ -51,41 +51,34 @@ bottom. Please have the crash report and `LibShapeDraw.log` handy.
 
 # For Developers
 
-LibShapeDraw is designed to be easy to use, both for devs and for players. These
-are the design goals to that end:
+If your mod could use any of the following things, LibShapeDraw is the library
+for you:
 
- +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
-    and running. That's all.
+ +  The ability to create arbitrary shapes and **draw in the game world itself**
+    *without* having to mess with OpenGL contexts, finding a render hook, or
+    other tedious details.
 
- +  **Maximal compatibility.** LibShapeDraw does not modify the bytecode of
-    *any* vanilla Minecraft class. You are free to modify Minecraft classes in
-    your own mod if needed; LibShapeDraw will not interfere.
+ +  The ability to **smoothly animate** shapes (and anything else, really) using
+    the easy-to-use Trident animation library built-in to LibShapeDraw.
 
- +  **Unobtrusive.** Pick and choose the components you want to use.
-    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
-    DoEverythingThisWay framework.
+ +  Vector3 and Color classes, full of well-documented and throughly-tested
+    **convenience methods**. Want to calculate the pitch and yaw angles between
+    two 3-dimensional points in a couple lines of code? No problem.
 
- +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
-    write less code to do more. That's what LibShapeDraw is all about.
-
- +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
-    the demos for some of the many possibilities.
-
- +  **Well-documented.** The key to success for any API, really.
-
- +  **Open source.** MIT-licensed and open to community feedback and patches.
+See the *Design goals* section later on for more high-level overview stuff. For
+now, let's dive in and actually use the API:
 
 ## Using the LibShapeDraw API in your project
 
-Quick version: Add the jar to your project's classpath, instantiate
-`libshapedraw.LibShapeDraw` somewhere in your code, and go nuts. Use the
+Quick version: Add the jar to your project's classpath and instantiate
+`libshapedraw.LibShapeDraw` somewhere in your code. Use the
 `libshapedraw.animation.trident.Timeline` class for animations.
 
 For a gentler introduction, browse the demos:
 `projects/demos/src/main/java/LSDDemo*.java`.
 You can download the pre-built demos jar; install it like any other mod.
 
-### How to add the LibShapeDraw jar to the classpath in MCP
+## How to add the LibShapeDraw jar to the classpath in MCP
 
 [Minecraft Coder Pack (MCP)](http://mcp.ocean-labs.de/index.php/MCP_Releases)
 is an excellent tool for creating mods, letting you work with deobfuscated
@@ -115,7 +108,7 @@ extra steps:
     The dev release also includes the source code for convenience, giving you
     easy access to the Javadocs in your IDE.
 
-### Other resources
+## Other resources
 
  +  Javadocs are available.
  +  See `README-Trident.md` for information about the built-in Trident animation
@@ -125,7 +118,35 @@ extra steps:
     planned for future releases.
  +  If you'd like additional guidance, check the contacts section below.
 
-# Contact
+## Design goals
+
+LibShapeDraw is designed to be easy to use, both for devs and for players. These
+are the design goals to that end:
+
+ +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
+    the demos for some of the many possibilities.
+
+ +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
+    and running. That's all.
+
+ +  **Maximal compatibility.** LibShapeDraw does not modify the bytecode of
+    *any* vanilla Minecraft class. You are free to modify Minecraft classes in
+    your own mod if needed; LibShapeDraw will not interfere.
+
+ +  **Unobtrusive.** Pick and choose the components you want to use.
+    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
+    DoEverythingThisWay framework.
+
+ +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
+    write less code to do more. That's what LibShapeDraw is all about.
+
+ +  **Well-documented.** The key to success for any API, really.
+
+ +  **Throughly tested.** A full JUnit test suite to help prevent bugs.
+
+ +  **Open source.** MIT-licensed and open to community feedback and patches.
+
+## Contact
 
 This project's official GitHub repo is located at
 [github.com/bencvt/LibShapeDraw](https://github.com/bencvt/LibShapeDraw).
@@ -133,5 +154,5 @@ Anyone is free to open an issue.
 
 You can also try the [official LibShapeDraw thread on minecraftforum.net](http://www.minecraftforum.net/topic/1458931-libshapedraw/).
 
-Finally, feel free to ping me (bencvt) in IRC. I'm usually idling in various
+Finally, feel free to ping me (bencvt) in IRC. I'm often lurking in various
 channels related to Minecraft development on esper.net and freenode.net.

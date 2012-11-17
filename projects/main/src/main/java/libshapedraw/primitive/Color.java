@@ -93,6 +93,17 @@ public class Color implements ReadonlyColor {
         return timeline != null && !timeline.isDone();
     }
 
+    /** @return true if two colors are equal, rounding each component. */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof ReadonlyColor && hashCode() == other.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return getRGBA();
+    }
+
     @Override
     public String toString() {
         return String.format("0x%08x", getRGBA());

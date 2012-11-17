@@ -33,4 +33,13 @@ public interface ReadonlyLineStyle {
      *         not being set for this line style.
      */
     public boolean glApply(boolean useSecondary);
+
+    @Override
+    public boolean equals(Object other);
+
+    @Override
+    public int hashCode();
+
+    @Override
+    public String toString();
 }

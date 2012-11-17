@@ -80,6 +80,17 @@ public class LineStyle implements ReadonlyLineStyle {
         return true;
     }
 
+    /** @return true if two line styles are equal. */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof LineStyle && toString().equals(other.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder("(");

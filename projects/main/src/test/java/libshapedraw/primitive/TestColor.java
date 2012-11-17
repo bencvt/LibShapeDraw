@@ -45,6 +45,46 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testEquals() {
+        // Comparisons to non-Color objects always return false.
+        compareColors(false, Color.WHITE, null);
+        compareColors(false, Color.WHITE, 0xffffffff);
+        compareColors(false, Color.WHITE, "hello");
+        compareColors(false, Color.WHITE, new Object());
+
+        // Different colors.
+        compareColors(false, Color.RED, Color.BLUE);
+        compareColors(false, Color.RED, Color.RED.copy().setAlpha(0.5));
+
+        // Reflexive: a color is always equal to itself.
+        compareColors(true, Color.WHITE, Color.WHITE);
+
+        // Different instances with exactly the same components.
+        compareColors(true, Color.WHITE, Color.WHITE.copy());
+        compareColors(true, Color.WHITE, new Color(0xffffffff));
+        compareColors(true, new Color(0xdeadbeef), new Color(0xdeadbeef));
+        compareColors(true, new Color(0xff0000ff), new Color(0xff000000).setAlpha(1.0));
+
+        // Instances with different floating point values but below the margin
+        // of error.
+        compareColors(true, Color.BLACK, new Color(0.001, 0.001, 0.001, 1.0));
+    }
+
+    private static void compareColors(boolean expected, ReadonlyColor c, Object other) {
+        // Consistent: as long as the colors aren't changed in the meantime,
+        // repeated comparisons always return the same value.
+        assertEquals(expected, c.equals(other));
+        assertEquals(expected, c.equals(other));
+        assertEquals(expected, c.equals(other));
+        // Symmetric: it doesn't matter what order colors are compared in.
+        if (other instanceof ReadonlyColor) {
+            assertEquals(expected, other.equals(c));
+            assertEquals(expected, other.equals(c));
+            assertEquals(expected, other.equals(c));
+        }
+    }
+
+    @Test
     public void testToString() {
         assertEquals("0xdeadbeef", new Color(0xdeadbeef).toString());
         assertEquals("0x00000000", new Color(0).toString());

@@ -63,4 +63,13 @@ public interface ReadonlyColor {
      *         animation.
      */
     public boolean isAnimating();
+
+    @Override
+    public boolean equals(Object other);
+
+    @Override
+    public int hashCode();
+
+    @Override
+    public String toString();
 }

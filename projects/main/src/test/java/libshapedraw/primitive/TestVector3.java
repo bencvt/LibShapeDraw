@@ -43,6 +43,7 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertFalse(v0.getX() == v1.getX());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testEquals() {
         ReadonlyVector3 v0 = new Vector3(1.0, 2.0, 3.0);
@@ -76,6 +77,11 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
 
             // Comparisons to null are always false.
             compareVectors(false, false, v, null, EPSILON);
+
+            // Comparisons to non-Vector3 objects are always false.
+            assertEquals(false, v.equals(42));
+            assertEquals(false, v.equals("hello"));
+            assertEquals(false, v.equals(new Object()));
         }
     }
 

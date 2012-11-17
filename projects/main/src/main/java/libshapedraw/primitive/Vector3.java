@@ -98,6 +98,11 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     @Override
+    public String toString() {
+        return "(" + x + "," + y + "," + z + ")";
+    }
+
+    @Override
     public boolean isZero() {
         return x == 0.0 && y == 0.0 && z == 0.0;
     }
@@ -213,11 +218,6 @@ public class Vector3 implements ReadonlyVector3 {
     @Override
     public boolean isInSphere(ReadonlyVector3 origin, double radius) {
         return (Math.pow(x - origin.getX(), 2) + Math.pow(y - origin.getY(), 2) + Math.pow(z - origin.getZ(), 2)) <= Math.pow(radius, 2);
-    }
-
-    @Override
-    public String toString() {
-        return "(" + x + "," + y + "," + z + ")";
     }
 
     // ========
