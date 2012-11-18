@@ -13,13 +13,14 @@ import libshapedraw.primitive.Vector3;
 import net.minecraft.client.Minecraft;
 
 /**
- * Internal class. Client code using the API should ignore this.
- * Rather, instantiate LibShapeDraw.
+ * Internal class. Mods using the LibShapeDraw API can safely ignore this.
+ * Rather, instantiate {@link libshapedraw.LibShapeDraw}.
  * <p>
- * This is a ModLoader mod that links itself to the internal API Controller,
- * providing it data and events from Minecraft. This class does the bare
- * minimum of processing before passing these off to the Controller. I.e., this
- * class is a thin wrapper for Minecraft used by LibShapeDraw.
+ * This is a ModLoader mod (also compatible with Forge/FML) that links itself
+ * to the internal API Controller, providing it data and events from Minecraft.
+ * This class does the bare minimum of processing before passing these off to
+ * the controller. I.e., this class is a thin wrapper for Minecraft used by
+ * LibShapeDraw.
  * <p>
  * As a wrapper, all direct interaction with Minecraft objects passes through
  * this class, making the LibShapeDraw API itself clean and free of obfuscated

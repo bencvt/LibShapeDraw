@@ -20,8 +20,9 @@ public interface ReadonlyVector3 {
     /** @return the vector's component for the given axis. */
     public double getComponent(Axis axis);
 
-    /** @return true if the specified vector component matches the specified
-     *         value within a margin of error (epsilon).
+    /**
+     * @return true if the specified vector component matches a value within a
+     *         a margin of error (epsilon).
      * @see #EPSILON
      */
     public boolean componentEquals(Axis axis, double value, double epsilon);
@@ -75,8 +76,8 @@ public interface ReadonlyVector3 {
 
     /**
      * Equivalent to distanceSquared(Vector3.ZEROS).
-     * @return the vector's length (aka magnitude) squared. If you're trying to
-     *         compare two vectors' lengths, use this method instead of
+     * @return the vector's length (aka magnitude) squared. To compare two
+     *         two vectors' lengths, use this method instead of
      *         {@link #length()} as it avoids the relatively expensive sqrt
      *         call.
      */
@@ -125,20 +126,27 @@ public interface ReadonlyVector3 {
     public double angleDegrees(ReadonlyVector3 other);
 
     /**
-     * @return the angle, in radians (-pi/2, pi/2] of the vector direction's heading,
-     *         relative to the z axis.
+     * @return the angle, in radians (-pi/2, pi/2] of the vector direction's
+     *         heading, relative to the z axis.
      */
     public double yaw();
 
-    /** @return the angle, in degrees (-180, 180] of the vector direction's heading,
-     *         relative to the z axis.
+    /**
+     * @return the angle, in degrees (-180, 180] of the vector direction's
+     *         heading, relative to the z axis.
      */
     public double yawDegrees();
 
-    /** @return the angle, in radians [-pi/2, pi/2] of the vector direction's elevation. */
+    /**
+     * @return the angle, in radians [-pi/2, pi/2] of the vector direction's
+     *         elevation.
+     */
     public double pitch();
 
-    /** @return the angle, in degrees [-90, 90] of the vector direction's elevation. */
+    /**
+     * @return the angle, in degrees [-90, 90] of the vector direction's
+     *         elevation.
+     */
     public double pitchDegrees();
 
     /**

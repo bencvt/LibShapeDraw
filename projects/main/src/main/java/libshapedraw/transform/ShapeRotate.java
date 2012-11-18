@@ -1,6 +1,7 @@
 package libshapedraw.transform;
 
 import libshapedraw.animation.trident.Timeline;
+import libshapedraw.primitive.Axis;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
@@ -15,6 +16,9 @@ public class ShapeRotate implements ShapeTransform {
 
     public ShapeRotate(double angle, double axisX, double axisY, double axisZ) {
         this(angle, new Vector3(axisX, axisY, axisZ));
+    }
+    public ShapeRotate(double angle, Axis axis) {
+        this(angle, Vector3.ZEROS.copy().setComponent(axis, 1.0));
     }
     public ShapeRotate(double angle, Vector3 axis) {
         setAngle(angle);
