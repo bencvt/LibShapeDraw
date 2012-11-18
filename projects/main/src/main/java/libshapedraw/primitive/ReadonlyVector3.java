@@ -17,6 +17,15 @@ public interface ReadonlyVector3 {
     /** @return the vector's z component. */
     public double getZ();
 
+    /** @return the vector's component for the given axis. */
+    public double getComponent(Axis axis);
+
+    /** @return true if the specified vector component matches the specified
+     *         value within a margin of error (epsilon).
+     * @see #EPSILON
+     */
+    public boolean componentEquals(Axis axis, double value, double epsilon);
+
     /** @return true if the vector components match the other's exactly. */
     public boolean equalsExact(ReadonlyVector3 other);
 

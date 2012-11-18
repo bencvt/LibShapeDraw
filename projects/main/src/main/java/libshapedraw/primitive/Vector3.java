@@ -1,6 +1,5 @@
 package libshapedraw.primitive;
 
-
 /**
  * Yet another class representing a (X, Y, Z) vector or coordinate 3-tuple.
  * <p>
@@ -50,6 +49,26 @@ public class Vector3 implements ReadonlyVector3 {
     @Override
     public double getZ() {
         return z;
+    }
+
+    @Override
+    public double getComponent(Axis axis) {
+        if (axis == null) {
+            throw new IllegalArgumentException("axis cannot be null");
+        } else if (axis == Axis.X) {
+            return x;
+        } else if (axis == Axis.Y) {
+            return y;
+        } else {
+            return z;
+        }
+    }
+
+    @Override
+    public boolean componentEquals(Axis axis, double value, double epsilon) {
+        // A negative epsilon is pointless (causing this check to always
+        // return false), but still valid.
+        return Math.abs(getComponent(axis) - value) <= epsilon;
     }
 
     @Override
@@ -274,11 +293,43 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     /**
+     * Set one of this vector's components, specified by the axis, to the
+     * specified value.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 setComponent(Axis axis, double value) {
+        if (axis == null) {
+            throw new IllegalArgumentException("axis cannot be null");
+        } else if (axis == Axis.X) {
+            x = value;
+        } else if (axis == Axis.Y) {
+            y = value;
+        } else {
+            z = value;
+        }
+        return this;
+    }
+
+    /**
+     * Swap the components of this vector: set y to the previous x value,
+     * z to y, and x to z. To swap in the other direction, simply call this
+     * method twice.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 swapComponents() {
+        double tmp = z;
+        z = y;
+        y = x;
+        x = tmp;
+        return this;
+    }
+
+    /**
      * Add to this vector's x component.
      * @return the same vector object, modified in-place.
      */
-    public Vector3 addX(double xOff) {
-        x += xOff;
+    public Vector3 addX(double xAmount) {
+        x += xAmount;
         return this;
     }
 
@@ -286,8 +337,8 @@ public class Vector3 implements ReadonlyVector3 {
      * Add to this vector's y component.
      * @return the same vector object, modified in-place.
      */
-    public Vector3 addY(double yOff) {
-        y += yOff;
+    public Vector3 addY(double yAmount) {
+        y += yAmount;
         return this;
     }
 
@@ -295,19 +346,27 @@ public class Vector3 implements ReadonlyVector3 {
      * Add to this vector's z component.
      * @return the same vector object, modified in-place.
      */
-    public Vector3 addZ(double zOff) {
-        z += zOff;
+    public Vector3 addZ(double zAmount) {
+        z += zAmount;
         return this;
+    }
+
+    /**
+     * Add to one of this vector's components, specified by the axis.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 addComponent(Axis axis, double amount) {
+        return setComponent(axis, getComponent(axis) + amount);
     }
 
     /**
      * Add a vector to this vector.
      * @return the same vector object, modified in-place.
      */
-    public Vector3 add(double xOff, double yOff, double zOff) {
-        x += xOff;
-        y += yOff;
-        z += zOff;
+    public Vector3 add(double xAmount, double yAmount, double zAmount) {
+        x += xAmount;
+        y += yAmount;
+        z += zAmount;
         return this;
     }
 
@@ -441,6 +500,15 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     /**
+     * Multiply one of this vector's components, specified by the axis, by a
+     * given factor.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 scaleComponent(Axis axis, double factor) {
+        return setComponent(axis, getComponent(axis) * factor);
+    }
+
+    /**
      * Set each component of this vector to its negative value.
      * Equivalent to scale(-1).
      * @return the same vector object, modified in-place.
@@ -499,6 +567,15 @@ public class Vector3 implements ReadonlyVector3 {
     public Vector3 clampZ(double min, double max) {
         z = Math.min(max, Math.max(min, z));
         return this;
+    }
+
+    /**
+     * Ensure that one of this vector's components, specified by the axis, is
+     * in the specified range.
+     * @return the same vector object, modified in-place.
+     */
+    public Vector3 clampComponent(Axis axis, double min, double max) {
+        return setComponent(axis, Math.min(max, Math.max(min, getComponent(axis))));
     }
 
     /**

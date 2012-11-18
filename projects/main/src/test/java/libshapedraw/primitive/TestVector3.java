@@ -113,6 +113,10 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
             assertEquals(expectedExact, v.equalsExact(other.getX(), other.getY(), other.getZ()));
             assertEquals(expectedFuzzy, v.equals(other.getX(), other.getY(), other.getZ(), epsilon));
             assertFalse(v.equals(other.getX(), other.getY(), other.getZ(), -1.0));
+
+            assertEquals(expectedFuzzy, v.componentEquals(Axis.X, other.getX(), epsilon));
+            assertEquals(expectedFuzzy, v.componentEquals(Axis.Y, other.getY(), epsilon));
+            assertEquals(expectedFuzzy, v.componentEquals(Axis.Z, other.getZ(), epsilon));
         }
     }
 
@@ -398,6 +402,50 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertVectorEquals(1.0, 2.0, 3.0, v);
         v.setX(-32.25).setY(78.0).setZ(0.0);
         assertVectorEquals(-32.25, 78.0, 0.0, v);
+        v.setComponent(Axis.Y, -5.0).setComponent(Axis.X, 0.25).setComponent(Axis.Z, 42.5);
+        assertVectorEquals(0.25, -5.0, 42.5, v);
+    }
+
+    @Test
+    public void testSwapComponents() {
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
+        v.swapComponents();
+        assertVectorEquals(3.0, 1.0, 2.0, v);
+        v.swapComponents();
+        assertVectorEquals(2.0, 3.0, 1.0, v);
+        v.swapComponents();
+        assertVectorEquals(1.0, 2.0, 3.0, v);
+        v.swapComponents().swapComponents().swapComponents();
+        assertVectorEquals(1.0, 2.0, 3.0, v);
+    }
+
+    @Test
+    public void testComponentsNullAxis() {
+        final Vector3 v = new Vector3();
+        assertThrowsIAE(new Runnable() { @Override public void run() {
+            v.getComponent(null);
+        }});
+        assertThrowsIAE(new Runnable() { @Override public void run() {
+            v.setComponent(null, 42);
+        }});
+        assertThrowsIAE(new Runnable() { @Override public void run() {
+            v.addComponent(null, 42);
+        }});
+        assertThrowsIAE(new Runnable() { @Override public void run() {
+            v.scaleComponent(null, 2.5);
+        }});
+        assertThrowsIAE(new Runnable() { @Override public void run() {
+            v.clampComponent(null, -7.5, 20.25);
+        }});
+    }
+    private static void assertThrowsIAE(Runnable method) {
+        try {
+            method.run();
+            throw new RuntimeException("expected IllegalArgumentException not thrown!");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
     }
 
     @Test
@@ -409,6 +457,8 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertVectorEquals(8.75, 10.0, -57.0, v0);
         v0.set(1.0, 2.0, 3.0).add(4.0, -21.5, 50.0);
         assertVectorEquals(5.0, -19.5, 53.0, v0);
+        v0.set(1.0, 2.0, 3.0).addComponent(Axis.Z, -5.0).addComponent(Axis.X, 0.125).addComponent(Axis.Y, 0.0);
+        assertVectorEquals(1.125, 2.0, -2.0, v0);
 
         v0.set(8.75, 10.0, -57.0);
         ReadonlyVector3 v1 = new Vector3(1.0, -2.5, 3.0);
@@ -429,35 +479,41 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
 
     @Test
     public void testScale() {
-        Vector3 v0 = new Vector3(1.0, 2.0, 3.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
         // 1.0 is a noop
-        v0.scaleX(1.0).scaleY(1.0).scaleZ(1.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
-        v0.scale(1.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
+        v.scaleX(1.0).scaleY(1.0).scaleZ(1.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
+        v.scale(1.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
         // -1.0 reverses signs
-        v0.scale(-1.0);
-        assertVectorEquals(-1.0, -2.0, -3.0, v0);
-        v0.scale(-1.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
+        v.scale(-1.0);
+        assertVectorEquals(-1.0, -2.0, -3.0, v);
+        v.scale(-1.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
         // scale down
-        v0.scale(0.5);
-        assertVectorEquals(0.5, 1.0, 1.5, v0);
-        v0.scaleX(0.5);
-        assertVectorEquals(0.25, 1.0, 1.5, v0);
-        v0.scaleY(0.5);
-        assertVectorEquals(0.25, 0.5, 1.5, v0);
-        v0.scaleZ(0.5);
-        assertVectorEquals(0.25, 0.5, 0.75, v0);
+        v.scale(0.5);
+        assertVectorEquals(0.5, 1.0, 1.5, v);
+        v.scaleX(0.5);
+        assertVectorEquals(0.25, 1.0, 1.5, v);
+        v.scaleY(0.5);
+        assertVectorEquals(0.25, 0.5, 1.5, v);
+        v.scaleZ(0.5);
+        assertVectorEquals(0.25, 0.5, 0.75, v);
         // scale up
-        v0.scale(4.0);
-        assertVectorEquals(1.0, 2.0, 3.0, v0);
-        v0.scale(10000.0);
-        assertVectorEquals(10000.0, 20000.0, 30000.0, v0);
+        v.scale(4.0);
+        assertVectorEquals(1.0, 2.0, 3.0, v);
+        v.scale(10000.0);
+        assertVectorEquals(10000.0, 20000.0, 30000.0, v);
         // scale 0.0
-        v0.scale(0.0);
-        assertVectorEquals(0.0, 0.0, 0.0, v0);
+        v.scale(0.0);
+        assertVectorEquals(0.0, 0.0, 0.0, v);
+        // individual components
+        v.set(10.0, 10.0, 10.0);
+        v.scaleComponent(Axis.X, 0.5);
+        assertVectorEquals(5.0, 10.0, 10.0, v);
+        v.scaleComponent(Axis.Z, 100.0).scaleComponent(Axis.Y, 0.0);
+        assertVectorEquals(5.0, 0.0, 1000.0, v);
     }
 
     @Test
@@ -523,6 +579,7 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertVectorEquals(1.5, 2, 3, new Vector3(1, 2, 3).clampX(1.5, 2.5));
         assertVectorEquals(1, 2, 3, new Vector3(1, 2, 3).clampY(1.5, 2.5));
         assertVectorEquals(1, 2, 2.5, new Vector3(1, 2, 3).clampZ(1.5, 2.5));
+        assertVectorEquals(1, 2, 4, new Vector3(1, 2, 3).clampComponent(Axis.Z, 4, 10));
 
         // if the arguments disagree (clampMax < clampMin), clampMin wins
         assertVectorEquals(1.5, 1.5, 1.5, new Vector3(1, 2, 3).clamp(2.5, 1.5));

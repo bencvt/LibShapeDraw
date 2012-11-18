@@ -1,5 +1,6 @@
 ## implemented but not yet released, slated for LibShapeDraw 1.3
 - added `equalsExact`, `equals`, and `hashCode` methods for primitive types
+- added `Axis` enum and associated convenience methods to `Vector3`
 - added `Shape.onAdd` and `Shape.onRemove` methods
 - `LibShapeDraw.getShapes`, `LibShapeDraw.getEventListeners`, and
   `Shape.getTransforms` now return read-only views. All modifications must use
