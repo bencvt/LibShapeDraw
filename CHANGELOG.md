@@ -1,15 +1,20 @@
 ## implemented but not yet released, slated for LibShapeDraw 1.3
-- added `equalsExact`, `equals`, and `hashCode` methods for primitive types
-- added `Axis` enum and associated convenience methods to `Vector3`
-- added `Shape.onAdd` and `Shape.onRemove` methods
+- improved Trident animation library integration: added animation convenience
+  methods to `Vector3` and defined the `Animateable` interface
+- added `equals`, `hashCode`, and `equalsExact` methods for primitive types
+- added `Axis` enum and associated convenience methods to `Vector3` and
+  `ShapeRotate`
+- defined `XrayShape` interface
+- added `Shape.onAdd` and `Shape.onRemove` methods for eventual VBO support
 - `LibShapeDraw.getShapes`, `LibShapeDraw.getEventListeners`, and
   `Shape.getTransforms` now return read-only views. All modifications must use
-  addShape, removeShape, clearShape, etc.
+  addShape, removeShape, clearShapes, etc.
 - many documentation improvements
 
 ## 1.2.2
 - updated for Minecraft 1.4.4
-- added animation convenience methods to `Color` and `ShapeTransform` objects
+- improved Trident animation library integration: added animation convenience
+  methods to `Color` and `ShapeTransform`
 
 ## 1.2.1
 - updated for Minecraft 1.4.2
@@ -35,4 +40,4 @@
   (Forge is still supported but *not* required)
 
 ## 1.0
-- initial release
+- initial release for Minecraft 1.3.2

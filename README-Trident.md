@@ -16,8 +16,7 @@ the [GitHub snapshot](https://github.com/kirillcool/trident).
 # Usage in LibShapeDraw
 
 Rather than reinvent the wheel, LibShapeDraw includes Trident 1.3 to assist
-client code in animating its shapes. The integration is intentionally loose;
-client code using LibShapeDraw is *not* obliged to use any part of Trident.
+client code in animating its shapes.
 
 See `projects/demos/src/main/java/LSDDemoTrident*.java` for sample usage.
 
@@ -36,17 +35,19 @@ It has been modified in several ways:
  +  Added support for fluent property setters, e.g.:
 
         // POJO that doesn't support method chaining ("fluent interfacing").
-        public class MyClass {
-            // Trident can access this property, e.g.:
-            // new Timeline(new MyClass()).addPropertyToInterpolate("x", 0.0, 1.0);
+        // Trident can access the "x" property, e.g.:
+        // new Timeline(new Foo()).addPropertyToInterpolate("x", 0.0, 1.0);
+        public class Foo {
             private double x;
             public void setX(double x) { this.x = x; }
         }
-        // x's setter supports method chaining
-        public class MyFluentClass {
-            // Without the added support, Trident can't interpolate this property.
+        
+        // Fluent interfacing: x's setter supports method chaining.
+        // Without the patch to add support, trying to interpolate the "x"
+        // property would throw an exception.
+        public class Bar {
             private double x;
-            public MyFluentClass setX(double x) { this.x = x; return this; }
+            public Bar setX(double x) { this.x = x; return this; }
         }
 
  +  Added `Timeline.playLoop(boolean reverse)` convenience method, equivalent to
@@ -55,9 +56,19 @@ It has been modified in several ways:
     `RepeatBehavior$REVERSE`) that can occur when decompiling, a frequent thing
     in Minecraft development.
 
- +  Finally, LibShapeDraw registers custom property interpolators for its
-    primitive objects (Color, LineStyle, and Vector3). This makes it easier to
-    animate these objects.
+With those modifications in place, LibShapeDraw also provides the following for
+integration:
+
+ +  Register custom property interpolators for `Color`, `LineStyle`, and
+    `Vector3`.
+
+ +  Define the `Animateable` interface and implement it for various types,
+    including `Color`, `Vector3`, and `ShapeTransform`s. Using this interface,
+    developers don't have to manually set up a `Timeline` object.
+    
+    This simplified interface is completely optional. Developers using the
+    LibShapeDraw API are also able to use any part of the Trident API directly
+    if desired. Extra flexibility is good to have.
 
 # Licenses
 

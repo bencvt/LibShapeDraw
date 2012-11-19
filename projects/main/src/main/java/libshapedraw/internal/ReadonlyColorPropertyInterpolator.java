@@ -10,7 +10,7 @@ import libshapedraw.primitive.ReadonlyColor;
  * Note that the color object will be reinstantiated each tick. If this is not
  * the desired behavior, animate the color's individual components instead.
  * 
- * @see libshapedraw.primitive.Color#animateStart
+ * @see libshapedraw.animation.Animateable
  */
 public class ReadonlyColorPropertyInterpolator implements PropertyInterpolator<ReadonlyColor> {
     @Override

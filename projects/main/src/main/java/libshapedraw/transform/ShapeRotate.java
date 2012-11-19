@@ -1,15 +1,14 @@
 package libshapedraw.transform;
 
+import libshapedraw.animation.Animateable;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.primitive.Axis;
 import libshapedraw.primitive.Vector3;
 
-import org.lwjgl.opengl.GL11;
-
 /**
  * Rotate a Shape by any number of degrees around any axis using glRotate.
  */
-public class ShapeRotate implements ShapeTransform {
+public class ShapeRotate implements ShapeTransform, Animateable<Double> {
     private double angle;
     private Vector3 axis;
     private Timeline timelineAngle;
@@ -54,27 +53,16 @@ public class ShapeRotate implements ShapeTransform {
 
     @Override
     public void preRender() {
-        // GL11.glRotated not available in Minecraft's LWJGL version
-        GL11.glRotatef((float) angle, (float) axis.getX(), (float) axis.getY(), (float) axis.getZ());
+        axis.glApplyRotateDegrees(angle);
     }
 
-    /**
-     * @return true if the angle is being updated by an active animation.
-     */
-    public boolean isAnimatingAngle() {
+    @Override
+    public boolean isAnimating() {
         return timelineAngle != null && !timelineAngle.isDone();
     }
 
-    /**
-     * If there is an active animation changing the angle, stop it abruptly,
-     * leaving the angle in an intermediate state.
-     * <p>
-     * After calling this method it is safe to modify the angle using setAngle
-     * without being overwritten by the animation.
-     * 
-     * @return the same ShapeRotate object, modified in-place.
-     */
-    public ShapeRotate animateAngleStop() {
+    @Override
+    public ShapeRotate animateStop() {
         if (timelineAngle != null && !timelineAngle.isDone()) {
             timelineAngle.abort();
             timelineAngle = null;
@@ -82,62 +70,47 @@ public class ShapeRotate implements ShapeTransform {
         return this;
     }
 
-    /**
-     * Animate the ShapeRotate's angle, spinning the target Shape(s).
-     * <p>
-     * After starting an animation, modifying the angle using setAngle is a bad
-     * idea, as the animation will be frequently overwriting it. Either wait
-     * for the animation to complete or use {@link #animateAngleStop} to halt
-     * the animation early.
-     * <p>
-     * This is a convenience method; for more control over the animation,
-     * an external Timeline can be used. Just don't have two Timelines trying
-     * to update the same property.
-     * 
-     * @param toAngle the angle in degrees to animate to
-     * @param durationMs interval in milliseconds
-     * @return the same ShapeRotate object, modified in-place.
-     */
-    public ShapeRotate animateAngleStart(double toAngle, long durationMs) {
-        newTimelineAngle(toAngle, durationMs);
+    @Override
+    public ShapeRotate animateStart(Double toAngleDegrees, long durationMs) {
+        if (toAngleDegrees == null) {
+            throw new IllegalArgumentException("toAngleDegrees cannot be null");
+        }
+        newTimelineAngle(toAngleDegrees, durationMs);
         timelineAngle.play();
         return this;
     }
 
-    /**
-     * Animate the ShapeRotate's angle, spinning the target Shape(s).
-     * The animation loops indefinitely, going back and forth between the
-     * original angle and the specified angle.
-     * <p>
-     * After starting an animation, modifying the angle using setAngle is a bad
-     * idea, as the animation will be frequently overwriting it. Use
-     * {@link #animateStop} to halt the animation.
-     * <p>
-     * This is a convenience method; for more control over the animation,
-     * an external Timeline can be used. Just don't have two Timelines trying
-     * to update the same properties.
-     * 
-     * @param toScale the angle in degrees to animate to
-     * @param reverse if true, rotate back to the original angle each time
-     *        the animation loops. If false, jump back to the original angle
-     *        immediately each time.
-     *        <p>
-     *        A common use case is to just spin the shape 360 degrees in one
-     *        direction. To do this, simply call:
-     *        animateAngleStartLoop(getAngle() + 360.0, false, durationMs)
-     * @param durationMs interval in milliseconds
-     * @return the same ShapeRotate object, modified in-place.
-     */
-    public ShapeRotate animateAngleStartLoop(double toAngle, boolean reverse, long durationMs) {
-        newTimelineAngle(toAngle, durationMs);
+    @Override
+    public ShapeRotate animateStartLoop(Double toAngleDegrees, boolean reverse, long durationMs) {
+        if (toAngleDegrees == null) {
+            throw new IllegalArgumentException("toAngleDegrees cannot be null");
+        }
+        newTimelineAngle(toAngleDegrees, durationMs);
         timelineAngle.playLoop(reverse);
         return this;
     }
 
-    private void newTimelineAngle(double toAngle, long durationMs) {
-        animateAngleStop();
+    private void newTimelineAngle(double toAngleDegrees, long durationMs) {
+        animateStop();
         timelineAngle = new Timeline(this);
-        timelineAngle.addPropertyToInterpolate("angle", angle, toAngle);
+        timelineAngle.addPropertyToInterpolate("angle", angle, toAngleDegrees);
         timelineAngle.setDuration(durationMs);
+    }
+
+    /** @deprecated use isAnimating */
+    @Deprecated public boolean isAnimatingAngle() {
+        return isAnimating();
+    }
+    /** @deprecated use animateStop */
+    @Deprecated public ShapeRotate animateAngleStop() {
+        return animateStop();
+    }
+    /** @deprecated use animateStart */
+    @Deprecated public ShapeRotate animateAngleStart(double toAngleDegrees, long durationMs) {
+        return animateStart(toAngleDegrees, durationMs);
+    }
+    /** @deprecated use animateStartLoop */
+    @Deprecated public ShapeRotate animateAngleStartLoop(double toAngleDegrees, boolean reverse, long durationMs) {
+        return animateAngleStartLoop(toAngleDegrees, reverse, durationMs);
     }
 }

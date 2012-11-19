@@ -2,6 +2,7 @@ package libshapedraw.primitive;
 
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
+import libshapedraw.animation.TestAnimateable;
 
 import org.junit.Test;
 
@@ -371,6 +372,18 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testGlApply() {
+        // no exceptions thrown
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        v.glApplyRotateDegrees(45);
+        v.glApplyRotateDegrees(-22.5);
+        v.glApplyRotateDegrees(9001);
+        v.glApplyRotateRadians(Math.PI);
+        v.glApplyScale();
+        v.glApplyTranslate();
+    }
+
+    @Test
     public void testToString() {
         assertEquals("(1.0,2.0,3.0)", new Vector3(1.0, 2.0, 3.0).toString());
         assertEquals("(-531.25,25.0,2312.0)", new Vector3(-531.25, 25.0, 2312.0).toString());
@@ -438,14 +451,6 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertThrowsIAE(new Runnable() { @Override public void run() {
             v.clampComponent(null, -7.5, 20.25);
         }});
-    }
-    private static void assertThrowsIAE(Runnable method) {
-        try {
-            method.run();
-            throw new RuntimeException("expected IllegalArgumentException not thrown!");
-        } catch (IllegalArgumentException e) {
-            // expected
-        }
     }
 
     @Test
@@ -664,5 +669,23 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
 
         assertEquals(1.0, new Vector3(31.5, 20.125, -3.5).normalize().length(), EPSILON);
         assertEquals(1.0, new Vector3(-77.7, 0.0, 9.1).normalize().length(), EPSILON);
+    }
+
+    @Test
+    public void testAnimate() {
+        final Vector3 v0 = new Vector3(1.0, 2.0, 3.0);
+        final Vector3 v1 = new Vector3(867, -53.09, 9);
+        new TestAnimateable<ReadonlyVector3>().assertAnimateableValid(v0, v1, new Vector3(7.0, 8.0, -9.0));
+
+        // animating to self is pointless but allowed
+        v0.animateStartLoop(v0, false, 10000);
+
+        // convenience methods
+        v0.animateStart(0.0, 0.0, 0.0, 5000);
+        assertTrue(v0.isAnimating());
+        v0.animateStartLoop(0.5, 1.0, 1.0, true, 5000);
+        assertTrue(v0.isAnimating());
+        v0.animateStop();
+        assertFalse(v0.isAnimating());
     }
 }

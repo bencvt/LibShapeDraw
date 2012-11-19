@@ -1,12 +1,17 @@
 package libshapedraw.primitive;
 
+import org.lwjgl.opengl.GL11;
+
+import libshapedraw.animation.Animateable;
+import libshapedraw.animation.trident.Timeline;
+
 /**
  * Yet another class representing a (X, Y, Z) vector or coordinate 3-tuple.
  * <p>
  * All modifiers support method chaining, e.g.
  * Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);
  */
-public class Vector3 implements ReadonlyVector3 {
+public class Vector3 implements ReadonlyVector3, Animateable<ReadonlyVector3> {
     public static final ReadonlyVector3 ZEROS = new Vector3();
 
     private static final double R2D = 180.0 / Math.PI;
@@ -15,6 +20,17 @@ public class Vector3 implements ReadonlyVector3 {
     private double x;
     private double y;
     private double z;
+
+    /**
+     * It is perhaps a bit wasteful to have a Timeline field on every Vector3
+     * instance just to support those few Vector3s that need to be animated,
+     * even if it is lazily instantiated. However, developer convenience wins
+     * over premature optimization.
+     * <p>
+     * In any case, java.nio.FloatBuffer is a more appropriate data container
+     * for a large number of vertices in a memory-constrained environment.
+     */
+    private Timeline timeline;
 
     /** Create a new vector with all components set to zero. */
     public Vector3() {
@@ -236,7 +252,33 @@ public class Vector3 implements ReadonlyVector3 {
 
     @Override
     public boolean isInSphere(ReadonlyVector3 origin, double radius) {
-        return (Math.pow(x - origin.getX(), 2) + Math.pow(y - origin.getY(), 2) + Math.pow(z - origin.getZ(), 2)) <= Math.pow(radius, 2);
+        return  Math.pow(x - origin.getX(), 2) +
+                Math.pow(y - origin.getY(), 2) +
+                Math.pow(z - origin.getZ(), 2)
+                <= Math.pow(radius, 2);
+    }
+
+    @Override
+    public void glApplyRotateDegrees(double angleDegrees) {
+        // We have to use glRotatef because glRotated is missing from LWJGL
+        // 2.4.2, the version Minecraft ships with. LWJGL did fix this several
+        // releases ago though: http://lwjgl.org/forum/index.php?topic=4128.0
+        GL11.glRotatef((float) angleDegrees, (float) x, (float) y, (float) z);
+    }
+
+    @Override
+    public void glApplyRotateRadians(double angleRadians) {
+        GL11.glRotatef((float) (angleRadians*R2D), (float) x, (float) y, (float) z);
+    }
+
+    @Override
+    public void glApplyScale() {
+        GL11.glScaled(x, y, z);
+    }
+
+    @Override
+    public void glApplyTranslate() {
+        GL11.glTranslated(x, y, z);
     }
 
     // ========
@@ -406,7 +448,7 @@ public class Vector3 implements ReadonlyVector3 {
     }
 
     /**
-     * Set each of this vector's components to a random value in [0.0, 1.0).
+     * Set all of this vector's components to random values in [0.0, 1.0).
      * @return the same vector object, modified in-place.
      */
     public Vector3 setRandom() {
@@ -683,5 +725,70 @@ public class Vector3 implements ReadonlyVector3 {
         y /= length;
         z /= length;
         return this;
+    }
+
+    // ========
+    // Animateable
+    // ========
+
+    @Override
+    public boolean isAnimating() {
+        return timeline != null && !timeline.isDone();
+    }
+
+    @Override
+    public Vector3 animateStop() {
+        if (timeline != null && !timeline.isDone()) {
+            timeline.abort();
+            timeline = null;
+        }
+        return this;
+    }
+
+    @Override
+    public Vector3 animateStart(ReadonlyVector3 toVector, long durationMs) {
+        if (toVector == null) {
+            throw new IllegalArgumentException("toVector cannot be null");
+        }
+        newTimeline(toVector.getX(), toVector.getY(), toVector.getZ(), durationMs);
+        timeline.play();
+        return this;
+    }
+    /**
+     * Convenience method, equivalent to:
+     * animateStart(new Vector3(toX, toY, toZ), durationMs);
+     */
+    public Vector3 animateStart(double toX, double toY, double toZ, long durationMs) {
+        newTimeline(toX, toY, toZ, durationMs);
+        timeline.play();
+        return this;
+    }
+
+    @Override
+    public Vector3 animateStartLoop(ReadonlyVector3 toVector, boolean reverse, long durationMs) {
+        if (toVector == null) {
+            throw new IllegalArgumentException("toVector cannot be null");
+        }
+        newTimeline(toVector.getX(), toVector.getY(), toVector.getZ(), durationMs);
+        timeline.playLoop(reverse);
+        return this;
+    }
+    /**
+     * Convenience method, equivalent to:
+     * animateStartLoop(new Vector3(toX, toY, toZ), reverse, durationMs);
+     */
+    public Vector3 animateStartLoop(double toX, double toY, double toZ, boolean reverse, long durationMs) {
+        newTimeline(toX, toY, toZ, durationMs);
+        timeline.playLoop(reverse);
+        return this;
+    }
+
+    private void newTimeline(double toX, double toY, double toZ, long durationMs) {
+        animateStop();
+        timeline = new Timeline(this);
+        timeline.addPropertyToInterpolate("x", x, toX);
+        timeline.addPropertyToInterpolate("y", y, toY);
+        timeline.addPropertyToInterpolate("z", z, toZ);
+        timeline.setDuration(durationMs);
     }
 }

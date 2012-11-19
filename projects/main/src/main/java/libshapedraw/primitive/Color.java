@@ -3,6 +3,7 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import libshapedraw.animation.Animateable;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.internal.LSDInternalReflectionException;
 
@@ -14,11 +15,12 @@ import org.lwjgl.opengl.GL11;
  * All modifiers support method chaining, e.g.
  * Color result = Color.TOMATO.copy().setAlpha(0.4).scaleRGB(0.8).blend(Color.GREEN, 0.3);
  */
-public class Color implements ReadonlyColor {
+public class Color implements ReadonlyColor, Animateable<ReadonlyColor> {
     private double red;
     private double green;
     private double blue;
     private double alpha;
+    /** @see Vector3#timeline */
     private Timeline timeline;
 
     public Color(double red, double green, double blue, double alpha) {
@@ -29,6 +31,12 @@ public class Color implements ReadonlyColor {
         set(red, green, blue, 1.0);
     }
 
+    /**
+     * @param rgba a 32-bit integer packed with each of the color's components,
+     *         one per byte. The order, from most significant to least, is
+     *         red, green, blue, alpha.
+     * @see #convertARGBtoRGBA
+     */
     public Color(int rgba) {
         setRGBA(rgba);
     }
@@ -86,11 +94,6 @@ public class Color implements ReadonlyColor {
     @Override
     public void glApply(double alphaScale) {
         GL11.glColor4d(red, green, blue, clamp(alpha * alphaScale));
-    }
-
-    @Override
-    public boolean isAnimating() {
-        return timeline != null && !timeline.isDone();
     }
 
     /** @return true if two colors are equal, rounding each component. */
@@ -244,86 +247,6 @@ public class Color implements ReadonlyColor {
         return this;
     }
 
-    /**
-     * If there is an active animation changing this color's components, stop
-     * it abruptly, likely leaving this color's components partially faded.
-     * <p>
-     * However after calling this method it is safe to use other methods to
-     * modify the color's components without them being overwritten by the
-     * animation.
-     * 
-     * @return the same color object, modified in-place.
-     */
-    public Color animateStop() {
-        if (timeline != null && !timeline.isDone()) {
-            timeline.abort();
-            timeline = null;
-        }
-        return this;
-    }
-
-    /**
-     * Start animating this color's components, fading them to match the
-     * specified color over the specified interval.
-     * <p>
-     * After starting an animation, using other methods to modify the color's
-     * components is a bad idea, as the animation will be frequently
-     * overwriting those components. Either wait for the animation to complete
-     * or use {@link #animateStop} to halt the animation early.
-     * <p>
-     * This is a convenience method; for more control over the animation,
-     * an external Timeline can be used. Just don't have two Timelines trying
-     * to update the same properties.
-     * 
-     * @param toColor the color to fade to
-     * @param durationMs interval in milliseconds
-     * @return the same color object, modified in-place.
-     */
-    public Color animateStart(ReadonlyColor toColor, long durationMs) {
-        newTimeline(toColor, durationMs);
-        timeline.play();
-        return this;
-    }
-
-    /**
-     * Start animating this color's components, fading them to match the
-     * specified color over the specified interval.
-     * <p>
-     * The animation loops indefinitely, going back and forth between the
-     * original color and the specified color.
-     * <p>
-     * After starting an animation, using other methods to modify the color's
-     * components is a bad idea, as the animation will be frequently
-     * overwriting those components. Use {@link #animateStop} to halt the
-     * animation.
-     * <p>
-     * This is a convenience method; for more control over the animation,
-     * an external Timeline can be used. Just don't have two Timelines trying
-     * to update the same properties.
-     * 
-     * @param toColor the color to fade to
-     * @param reverse if true, fade back to the original color each time the
-     *                animation loops. If false, jump directly back to the
-     *                original color each time.
-     * @param durationMs interval in milliseconds of each repetition
-     * @return the same color object, modified in-place.
-     */
-    public Color animateStartLoop(ReadonlyColor toColor, boolean reverse, long durationMs) {
-        newTimeline(toColor, durationMs);
-        timeline.playLoop(reverse);
-        return this;
-    }
-
-    private void newTimeline(ReadonlyColor toColor, long durationMs) {
-        animateStop();
-        timeline = new Timeline(this);
-        timeline.addPropertyToInterpolate("red",   red,   toColor.getRed());
-        timeline.addPropertyToInterpolate("green", green, toColor.getGreen());
-        timeline.addPropertyToInterpolate("blue",  blue,  toColor.getBlue());
-        timeline.addPropertyToInterpolate("alpha", alpha, toColor.getAlpha());
-        timeline.setDuration(durationMs);
-    }
-
     private static double clamp(double x) {
         if (x < 0.0) {
             return 0.0;
@@ -337,6 +260,76 @@ public class Color implements ReadonlyColor {
     private static double blend(double fromValue, double toValue, double percent) {
         return fromValue + (toValue - fromValue)*percent;
     }
+
+    // ========
+    // Animateable
+    // ========
+
+    @Override
+    public boolean isAnimating() {
+        return timeline != null && !timeline.isDone();
+    }
+
+    @Override
+    public Color animateStop() {
+        if (timeline != null && !timeline.isDone()) {
+            timeline.abort();
+            timeline = null;
+        }
+        return this;
+    }
+
+    @Override
+    public Color animateStart(ReadonlyColor toColor, long durationMs) {
+        if (toColor == null) {
+            throw new IllegalArgumentException("toColor cannot be null");
+        }
+        newTimeline(toColor.getRed(), toColor.getGreen(), toColor.getBlue(), toColor.getAlpha(), durationMs);
+        timeline.play();
+        return this;
+    }
+    /**
+     * Convenience method, equivalent to:
+     * animateStart(new Color(toRed, toGreen, toBlue, toAlpha), durationMs);
+     */
+    public Color animateStart(double toRed, double toGreen, double toBlue, double toAlpha, long durationMs) {
+        newTimeline(toRed, toGreen, toBlue, toAlpha, durationMs);
+        timeline.play();
+        return this;
+    }
+
+    @Override
+    public Color animateStartLoop(ReadonlyColor toColor, boolean reverse, long durationMs) {
+        if (toColor == null) {
+            throw new IllegalArgumentException("toColor cannot be null");
+        }
+        newTimeline(toColor.getRed(), toColor.getGreen(), toColor.getBlue(), toColor.getAlpha(), durationMs);
+        timeline.playLoop(reverse);
+        return this;
+    }
+    /**
+     * Convenience method, equivalent to:
+     * animateStartLoop(new Color(toRed, toGreen, toBlue, toAlpha), reverse, durationMs);
+     */
+    public Color animateStartLoop(double toRed, double toGreen, double toBlue, double toAlpha, boolean reverse, long durationMs) {
+        newTimeline(toRed, toGreen, toBlue, toAlpha, durationMs);
+        timeline.playLoop(reverse);
+        return this;
+    }
+
+    private void newTimeline(double toRed, double toGreen, double toBlue, double toAlpha, long durationMs) {
+        animateStop();
+        timeline = new Timeline(this);
+        timeline.addPropertyToInterpolate("red",   red,   toRed);
+        timeline.addPropertyToInterpolate("green", green, toGreen);
+        timeline.addPropertyToInterpolate("blue",  blue,  toBlue);
+        timeline.addPropertyToInterpolate("alpha", alpha, toAlpha);
+        timeline.setDuration(durationMs);
+    }
+
+    // ========
+    // Named colors and other static methods
+    // ========
 
     // Define all extended web colors (W3C)
     public static final ReadonlyColor ALICE_BLUE               = new Color(0xf0f8ffff);
@@ -511,5 +504,19 @@ public class Color implements ReadonlyColor {
             }
         }
         return namedColors.get(name.toUpperCase().replaceAll("[_\\s]", ""));
+    }
+
+    /**
+     * Change the byte order of a 32-bit integer packed with color components.
+     */
+    public static int convertARGBtoRGBA(int argb) {
+        return (argb << 8) | ((argb & 0xff000000) >>> 24);
+    }
+
+    /**
+     * Change the byte order of a 32-bit integer packed with color components.
+     */
+    public static int convertRGBAtoARGB(int rgba) {
+        return (rgba >>> 8) | ((rgba & 0x000000ff) << 24);
     }
 }

@@ -157,4 +157,51 @@ public interface ReadonlyVector3 {
 
     /** @return true if the point is inside the sphere. */
     public boolean isInSphere(ReadonlyVector3 origin, double radius);
+
+    /**
+     * Convenience method to update the OpenGL state with this vector.
+     * <p>
+     * Equivalent to
+     * GL11.glRotated(angleDegrees, v.getX(), v.getY(), v.getZ());
+     * <p>
+     * "Un-applying" the rotation (e.g., glPushMatrix and glPopMatrix)
+     * is the responsibility of the caller.
+     */
+    public void glApplyRotateDegrees(double angleDegrees);
+
+    /**
+     * Convenience method to update the OpenGL state with this vector.
+     * <p>
+     * Equivalent to
+     * GL11.glRotated(angleRadians*180.0/Math.PI, v.getX(), v.getY(), v.getZ());
+     * <p>
+     * "Un-applying" the rotation (e.g., glPushMatrix and glPopMatrix)
+     * is the responsibility of the caller.
+     */
+    public void glApplyRotateRadians(double angleRadians);
+
+    /**
+     * Convenience method to update the OpenGL state with this vector.
+     * <p>
+     * Equivalent to
+     * GL11.glScaled(v.getX(), v.getY(), v.getZ());
+     * <p>
+     * "Un-applying" the scaling (e.g., glPushMatrix and glPopMatrix)
+     * is the responsibility of the caller.
+     */
+    public void glApplyScale();
+
+    /**
+     * Convenience method to update the OpenGL state with this vector.
+     * <p>
+     * Equivalent to
+     * GL11.glTranslated(v.getX(), v.getY(), v.getZ());
+     * <p>
+     * "Un-applying" the translation (e.g., glPushMatrix and glPopMatrix)
+     * is the responsibility of the caller.
+     */
+    public void glApplyTranslate();
+
+    /** @return true if this vector is being updated by an active animation. */
+    public boolean isAnimating();
 }

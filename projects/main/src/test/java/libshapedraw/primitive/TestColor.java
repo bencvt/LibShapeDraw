@@ -2,6 +2,7 @@ package libshapedraw.primitive;
 
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
+import libshapedraw.animation.TestAnimateable;
 
 import org.junit.Test;
 
@@ -199,49 +200,19 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     @Test
     public void testAnimate() {
         final Color c0 = Color.BLUE_VIOLET.copy();
-        final ReadonlyColor c0view = c0;
         final Color c1 = Color.AZURE.copy();
+        new TestAnimateable<ReadonlyColor>().assertAnimateableValid(c0, c1, Color.PINK);
 
-        assertFalse(c0.isAnimating());
-        assertFalse(c0view.isAnimating());
-        assertFalse(c1.isAnimating());
+        // animating to self is pointless but allowed
+        c0.animateStartLoop(c0, false, 10000);
 
-        // harmless to stop an animation that doesn't exist
-        c0.animateStop();
-        assertFalse(c0.isAnimating());
-        c0.animateStop().animateStop();
-        assertFalse(c0.isAnimating());
-
-        // starting an animation only affects the one color instance
-        c0.animateStart(Color.GREEN_YELLOW, 5000);
+        // convenience methods
+        c0.animateStart(0.0, 0.0, 0.0, 0.0, 5000);
         assertTrue(c0.isAnimating());
-        assertTrue(c0view.isAnimating());
-        assertFalse(c1.isAnimating());
-
-        // stoppable
-        c0.animateStop();
-        assertFalse(c0.isAnimating());
-        assertFalse(c0view.isAnimating());
-
-        // loop animation
-        c0.animateStartLoop(Color.GREEN_YELLOW, true, 3000);
-        assertTrue(c0.isAnimating());
-        assertTrue(c0view.isAnimating());
-        assertFalse(c1.isAnimating());
-        c0.animateStop();
-
-        // starting an animation multiple times is allowed; it just overwrites itself
-        c0.animateStart(Color.GREEN_YELLOW, 5000);
-        c0.animateStart(Color.ANTIQUE_WHITE, 300);
-        c0.animateStartLoop(c0, false, 10000); // animating to self is pointless but allowed
+        c0.animateStartLoop(0.5, 1.0, 1.0, 1.0, true, 5000);
         assertTrue(c0.isAnimating());
         c0.animateStop();
         assertFalse(c0.isAnimating());
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testAnimateInvalidNull() {
-        Color.RED.copy().animateStart(null, 5000);
     }
 
     @Test
@@ -272,5 +243,13 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         assertSame(Color.TRANSPARENT_BLACK, Color.getNamedColor("transparent black"));
         assertSame(Color.TRANSPARENT_WHITE, Color.getNamedColor("transparent white"));
         assertNull(Color.getNamedColor("transparent"));
+    }
+
+    @Test
+    public void testConvertARGBA() {
+        assertEquals(0xadbeefde, Color.convertARGBtoRGBA(0xdeadbeef));
+        assertEquals(0xefdeadbe, Color.convertRGBAtoARGB(0xdeadbeef));
+        assertEquals(0xdeadbeef, Color.convertARGBtoRGBA(Color.convertRGBAtoARGB(0xdeadbeef)));
+        assertEquals(0xdeadbeef, Color.convertRGBAtoARGB(Color.convertARGBtoRGBA(0xdeadbeef)));
     }
 }

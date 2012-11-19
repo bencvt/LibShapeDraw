@@ -10,6 +10,8 @@ import libshapedraw.primitive.ReadonlyLineStyle;
  * <p>
  * Note that the style object will be reinstantiated each tick. If this is not
  * the desired behavior, animate the style's individual components instead.
+ * 
+ * @see libshapedraw.animation.Animateable
  */
 public class ReadonlyLineStylePropertyInterpolator implements PropertyInterpolator<ReadonlyLineStyle> {
     @Override

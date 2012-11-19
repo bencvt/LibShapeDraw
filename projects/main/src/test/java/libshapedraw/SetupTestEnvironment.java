@@ -47,6 +47,25 @@ public class SetupTestEnvironment {
                 }
             }
         }
+
+        /**
+         * An alternative to @Test(expected=SomeException.class) for test cases
+         * with multiple lines that should be throwing exceptions.
+         */
+        public static void assertThrows(Class<? extends Throwable> expected, Runnable method) {
+            try {
+                method.run();
+            } catch (Throwable thrown) {
+                if (expected.isInstance(thrown)) {
+                    return;
+                }
+                throw new RuntimeException("expected " + String.valueOf(expected) + " not thrown", thrown);
+            }
+            throw new RuntimeException("expected " + String.valueOf(expected) + " not thrown");
+        }
+        public static void assertThrowsIAE(Runnable method) {
+            assertThrows(IllegalArgumentException.class, method);
+        }
     }
 
     private static boolean setup() {

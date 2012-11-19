@@ -58,10 +58,7 @@ public interface ReadonlyColor {
      */
     public void glApply(double alphaScale);
 
-    /**
-     * @return true if this color's components are being updated by an active
-     *         animation.
-     */
+    /** @return true if this color is being updated by an active animation. */
     public boolean isAnimating();
 
     @Override
