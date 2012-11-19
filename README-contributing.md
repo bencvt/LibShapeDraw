@@ -100,7 +100,17 @@ released along with Minecraft 1.5, with the following adjustments:
 
  +  If possible, LibShapeDraw's semantics will *not* change significantly, but
     the underlying implementation will likely have to change to match
-    Minecraft's overhauled rendering engine. More details to come.
+    Minecraft's overhauled rendering engine.
+    
+    Mojang has not released any technical details yet, but the overhaul may in
+    fact remove Minecraft's long-standing use of the OpenGL Fixed Function
+    Pipeline, which was [deprecated](http://www.opengl.org/wiki/Legacy_OpenGL)
+    several years ago by OpenGL. Using VBOs (Vertex Buffer Objects), etc.
+    instead is usually a significant performance boost as data can persist in
+    VRAM rather than being copied every render frame.
+    
+    The downside is that it's more code to set up all those vertex buffers. But
+    if Minecraft itself takes that step, LibShapeDraw will follow.
 
  +  Any method marked as deprecated in LibShapeDraw 1.x will likely be removed
     in 2.0.
@@ -122,9 +132,9 @@ Possible features, unprioritized (maybe before 2.0, maybe after, maybe never...
 feedback and patches welcome):
 
  +  Optimization: where possible, bypass Minecraft's Tessellator and instead use
-    OpenGL VBO (Vertex Buffer Objects). For complex shapes this can be
-    significantly faster as data can persist in VRAM rather than being copied
-    every render frame.
+    OpenGL VBOs. This is a significant performance gain for Shapes with many
+    vertices. This also doesn't have to wait for Minecraft's rendering engine
+    overhaul (see above), which might not actually use VBOs after all.
 
  +  More built-in Shapes, perhaps with texture support as well.
 

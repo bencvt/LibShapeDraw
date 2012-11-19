@@ -166,8 +166,14 @@ public interface ReadonlyVector3 {
      * Equivalent to
      * GL11.glRotated(angleDegrees, v.getX(), v.getY(), v.getZ());
      * <p>
+     * Calling this method on a zero vector is a no-op.
+     * <p>
      * "Un-applying" the rotation (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.
+     * <p>
+     * All of these operations are actually
+     * <a href="http://www.opengl.org/wiki/Legacy_OpenGL">deprecated in OpenGL
+     * 3.0</a>, but Minecraft is just old school like that.
      */
     public void glApplyRotateDegrees(double angleDegrees);
 
@@ -177,8 +183,14 @@ public interface ReadonlyVector3 {
      * Equivalent to
      * GL11.glRotated(angleRadians*180.0/Math.PI, v.getX(), v.getY(), v.getZ());
      * <p>
+     * Calling this method on a zero vector is a no-op.
+     * <p>
      * "Un-applying" the rotation (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.
+     * <p>
+     * All of these operations are actually
+     * <a href="http://www.opengl.org/wiki/Legacy_OpenGL">deprecated in OpenGL
+     * 3.0</a>, but Minecraft is just old school like that.
      */
     public void glApplyRotateRadians(double angleRadians);
 
@@ -190,6 +202,10 @@ public interface ReadonlyVector3 {
      * <p>
      * "Un-applying" the scaling (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.
+     * <p>
+     * All of these operations are actually
+     * <a href="http://www.opengl.org/wiki/Legacy_OpenGL">deprecated in OpenGL
+     * 3.0</a>, but Minecraft is just old school like that.
      */
     public void glApplyScale();
 
@@ -201,6 +217,10 @@ public interface ReadonlyVector3 {
      * <p>
      * "Un-applying" the translation (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.
+     * <p>
+     * All of these operations are actually
+     * <a href="http://www.opengl.org/wiki/Legacy_OpenGL">deprecated in OpenGL
+     * 3.0</a>, but Minecraft is just old school like that.
      */
     public void glApplyTranslate();
 

@@ -260,15 +260,20 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
 
     @Override
     public void glApplyRotateDegrees(double angleDegrees) {
-        // We have to use glRotatef because glRotated is missing from LWJGL
-        // 2.4.2, the version Minecraft ships with. LWJGL did fix this several
-        // releases ago though: http://lwjgl.org/forum/index.php?topic=4128.0
-        GL11.glRotatef((float) angleDegrees, (float) x, (float) y, (float) z);
+        if (!isZero()) {
+            // We have to use glRotatef because glRotated is missing from LWJGL
+            // 2.4.2, the version Minecraft ships with. LWJGL did fix this several
+            // releases ago though: http://lwjgl.org/forum/index.php?topic=4128.0
+            GL11.glRotatef((float) angleDegrees, (float) x, (float) y, (float) z);
+        }
     }
 
     @Override
     public void glApplyRotateRadians(double angleRadians) {
-        GL11.glRotatef((float) (angleRadians*R2D), (float) x, (float) y, (float) z);
+        if (!isZero()) {
+            // see above
+            GL11.glRotatef((float) (angleRadians*R2D), (float) x, (float) y, (float) z);
+        }
     }
 
     @Override

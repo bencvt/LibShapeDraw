@@ -13,14 +13,15 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
     private Vector3 axis;
     private Timeline timelineAngle;
 
-    public ShapeRotate(double angle, double axisX, double axisY, double axisZ) {
-        this(angle, new Vector3(axisX, axisY, axisZ));
+    public ShapeRotate(double angleDegrees, double axisX, double axisY, double axisZ) {
+        this(angleDegrees, new Vector3(axisX, axisY, axisZ));
     }
-    public ShapeRotate(double angle, Axis axis) {
-        this(angle, Vector3.ZEROS.copy().setComponent(axis, 1.0));
+    public ShapeRotate(double angleDegrees, Axis axis) {
+        setAngle(angleDegrees);
+        setAxis(axis);
     }
-    public ShapeRotate(double angle, Vector3 axis) {
-        setAngle(angle);
+    public ShapeRotate(double angleDegrees, Vector3 axis) {
+        setAngle(angleDegrees);
         setAxis(axis);
     }
 
@@ -32,7 +33,7 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
     }
     /** @see #getAngle */
     public ShapeRotate setAngle(double angleDegrees) {
-        this.angle = angleDegrees;
+        angle = angleDegrees;
         return this;
     }
 
@@ -49,6 +50,13 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
         }
         this.axis = axis;
         return this;
+    }
+    /** Convenience method, equivalent to setAxis(axis.unitVector.copy()). */
+    public ShapeRotate setAxis(Axis axis) {
+        if (axis == null) {
+            throw new IllegalArgumentException("axis cannot be null");
+        }
+        return setAxis(axis.unitVector.copy());
     }
 
     @Override
