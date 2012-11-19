@@ -57,7 +57,7 @@ public interface TimelineCallback {
      *            The current timeline position. Is guaranteed to be in 0.0-1.0
      *            range. The rate of change of this value is not necessarily
      *            linear and is affected by the
-     *            {@link Timeline#setEase(org.pushingpixels.trident.ease.TimelineEase)}
+     *            {@link Timeline#setEase}
      *            .
      */
     public void onTimelineStateChanged(TimelineState oldState,
@@ -76,7 +76,7 @@ public interface TimelineCallback {
      *            The current timeline position. Is guaranteed to be in 0.0-1.0
      *            range. The rate of change of this value is not necessarily
      *            linear and is affected by the
-     *            {@link Timeline#setEase(org.pushingpixels.trident.ease.TimelineEase)}
+     *            {@link Timeline#setEase}
      *            .
      */
     public void onTimelinePulse(float durationFraction, float timelinePosition);

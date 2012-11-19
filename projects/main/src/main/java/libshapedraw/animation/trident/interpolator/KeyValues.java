@@ -48,11 +48,11 @@ import libshapedraw.animation.trident.TimelinePropertyBuilder.PropertySetter;
  * At each of the times in {@link KeyTimes}, the property will take on the
  * corresponding value in the KeyValues object. Between these times, the
  * property will take on a value based on the interpolation information stored
- * in the KeyFrames object and the {@link Evaluator} for the type of the values
- * in KeyValues.
+ * in the KeyFrames object and the {@link PropertyInterpolator} for the type of
+ * the values in KeyValues.
  * <p>
  * This class has built-in support for various known types, as defined in
- * {@link Evaluator}.
+ * {@link CorePropertyInterpolators}.
  * <p>
  * For a simple example using KeyValues to create a KeyFrames and PropertySetter
  * object, see the class header comments in {@link PropertySetter}.
@@ -69,7 +69,8 @@ public class KeyValues<T> {
 
     /**
      * Constructs a KeyValues object from one or more values. The internal
-     * Evaluator is automatically determined by the type of the parameters.
+     * PropertyInterpolator is automatically determined by the type of the
+     * parameters.
      * 
      * @param params
      *            the values to interpolate between. If there is only one
@@ -77,15 +78,16 @@ public class KeyValues<T> {
      *            first value is dynamically determined at runtime when the
      *            animation is started.
      * @throws IllegalArgumentException
-     *             if an {@link Evaluator} cannot be found that can interpolate
-     *             between the value types supplied
+     *             if a {@link PropertyInterpolator} cannot be found that can
+     *             interpolate between the value types supplied
      */
     public static <T> KeyValues<T> create(T... params) {
         return new KeyValues(params);
     }
 
     /**
-     * Constructs a KeyValues object from a Evaluator and one or more values.
+     * Constructs a KeyValues object from a PropertyInterpolator and one or more
+     * values.
      * 
      * @param params
      *            the values to interpolate between. If there is only one
