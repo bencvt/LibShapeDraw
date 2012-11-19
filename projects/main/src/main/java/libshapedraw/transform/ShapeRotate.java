@@ -65,8 +65,8 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
     public ShapeRotate animateStop() {
         if (timelineAngle != null && !timelineAngle.isDone()) {
             timelineAngle.abort();
-            timelineAngle = null;
         }
+        timelineAngle = null;
         return this;
     }
 

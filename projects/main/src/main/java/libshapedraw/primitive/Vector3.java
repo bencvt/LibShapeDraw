@@ -740,8 +740,8 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
     public Vector3 animateStop() {
         if (timeline != null && !timeline.isDone()) {
             timeline.abort();
-            timeline = null;
         }
+        timeline = null;
         return this;
     }
 

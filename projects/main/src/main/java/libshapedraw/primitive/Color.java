@@ -274,8 +274,8 @@ public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
     public Color animateStop() {
         if (timeline != null && !timeline.isDone()) {
             timeline.abort();
-            timeline = null;
         }
+        timeline = null;
         return this;
     }
 
