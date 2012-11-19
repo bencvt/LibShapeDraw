@@ -3,7 +3,7 @@ package libshapedraw.primitive;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import libshapedraw.animation.Animateable;
+import libshapedraw.animation.Animates;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.internal.LSDInternalReflectionException;
 
@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
  * All modifiers support method chaining, e.g.
  * Color result = Color.TOMATO.copy().setAlpha(0.4).scaleRGB(0.8).blend(Color.GREEN, 0.3);
  */
-public class Color implements ReadonlyColor, Animateable<ReadonlyColor> {
+public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
     private double red;
     private double green;
     private double blue;
@@ -262,7 +262,7 @@ public class Color implements ReadonlyColor, Animateable<ReadonlyColor> {
     }
 
     // ========
-    // Animateable
+    // Animates interface
     // ========
 
     @Override

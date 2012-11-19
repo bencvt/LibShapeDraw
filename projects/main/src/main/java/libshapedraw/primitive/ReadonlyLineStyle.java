@@ -39,8 +39,8 @@ public interface ReadonlyLineStyle {
      *         an active animation.
      *         <p>
      *         The line widths can be animated by a Timeline too, but not an
-     *         internal one: LineStyle does not implement the full Animateable
-     *         interface.
+     *         internal one: LineStyle does not implement the full
+     *         {@link libshapedraw.animation.Animates} interface.
      */
     public boolean isAnimating();
 

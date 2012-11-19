@@ -1,13 +1,13 @@
 package libshapedraw.transform;
 
-import libshapedraw.animation.Animateable;
+import libshapedraw.animation.Animates;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 /**
  * Adjust the x/y/z coordinates of a Shape using glTranslate.
  */
-public class ShapeTranslate implements ShapeTransform, Animateable<ReadonlyVector3> {
+public class ShapeTranslate implements ShapeTransform, Animates<ReadonlyVector3> {
     private Vector3 translateXYZ;
 
     public ShapeTranslate() {

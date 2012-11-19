@@ -2,7 +2,7 @@ package libshapedraw.primitive;
 
 import org.lwjgl.opengl.GL11;
 
-import libshapedraw.animation.Animateable;
+import libshapedraw.animation.Animates;
 import libshapedraw.animation.trident.Timeline;
 
 /**
@@ -11,7 +11,7 @@ import libshapedraw.animation.trident.Timeline;
  * All modifiers support method chaining, e.g.
  * Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);
  */
-public class Vector3 implements ReadonlyVector3, Animateable<ReadonlyVector3> {
+public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
     public static final ReadonlyVector3 ZEROS = new Vector3();
 
     private static final double R2D = 180.0 / Math.PI;
@@ -728,7 +728,7 @@ public class Vector3 implements ReadonlyVector3, Animateable<ReadonlyVector3> {
     }
 
     // ========
-    // Animateable
+    // Animates interface
     // ========
 
     @Override

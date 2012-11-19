@@ -1,13 +1,13 @@
 package libshapedraw.transform;
 
-import libshapedraw.animation.Animateable;
+import libshapedraw.animation.Animates;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 
 /**
  * Resize a Shape using glScale.
  */
-public class ShapeScale implements ShapeTransform, Animateable<ReadonlyVector3> {
+public class ShapeScale implements ShapeTransform, Animates<ReadonlyVector3> {
     private Vector3 scaleXYZ;
 
     public ShapeScale() {

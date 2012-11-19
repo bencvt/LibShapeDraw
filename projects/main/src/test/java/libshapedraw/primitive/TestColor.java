@@ -2,7 +2,7 @@ package libshapedraw.primitive;
 
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
-import libshapedraw.animation.TestAnimateable;
+import libshapedraw.animation.TestAnimates;
 
 import org.junit.Test;
 
@@ -201,7 +201,7 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     public void testAnimate() {
         final Color c0 = Color.BLUE_VIOLET.copy();
         final Color c1 = Color.AZURE.copy();
-        new TestAnimateable<ReadonlyColor>().assertAnimateableValid(c0, c1, Color.PINK);
+        new TestAnimates<ReadonlyColor>().assertAnimatesValid(c0, c1, Color.PINK);
 
         // animating to self is pointless but allowed
         c0.animateStartLoop(c0, false, 10000);

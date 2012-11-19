@@ -11,7 +11,7 @@ import libshapedraw.primitive.Vector3;
  * Note that the vector object will be reinstantiated each tick. If this is not
  * the desired behavior, animate the vector's individual components instead.
  * 
- * @see libshapedraw.animation.Animateable
+ * @see libshapedraw.animation.Animates
  */
 public class ReadonlyVector3PropertyInterpolator implements PropertyInterpolator<ReadonlyVector3> {
     @Override

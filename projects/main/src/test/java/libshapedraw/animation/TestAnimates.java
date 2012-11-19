@@ -3,10 +3,10 @@ package libshapedraw.animation;
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
 
-public class TestAnimateable<T> extends SetupTestEnvironment.TestCase {
+public class TestAnimates<T> extends SetupTestEnvironment.TestCase {
     // This is not a test case.
     // This method is invoked by other (non-generic) test cases.
-    public void assertAnimateableValid(final Animateable<T> a0, final Animateable<T> a1, final T props) {
+    public void assertAnimatesValid(final Animates<T> a0, final Animates<T> a1, final T props) {
         assertNotSame(a0, a1);
         assertFalse(a0.isAnimating());
         assertFalse(a1.isAnimating());

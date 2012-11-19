@@ -2,7 +2,7 @@ package libshapedraw.primitive;
 
 import static org.junit.Assert.*;
 import libshapedraw.SetupTestEnvironment;
-import libshapedraw.animation.TestAnimateable;
+import libshapedraw.animation.TestAnimates;
 
 import org.junit.Test;
 
@@ -675,7 +675,7 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
     public void testAnimate() {
         final Vector3 v0 = new Vector3(1.0, 2.0, 3.0);
         final Vector3 v1 = new Vector3(867, -53.09, 9);
-        new TestAnimateable<ReadonlyVector3>().assertAnimateableValid(v0, v1, new Vector3(7.0, 8.0, -9.0));
+        new TestAnimates<ReadonlyVector3>().assertAnimatesValid(v0, v1, new Vector3(7.0, 8.0, -9.0));
 
         // animating to self is pointless but allowed
         v0.animateStartLoop(v0, false, 10000);

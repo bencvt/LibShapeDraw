@@ -1,6 +1,6 @@
 package libshapedraw.transform;
 
-import libshapedraw.animation.Animateable;
+import libshapedraw.animation.Animates;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.primitive.Axis;
 import libshapedraw.primitive.Vector3;
@@ -8,7 +8,7 @@ import libshapedraw.primitive.Vector3;
 /**
  * Rotate a Shape by any number of degrees around any axis using glRotate.
  */
-public class ShapeRotate implements ShapeTransform, Animateable<Double> {
+public class ShapeRotate implements ShapeTransform, Animates<Double> {
     private double angle;
     private Vector3 axis;
     private Timeline timelineAngle;

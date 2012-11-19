@@ -15,7 +15,7 @@ package libshapedraw.animation;
  * 
  * @see libshapedraw.animation.trident.Timeline
  */
-public interface Animateable<T> {
+public interface Animates<T> {
     /**
      * @return true if the properties are being updated by an active animation.
      */
@@ -30,7 +30,7 @@ public interface Animateable<T> {
      * 
      * @return the same object, modified in-place.
      */
-    public Animateable<T> animateStop();
+    public Animates<T> animateStop();
 
     /**
      * Start animating this object's properties, gradually changing them to
@@ -45,7 +45,7 @@ public interface Animateable<T> {
      * @param durationMs interval in milliseconds
      * @return the same object, modified in-place.
      */
-    public Animateable<T> animateStart(T toProperties, long durationMs);
+    public Animates<T> animateStart(T toProperties, long durationMs);
 
     /**
      * Start animating this object's properties, gradually changing them to
@@ -65,5 +65,5 @@ public interface Animateable<T> {
      * @param durationMs interval in milliseconds of each cycle
      * @return the same object, modified in-place.
      */
-    public Animateable<T> animateStartLoop(T toProperties, boolean reverse, long durationMs);
+    public Animates<T> animateStartLoop(T toProperties, boolean reverse, long durationMs);
 }
