@@ -95,12 +95,12 @@ public interface ReadonlyVector3 {
     /**
      * @return the distance between two points, squared. If you're trying to
      *         compare two distances, use this method instead of
-     *         {@link #distance()} as it avoids the relatively expensive sqrt
+     *         {@link #distance} as it avoids the relatively expensive sqrt
      *         call.
      */
     public double distanceSquared(ReadonlyVector3 other);
 
-    /** @deprecated as of release 1.1 replaced by {@link #distanceSquared()} */
+    /** @deprecated as of release 1.1 replaced by {@link #distanceSquared} */
     @Deprecated public double getDistanceSquared(ReadonlyVector3 other);
 
     /**
@@ -109,7 +109,7 @@ public interface ReadonlyVector3 {
      */
     public double distance(ReadonlyVector3 other);
 
-    /** @deprecated as of release 1.1 replaced by {@link #distance()} */
+    /** @deprecated as of release 1.1 replaced by {@link #distance} */
     @Deprecated public double getDistance(ReadonlyVector3 other);
 
     /** @return the dot product between two vectors: x0*x1 + y0*y1 + z0*z1. */

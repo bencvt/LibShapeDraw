@@ -32,9 +32,9 @@ public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
     }
 
     /**
-     * @param rgba a 32-bit integer packed with each of the color's components,
-     *         one per byte. The order, from most significant to least, is
-     *         red, green, blue, alpha.
+     * Construct this color using a 32-bit integer packed with each of the
+     * color's components, one per byte. The order, from most significant to
+     * least, is red, green, blue, alpha.
      * @see #convertARGBtoRGBA
      */
     public Color(int rgba) {

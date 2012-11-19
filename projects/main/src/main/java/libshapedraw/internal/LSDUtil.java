@@ -21,7 +21,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * Interal class. Miscellaneous general-purpose utility classes and methods.
+ * Internal class. Miscellaneous general-purpose utility classes and methods.
  */
 public class LSDUtil {
     public static final Random random = new Random();
@@ -94,8 +94,10 @@ public class LSDUtil {
     }
 
     /**
-     * Create a uniquely-named temporary directory.
-     * @see {@link java.nio.file.Files#createTempDirectory} (Java 7+)
+     * Create a uniquely-named temporary directory. This does essentially the
+     * same thing as java.nio.file.Files#createTempDirectory, which we can't
+     * use because it's a Java 7+ feature. Many Minecraft users are still on
+     * Java 6.
      */
     public static synchronized File createTempDirectory(String prefix) {
         File baseDir = new File(System.getProperty("java.io.tmpdir"));
@@ -188,9 +190,9 @@ public class LSDUtil {
 
     /**
      * Set a field's value even if it's marked as final.
-     * @see http://stackoverflow.com/questions/3301635/change-private-static-final-field-using-java-reflection
      */
     public static void setFinalField(Field field, Object obj, Object value) {
+        // Via http://stackoverflow.com/questions/3301635
         try {
             field.setAccessible(true);
             Field fieldField = Field.class.getDeclaredField("modifiers");

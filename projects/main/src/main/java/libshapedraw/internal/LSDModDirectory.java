@@ -7,7 +7,7 @@ import libshapedraw.ApiInfo;
 import net.minecraft.client.Minecraft;
 
 /**
- * This internal class is the one exception to the rule that no Minecraft
+ * Internal class. This is the one exception to the rule that no Minecraft
  * classes are referenced outside of mod_LibShapeDraw, making the API clean and
  * free of obfuscated code.
  * <p>

@@ -3,6 +3,8 @@ package libshapedraw;
 import libshapedraw.primitive.ReadonlyVector3;
 
 /**
+ * Provide access to obfuscated Minecraft methods.
+ * <p>
  * The main LibShapeDraw API does not directly reference any Minecraft methods.
  * This is for compatibility: any obfuscated code references would make
  * developing mods using the API difficult.

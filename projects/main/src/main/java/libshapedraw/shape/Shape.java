@@ -94,7 +94,7 @@ public abstract class Shape {
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
      * 
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public Shape addTransform(ShapeTransform transform) {
         makeTransforms();
@@ -114,7 +114,7 @@ public abstract class Shape {
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
      * 
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public Shape removeTransform(ShapeTransform transform) {
         makeTransforms();
@@ -128,7 +128,7 @@ public abstract class Shape {
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
      * 
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public Shape clearTransforms() {
         makeTransforms();

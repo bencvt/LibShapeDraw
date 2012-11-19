@@ -57,7 +57,7 @@ public class LibShapeDraw {
         return LSDController.getInstance().unregisterApiInstance(this);
     }
 
-    /** @deprecated use {@link ApiInfo#getVersion} */
+    /** @deprecated use {@link ApiInfo} */
     @Deprecated public static String getVersion() {
         return ApiInfo.getVersion();
     }
@@ -139,7 +139,7 @@ public class LibShapeDraw {
      * They will be appropriately hidden when the user presses F1 to hide the
      * GUI.
      * <p>
-     * @see {@link #setVisible}, which overrides this property when set.
+     * See also {@link #setVisible}, which overrides this property when set.
      */
     public LibShapeDraw setVisibleWhenHidingGui(boolean visibleWhenHidingGui) {
         this.visibleWhenHidingGui = visibleWhenHidingGui;
@@ -159,7 +159,7 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw addShape(Shape shape) {
         if (shape == null) {
@@ -188,13 +188,13 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
+     * <p>
+     * See also {@link Shape#setVisible} for an alternate way of preventing a
+     * shape from rendering. Generally, removeShape should be called if the
+     * shape will never be rendered again. If the shape just needs to be hidden
+     * temporarily, use setVisible.
      * 
-     * @see {@link Shape#setVisible} for an alternate way of preventing a shape
-     *      from rendering. Generally, removeShape should be called if the
-     *      shape will never be rendered again. If the shape just needs to be
-     *      hidden temporarily, use setVisible.
-     * 
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw removeShape(Shape shape) {
         if (shapes.remove(shape)) {
@@ -212,13 +212,13 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
+     * <p>
+     * See also {@link #setVisible} for an alternate way of preventing all
+     * shapes from rendering. Generally, clearShapes should be called if the
+     * current shapes will never be rendered again. If the shapes just need to
+     * be hidden temporarily, use setVisible.
      * 
-     * @see {@link setVisible} for an alternate way of preventing all shapes
-     *      from rendering. Generally, clearShapes should be called if the
-     *      current shapes will never be rendered again. If the shapes just
-     *      need to be hidden temporarily, use setVisible.
-     * 
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw clearShapes() {
         LinkedHashSet<Shape> prev = new LinkedHashSet<Shape>(shapes);
@@ -246,7 +246,7 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw addEventListener(LSDEventListener listener) {
         if (listener == null) {
@@ -267,7 +267,7 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw removeEventListener(LSDEventListener listener) {
         eventListeners.remove(listener);
@@ -283,7 +283,7 @@ public class LibShapeDraw {
      * <p>
      * Thread safety is not guaranteed. To avoid non-deterministic behavior,
      * only call this method from the main Minecraft thread.
-     * @returns the instance (for method chaining)
+     * @return the instance (for method chaining)
      */
     public LibShapeDraw clearEventListeners() {
         eventListeners.clear();
