@@ -24,7 +24,7 @@ import org.lwjgl.util.glu.GLU;
  * This isn't the only possible way to animate Shapes. You could, for example,
  * manually update Vector3s/Colors/ShapeTransforms using the onPreRender event.
  * However, using animateStart/animateStop is the recommended way to animate
- * animate Shapes. It eliminates a lot of boilerplate code.
+ * Shapes. It eliminates a lot of boilerplate code.
  */
 public class mod_LSDDemoTridentBasic extends BaseMod {
     public static final String ABOUT = "" +
@@ -49,9 +49,9 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
         // runs at 25 FPS, updating the Shapes at most every 40 milliseconds.
         // And in this case it's less than a dozen scalar values being updated.
         // 
-        // If you're creating a lot of Shapes and associated Timelines
-        // dynamically, a cleaner design will involve managing the Timelines
-        // yourself. @see mod_LSDDemoTridentDynamic
+        // If you're dynamically creating a lot of Shapes with associated
+        // looping animations, a cleaner design will involve keeping track of
+        // the animations. @see mod_LSDDemoTridentDynamic
         createRotatingShape();
         createColorShiftingShape();
         createResizingShape();
@@ -61,7 +61,8 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
         GLUSphere sphere = new GLUSphere(new Vector3(8, 63, 0),
                 Color.DODGER_BLUE.copy(),
                 Color.DODGER_BLUE.copy().setAlpha(0.25),
-                2.5F);
+                1.0F);
+        sphere.setSlices(12).setStacks(12);
         sphere.getGLUQuadric().setDrawStyle(GLU.GLU_LINE);
         ShapeRotate rotate = new ShapeRotate(0.0, Axis.Y);
         sphere.addTransform(rotate);

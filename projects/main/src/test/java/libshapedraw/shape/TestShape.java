@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.MockMinecraftAccess;
 import libshapedraw.SetupTestEnvironment;
+import libshapedraw.primitive.Axis;
 import libshapedraw.transform.ShapeRotate;
 import libshapedraw.transform.ShapeScale;
 import libshapedraw.transform.ShapeTranslate;
@@ -119,19 +120,38 @@ public class TestShape extends SetupTestEnvironment.TestCase {
     }
 
     @Test
-    public void testToString() {
+    public void testToStringGeneric() {
         MockShape shape = new MockShape();
         final String prefix = "MockShape@" + Integer.toHexString(shape.hashCode());
-        assertEquals(prefix+"{V}", shape.toString());
+        assertEquals(prefix+"{RV}(0.0,0.0,0.0)", shape.toString());
         shape.setVisible(false);
-        assertEquals(prefix+"{}", shape.toString());
+        assertEquals(prefix+"{R}(0.0,0.0,0.0)", shape.toString());
         shape.addTransform(new ShapeScale(1.0, 1.5, 1.0));
-        assertEquals(prefix+"{T}", shape.toString());
+        assertEquals(prefix+"{RT}(0.0,0.0,0.0)", shape.toString());
         shape.addTransform(new ShapeTranslate(0.0, 0.0, 18.25));
-        assertEquals(prefix+"{TT}", shape.toString());
+        assertEquals(prefix+"{RTT}(0.0,0.0,0.0)", shape.toString());
         shape.setVisible(true);
-        assertEquals(prefix+"{VTT}", shape.toString());
+        assertEquals(prefix+"{RVTT}(0.0,0.0,0.0)", shape.toString());
         shape.clearTransforms();
-        assertEquals(prefix+"{V}", shape.toString());
+        assertEquals(prefix+"{RV}(0.0,0.0,0.0)", shape.toString());
+        shape.setRelativeToOrigin(false);
+        assertEquals(prefix+"{V}(0.0,0.0,0.0)", shape.toString());
+        shape.setVisible(false);
+        assertEquals(prefix+"{}(0.0,0.0,0.0)", shape.toString());
+    }
+
+    @Test
+    public void testToStringSpecific() {
+        WireframeCuboid box = new WireframeCuboid(5,65,-200, 25,67,-201);
+        final String prefix = "WireframeCuboid@" + Integer.toHexString(box.hashCode());
+        assertEquals(prefix+"{V}(15.0,66.0,-200.5)", box.toString());
+        box.setVisible(false);
+        assertEquals(prefix+"{}(15.0,66.0,-200.5)", box.toString());
+        box.getUpperCorner().addY(20.5);
+        assertEquals(prefix+"{}(15.0,76.25,-200.5)", box.toString());
+        box.addTransform(new ShapeRotate(22.5, Axis.Y));
+        assertEquals(prefix+"{T}(15.0,76.25,-200.5)", box.toString());
+        box.setVisible(true);
+        assertEquals(prefix+"{VT}(15.0,76.25,-200.5)", box.toString());
     }
 }

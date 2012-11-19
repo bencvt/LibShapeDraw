@@ -42,9 +42,11 @@ public abstract class Shape {
     public ReadonlyVector3 getOriginReadonly() {
         return origin;
     }
+    /** @see #getOriginReadonly */
     protected Vector3 getOrigin() {
         return origin;
     }
+    /** @see #getOriginReadonly */
     protected void setOrigin(Vector3 origin) {
         if (origin == null) {
             throw new IllegalArgumentException("origin cannot be null");
@@ -54,12 +56,16 @@ public abstract class Shape {
 
     /**
      * If true, render this shape relative to its own origin x/y/z.
-     * If false, rendering will ignore the shape's origin, operating on
-     * absolute world x/y/z coordinates.
+     * If false, rendering will ignore the shape's origin, operating
+     * on absolute world x/y/z coordinates.
+     * <p>
+     * Which setting is the default, and whether it's possible to change this
+     * setting, depends on the Shape type.
      */
     public boolean isRelativeToOrigin() {
         return relativeToOrigin;
     }
+    /** @see #isRelativeToOrigin */
     protected void setRelativeToOrigin(boolean relativeToOrigin) {
         this.relativeToOrigin = relativeToOrigin;
     }
@@ -150,6 +156,37 @@ public abstract class Shape {
     }
 
     /**
+     * Called immediately before this Shape is rendered.
+     * <p>
+     * This method resets common OpenGL context settings, helping ensure that
+     * the Shape will render the same regardless of what was rendered
+     * beforehand.
+     */
+    public void onPreRender(MinecraftAccess mc) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHT0);
+        GL11.glDisable(GL11.GL_LIGHT1);
+        GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        GL11.glLineWidth(1.0F);
+        // Every Shape calls glColord; no need to reset that here.
+    }
+
+    /**
+     * Called immediately after this Shape is rendered.
+     * <p>
+     * If any unique OpenGL context settings were applied but not reset during
+     * rendering, they should be reset here. Otherwise, later elements may be
+     * rendered incorrectly.
+     */
+    public void onPostRender(MinecraftAccess mc) {
+        // do nothing; derived classes can override as needed.
+    }
+
+    /**
      * Render the Shape, if visible. Also perform any ShapeTransforms
      * registered to this Shape.
      * <p>
@@ -163,14 +200,7 @@ public abstract class Shape {
         if (!isVisible()) {
             return;
         }
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_LIGHT0);
-        GL11.glDisable(GL11.GL_LIGHT1);
-        GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        onPreRender(mc);
         final boolean absolute = !isRelativeToOrigin();
         if (absolute && transforms == null) {
             renderShape(mc);
@@ -194,6 +224,7 @@ public abstract class Shape {
             renderShape(mc);
             GL11.glPopMatrix();
         }
+        onPostRender(mc);
     }
 
     /**
@@ -203,8 +234,14 @@ public abstract class Shape {
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder();
-        b.append(getClass().getSimpleName()).append('@').append(Integer.toHexString(hashCode())).append('{');
+        StringBuilder b = new StringBuilder()
+        .append(getClass().getSimpleName())
+        .append('@')
+        .append(Integer.toHexString(hashCode()))
+        .append('{');
+        if (isRelativeToOrigin()) {
+            b.append('R');
+        }
         if (isVisible()) {
             b.append('V');
         }
@@ -213,7 +250,6 @@ public abstract class Shape {
                 b.append('T');
             }
         }
-        b.append('}');
-        return b.toString();
+        return b.append('}').append(getOriginReadonly()).toString();
     }
 }

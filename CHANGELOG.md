@@ -1,14 +1,15 @@
 ## implemented but not yet released, slated for LibShapeDraw 1.3
 - improved Trident animation library integration: added animation convenience
   methods to `Vector3` and defined the `Animateable` interface
-- added `equals`, `hashCode`, and `equalsExact` methods for primitive types
+- primitive types are now directly comparable: added `equals`, `hashCode`, and
+  `Vector3.equalsExact` methods
 - added `Axis` enum and associated convenience methods to `Vector3` and
   `ShapeRotate`
 - defined `XrayShape` interface
-- added `Shape.onAdd` and `Shape.onRemove` methods for eventual VBO support
-- `LibShapeDraw.getShapes`, `LibShapeDraw.getEventListeners`, and
-  `Shape.getTransforms` now return read-only views. All modifications must use
-  addShape, removeShape, clearShapes, etc.
+- added `Shape.onAdd`, `onRemove`, `onPreRender`, and `onPostRender` methods
+- `LibShapeDraw.getShapes`, `getEventListeners`, and `Shape.getTransforms` now
+  return read-only views. All modifications must use `addShape`, `removeShape`,
+  `clearShapes`, etc.
 - many documentation improvements
 
 ## 1.2.2

@@ -8,9 +8,11 @@ import libshapedraw.primitive.Vector3;
 import org.lwjgl.opengl.GL11;
 
 public class MockShape extends Shape {
-    private int countRender;
     private int countOnAdd;
     private int countOnRemove;
+    private int countOnPreRender;
+    private int countOnPostRender;
+    private int countRender;
 
     public MockShape() {
         super(Vector3.ZEROS.copy());
@@ -18,12 +20,26 @@ public class MockShape extends Shape {
 
     @Override
     public void onAdd(LibShapeDraw apiInstance) {
+        super.onAdd(apiInstance);
         countOnAdd++;
     }
 
     @Override
     public void onRemove(LibShapeDraw apiInstance) {
+        super.onRemove(apiInstance);
         countOnRemove++;
+    }
+
+    @Override
+    public void onPreRender(MinecraftAccess mc) {
+        super.onPreRender(mc);
+        countOnPreRender++;
+    }
+
+    @Override
+    public void onPostRender(MinecraftAccess mc) {
+        super.onPostRender(mc);
+        countOnPostRender++;
     }
 
     @Override
@@ -35,10 +51,6 @@ public class MockShape extends Shape {
         mc.finishDrawing();
     }
 
-    public int getCountRender() {
-        return countRender;
-    }
-
     public int getCountOnAdd() {
         return countOnAdd;
     }
@@ -47,14 +59,36 @@ public class MockShape extends Shape {
         return countOnRemove;
     }
 
+    public int getCountOnPreRender() {
+        assertRendersCountsEqual();
+        return countRender;
+    }
+
+    public int getCountOnPostRender() {
+        assertRendersCountsEqual();
+        return countRender;
+    }
+
+    public int getCountRender() {
+        assertRendersCountsEqual();
+        return countRender;
+    }
+
     public void assertAddRemoveCounts(int expectedOnAdd, int expectedOnRemove) {
         assertEquals(expectedOnAdd, countOnAdd);
         assertEquals(expectedOnRemove, countOnRemove);
     }
 
+    public void assertRendersCountsEqual() {
+        assertEquals(countRender, countOnPreRender);
+        assertEquals(countRender, countOnPostRender);
+    }
+
     public void resetCounts() {
-        countRender = 0;
         countOnAdd = 0;
         countOnRemove = 0;
+        countOnPreRender = 0;
+        countOnPostRender = 0;
+        countRender = 0;
     }
 }
