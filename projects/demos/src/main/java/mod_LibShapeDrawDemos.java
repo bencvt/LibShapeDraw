@@ -56,6 +56,7 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
     };
     private Minecraft minecraft;
     private boolean inMenu;
+    private boolean canOpenUrl;
     private LSDRespawnEvent savedFakeRespawnEvent;
 
     @Override
@@ -85,11 +86,14 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_F3)) {
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
-                try {
-                    Desktop.getDesktop().browse(SOURCE_URI);
-                } catch (Throwable t) {
-                    chatText("Unable to open URL directly. Please use a web browser to visit");
-                    chatText("  " + SOURCE_URI_DISPLAY);
+                if (canOpenUrl) {
+                    canOpenUrl = false;
+                    try {
+                        Desktop.getDesktop().browse(SOURCE_URI);
+                    } catch (Throwable t) {
+                        chatText("Unable to open URL directly. Please use a web browser to visit");
+                        chatText("  " + SOURCE_URI_DISPLAY);
+                    }
                 }
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
@@ -154,6 +158,7 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
     public void onRespawn(LSDRespawnEvent event) {
         savedFakeRespawnEvent = event;
         chatText("\u00a7bPress L to load LibShapeDraw demos!");
+        canOpenUrl = true;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package libshapedraw.demos;
 
 /**
- * Fake ModLoader BaseMod, here in the same package as the demo "mods".
+ * Need to define a fake ModLoader BaseMod since we're not in the root package.
  */
 public abstract class BaseMod {
     public abstract String getVersion();
