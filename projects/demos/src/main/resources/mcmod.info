@@ -10,7 +10,7 @@
     "updateUrl": "",
     "authors": [ "${libshapedraw.authors}" ],
     "credits": "",
-    "logoFile": "/mod_LibShapeDrawDemos.png",
+    "logoFile": "/libshapedraw/demos/logo.png",
     "screenshots": [],
     "parent": "",
     "requiredMods": [ "mod_${libshapedraw.name}" ],

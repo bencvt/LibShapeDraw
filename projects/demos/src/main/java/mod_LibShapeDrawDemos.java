@@ -1,3 +1,6 @@
+import java.awt.Desktop;
+import java.net.URI;
+
 import libshapedraw.ApiInfo;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.event.LSDEventListener;
@@ -6,6 +9,7 @@ import libshapedraw.event.LSDPreRenderEvent;
 import libshapedraw.event.LSDRespawnEvent;
 import libshapedraw.internal.LSDController;
 import libshapedraw.internal.LSDModDirectory;
+import libshapedraw.primitive.Color;
 import net.minecraft.client.Minecraft;
 
 import org.lwjgl.input.Keyboard;
@@ -14,22 +18,28 @@ import org.lwjgl.input.Keyboard;
  * Quick-and-dirty ModLoader mod that loads demos that the user selects.
  * <p>
  * The demos themselves are actually ModLoader mods too in all but name:
- * they're intentionally not named starting with "mod_" so that this class can
- * load them on demand.
+ * they're located outside of the root package so that this class can load
+ * them on demand.
  */
 public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
+    public static final String SOURCE_URI_DISPLAY = "https://github.com/bencvt/LibShapeDraw";
+    public static final URI SOURCE_URI = URI.create("https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java");
+    public static final int TEXT_ARGB = Color.WHITE.getARGB();
+
     private static class Demo {
         public final int key;
         public final String name;
         public final String[] about;
-        public final Class<? extends BaseMod> modClass;
-        public BaseMod modInstance;
+        public final Class<? extends libshapedraw.demos.BaseMod> modClass;
+        public libshapedraw.demos.BaseMod modInstance;
         @SuppressWarnings("unchecked")
         public Demo(int key, String className) {
             this.key = key;
             name = className;
+            className = "libshapedraw.demos." + className;
             try {
-                modClass = (Class<? extends BaseMod>) getClass().getClassLoader().loadClass(className);
+                modClass = (Class<? extends libshapedraw.demos.BaseMod>) getClass()
+                        .getClassLoader().loadClass(className);
                 about = ((String) modClass.getField("ABOUT").get(null)).split("\n");
             } catch (Exception e) {
                 throw new RuntimeException("unable to load demo " + String.valueOf(className), e);
@@ -37,12 +47,12 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
         }
     }
     private final Demo[] demos = new Demo[] {
-            new Demo(Keyboard.KEY_0, "LSDDemoBasic"),
-            new Demo(Keyboard.KEY_1, "LSDDemoBasicCheckInstall"),
-            new Demo(Keyboard.KEY_2, "LSDDemoEvents"),
-            new Demo(Keyboard.KEY_3, "LSDDemoLogo"),
-            new Demo(Keyboard.KEY_4, "LSDDemoTridentBasic"),
-            new Demo(Keyboard.KEY_5, "LSDDemoTridentDynamic"),
+            new Demo(Keyboard.KEY_0, "mod_LSDDemoBasic"),
+            new Demo(Keyboard.KEY_1, "mod_LSDDemoBasicCheckInstall"),
+            new Demo(Keyboard.KEY_2, "mod_LSDDemoEvents"),
+            new Demo(Keyboard.KEY_3, "mod_LSDDemoLogo"),
+            new Demo(Keyboard.KEY_4, "mod_LSDDemoTridentBasic"),
+            new Demo(Keyboard.KEY_5, "mod_LSDDemoTridentDynamic"),
     };
     private Minecraft minecraft;
     private boolean inMenu;
@@ -72,24 +82,30 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             return true;
         }
         if (inMenu) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_F3)) {
+                inMenu = false;
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
+                try {
+                    Desktop.getDesktop().browse(SOURCE_URI);
+                } catch (Throwable t) {
+                    chatText("Unable to open URL directly. Please use a web browser to visit");
+                    chatText("  " + SOURCE_URI_DISPLAY);
+                }
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
                 if (LSDController.getInstance().dump()) {
-                    chatText("\u00a79LibShapeDraw API state dumped, see log file in " + LSDModDirectory.DIRECTORY);
+                    chatText("LibShapeDraw API state dumped, see log file in " + LSDModDirectory.DIRECTORY);
                 } else {
-                    chatText("\u00a79Logging is disabled. You can re-enable it by editing the settings file in " + LSDModDirectory.DIRECTORY);
+                    chatText("Logging is disabled. You can re-enable it by editing the settings file in " + LSDModDirectory.DIRECTORY);
                 }
                 inMenu = false;
             } else {
-                drawText("\u00a79Select LibShapeDraw demo to load, or press D to dump state:", 2, 2, 0xffffffff);
-                int y = 12;
+                drawText("\u00a7b\u00a7nSelect LibShapeDraw demo to load:", 2, 2, TEXT_ARGB);
+                int y = 16;
                 for (Demo demo : demos) {
                     if (Keyboard.isKeyDown(demo.key)) {
                         inMenu = false;
-                        // The full URL prefix doesn't quite fit. :-(
-                        // https://github.com/bencvt/LibShapeDraw/blob/master/src/demos/java/LSDDemo*.java
-                        chatText("\u00a79Source code: http://bit.ly/" + demo.name);
+                        chatText("\u00a7bLoaded " + demo.name + ":");
                         for (String line : demo.about) {
                             chatText(line);
                         }
@@ -108,14 +124,25 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
                             chatText("This demo is already loaded.");
                         }
                     }
-                    String line = Keyboard.getKeyName(demo.key) + ": " + demo.name;
-                    if (demo.modInstance != null) {
-                        line = "\u00a77" + line + " (loaded)";
+                    String line;
+                    if (demo.modInstance == null) {
+                        line = "( \u00a7b" + Keyboard.getKeyName(demo.key) + "\u00a7r ) " + demo.name;
+                    } else {
+                        line = "\u00a77( " + Keyboard.getKeyName(demo.key) + " ) " + demo.name + " - already loaded";
                     }
-                    drawText(line, 2, y, 0xffffffff);
+                    drawText(line, 2, y, TEXT_ARGB);
                     y += 10;
                 }
-                drawText("\u00a79Performance check: shift-F3, root.gameRenderer.level.LibShapeDraw", 2, y, 0xffffffff);
+                y += 5;
+                drawText("( \u00a7bC\u00a7r ) browse demos source code at", 2, y, TEXT_ARGB);
+                y += 10;
+                drawText("\u00a7n" + SOURCE_URI_DISPLAY, 30, y, TEXT_ARGB);
+                y += 15;
+                drawText("( \u00a7bD\u00a7r ) debug dump LibShapeDraw API state", 2, y, TEXT_ARGB);
+                y += 15;
+                drawText("( \u00a7bshift-F3\u00a7r ) open Minecraft profiler, then use numbers to drill down to", 2, y, TEXT_ARGB);
+                y += 10;
+                drawText("\u00a7nroot.gameRenderer.level.LibShapeDraw", 30, y, TEXT_ARGB);
             }
         } else if (Keyboard.isKeyDown(Keyboard.KEY_L)) {
             inMenu = true;
@@ -126,7 +153,7 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
     @Override
     public void onRespawn(LSDRespawnEvent event) {
         savedFakeRespawnEvent = event;
-        chatText("\u00a79Press L to load LibShapeDraw demos!");
+        chatText("\u00a7bPress L to load LibShapeDraw demos!");
     }
 
     @Override

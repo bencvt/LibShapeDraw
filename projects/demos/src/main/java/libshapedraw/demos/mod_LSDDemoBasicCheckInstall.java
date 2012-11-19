@@ -1,3 +1,5 @@
+package libshapedraw.demos;
+
 import libshapedraw.ApiInfo;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.primitive.Color;
@@ -6,14 +8,14 @@ import libshapedraw.shape.WireframeCuboid;
 /**
  * Builds on mod_LSDDemoBasic.
  * <p>
- * Does the same thing, but validates that the API is loaded before
- * interacting with it.
+ * Does the same thing, but validates that the LibShapeDraw API is loaded
+ * before interacting with it.
  * <p>
  * If the API is not available, the mod still loads, though of course
  * it can't use any API features.
  */
-public class LSDDemoBasicCheckInstall extends BaseMod {
-    public static final String ABOUT =
+public class mod_LSDDemoBasicCheckInstall extends BaseMod {
+    public static final String ABOUT = "" +
             "Shows how to gracefully handle missing dependencies.\n" +
             "Not much to see in-game; see the source code!";
 
@@ -49,6 +51,6 @@ public class LSDDemoBasicCheckInstall extends BaseMod {
         LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();
         WireframeCuboid box = new WireframeCuboid(2,63,0, 3,64,1);
         box.setLineStyle(Color.ROYAL_BLUE.copy(), 2.0F, true);
-        libShapeDraw.getShapes().add(box);
+        libShapeDraw.addShape(box);
     }
 }

@@ -1,14 +1,17 @@
+package libshapedraw.demos;
+
 import libshapedraw.LibShapeDraw;
 import libshapedraw.primitive.Color;
 import libshapedraw.shape.WireframeCuboid;
 
 /**
- * A bare-bones example, sets up a 1x1x1 cyan wireframe cube at x=0, y=63 (sea level), z=0
+ * A bare-bones example, sets up a 1x1x1 cyan wireframe cube at
+ * x=0, y=63 (sea level), z=0.
  */
-public class LSDDemoBasic extends BaseMod {
-    public static final String ABOUT =
+public class mod_LSDDemoBasic extends BaseMod {
+    public static final String ABOUT = "" +
             "A bare-bones example.\n" +
-                    "Go to x=0, z=0 to see the shape!";
+            "/tp to x=0, z=0 to see the shape!";
 
     private LibShapeDraw libShapeDraw;
 
@@ -36,8 +39,11 @@ public class LSDDemoBasic extends BaseMod {
         // sanity checks are good.
         libShapeDraw.verifyInitialized();
 
-        // Finally: for fans of the super-terse, we could have done the above
-        // in a single line:
-        //libShapeDraw = new LibShapeDraw().addShape(new WireframeCuboid(0,63,0, 1,64,1).setLineStyle(Color.CYAN.copy(), 2.0F, true)).verifyInitialized();
+        // Prefer a functional coding style? This is the equivalent of the above:
+        //libShapeDraw = new LibShapeDraw()
+        //    .addShape(
+        //        new WireframeCuboid(0,63,0, 1,64,1)
+        //        .setLineStyle(Color.CYAN.copy(), 2.0F, true))
+        //    .verifyInitialized();
     }
 }

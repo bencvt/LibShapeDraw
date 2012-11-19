@@ -1,28 +1,35 @@
+package libshapedraw.demos;
+
 import libshapedraw.LibShapeDraw;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.animation.trident.Timeline.RepeatBehavior;
+import libshapedraw.primitive.Axis;
 import libshapedraw.primitive.Color;
-import libshapedraw.primitive.ReadonlyColor;
+import libshapedraw.primitive.Vector3;
+import libshapedraw.shape.GLUSphere;
 import libshapedraw.shape.WireframeCuboid;
 import libshapedraw.transform.ShapeRotate;
 import libshapedraw.transform.ShapeScale;
 
+import org.lwjgl.util.glu.GLU;
+
 /**
- * Create some shapes and animate them using the built-in Trident animation
- * library. Refer to README-Trident.md for more information.
+ * Create some shapes and animate them using the animateStart/animateStop
+ * convenience methods.
  * <p>
- * Using Trident is the recommended method for animating Shapes, but it's not
- * the only way. You could, for example, manually update Vector3s/Colors/
- * ShapeTransforms in the LSDEventListener.onPreRender method.
+ * Under the hood, these methods are creating Trident Timeline instances,
+ * setting up property interpolators, running an animation engine thread, and
+ * other fun stuff. Refer to README-Trident.md for more information.
  * <p>
- * Using Trident is worthwhile though: the end result is a lot less boilerplate
- * code for you to write. Also, Trident uses threading internally for better
- * performance.
+ * This isn't the only possible way to animate Shapes. You could, for example,
+ * manually update Vector3s/Colors/ShapeTransforms using the onPreRender event.
+ * However, using animateStart/animateStop is the recommended way to animate
+ * animate Shapes. It eliminates a lot of boilerplate code.
  */
-public class LSDDemoTridentBasic extends BaseMod {
-    public static final String ABOUT =
+public class mod_LSDDemoTridentBasic extends BaseMod {
+    public static final String ABOUT = "" +
             "Animate some shapes using the Trident animation library.\n" +
-                    "Go to x=0, z=0 to see the shapes in action!";
+            "/tp to x=0, z=0 to see the shapes in action!";
 
     protected LibShapeDraw libShapeDraw = new LibShapeDraw();
 
@@ -45,42 +52,40 @@ public class LSDDemoTridentBasic extends BaseMod {
         // If you're creating a lot of Shapes and associated Timelines
         // dynamically, a cleaner design will involve managing the Timelines
         // yourself. @see mod_LSDDemoTridentDynamic
-        createBoxRotating();
-        createBoxColorShifting();
-        createBoxGrowing();
+        createRotatingShape();
+        createColorShiftingShape();
+        createResizingShape();
     }
 
-    private void createBoxRotating() {
-        WireframeCuboid box = new WireframeCuboid(8,63,0, 9,64,1);
-        box.setLineStyle(Color.DODGER_BLUE.copy(), 3.0F, true);
-        ShapeRotate rotate = new ShapeRotate(0.0, 0.0, 1.0, 0.0);
-        box.addTransform(rotate);
-        libShapeDraw.addShape(box);
-
-        Timeline timeline = new Timeline(rotate);
-        timeline.addPropertyToInterpolate("angle", 0.0, 360.0);
-        timeline.setDuration(5000);
-        timeline.playLoop(RepeatBehavior.LOOP);
+    private void createRotatingShape() {
+        GLUSphere sphere = new GLUSphere(new Vector3(8, 63, 0),
+                Color.DODGER_BLUE.copy(),
+                Color.DODGER_BLUE.copy().setAlpha(0.25),
+                2.5F);
+        sphere.getGLUQuadric().setDrawStyle(GLU.GLU_LINE);
+        ShapeRotate rotate = new ShapeRotate(0.0, Axis.Y);
+        sphere.addTransform(rotate);
+        libShapeDraw.addShape(sphere);
+        rotate.animateStartLoop(360.0, false, 5000);
     }
 
-    private void createBoxColorShifting() {
-        ReadonlyColor fromColor = Color.CRIMSON;
-        ReadonlyColor toColor = Color.MEDIUM_BLUE.copy().setAlpha(0.2);
-
+    private void createColorShiftingShape() {
         WireframeCuboid box = new WireframeCuboid(8,63,2, 9,64,3);
-        box.setLineStyle(fromColor.copy(), 3.0F, false);
+        Color color = Color.CRIMSON.copy();
+        box.setLineStyle(color, 3.0F, false);
         libShapeDraw.addShape(box);
+        color.animateStartLoop(Color.MEDIUM_BLUE.copy().setAlpha(0.2), true, 750);
 
-        Timeline timeline = new Timeline(box.getLineStyle().getMainColor());
-        timeline.addPropertyToInterpolate("red",   fromColor.getRed(),   toColor.getRed());
-        timeline.addPropertyToInterpolate("blue",  fromColor.getBlue(),  toColor.getBlue());
-        timeline.addPropertyToInterpolate("green", fromColor.getGreen(), toColor.getGreen());
-        timeline.addPropertyToInterpolate("alpha", fromColor.getAlpha(), toColor.getAlpha());
-        timeline.setDuration(750);
-        timeline.playLoop(RepeatBehavior.REVERSE);
+        // Prefer a functional coding style? This is the equivalent of the above:
+        //libShapeDraw.addShape(
+        //        new WireframeCuboid(8,63,2, 9,64,3)
+        //        .setLineStyle(
+        //                Color.CRIMSON.copy()
+        //                .animateStartLoop(Color.MEDIUM_BLUE.copy().setAlpha(0.2), true, 750),
+        //                3.0F, false));
     }
 
-    private void createBoxGrowing() {
+    private void createResizingShape() {
         WireframeCuboid box = new WireframeCuboid(8,63,4, 9,64,5);
         box.setLineStyle(Color.GOLD.copy(), 3.0F, true);
         ShapeScale scale = new ShapeScale();

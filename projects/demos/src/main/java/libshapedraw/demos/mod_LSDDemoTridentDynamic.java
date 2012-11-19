@@ -1,8 +1,8 @@
-import java.util.HashSet;
+package libshapedraw.demos;
+
+import java.util.LinkedList;
 
 import libshapedraw.LibShapeDraw;
-import libshapedraw.animation.trident.Timeline;
-import libshapedraw.animation.trident.Timeline.RepeatBehavior;
 import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
@@ -19,29 +19,37 @@ import org.lwjgl.input.Keyboard;
  * <p>
  * Pressing X on the keyboard will spawn a rotating wireframe box near the
  * player, colored randomly and rotating at a random rate. An unlimited number
- * of boxes can be created. The shapes, and their associated Timeline
- * instances, are properly cleaned up when respawning.
+ * of boxes can be created. The shapes, and their associated looping
+ * animations, are properly cleaned up when respawning.
  * <p>
- * This illustrates an important concept: Trident Timeline instances are NOT
- * owned by the LibDrawShapes API instance. You, as the client code author, own
- * them and are responsible for cleaning up after them if their associated
- * Shape is removed.
+ * This illustrates an important concept: animations (a.k.a. Trident Timeline
+ * instances) are NOT owned by the LibDrawShapes API instance. You, as the mod
+ * author, own them and are responsible for cleaning up after them if their
+ * associated Shape is removed.
+ * <p>
+ * In other words: LibShapeDraw and Trident will not automatically stop any
+ * looping animation that you start.
  * <p>
  * As noted in mod_LSDDemoTridentBasic, it's relatively harmless to have a few
- * looping Timelines running at all times, if their associated Shapes exist at
- * all times anyway.
+ * looping animations running at all times, especially if their associated
+ * Shapes exist at all times anyway.
  * <p>
- * But if the Shape is going away, you don't want an active Timeline to keep
- * updating it. This wastes both CPU and memory (the Shape won't ever get
- * garbage collected as the Timeline keeps a reference to it).
+ * But if the Shape is going away, you don't want an active looping animation
+ * to keep updating it. This wastes CPU and is a minor memory leak: the Shape
+ * won't ever get garbage collected as it's still referenced internally by the
+ * animation engine.
+ * <p>
+ * You don't have to consider any of this for non-looping animations. Once
+ * complete, animations are dereferenced by the animation engine and will be
+ * eventually garbage collected without issue.
  */
-public class LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
-    public static final String ABOUT =
+public class mod_LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
+    public static final String ABOUT = "" +
             "Animate shapes dynamically using the Trident animation library.\n" +
-                    "Press V to spawn a random animated shape!";
+            "Press V to spawn a random animated shape!";
 
     protected LibShapeDraw libShapeDraw = new LibShapeDraw().addEventListener(this);
-    private HashSet<Timeline> shapeTimelines = new HashSet<Timeline>();
+    private LinkedList<ShapeRotate> shapeRotations = new LinkedList<ShapeRotate>();
     private long lastShapeSpawn; // so we can pause between each new shape spawned
 
     @Override
@@ -56,21 +64,17 @@ public class LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
 
     @Override
     public void onRespawn(LSDRespawnEvent event) {
-        libShapeDraw.getShapes().clear();
-
-        for (Timeline t : shapeTimelines) {
-            // Effectively "kill -9" all Timelines.
-            // t.end() and t.cancel() are the more graceful methods to stop a
-            // Timeline, but since all the associated Shapes are bound for the
-            // garbage collector anyway there's no need.
+        libShapeDraw.clearShapes();
+        for (ShapeRotate r : shapeRotations) {
+            // Effectively "kill -9" all animations that we created earlier.
             // 
-            // There's no thread safety issue here: lingering Timelines may be
-            // updating the Shape's properties while we're working on aborting
-            // them. This is harmless as the Shapes aren't going to be rendered
-            // anymore.
-            t.abort();
+            // There's no thread safety issue here: lingering animations may
+            // indeed be updating properties while we're working on killing
+            // them off. But it's harmless as the Shapes aren't going to be
+            // rendered anymore.
+            r.animateStop();
         }
-        shapeTimelines.clear();
+        shapeRotations.clear();
     }
 
     @Override
@@ -105,17 +109,17 @@ public class LSDDemoTridentDynamic extends BaseMod implements LSDEventListener {
         shape.addTransform(rotate);
         libShapeDraw.addShape(shape);
 
-        // Each spawned Shape get its own ShapeRotate transform and its
-        // own Timeline to update it.
+        // Start the looping animation and keep a reference to the ShapeRotate
+        // so we can stop it later.
+        // 
+        // Each spawned Shape get its own ShapeRotate transform with its own
+        // animation rate.
         // 
         // If you're animating a large number of Shapes, or if you want
         // animations to be in sync with each other, you can simply re-use a
-        // single ShapeRotate (along with a single Timeline to update it) for
-        // multiple Shapes.
-        Timeline timeline = new Timeline(rotate);
-        timeline.addPropertyToInterpolate("angle", 360.0F, 0.0F);
-        timeline.setDuration((long) (3000 + Math.random()*10000));
-        timeline.playLoop(RepeatBehavior.LOOP);
-        shapeTimelines.add(timeline);
+        // single ShapeRotate for multiple Shapes. This shared instance
+        // technique can also be used for Colors and other animateable objects.
+        shapeRotations.add(rotate);
+        rotate.animateStartLoop(360.0, false, (long) (3000 + Math.random()*10000));
     }
 }
