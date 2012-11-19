@@ -23,7 +23,7 @@ import org.lwjgl.input.Keyboard;
  */
 public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
     public static final String SOURCE_URI_DISPLAY = "https://github.com/bencvt/LibShapeDraw";
-    public static final URI SOURCE_URI = URI.create("https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java");
+    public static final URI SOURCE_URI = URI.create("https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos");
     public static final int TEXT_ARGB = Color.WHITE.getARGB();
 
     private static class Demo {
