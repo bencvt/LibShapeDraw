@@ -486,6 +486,14 @@ public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
     public static final ReadonlyColor TRANSPARENT_WHITE = new Color(0xffffff00);
 
     private static HashMap<String, ReadonlyColor> namedColors;
+    /**
+     * @return the ReadonlyColor matching the name parameter, or null if there
+     *         is no such named color. Insensitive to case, whitespace, and
+     *         underscores.
+     *         <p>
+     *         All <a href="http://en.wikipedia.org/wiki/Web_colors">W3C/X11
+     *         named colors</a> are included.
+     */
     public static ReadonlyColor getNamedColor(String name) {
         if (name == null) {
             return null;
