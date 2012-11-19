@@ -687,5 +687,12 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertTrue(v0.isAnimating());
         v0.animateStop();
         assertFalse(v0.isAnimating());
+
+        // Copying a vector takes a "snapshot"; the animation does NOT carry over.
+        v0.animateStart(new Vector3(7.0, 8.0, -9.0), 750);
+        assertTrue(v0.isAnimating());
+        assertFalse(v0.copy().isAnimating());
+        assertTrue(v0.isAnimating());
+        v0.animateStop();
     }
 }

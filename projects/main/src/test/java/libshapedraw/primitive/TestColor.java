@@ -213,6 +213,13 @@ public class TestColor extends SetupTestEnvironment.TestCase {
         assertTrue(c0.isAnimating());
         c0.animateStop();
         assertFalse(c0.isAnimating());
+
+        // Copying a color takes a "snapshot"; the animation does NOT carry over.
+        c0.animateStart(Color.BEIGE, 750);
+        assertTrue(c0.isAnimating());
+        assertFalse(c0.copy().isAnimating());
+        assertTrue(c0.isAnimating());
+        c0.animateStop();
     }
 
     @Test

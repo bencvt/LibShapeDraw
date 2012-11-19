@@ -31,8 +31,8 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
         return angle;
     }
     /** @see #getAngle */
-    public ShapeRotate setAngle(double angle) {
-        this.angle = angle;
+    public ShapeRotate setAngle(double angleDegrees) {
+        this.angle = angleDegrees;
         return this;
     }
 

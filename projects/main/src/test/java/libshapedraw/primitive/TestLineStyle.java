@@ -109,6 +109,7 @@ public class TestLineStyle extends SetupTestEnvironment {
 
     @Test
     public void testIsAnimating() {
+        // The style's two colors can animate independently.
         LineStyle s = new LineStyle(Color.GREEN.copy(), 2.0F, true);
         assertFalse(s.isAnimating());
         s.getMainColor().animateStart(Color.PURPLE, 5000);
@@ -120,13 +121,23 @@ public class TestLineStyle extends SetupTestEnvironment {
         s.getSecondaryColor().animateStop();
         assertFalse(s.isAnimating());
 
+        // If a color that is being animated loses its association to the
+        // style, the style no longer considers it in isAnimating().
         s.getMainColor().animateStart(Color.PURPLE, 5000);
         assertTrue(s.isAnimating());
         s.setMainColor(Color.BROWN.copy());
         assertFalse(s.isAnimating());
 
+        // Having no secondary color won't throw an exception.
         s.setSecondaryColor(null);
         assertFalse(s.isAnimating());
+
+        // Copying a style takes a "snapshot"; the animation does NOT carry over.
+        s.getMainColor().animateStart(Color.BLUE, 5000);
+        assertTrue(s.isAnimating());
+        assertFalse(s.copy().isAnimating());
+        assertTrue(s.isAnimating());
+        s.getMainColor().animateStop();
     }
 
     @Test
