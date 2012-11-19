@@ -100,6 +100,11 @@ public class LibShapeDraw {
         return this;
     }
 
+    /** @see MinecraftAccess */
+    public MinecraftAccess getMinecraftAccess() {
+        return LSDController.getMinecraftAccess();
+    }
+
     /** @see #setVisible */
     public boolean isVisible() {
         return visible;

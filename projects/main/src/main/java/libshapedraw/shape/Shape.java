@@ -228,7 +228,8 @@ public abstract class Shape {
     }
 
     /**
-     * Render the Shape, called by the Shape's main render method.
+     * Does the actual work of rendering the Shape, called by the Shape's main
+     * render method after setting up the OpenGL context.
      */
     protected abstract void renderShape(MinecraftAccess mc);
 

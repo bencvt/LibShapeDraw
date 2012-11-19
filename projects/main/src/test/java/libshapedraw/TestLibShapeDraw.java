@@ -65,6 +65,11 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         lib.verifyInitialized(); // no exception thrown
     }
 
+    @Test
+    public void testGetMinecraftAccess() {
+        assertNotNull(lib.getMinecraftAccess());
+    }
+
     // ----------------------------------------------------------------------
     // Shapes
     // ----------------------------------------------------------------------

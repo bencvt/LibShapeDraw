@@ -3,14 +3,16 @@ package libshapedraw;
 import libshapedraw.primitive.ReadonlyVector3;
 
 /**
- * Minecraft methods that need to be called outside of the bootstrapper (mod_LibShapeDraw).
+ * The main LibShapeDraw API does not directly reference any Minecraft methods.
+ * This is for compatibility: any obfuscated code references would make
+ * developing mods using the API difficult.
  * <p>
- * Rather than dirtying up the API with obfuscated code references, delegate the access back
- * the bootstrapper, which implements this interface.
+ * Instead, whenever there is a need to invoke a Minecraft method, it happens
+ * through this interface. No obfuscation, no fuss, no muss.
  * <p>
- * Client code can ignore this interface unless implementing a custom Shape class, in which
- * case you will receive an instance in a render method. Nothing special to do; just use
- * these methods if they're useful for what you're doing.
+ * An instance of this interface is passed to Shapes during rendering for easy
+ * access to Minecraft's Tessellator class. An instance can also always be
+ * obtained by calling LibShapeDraw.getMinecraftAccess.
  */
 public interface MinecraftAccess {
     /** Tessellator.instance.startDrawing */

@@ -4,16 +4,14 @@ package libshapedraw.animation;
  * Simple, easy animation for a set of properties on this object.
  * <p>
  * Calling animateStart/animateStop will take care of setting up and managing
- * an internal Trident Timeline, which will update the properties every 40
- * milliseconds (25 FPS). This interface trims things down to a couple simple
- * method calls.
+ * an internal {@link libshapedraw.animation.trident.Timeline}, which will
+ * update the properties every 40 milliseconds (25 FPS). This interface pares
+ * things down to a few simple method calls.
  * <p>
  * For more control over the animation, you can set up your own external
  * Timeline instead. When playing an external Timeline, don't use this
  * interface's methods simultaneously. Two Timelines actively updating the same
  * properties will likely result in unexpected behavior.
- * 
- * @see libshapedraw.animation.trident.Timeline
  */
 public interface Animates<T> {
     /**
@@ -41,8 +39,8 @@ public interface Animates<T> {
      * overwriting them. Either wait for the animation to complete or use
      * {@link #animateStop} to halt the animation early.
      * 
-     * @param toProperties the properties to gradually change to
-     * @param durationMs interval in milliseconds
+     * @param toProperties the properties to gradually change to.
+     * @param durationMs interval in milliseconds, >= 0.
      * @return the same object, modified in-place.
      */
     public Animates<T> animateStart(T toProperties, long durationMs);
@@ -58,11 +56,11 @@ public interface Animates<T> {
      * properties is a bad idea, as the animation will be frequently
      * overwriting them. Use {@link #animateStop} to halt the animation first.
      * 
-     * @param toProperties the properties to gradually change to
+     * @param toProperties the properties to gradually change to.
      * @param reverse if true, fade back to the original properties each time
      *                the animation loops. If false, jump directly back to the
      *                original properties each time.
-     * @param durationMs interval in milliseconds of each cycle
+     * @param durationMs interval in milliseconds of each cycle, >= 0.
      * @return the same object, modified in-place.
      */
     public Animates<T> animateStartLoop(T toProperties, boolean reverse, long durationMs);
