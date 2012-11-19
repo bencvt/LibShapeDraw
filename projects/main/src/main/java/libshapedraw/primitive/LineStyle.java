@@ -80,6 +80,12 @@ public class LineStyle implements ReadonlyLineStyle {
         return true;
     }
 
+    @Override
+    public boolean isAnimating() {
+        return mainColor.isAnimating() ||
+                (secondaryColor != null && secondaryColor.isAnimating());
+    }
+
     /** @return true if two line styles are equal. */
     @Override
     public boolean equals(Object other) {

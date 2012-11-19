@@ -108,6 +108,28 @@ public class TestLineStyle extends SetupTestEnvironment {
     }
 
     @Test
+    public void testIsAnimating() {
+        LineStyle s = new LineStyle(Color.GREEN.copy(), 2.0F, true);
+        assertFalse(s.isAnimating());
+        s.getMainColor().animateStart(Color.PURPLE, 5000);
+        assertTrue(s.isAnimating());
+        s.getSecondaryColor().animateStart(Color.PURPLE.copy().setAlpha(0.5), 5000);
+        assertTrue(s.isAnimating());
+        s.getMainColor().animateStop();
+        assertTrue(s.isAnimating());
+        s.getSecondaryColor().animateStop();
+        assertFalse(s.isAnimating());
+
+        s.getMainColor().animateStart(Color.PURPLE, 5000);
+        assertTrue(s.isAnimating());
+        s.setMainColor(Color.BROWN.copy());
+        assertFalse(s.isAnimating());
+
+        s.setSecondaryColor(null);
+        assertFalse(s.isAnimating());
+    }
+
+    @Test
     public void testEqualsAndHashCode() {
         ReadonlyLineStyle[] uniqueStyles = new ReadonlyLineStyle[] {
                 new LineStyle(Color.GREEN.copy(), 2.0F, false),
@@ -128,8 +150,10 @@ public class TestLineStyle extends SetupTestEnvironment {
             for (ReadonlyLineStyle other : uniqueStyles) {
                 if (s == other) {
                     // Reflexive: a line style is always equal to itself.
+                    assertSame(s, other);
                     compareLineStyles(true, s, other);
                 } else {
+                    assertNotSame(s, other);
                     compareLineStyles(false, s, other);
                 }
             }
@@ -174,7 +198,7 @@ public class TestLineStyle extends SetupTestEnvironment {
         assertEquals(expected, s.equals(other));
         assertEquals(expected, s.equals(other));
         // Symmetric: it doesn't matter what order line styles are compared in.
-        if (other instanceof ReadonlyColor) {
+        if (other instanceof ReadonlyLineStyle) {
             assertEquals(expected, other.equals(s));
             assertEquals(expected, other.equals(s));
             assertEquals(expected, other.equals(s));

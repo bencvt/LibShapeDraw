@@ -34,6 +34,16 @@ public interface ReadonlyLineStyle {
      */
     public boolean glApply(boolean useSecondary);
 
+    /**
+     * @return true if either of this line style's colors is being updated by
+     *         an active animation.
+     *         <p>
+     *         The line widths can be animated by a Timeline too, but not an
+     *         internal one: LineStyle does not implement the full Animateable
+     *         interface.
+     */
+    public boolean isAnimating();
+
     @Override
     public boolean equals(Object other);
 
