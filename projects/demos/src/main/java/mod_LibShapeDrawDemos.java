@@ -86,6 +86,10 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_F3)) {
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
+                // AWT Desktop and LWJGL Keyboard can severely misbehave when
+                // switching windows. To prevent the URL from opening dozens of
+                // extra times unexpectedly, only allow one URL open per
+                // respawn.
                 if (canOpenUrl) {
                     canOpenUrl = false;
                     try {
@@ -138,9 +142,13 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
                     y += 10;
                 }
                 y += 5;
-                drawText("( \u00a7bC\u00a7r ) browse demos source code at", 2, y, TEXT_ARGB);
+                if (canOpenUrl) {
+                    drawText("( \u00a7bC\u00a7r ) browse demos source code at", 2, y, TEXT_ARGB);
+                } else {
+                    drawText("\u00a77( C ) browse demos source code at", 2, y, TEXT_ARGB);
+                }
                 y += 10;
-                drawText("\u00a7n" + SOURCE_URI_DISPLAY, 30, y, TEXT_ARGB);
+                drawText((canOpenUrl ? "" : "\u00a77") + "\u00a7n" + SOURCE_URI_DISPLAY, 30, y, TEXT_ARGB);
                 y += 15;
                 drawText("( \u00a7bD\u00a7r ) debug dump LibShapeDraw API state", 2, y, TEXT_ARGB);
                 y += 15;
