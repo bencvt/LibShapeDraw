@@ -3,10 +3,10 @@
 Trident is pretty much the only mature open-source Java animation library out
 there that isn't part of a much larger framework.
 
-It's also inactive as of August 2010 (version 1.3), which actually isn't as bad
-as it sounds because the project was already fairly mature and robust. And hey,
-it's open-source; nothing's stopping anyone from running with a fork should the
-need arise.
+It's also inactive as of August 2010 (version 1.3). This isn't necessarily a bad
+thing: the project was already fairly mature and robust. Kirill Grouchnikov,
+Trident's author, did an excellent job. And hey, it's open-source; nothing's
+stopping anyone from running with a fork should the need arise.
 
 Documentation, full source code, and releases are available in several places:
 the [Trident author's blog](http://www.pushing-pixels.org/category/trident),
@@ -55,16 +55,19 @@ It has been modified in several ways:
     This provides a workaround for internal class name munging (e.g.,
     `RepeatBehavior$REVERSE`) that can occur when decompiling, a frequent thing
     in Minecraft development.
+    
+    There shouldn't be any need for mod authors to decompile LibShapeDraw or
+    Trident as the source jar is freely available, but better safe than sorry.
 
  +  Fixed a few invalid `@link`s so Javadocs can be generated without error.
 
-With those modifications in place, LibShapeDraw also provides the following for
+With those patches in place, LibShapeDraw also provides the following for
 integration:
 
  +  Register custom property interpolators for `Color`, `LineStyle`, and
     `Vector3`.
 
- +  Define the `Animateable` interface and implement it for various types,
+ +  Define the `Animates<T>` interface and implement it for various types,
     including `Color`, `Vector3`, and `ShapeTransform`s. Using this interface,
     developers don't have to manually set up a `Timeline` object.
     

@@ -50,9 +50,12 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             new Demo(Keyboard.KEY_0, "mod_LSDDemoBasic"),
             new Demo(Keyboard.KEY_1, "mod_LSDDemoBasicCheckInstall"),
             new Demo(Keyboard.KEY_2, "mod_LSDDemoEvents"),
-            new Demo(Keyboard.KEY_3, "mod_LSDDemoLogo"),
-            new Demo(Keyboard.KEY_4, "mod_LSDDemoTridentBasic"),
-            new Demo(Keyboard.KEY_5, "mod_LSDDemoTridentDynamic"),
+            new Demo(Keyboard.KEY_3, "mod_LSDDemoEventsFreeDraw"),
+            new Demo(Keyboard.KEY_4, "mod_LSDDemoLogo"),
+            new Demo(Keyboard.KEY_5, "mod_LSDDemoShapeCustom"),
+            new Demo(Keyboard.KEY_6, "mod_LSDDemoTridentBasic"),
+            new Demo(Keyboard.KEY_7, "mod_LSDDemoTridentDynamic"),
+            new Demo(Keyboard.KEY_8, "mod_LSDDemoTridentTimeline"),
     };
     private Minecraft minecraft;
     private boolean inMenu;
@@ -83,9 +86,10 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             return true;
         }
         if (inMenu) {
+            //drawBackground();
             if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_F3)) {
                 inMenu = false;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
                 // AWT Desktop and LWJGL Keyboard can severely misbehave when
                 // switching windows. To prevent the URL from opening dozens of
                 // extra times unexpectedly, only allow one URL open per
@@ -98,6 +102,9 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
                         chatText("Unable to open URL directly. Please use a web browser to visit");
                         chatText("  " + SOURCE_URI_DISPLAY);
                     }
+                } else {
+                    chatText("Your web browser should already be open to");
+                    chatText("  " + SOURCE_URI_DISPLAY);
                 }
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
@@ -129,28 +136,28 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
                             }
                             return true;
                         } else {
-                            chatText("This demo is already loaded.");
+                            chatText("\u00a77This demo is already loaded.");
                         }
                     }
                     String line;
                     if (demo.modInstance == null) {
                         line = "( \u00a7b" + Keyboard.getKeyName(demo.key) + "\u00a7r ) " + demo.name;
                     } else {
-                        line = "\u00a77( " + Keyboard.getKeyName(demo.key) + " ) " + demo.name + " - already loaded";
+                        line = "\u00a77( " + Keyboard.getKeyName(demo.key) + " ) " + demo.name;
                     }
                     drawText(line, 2, y, TEXT_ARGB);
                     y += 10;
                 }
                 y += 5;
                 if (canOpenUrl) {
-                    drawText("( \u00a7bC\u00a7r ) browse demos source code at", 2, y, TEXT_ARGB);
+                    drawText("( \u00a7bs\u00a7r ) browse demos source code at", 2, y, TEXT_ARGB);
                 } else {
-                    drawText("\u00a77( C ) browse demos source code at", 2, y, TEXT_ARGB);
+                    drawText("\u00a77( s ) browse demos source code at", 2, y, TEXT_ARGB);
                 }
                 y += 10;
                 drawText((canOpenUrl ? "" : "\u00a77") + "\u00a7n" + SOURCE_URI_DISPLAY, 30, y, TEXT_ARGB);
                 y += 15;
-                drawText("( \u00a7bD\u00a7r ) debug dump LibShapeDraw API state", 2, y, TEXT_ARGB);
+                drawText("( \u00a7bd\u00a7r ) debug dump LibShapeDraw API state", 2, y, TEXT_ARGB);
                 y += 15;
                 drawText("( \u00a7bshift-F3\u00a7r ) open Minecraft profiler, then use numbers to drill down to", 2, y, TEXT_ARGB);
                 y += 10;
