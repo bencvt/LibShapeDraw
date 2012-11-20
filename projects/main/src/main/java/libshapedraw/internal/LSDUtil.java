@@ -117,6 +117,10 @@ public class LSDUtil {
      * newline-normalized string. No special handling for redirects or other
      * HTTP return codes; just a quick-and-dirty GET. Return null if anything
      * breaks.
+     * <p>
+     * Never invoke this method from Minecraft's main thread as this is an I/O
+     * operation that can taken an arbitrary amount of time (timeouts set to 10
+     * seconds).
      */
     public static String getUrlContents(URL url) {
         try {

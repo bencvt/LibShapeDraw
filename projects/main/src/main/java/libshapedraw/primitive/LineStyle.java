@@ -1,5 +1,7 @@
 package libshapedraw.primitive;
 
+import libshapedraw.shape.XrayShape;
+
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -126,11 +128,13 @@ public class LineStyle implements ReadonlyLineStyle {
     // ========
 
     /**
-     * Convenience method to set mainColor, mainWidth, secondaryColor, and secondaryWidth at once.
+     * Convenience method to set mainColor, mainWidth, secondaryColor, and
+     * secondaryWidth at once.
      * @param color sets mainColor
      * @param width sets both mainWidth and secondaryWidth
-     * @param hasSecondaryColor if true, secondaryColor will be a 25% transparent version
-     *     of mainColor. If false, secondaryColor is null.
+     * @param hasSecondaryColor if true, secondaryColor will be a
+     *        semi-transparent version of mainColor. If false, secondaryColor
+     *        is null.
      * @return the same line style object, modified in-place.
      */
     public LineStyle set(Color color, float width, boolean hasSecondaryColor) {
@@ -192,12 +196,12 @@ public class LineStyle implements ReadonlyLineStyle {
     }
 
     /**
-     * Set the line style's secondary color to a 25% transparent version of the
-     * main line color.
+     * Set the line style's secondary color to a semi-transparent version of
+     * the main line color.
      * @return the same line style object, modified in-place.
      */
     public LineStyle setSecondaryColorFromMain() {
-        secondaryColor = mainColor.copy().scaleAlpha(0.25);
+        secondaryColor = mainColor.copy().scaleAlpha(XrayShape.SECONDARY_ALPHA);
         return this;
     }
 

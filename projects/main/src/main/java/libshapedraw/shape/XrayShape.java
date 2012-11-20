@@ -14,4 +14,14 @@ public interface XrayShape {
 
     /** @return true if getSecondaryColorReadonly() is non-null. */
     public boolean isVisibleThroughTerrain();
+
+    /**
+     * A recommended alpha scaling factor to apply when making a secondary
+     * color based on the main color. In other words, how much to reduce the
+     * transparency of the secondary color.
+     * <p>
+     * This isn't obligatory. The secondary color does not necessarily have to
+     * be based on the main color.
+     */
+    public static double SECONDARY_ALPHA = 0.25;
 }

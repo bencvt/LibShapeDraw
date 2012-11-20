@@ -11,6 +11,16 @@ import org.lwjgl.util.glu.Quadric;
 /**
  * Intermediate base class for simple shapes rendered using GLU (OpenGL Utility
  * Library).
+ * <p>
+ * The default drawing style for
+ * <a href="http://lwjgl.org/javadoc/org/lwjgl/util/glu/Quadric.html">GLU quadrics</a>
+ * is GLU_FILL, which will result in flat unicolor polygons. To make the shape
+ * look more 3-dimensional, you can:<ul>
+ * <li>Change the drawing style to use wireframe lines or points, e.g.
+ *     <code>shape.getGLUQuadric().setDrawStyle(GLU.GLU_LINE)</code>; or</li>
+ * <li>Apply a custom ShapeTransform to enable lighting prior to rendering the
+ *     quadric.</li>
+ * </ul>
  */
 public abstract class GLUShape extends Shape implements XrayShape {
     public static final int DEFAULT_SLICES = 24;

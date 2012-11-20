@@ -6,7 +6,7 @@ import libshapedraw.primitive.Vector3;
 import org.lwjgl.util.glu.Cylinder;
 
 /**
- * Render a GLU (OpenGL Utility Library) cylinder.
+ * Render a GLU (OpenGL Utility Library) cylinder or cone.
  */
 public class GLUCylinder extends GLUShape {
     private final Cylinder cylinder;

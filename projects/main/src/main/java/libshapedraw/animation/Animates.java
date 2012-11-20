@@ -47,7 +47,7 @@ public interface Animates<T> {
 
     /**
      * Start a looping animating this object's properties, gradually changing
-     * them to match the specified properties over the specified interval. The
+     * them to match the specified properties over the specified interval.
      * <p>
      * The animation loops indefinitely, going back and forth between the
      * original properties and the specified properties.
