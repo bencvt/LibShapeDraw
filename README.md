@@ -65,14 +65,40 @@ for you:
     **convenience methods**. Want to calculate the pitch and yaw angles between
     two 3-dimensional points in a couple lines of code? No problem.
 
-See the *Design goals* section later on for more high-level overview stuff. For
-now, let's dive in and actually use the API:
+## Design goals
+
+LibShapeDraw is designed to be easy to use, both for devs and for players. These
+are the design goals to that end:
+
+ +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
+    and running. That's all.
+
+ +  **Maximal compatibility.** LibShapeDraw does not modify the bytecode of
+    *any* vanilla Minecraft class. You are free to modify Minecraft classes in
+    your own mod if needed; LibShapeDraw will not interfere.
+
+ +  **Unobtrusive.** Pick and choose the components you want to use.
+    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
+    DoEverythingThisWay framework.
+
+ +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
+    the demos for some of the many possibilities.
+
+ +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
+    write less code to do more. That's what LibShapeDraw is all about.
+
+ +  **Well-documented.** The key to success for any API, really.
+
+ +  **Throughly tested.** A full JUnit test suite to help prevent bugs.
+
+ +  **Open source.** MIT-licensed and open to community feedback and patches.
+
+Enough high-level overview stuff. Let's dive in and actually use the API:
 
 ## Using the LibShapeDraw API in your project
 
-Quick version: Add the jar to your project's classpath and instantiate
-`LibShapeDraw` somewhere in your code. Create and add some `Shape`s for the API
-instance to render.
+Add the jar to your project's classpath and instantiate `LibShapeDraw` somewhere
+in your code. Create and add some `Shape`s for the API instance to render.
 
 Each Shape type is defined using classes like `Color`, `Vector3`, and
 `ShapeTransform`. You can easily animate a shape by calling `animateStart` and
@@ -133,11 +159,11 @@ extra steps:
 
 ## Documentation
 
- +  Javadocs are available.
+ +  [Javadocs](http://bencvt.github.com/LibShapeDraw/apidocs/index.html) are
+    available.
 
- +  Browse the demos, located in
-    [`projects/demos`](https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos).
-    To see the demos in action, you can
+ +  [Browse the demos](https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos),
+    located in `projects/demos`. To see the demos in action, you can
     [download](https://github.com/bencvt/LibShapeDraw/downloads) the pre-built
     demos jar and install it like any other mod.
 
@@ -149,34 +175,6 @@ extra steps:
     instructions and a list of features planned for future releases.
 
  +  If you'd like additional guidance, check the contacts section below.
-
-## Design goals
-
-LibShapeDraw is designed to be easy to use, both for devs and for players. These
-are the design goals to that end:
-
- +  **Powerful.** What good is an API that doesn't let you do cool stuff? Check
-    the demos for some of the many possibilities.
-
- +  **Minimal dependencies.** Either ModLoader or Forge is required to get up
-    and running. That's all.
-
- +  **Maximal compatibility.** LibShapeDraw does not modify the bytecode of
-    *any* vanilla Minecraft class. You are free to modify Minecraft classes in
-    your own mod if needed; LibShapeDraw will not interfere.
-
- +  **Unobtrusive.** Pick and choose the components you want to use.
-    LibShapeDraw is a toolkit for your mod to use. It is *not* a heavy
-    DoEverythingThisWay framework.
-
- +  **Concise and clear.** Convenience methods, fluent interfaces, etc. let you
-    write less code to do more. That's what LibShapeDraw is all about.
-
- +  **Well-documented.** The key to success for any API, really.
-
- +  **Throughly tested.** A full JUnit test suite to help prevent bugs.
-
- +  **Open source.** MIT-licensed and open to community feedback and patches.
 
 ## Contact
 

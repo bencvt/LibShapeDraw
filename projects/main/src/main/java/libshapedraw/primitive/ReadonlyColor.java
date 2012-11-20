@@ -43,7 +43,7 @@ public interface ReadonlyColor {
      * Convenience method to update the OpenGL state to use this color.
      * <p>
      * Equivalent to
-     * GL11.glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+     * <code>GL11.glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha())</code>
      */
     public void glApply();
 
@@ -53,8 +53,8 @@ public interface ReadonlyColor {
      * unchanged by the factor. The final alpha value passed to OpenGL is
      * clamped to [0.0, 1.0]. 
      * <p>
-     * Equivalent to c.copy().scaleAlpha(alphaScale).glApply(), without the
-     * extra Color instance creation.
+     * Equivalent to <code>c.copy().scaleAlpha(alphaScale).glApply()</code>,
+     * without the extra Color instance creation.
      */
     public void glApply(double alphaScale);
 

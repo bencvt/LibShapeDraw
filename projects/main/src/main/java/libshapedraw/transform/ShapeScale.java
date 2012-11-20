@@ -56,16 +56,16 @@ public class ShapeScale implements ShapeTransform, Animates<ReadonlyVector3> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStart(new Vector3(toScaleX, toScaleY, toScaleZ), durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStart(new Vector3(toScaleX, toScaleY, toScaleZ), durationMs);</code>
      */
     public ShapeScale animateStart(double toScaleX, double toScaleY, double toScaleZ, long durationMs) {
         scaleXYZ.animateStart(toScaleX, toScaleY, toScaleZ, durationMs);
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStart(new Vector3(toScale, toScale, toScale), durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStart(new Vector3(toScale, toScale, toScale), durationMs);</code>
      */
     public ShapeScale animateStart(double toScale, long durationMs) {
         scaleXYZ.animateStart(toScale, toScale, toScale, durationMs);
@@ -78,16 +78,16 @@ public class ShapeScale implements ShapeTransform, Animates<ReadonlyVector3> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStartLoop(new Vector3(toScaleX, toScaleY, toScaleZ), reverse, durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStartLoop(new Vector3(toScaleX, toScaleY, toScaleZ), reverse, durationMs);</code>
      */
     public ShapeScale animateStartLoop(double toScaleX, double toScaleY, double toScaleZ, boolean reverse, long durationMs) {
         scaleXYZ.animateStartLoop(toScaleX, toScaleY, toScaleZ, reverse, durationMs);
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStartLoop(new Vector3(toScale, toScale, toScale), reverse, durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStartLoop(new Vector3(toScale, toScale, toScale), reverse, durationMs);</code>
      */
     public ShapeScale animateStartLoop(double toScale, boolean reverse, long durationMs) {
         scaleXYZ.animateStartLoop(toScale, toScale, toScale, reverse, durationMs);

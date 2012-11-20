@@ -12,13 +12,15 @@ import libshapedraw.shape.Shape;
 /**
  * Main entry point for the LibShapeDraw API.
  * <p>
- * Instantiating this class will automatically register it. Shapes added using
- * addShape will be rendered. LSDEventListeners added using addEventListener
- * will receive events.
+ * Instantiating this class will automatically register it with the internal
+ * controller. Shapes added using addShape will be rendered. LSDEventListeners
+ * added using addEventListener will receive events.
  * <p>
  * Multiple API instances can coexist, each with their own settings and state.
  * <p>
- * See the demos in projects/demos/src/main/java for sample usage.
+ * See the demos in
+ * <a href="https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos">projects/demos</a>
+ * for sample usage.
  */
 public class LibShapeDraw {
     private final Set<Shape> shapes;
@@ -29,13 +31,17 @@ public class LibShapeDraw {
     private boolean visible = true;
     private boolean visibleWhenHidingGui = false;
 
+    /**
+     * Create a new API instance, automatically registering it with the
+     * internal controller.
+     */
     public LibShapeDraw() {
         this(Thread.currentThread().getStackTrace()[2].toString());
     }
 
     /**
-     * @param ownerId optional identifier for the mod that is using this API
-     *                instance.
+     * The ownerId is optional: an arbitrary identifier for the mod that owns
+     * this API instance.
      */
     public LibShapeDraw(String ownerId) {
         shapes = new LinkedHashSet<Shape>();
@@ -100,20 +106,28 @@ public class LibShapeDraw {
         return this;
     }
 
-    /** @see MinecraftAccess */
+    /**
+     * Get a {@link MinecraftAccess} instance for calling obfuscated
+     * Minecraft methods.
+     */
     public MinecraftAccess getMinecraftAccess() {
         return LSDController.getMinecraftAccess();
     }
 
-    /** @see #setVisible */
+    /**
+     * Whether this API instance's shapes will be rendered. Defaults to true.
+     * When set to false, the shapes still exist. They just won't be rendered
+     * until this property is set to true again.
+     * <p>
+     * To show/hide individual shapes rather than the entire shape collection,
+     * use {@link Shape#setVisible}.
+     */
     public boolean isVisible() {
         return visible;
     }
 
     /**
-     * If set to false, none of the shapes owned by this API instance will be
-     * rendered. Defaults to true.
-     * <p>
+     * Whether this API instance's shapes will be rendered. Defaults to true.
      * When set to false, the shapes still exist. They just won't be rendered
      * until this property is set to true again.
      * <p>
@@ -125,12 +139,20 @@ public class LibShapeDraw {
         return this;
     }
 
-    /** @see #setVisibleWhenHidingGui */
+    /**
+     * Whether this API instance's shapes are considered part of the game world
+     * (false) or part of the GUI (true, default).
+     * 
+     * @see #setVisibleWhenHidingGui
+     */
     public boolean isVisibleWhenHidingGui() {
         return visibleWhenHidingGui;
     }
 
     /**
+     * Whether this API instance's shapes are considered part of the game world
+     * (false) or part of the GUI (true, default).
+     * <p>
      * If set to true, the shapes owned by this API instance are rendered
      * regardless of whether the GUI is visible. In other words, the shapes are
      * considered part of the game world rather than part of the GUI.
@@ -147,7 +169,7 @@ public class LibShapeDraw {
     }
 
     /**
-     * Get a read-only view of the full set of shapes registered to this API
+     * Get a read-only view of the set of shapes registered to this API
      * instance. To modify this set use addShape, removeShape, and clearShapes.
      */
     public Set<Shape> getShapes() {
@@ -290,6 +312,10 @@ public class LibShapeDraw {
         return this;
     }
 
+    /**
+     * Get the unique id assigned to this API instance by the internal
+     * controller.
+     */
     public String getInstanceId() {
         return instanceId;
     }

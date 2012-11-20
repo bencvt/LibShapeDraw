@@ -51,7 +51,10 @@ public class ShapeRotate implements ShapeTransform, Animates<Double> {
         this.axis = axis;
         return this;
     }
-    /** Convenience method, equivalent to setAxis(axis.unitVector.copy()). */
+    /**
+     * Convenience method, equivalent to
+     * <code>setAxis(axis.unitVector.copy())</code>.
+     */
     public ShapeRotate setAxis(Axis axis) {
         if (axis == null) {
             throw new IllegalArgumentException("axis cannot be null");

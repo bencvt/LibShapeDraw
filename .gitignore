@@ -1,6 +1,5 @@
 /lib/*
 !/lib/README.md
-/mcdev
 
 # Eclipse
 /.classpath

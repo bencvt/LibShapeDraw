@@ -433,11 +433,7 @@ public class Timeline implements TimelineScenario.TimelineScenarioActor {
 
     /**
      * Convenience method, equivalent to:
-     * playLoop(RepeatBehavior.REVERSE) if reverse == false; or
-     * playLoop(RepeatBehavior.LOOP) if reverse == true.
-     * <p>
-     * This provides a workaround for internal class name munging that can
-     * occur when decompiling.
+     * <code>playLoop(reverse ? RepeatBehavior.REVERSE : RepeatBehavior.LOOP);</code>
      */
     public void playLoop(boolean reverse) {
         this.playLoop(-1, reverse ? RepeatBehavior.REVERSE : RepeatBehavior.LOOP);

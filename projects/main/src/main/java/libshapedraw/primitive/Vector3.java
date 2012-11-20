@@ -9,7 +9,7 @@ import libshapedraw.animation.trident.Timeline;
  * Yet another class representing a (X, Y, Z) vector or coordinate 3-tuple.
  * <p>
  * All modifiers support method chaining, e.g.
- * Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);
+ * <code>Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);</code>
  */
 public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
     public static final ReadonlyVector3 ZEROS = new Vector3();
@@ -430,7 +430,7 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
 
     /**
      * Subtract a vector from this vector.
-     * Equivalent to addX(-other.getX()).addY(-other.getY()).addZ(-other.getZ()).
+     * Equivalent to <code>addX(-other.getX()).addY(-other.getY()).addZ(-other.getZ())</code>.
      * @return the same vector object, modified in-place.
      */
     public Vector3 subtract(ReadonlyVector3 other) {
@@ -442,7 +442,7 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
 
     /**
      * Set all of this vector's components to 0.
-     * Equivalent to set(Vector3.ZEROS).
+     * Equivalent to <code>set(Vector3.ZEROS)</code>.
      * @return the same vector object, modified in-place.
      */
     public Vector3 zero() {
@@ -557,7 +557,7 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
 
     /**
      * Set each component of this vector to its negative value.
-     * Equivalent to scale(-1).
+     * Equivalent to <code>scale(-1)</code>.
      * @return the same vector object, modified in-place.
      */
     public Vector3 negate() {
@@ -679,7 +679,7 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
 
     /**
      * Set this vector to the midpoint in between it and another vector.
-     * Equivalent to interpolate(other, 0.5).
+     * Equivalent to <code>interpolate(other, 0.5)</code>.
      * @return the same vector object, modified in-place.
      */
     public Vector3 midpoint(ReadonlyVector3 other) {
@@ -760,8 +760,8 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStart(new Vector3(toX, toY, toZ), durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStart(new Vector3(toX, toY, toZ), durationMs)</code>
      */
     public Vector3 animateStart(double toX, double toY, double toZ, long durationMs) {
         newTimeline(toX, toY, toZ, durationMs);
@@ -779,8 +779,8 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStartLoop(new Vector3(toX, toY, toZ), reverse, durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStartLoop(new Vector3(toX, toY, toZ), reverse, durationMs)</code>
      */
     public Vector3 animateStartLoop(double toX, double toY, double toZ, boolean reverse, long durationMs) {
         newTimeline(toX, toY, toZ, durationMs);

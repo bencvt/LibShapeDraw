@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
  * Yet another class representing a Red/Green/Blue/Alpha color 4-tuple.
  * <p>
  * All modifiers support method chaining, e.g.
- * Color result = Color.TOMATO.copy().setAlpha(0.4).scaleRGB(0.8).blend(Color.GREEN, 0.3);
+ * <code>Color result = Color.TOMATO.copy().setAlpha(0.4).scaleRGB(0.8).blend(Color.GREEN, 0.3);</code>
  */
 public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
     private double red;
@@ -289,8 +289,8 @@ public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStart(new Color(toRed, toGreen, toBlue, toAlpha), durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStart(new Color(toRed, toGreen, toBlue, toAlpha), durationMs)</code>
      */
     public Color animateStart(double toRed, double toGreen, double toBlue, double toAlpha, long durationMs) {
         newTimeline(toRed, toGreen, toBlue, toAlpha, durationMs);
@@ -308,8 +308,8 @@ public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStartLoop(new Color(toRed, toGreen, toBlue, toAlpha), reverse, durationMs);
+     * Convenience method, equivalent to
+     * </code>animateStartLoop(new Color(toRed, toGreen, toBlue, toAlpha), reverse, durationMs)</code>
      */
     public Color animateStartLoop(double toRed, double toGreen, double toBlue, double toAlpha, boolean reverse, long durationMs) {
         newTimeline(toRed, toGreen, toBlue, toAlpha, durationMs);

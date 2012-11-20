@@ -77,7 +77,7 @@ public interface ReadonlyVector3 {
     public boolean isZero();
 
     /**
-     * Equivalent to distanceSquared(Vector3.ZEROS).
+     * Equivalent to <code>distanceSquared(Vector3.ZEROS)</code>.
      * @return the vector's length (aka magnitude) squared. To compare two
      *         two vectors' lengths, use this method instead of
      *         {@link #length()} as it avoids the relatively expensive sqrt
@@ -86,7 +86,7 @@ public interface ReadonlyVector3 {
     public double lengthSquared();
 
     /**
-     * Equivalent to distance(Vector3.ZEROS).
+     * Equivalent to <code>distance(Vector3.ZEROS)</code>.
      * @return the vector's length (aka magnitude). This uses the relatively
      *         expensive sqrt function, so avoid calling it repeatedly.
      */
@@ -164,7 +164,7 @@ public interface ReadonlyVector3 {
      * Convenience method to update the OpenGL state with this vector.
      * <p>
      * Equivalent to
-     * GL11.glRotated(angleDegrees, v.getX(), v.getY(), v.getZ());
+     * <code>GL11.glRotated(angleDegrees, v.getX(), v.getY(), v.getZ())</code>.
      * <p>
      * Calling this method on a zero vector is a no-op.
      * <p>
@@ -181,7 +181,7 @@ public interface ReadonlyVector3 {
      * Convenience method to update the OpenGL state with this vector.
      * <p>
      * Equivalent to
-     * GL11.glRotated(angleRadians*180.0/Math.PI, v.getX(), v.getY(), v.getZ());
+     * <code>GL11.glRotated(angleRadians*180.0/Math.PI, v.getX(), v.getY(), v.getZ())</code>.
      * <p>
      * Calling this method on a zero vector is a no-op.
      * <p>
@@ -198,7 +198,7 @@ public interface ReadonlyVector3 {
      * Convenience method to update the OpenGL state with this vector.
      * <p>
      * Equivalent to
-     * GL11.glScaled(v.getX(), v.getY(), v.getZ());
+     * <code>GL11.glScaled(v.getX(), v.getY(), v.getZ())</code>.
      * <p>
      * "Un-applying" the scaling (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.
@@ -213,7 +213,7 @@ public interface ReadonlyVector3 {
      * Convenience method to update the OpenGL state with this vector.
      * <p>
      * Equivalent to
-     * GL11.glTranslated(v.getX(), v.getY(), v.getZ());
+     * <code>GL11.glTranslated(v.getX(), v.getY(), v.getZ())</code>.
      * <p>
      * "Un-applying" the translation (e.g., glPushMatrix and glPopMatrix)
      * is the responsibility of the caller.

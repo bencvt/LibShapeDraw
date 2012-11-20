@@ -3,6 +3,9 @@ package libshapedraw.event;
 import libshapedraw.LibShapeDraw;
 import libshapedraw.primitive.ReadonlyVector3;
 
+/**
+ * Abstract base class for all LibShapeDraw events.
+ */
 public abstract class LSDEvent {
     private final LibShapeDraw apiInstance;
     private final ReadonlyVector3 playerCoords;

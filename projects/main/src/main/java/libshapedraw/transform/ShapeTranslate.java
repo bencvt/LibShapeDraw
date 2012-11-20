@@ -54,7 +54,7 @@ public class ShapeTranslate implements ShapeTransform, Animates<ReadonlyVector3>
     }
     /**
      * Convenience method, equivalent to:
-     * animateStart(new Vector3(toTranslateX, toTranslateY, toTranslateZ), durationMs);
+     * <code>animateStart(new Vector3(toTranslateX, toTranslateY, toTranslateZ), durationMs)</code>
      */
     public ShapeTranslate animateStart(double toTranslateX, double toTranslateY, double toTranslateZ, long durationMs) {
         translateXYZ.animateStart(toTranslateX, toTranslateY, toTranslateZ, durationMs);
@@ -67,8 +67,8 @@ public class ShapeTranslate implements ShapeTransform, Animates<ReadonlyVector3>
         return this;
     }
     /**
-     * Convenience method, equivalent to:
-     * animateStart(new Vector3(toTranslateX, toTranslateY, toTranslateZ), reverse, durationMs);
+     * Convenience method, equivalent to
+     * <code>animateStart(new Vector3(toTranslateX, toTranslateY, toTranslateZ), reverse, durationMs)</code>
      */
     public ShapeTranslate animateStartLoop(double toTranslateX, double toTranslateY, double toTranslateZ, boolean reverse, long durationMs) {
         translateXYZ.animateStartLoop(toTranslateX, toTranslateY, toTranslateZ, reverse, durationMs);

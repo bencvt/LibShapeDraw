@@ -1,7 +1,7 @@
 package libshapedraw.animation;
 
 /**
- * Simple, easy animation for a set of properties on this object.
+ * Simple, easy animation for a set of properties on an object.
  * <p>
  * Calling animateStart/animateStop will take care of setting up and managing
  * an internal {@link libshapedraw.animation.trident.Timeline}, which will
@@ -15,7 +15,7 @@ package libshapedraw.animation;
  */
 public interface Animates<T> {
     /**
-     * @return true if the properties are being updated by an active animation.
+     * Whether the properties are being updated by an active animation.
      */
     public boolean isAnimating();
 
@@ -31,8 +31,8 @@ public interface Animates<T> {
     public Animates<T> animateStop();
 
     /**
-     * Start animating this object's properties, gradually changing them to
-     * match the specified properties over the specified interval.
+     * Start a finite animation on this object's properties, gradually changing
+     * them to match the specified properties over the specified interval.
      * <p>
      * After starting an animation, using any other method that modifies the
      * properties is a bad idea, as the animation will be frequently
@@ -46,11 +46,11 @@ public interface Animates<T> {
     public Animates<T> animateStart(T toProperties, long durationMs);
 
     /**
-     * Start animating this object's properties, gradually changing them to
-     * match the specified properties over the specified interval.
+     * Start a looping animating this object's properties, gradually changing
+     * them to match the specified properties over the specified interval. The
      * <p>
      * The animation loops indefinitely, going back and forth between the
-     * original properties and the specified object's.
+     * original properties and the specified properties.
      * <p>
      * After starting an animation, using any other method that modifies the
      * properties is a bad idea, as the animation will be frequently

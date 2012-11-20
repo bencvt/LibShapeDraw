@@ -68,7 +68,7 @@ public class LSDUtil {
     }
 
     /**
-     * Stricter version of Boolean.parseBoolean
+     * Stricter version of Boolean.parseBoolean.
      */
     public static boolean parseBooleanStrict(String value) {
         if (value.equalsIgnoreCase("true")) {

@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
  * Optionally, the line style can have a secondary Color/width as well.
  * <p>
  * All modifiers support method chaining, e.g.
- * LineStyle result = new LineStyle(Color.WHITE.copy(), 5.0F, true).setSecondaryWidth(2.0F);
+ * <code>LineStyle result = new LineStyle(Color.WHITE.copy(), 5.0F, true).setSecondaryWidth(2.0F);</code>
  */
 public class LineStyle implements ReadonlyLineStyle {
     public static final ReadonlyLineStyle DEFAULT = new LineStyle(
