@@ -121,9 +121,10 @@ Planned documentation improvements:
 
  +  Maintain high (except for Trident) JUnit test code coverage.
 
- +  Expand the demos, perhaps including an example Forge mod as well. Demo
-    videos would be nice to have as well so you don't actually have to install
-    the demos jar to see it in action.
+ +  Expand the demos to include an example Forge/FML-style mod as well.
+
+ +  YouTube-hosted demo videos would be nice to have as well so you don't
+    actually have to install the demos jar to see it in action.
 
  +  Create a complete tutorial on how to start a fresh mod that uses
     LibShapeDraw, perhaps using a GitHub wiki.
