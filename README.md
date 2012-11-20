@@ -71,12 +71,35 @@ now, let's dive in and actually use the API:
 ## Using the LibShapeDraw API in your project
 
 Quick version: Add the jar to your project's classpath and instantiate
-`libshapedraw.LibShapeDraw` somewhere in your code. Use the
-`libshapedraw.animation.trident.Timeline` class for animations.
+`LibShapeDraw` somewhere in your code. Create and add some `Shape`s for the API
+instance to render.
 
-For a gentler introduction, browse the demos:
-`projects/demos/src/main/java/LSDDemo*.java`.
-You can download the pre-built demos jar; install it like any other mod.
+Each Shape type is defined using classes like `Color`, `Vector3`, and
+`ShapeTransform`. You can easily animate a shape by calling `animateStart` and
+`animateStop` on these classes.
+
+Plenty of sample code is available; see the *Documentation* section below.
+Here's a quick example:
+
+        // Create a 1x1x1 wireframe box at x=0, y=63 (sea level), z=0.
+        this.libShapeDraw = new LibShapeDraw();
+        Vector3 pointA = new Vector3(0, 63, 0);
+        Vector3 pointB = new Vector3(1, 64, 1);
+        WireframeCuboid shape = new WireframeCuboid(pointA, pointB);
+        Color lineColor = Color.CYAN.copy();
+        shape.setLineStyle(lineColor, 2.0F, false);
+        libShapeDraw.addShape(shape);
+        
+        // Reposition it up a dozen blocks and make it 2x1x1 instead of 1x1x1.
+        pointA.addY(12.0);
+        pointB.addY(12.0).addX(1.0);
+        
+        // Animate it! Smoothly change color from cyan to green and back every 5
+        // seconds, and also spin in place, rotating once every 7 seconds.
+        lineColor.animateStartLoop(Color.GREEN, true, 5000);
+        ShapeRotate rotate = new ShapeRotate(0.0, Axis.Y);
+        shape.addTransform(rotate);
+        rotate.animateStartLoop(360.0, false, 7000);
 
 ## How to add the LibShapeDraw jar to the classpath in MCP
 
@@ -108,14 +131,23 @@ extra steps:
     The dev release also includes the source code for convenience, giving you
     easy access to the Javadocs in your IDE.
 
-## Other resources
+## Documentation
 
  +  Javadocs are available.
- +  See `README-Trident.md` for information about the built-in Trident animation
-    library.
- +  See `README-contributing.md` for information about contributing to
-    LibShapeDraw itself, including build instructions and a list of features
-    planned for future releases.
+
+ +  Browse the demos, located in
+    [`projects/demos`](https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos).
+    To see the demos in action, you can
+    [download](https://github.com/bencvt/LibShapeDraw/downloads) the pre-built
+    demos jar and install it like any other mod.
+
+ +  See [README-Trident.md](https://github.com/bencvt/LibShapeDraw/blob/master/README-Trident.md)
+    for information about the built-in Trident animation library.
+
+ +  See [README-contributing.md](https://github.com/bencvt/LibShapeDraw/blob/master/README-contributing.md)
+    for information about contributing to LibShapeDraw itself, including build
+    instructions and a list of features planned for future releases.
+
  +  If you'd like additional guidance, check the contacts section below.
 
 ## Design goals

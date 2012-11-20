@@ -3,12 +3,12 @@
     <parent>
         <groupId>libshapedraw</groupId>
         <artifactId>LibShapeDraw-all</artifactId>
-        <version>1</version>
+        <version>0</version>
         <relativePath>../all/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>LibShapeDraw-main</artifactId>
+    <artifactId>LibShapeDraw</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -19,6 +19,34 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.9</version>
+                            <configuration>
+                                <!-- Exclude root package due to a bug in Sun's javadoc generator. -->
+                                <sourcepath>${basedir}/src/main/java/libshapedraw</sourcepath>
+                                <doctitle>${libshapedraw.name} ${libshapedraw.version} Javadocs</doctitle>
+                                <windowtitle>${libshapedraw.name} ${libshapedraw.version} Javadocs</windowtitle>
+                            </configuration>
+                            <reportSets>
+                                <reportSet>
+                                    <id>html</id>
+                                    <reports><report>javadoc</report></reports>
+                                </reportSet>
+                            </reportSets>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

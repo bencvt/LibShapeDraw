@@ -3,7 +3,7 @@
     <parent>
         <groupId>libshapedraw</groupId>
         <artifactId>LibShapeDraw-all</artifactId>
-        <version>1</version>
+        <version>0</version>
         <relativePath>../all/pom.xml</relativePath>
     </parent>
 
@@ -24,8 +24,8 @@
     <dependencies>
         <dependency>
             <groupId>libshapedraw</groupId>
-            <artifactId>LibShapeDraw-main</artifactId>
-            <version>1</version>
+            <artifactId>LibShapeDraw</artifactId>
+            <version>0</version>
         </dependency>
     </dependencies>
 

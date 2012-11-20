@@ -1,6 +1,7 @@
 ## implemented but not yet released, slated for LibShapeDraw 1.3
+- updated for Minecraft 1.4.5
 - improved Trident animation library integration: added animation convenience
-  methods to `Vector3` and defined the `Animateable` interface
+  methods to `Vector3` and defined the `Animates` interface
 - primitive types are now directly comparable: added `equals`, `hashCode`, and
   `Vector3.equalsExact` methods
 - added `Axis` enum and associated convenience methods to `Vector3` and

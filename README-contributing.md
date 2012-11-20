@@ -23,7 +23,9 @@ and use a prebuilt jar.
     `minecraft.jar` should be vanilla with either ModLoader or Forge patched in.
 3.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
 4.  Change directory to `projects/all`.
-5.  Run Maven. The output jars are located in `projects/*/target/`.
+5.  Run Maven by typing `mvn` (no goal arguments needed). The output jars are
+    located in `projects/*/target/`. Javadocs are located in
+    `projects/main/target/site/apidocs`.
 
 If you prefer to use an IDE, here's one recommended method:
 
@@ -116,8 +118,6 @@ released along with Minecraft 1.5, with the following adjustments:
     in 2.0.
 
 Planned documentation improvements:
-
- +  Automate Javadoc generation and publish them somewhere, probably GitHub.
 
  +  Maintain high (except for Trident) JUnit test code coverage.
 

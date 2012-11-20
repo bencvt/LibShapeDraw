@@ -56,6 +56,8 @@ It has been modified in several ways:
     `RepeatBehavior$REVERSE`) that can occur when decompiling, a frequent thing
     in Minecraft development.
 
+ +  Fixed a few invalid `@link`s so Javadocs can be generated without error.
+
 With those modifications in place, LibShapeDraw also provides the following for
 integration:
 
