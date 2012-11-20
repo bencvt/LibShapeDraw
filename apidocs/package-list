@@ -1,0 +1,11 @@
+libshapedraw
+libshapedraw.animation
+libshapedraw.animation.trident
+libshapedraw.animation.trident.callback
+libshapedraw.animation.trident.ease
+libshapedraw.animation.trident.interpolator
+libshapedraw.event
+libshapedraw.internal
+libshapedraw.primitive
+libshapedraw.shape
+libshapedraw.transform
