@@ -1,3 +1,5 @@
+Quick links: [ [For Developers](#for-developers) | [Javadocs](http://bencvt.github.com/LibShapeDraw/apidocs/index.html) | [Demos](https://github.com/bencvt/LibShapeDraw/tree/master/projects/demos/src/main/java/libshapedraw/demos) | [Downloads](https://github.com/bencvt/LibShapeDraw/downloads) ]
+
 # For Players
 
 LibShapeDraw is a Minecraft client mod that is required by other mods.
