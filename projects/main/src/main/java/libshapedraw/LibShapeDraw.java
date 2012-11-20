@@ -44,6 +44,9 @@ public class LibShapeDraw {
      * this API instance.
      */
     public LibShapeDraw(String ownerId) {
+        if (ownerId == null) {
+            ownerId = Thread.currentThread().getStackTrace()[2].toString();
+        }
         shapes = new LinkedHashSet<Shape>();
         shapesReadonly = Collections.unmodifiableSet(shapes);
         eventListeners = new LinkedHashSet<LSDEventListener>();
