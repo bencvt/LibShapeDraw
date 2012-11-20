@@ -33,8 +33,10 @@
                             <configuration>
                                 <!-- Exclude root package due to a bug in Sun's javadoc generator. -->
                                 <sourcepath>${basedir}/src/main/java/libshapedraw</sourcepath>
-                                <doctitle>${libshapedraw.name} ${libshapedraw.version} Javadocs</doctitle>
-                                <windowtitle>${libshapedraw.name} ${libshapedraw.version} Javadocs</windowtitle>
+                                <doctitle>${libshapedraw.name} ${libshapedraw.version} API</doctitle>
+                                <windowtitle>${libshapedraw.name} ${libshapedraw.version} API</windowtitle>
+                                <bottom>Copyright 2012 ${libshapedraw.authors}. All Rights Reserved.</bottom>
+                                <overview>overview.html</overview>
                             </configuration>
                             <reportSets>
                                 <reportSet>
