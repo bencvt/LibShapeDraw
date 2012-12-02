@@ -17,7 +17,7 @@ public class TestAnimates<T> extends SetupTestEnvironment.TestCase {
         a0.animateStop().animateStop();
         assertFalse(a0.isAnimating());
 
-        // starting an animation only affects the one color instance
+        // starting an animation only affects the one instance
         a0.animateStart(props, 5000);
         assertTrue(a0.isAnimating());
         assertFalse(a1.isAnimating());

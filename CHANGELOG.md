@@ -1,6 +1,7 @@
 ## 1.3.1
 - added compatibility layer to support other mods that proxy
   `Minecraft.mcProfiler`, such as LiteLoader
+- added `AnimatedValue` convenience class
 
 ## 1.3
 - updated for Minecraft 1.4.5
