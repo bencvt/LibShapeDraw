@@ -17,7 +17,7 @@ import org.lwjgl.input.Keyboard;
 /**
  * Dynamically create animated shapes.
  * <p>
- * Pressing X on the keyboard will spawn a rotating wireframe box near the
+ * Pressing V on the keyboard will spawn a rotating wireframe box near the
  * player, colored randomly and rotating at a random rate. An unlimited number
  * of boxes can be created. The shapes, and their associated looping
  * animations, are properly cleaned up when respawning.
