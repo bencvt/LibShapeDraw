@@ -4,8 +4,8 @@ import libshapedraw.LibShapeDraw;
 import libshapedraw.primitive.ReadonlyVector3;
 
 /**
- * Event fired when the player respawns into a new world instance. This does not
- * necessarily mean the world changed; the player could be respawning after
+ * Event fired when the player respawns into a new world instance. This does
+ * not necessarily mean the world changed; the player could be respawning after
  * death or teleportation.
  * <p>
  * Provided as a convenience; re-initializing the canvas of shapes after the
@@ -25,11 +25,12 @@ public class LSDRespawnEvent extends LSDEvent {
     }
 
     /**
-     * Whether the player is spawning for the first time during a server connection session.
-     * This includes single player worlds, which use an integrated server.
+     * Whether the player is spawning for the first time during a server
+     * connection session. This includes single player worlds, which use an
+     * integrated server.
      * <p>
-     * Reconnecting to the same server (or reloading a single player world) will result in another
-     * event with isNewServer==true.
+     * Reconnecting to the same dedicated server will result in another event
+     * with isNewServer==true.
      * <p>
      * Implies isNewDimension.
      */

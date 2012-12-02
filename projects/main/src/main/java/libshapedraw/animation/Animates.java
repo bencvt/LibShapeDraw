@@ -38,6 +38,9 @@ public interface Animates<T> {
      * properties is a bad idea, as the animation will be frequently
      * overwriting them. Either wait for the animation to complete or use
      * {@link #animateStop} to halt the animation early.
+     * <p>
+     * If an animation is already active when this start method is called,
+     * animateStop is automatically called before starting the new animation.
      * 
      * @param toProperties the properties to gradually change to.
      * @param durationMs interval in milliseconds, >= 0.
@@ -46,7 +49,7 @@ public interface Animates<T> {
     public Animates<T> animateStart(T toProperties, long durationMs);
 
     /**
-     * Start a looping animating this object's properties, gradually changing
+     * Start a looping animation on this object's properties, gradually changing
      * them to match the specified properties over the specified interval.
      * <p>
      * The animation loops indefinitely, going back and forth between the
@@ -55,6 +58,9 @@ public interface Animates<T> {
      * After starting an animation, using any other method that modifies the
      * properties is a bad idea, as the animation will be frequently
      * overwriting them. Use {@link #animateStop} to halt the animation first.
+     * <p>
+     * If an animation is already active when this start method is called,
+     * animateStop is automatically called before starting the new animation.
      * 
      * @param toProperties the properties to gradually change to.
      * @param reverse if true, fade back to the original properties each time

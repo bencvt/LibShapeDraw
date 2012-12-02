@@ -144,7 +144,7 @@ public class LibShapeDraw {
 
     /**
      * Whether this API instance's shapes are considered part of the game world
-     * (false) or part of the GUI (true, default).
+     * (true) or part of the GUI (false, default).
      * 
      * @see #setVisibleWhenHidingGui
      */
@@ -154,7 +154,7 @@ public class LibShapeDraw {
 
     /**
      * Whether this API instance's shapes are considered part of the game world
-     * (false) or part of the GUI (true, default).
+     * (true) or part of the GUI (false, default).
      * <p>
      * If set to true, the shapes owned by this API instance are rendered
      * regardless of whether the GUI is visible. In other words, the shapes are
