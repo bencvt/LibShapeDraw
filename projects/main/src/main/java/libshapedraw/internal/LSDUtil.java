@@ -12,8 +12,15 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
@@ -65,6 +72,55 @@ public class LSDUtil {
             super("null", null);
             setLevel(Level.OFF);
         }
+    }
+
+    /**
+     * A List without any backend storage. Permanently empty; every operation
+     * is a no-op.
+     */
+    public static class NullList implements List<Object> {
+        @Override public boolean add(Object e) { return false; }
+        @Override public void add(int i, Object e) {}
+        @Override public boolean addAll(Collection<? extends Object> c) { return false; }
+        @Override public boolean addAll(int i, Collection<? extends Object> c) { return false; }
+        @Override public void clear() {}
+        @Override public boolean contains(Object e) { return false; }
+        @Override public boolean containsAll(Collection<?> c) { return false; }
+        @Override public Object get(int i) { return null; }
+        @Override public int indexOf(Object e) { return -1; }
+        @Override public boolean isEmpty() { return true; }
+        @Override public Iterator<Object> iterator() { return Collections.emptyList().iterator(); }
+        @Override public int lastIndexOf(Object e) { return -1; }
+        @Override public ListIterator<Object> listIterator() { return Collections.emptyList().listIterator(); }
+        @Override public ListIterator<Object> listIterator(int i) { return Collections.emptyList().listIterator(i); }
+        @Override public boolean remove(Object e) { return false; }
+        @Override public Object remove(int i) { return null; }
+        @Override public boolean removeAll(Collection<?> c) { return false; }
+        @Override public boolean retainAll(Collection<?> c) { return false; }
+        @Override public Object set(int i, Object e) { return null; }
+        @Override public int size() { return 0; }
+        @Override public List<Object> subList(int i, int j) { return Collections.emptyList(); }
+        @Override public Object[] toArray() { return Collections.emptyList().toArray(); }
+        @Override public <T> T[] toArray(T[] arr) { return Collections.emptyList().toArray(arr); }
+    }
+
+    /**
+     * A Map without any backend storage. Permanently empty; every operation
+     * is a no-op.
+     */
+    public static class NullMap implements Map<Object,Object> {
+        @Override public void clear() {}
+        @Override public boolean containsKey(Object k) { return false; }
+        @Override public boolean containsValue(Object v) { return false; }
+        @Override public Set<Entry<Object, Object>> entrySet() { return Collections.emptySet(); }
+        @Override public Object get(Object k) { return null; }
+        @Override public boolean isEmpty() { return true; }
+        @Override public Set<Object> keySet() { return Collections.emptySet(); }
+        @Override public Object put(Object k, Object v) { return null; }
+        @Override public void putAll(Map<? extends Object, ? extends Object> m) {}
+        @Override public Object remove(Object k) { return null; }
+        @Override public int size() { return 0; }
+        @Override public Collection<Object> values() { return Collections.emptyList(); }
     }
 
     /**

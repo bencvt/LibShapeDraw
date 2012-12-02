@@ -1,11 +1,15 @@
 package net.minecraft.src;
 
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 import libshapedraw.ApiInfo;
 import libshapedraw.MinecraftAccess;
 import libshapedraw.internal.LSDController;
 import libshapedraw.internal.LSDUtil;
+import libshapedraw.internal.LSDUtil.NullList;
+import libshapedraw.internal.LSDUtil.NullMap;
 import libshapedraw.primitive.ReadonlyVector3;
 import libshapedraw.primitive.Vector3;
 import net.minecraft.client.Minecraft;
@@ -45,7 +49,7 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      * several mods (including LibShapeDraw v1.0). However this has a key
      * drawback: entities are rendered before water, clouds, and other
      * elements. This can result in ugly graphical glitches when rendering
-     * shapes near water.
+     * semi-transparent shapes near water.
      * <p>
      * Option 4, which is what this class implements, is an even more egregious
      * hack than option 1 or 3. The Profiler class is of course intended for
@@ -75,19 +79,45 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      */
     // obf: Profiler
     public class Proxy extends Profiler {
+        // obf: Profiler
+        protected Profiler orig; // in case we're double-proxying
+
+        @Override
+        // obf: Profiler.startSection
+        public void startSection(String sectionName) {
+            // obf: Profiler.startSection
+            super.startSection(sectionName);
+            if (orig != null) {
+                // obf: Profiler.startSection
+                orig.startSection(sectionName);
+            }
+        }
+
+        @Override
+        // obf: Profiler.endSection
+        public void endSection() {
+            // obf: Profiler.endSection
+            super.endSection();
+            if (orig != null) {
+                // obf: Profiler.endSection
+                orig.endSection();
+            }
+        }
+
         @Override
         // obf: Profiler.endStartSection
         public void endStartSection(String sectionName) {
             if (sectionName.equals("hand")) {
                 // obf: Profiler.endStartSection
                 super.endStartSection("LibShapeDraw"); // we'll take the blame :-)
-                // Dispatch respawn event to Controller.
-                // obf: Minecraft.gameSettings, GameSettings.hideGUI, Minecraft.currentScreen
-                controller.render(getPlayerCoords(), minecraft.gameSettings.hideGUI && minecraft.currentScreen == null);
-                renderHeartbeat = true;
+                render();
             }
             // obf: Profiler.endStartSection
             super.endStartSection(sectionName);
+            if (orig != null) {
+                // obf: Profiler.endStartSection
+                orig.endStartSection(sectionName);
+            }
         }
     }
 
@@ -119,7 +149,19 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     }
 
     @Override
+    public String getPriorities() {
+        // Request that this mod gets loaded last. Ideally, we want to be the
+        // last mod to potentially modify Minecraft.mcProfiler.
+        return "after:*";
+    }
+
+    @Override
     public void load() {
+        // Do nothing; wait until modsLoaded.
+    }
+
+    @Override
+    public void modsLoaded() {
         // obf: Minecraft.getMinecraft
         minecraft = Minecraft.getMinecraft();
         // Get a reference to Minecraft's timer so we can get the partial
@@ -135,27 +177,53 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         LSDController.getLog().info(getClass().getName() + " loaded");
     }
 
-    /** Use reflection to install the profiler proxy class. */
+    /**
+     * Use reflection to install the profiler proxy class, overwriting
+     * Minecraft.mcProfiler.
+     */
     private void installRenderHook() {
-        Class<? super Proxy> profilerClass = Proxy.class.getSuperclass();
+        final Class<? super Proxy> vanillaClass = Proxy.class.getSuperclass();
+        proxy = new Proxy();
         // There's only one Profiler field declared by Minecraft so it's safe
         // to look it up by type.
-        Field fieldProfiler = LSDUtil.getFieldByType(Minecraft.class, profilerClass, 0);
-        Object profilerOrig = LSDUtil.getFieldValue(fieldProfiler, minecraft);
-        if (profilerOrig.getClass() != profilerClass) {
-            // We probably overwrote some other mod's hook. :-(
-            LSDController.getLog().warning("mod incompatibility detected: profiler already proxied!");
-        }
-        proxy = new Proxy();
-        LSDUtil.setFinalField(fieldProfiler, minecraft, proxy);
+        final Field fp = LSDUtil.getFieldByType(Minecraft.class, vanillaClass, 0);
+        // obf: Profiler
+        proxy.orig = (Profiler) LSDUtil.getFieldValue(fp, minecraft);
+        final String origClass = proxy.orig.getClass().getName();
+        LSDController.getLog().info(
+                "installing render hook using profiler proxy, replacing " + origClass);
+        LSDUtil.setFinalField(fp, minecraft, proxy);
 
-        // Copy all field values from origProfiler to newProfiler
-        for (Field f : profilerClass.getDeclaredFields()) {
+        // Copy all vanilla-defined field values from the original profiler to
+        // the new proxy.
+        for (Field f : vanillaClass.getDeclaredFields()) {
             f.setAccessible(true);
-            Object origValue = LSDUtil.getFieldValue(f, profilerOrig);
+            Object origValue = LSDUtil.getFieldValue(f, proxy.orig);
             LSDUtil.setFinalField(f, proxy, origValue);
-            LSDController.getLog().fine("copied profiler field " +
-                    f + " = " + String.valueOf(origValue));
+            LSDController.getLog().fine("copied profiler field " + f + " = " + String.valueOf(origValue));
+            // "Neuter" the original profiler by changing its vanilla-defined
+            // reference types to new dummy instances.
+            if (f.getType() == List.class) {
+                LSDUtil.setFinalField(f, proxy.orig, new NullList());
+            } else if (f.getType() == Map.class) {
+                LSDUtil.setFinalField(f, proxy.orig, new NullMap());
+            }
+        }
+
+        if (proxy.orig.getClass() == vanillaClass) {
+            // No need to keep a reference to the original profiler.
+            proxy.orig = null;
+        } else {
+            // We overwrote some other mod's hook, so keep the reference to the
+            // other mod's proxy. This will ensure that the other mod still
+            // receives its expected events.
+            // 
+            // Log a (hopefully benign) warning message if we don't recognize
+            // the other proxy class.
+            if (!origClass.equals("com.mumfrey.liteloader.core.HookProfiler")) {
+                LSDController.getLog().warning(
+                        "possible mod incompatibility detected: replaced unknown profiler proxy class " + origClass);
+            }
         }
     }
 
@@ -194,13 +262,31 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
         // Make sure our render hook is still working.
         // obf: Minecraft.skipRenderWorld
         if (!renderHeartbeat && !renderHeartbroken && !minecraft.skipRenderWorld) {
-            // Some other mod probably overwrote our hook. :-(
-            LSDController.getLog().warning("mod incompatibility detected: render hook not working!");
+            // Despite our best efforts when installing the profiler proxy,
+            // some other mod probably overwrote our hook without providing a
+            // compatibility layer like we do. :-(
+            // 
+            // Attempting to reinstall our hook would be futile: chances are it
+            // would simply be overwritten again by the next tick. Rather than
+            // participating in an inter-mod slap fight, back down and log an
+            // error message. No need to crash Minecraft.
+            Object newProxy = LSDUtil.getFieldValue(
+                    LSDUtil.getFieldByType(Minecraft.class, Proxy.class.getSuperclass(), 0), minecraft);
+            LSDController.getLog().warning(
+                    "mod incompatibility detected: render hook not working! Minecraft.mcProfiler is " +
+                            (newProxy == null ? "null" : newProxy.getClass().getName()));
             renderHeartbroken = true; // don't spam log
         }
         renderHeartbeat = false;
 
         return true;
+    }
+
+    /** Dispatch render event to Controller. */
+    protected void render() {
+        // obf: Minecraft.gameSettings, GameSettings.hideGUI, Minecraft.currentScreen
+        controller.render(getPlayerCoords(), minecraft.gameSettings.hideGUI && minecraft.currentScreen == null);
+        renderHeartbeat = true;
     }
 
     /**
