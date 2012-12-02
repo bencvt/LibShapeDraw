@@ -49,10 +49,12 @@ public abstract class GLUShape extends Shape implements XrayShape {
 
     @Override
     public Vector3 getOrigin() {
+        // changed method modifier from protected to public
         return super.getOrigin();
     }
     @Override
     public void setOrigin(Vector3 origin) {
+        // changed method modifier from protected to public
         super.setOrigin(origin);
     }
 
@@ -64,9 +66,13 @@ public abstract class GLUShape extends Shape implements XrayShape {
     public ReadonlyColor getMainColorReadonly() {
         return lineStyle.getMainReadonlyColor();
     }
+    /** use getLineStyle().getMainColor() */
+    @Deprecated
     public Color getMainColor() {
         return lineStyle.getMainColor();
     }
+    /** use getLineStyle().setMainColor() */
+    @Deprecated
     public GLUShape setMainColor(Color mainColor) {
         lineStyle.setMainColor(mainColor);
         return this;
@@ -76,9 +82,13 @@ public abstract class GLUShape extends Shape implements XrayShape {
     public ReadonlyColor getSecondaryColorReadonly() {
         return lineStyle.getSecondaryReadonlyColor();
     }
+    /** use getLineStyle().getSecondaryColor() */
+    @Deprecated
     public Color getSecondaryColor() {
         return lineStyle.getSecondaryColor();
     }
+    /** use getLineStyle().setSecondaryColor() */
+    @Deprecated
     public GLUShape setSecondaryColor(Color secondaryColor) {
         lineStyle.setSecondaryColor(secondaryColor);
         return this;
