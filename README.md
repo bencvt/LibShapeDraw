@@ -152,9 +152,12 @@ extra steps:
     the LibShapeDraw jar. Add `,%(DirJars)s/bin/LibShapeDraw-VERSION-dev.jar`
     (changing `VERSION` as appropriate) to the end of the line.
 
-4.  **If you prefer to use an IDE, add the LibShapeDraw jar to the Eclipse
-    project's build path.** Go to the Project Explorer pane and expand
-    `jars/bin`. Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
+4.  **If you are using ModLoader, also copy the LibShapeDraw jar to
+    `jars/mods`.** Skip this step if you're using Forge.
+
+5.  **If you are using Eclipse, add the LibShapeDraw jar to the project's build
+    build path.** Go to the Project Explorer pane and expand `jars/bin`.
+    Right-click the LibShapeDraw jar, Build Path, Add to Build Path.
     
     The dev release also includes the source code for convenience, giving you
     easy access to the Javadocs in your IDE.
