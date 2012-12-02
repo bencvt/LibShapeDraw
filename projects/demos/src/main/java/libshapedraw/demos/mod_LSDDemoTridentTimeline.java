@@ -1,8 +1,5 @@
 package libshapedraw.demos;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-
 import libshapedraw.LibShapeDraw;
 import libshapedraw.animation.trident.Timeline;
 import libshapedraw.animation.trident.Timeline.RepeatBehavior;
@@ -14,6 +11,8 @@ import libshapedraw.shape.GLUCylinder;
 import libshapedraw.shape.XrayShape;
 import libshapedraw.transform.ShapeRotate;
 import libshapedraw.transform.ShapeTranslate;
+
+import org.lwjgl.opengl.GL11;
 
 /**
  * The built-in animateStart/animateStop methods simplify some of the complex
@@ -46,9 +45,8 @@ public class mod_LSDDemoTridentTimeline extends BaseMod {
                 Color.HOT_PINK.copy(),
                 Color.HOT_PINK.copy().scaleAlpha(XrayShape.SECONDARY_ALPHA),
                 2.5F, Float.MIN_NORMAL, 5.0F);
-        shape.getGLUQuadric().setDrawStyle(GLU.GLU_LINE);
         GL11.glLineWidth(8.0F);
-        shape.setSlices(12).setStacks(8);
+        shape.setSlices(12).setStacks(8).setWireframe(true);
         Vector3 vector = new Vector3();
         shape.addTransform(new ShapeTranslate(vector));
         shape.addTransform(new ShapeRotate(90.0, Axis.X)); // upright

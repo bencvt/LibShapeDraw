@@ -1,8 +1,6 @@
 package libshapedraw.demos;
 
 import libshapedraw.LibShapeDraw;
-import libshapedraw.animation.trident.Timeline;
-import libshapedraw.animation.trident.Timeline.RepeatBehavior;
 import libshapedraw.primitive.Axis;
 import libshapedraw.primitive.Color;
 import libshapedraw.primitive.Vector3;
@@ -10,8 +8,6 @@ import libshapedraw.shape.GLUSphere;
 import libshapedraw.shape.WireframeCuboid;
 import libshapedraw.transform.ShapeRotate;
 import libshapedraw.transform.ShapeScale;
-
-import org.lwjgl.util.glu.GLU;
 
 /**
  * Create some shapes and animate them using the animateStart/animateStop
@@ -62,8 +58,7 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
                 Color.DODGER_BLUE.copy(),
                 Color.DODGER_BLUE.copy().setAlpha(0.25),
                 1.0F);
-        sphere.setSlices(12).setStacks(12);
-        sphere.getGLUQuadric().setDrawStyle(GLU.GLU_LINE);
+        sphere.setSlices(12).setStacks(12).setWireframe(true);
         ShapeRotate rotate = new ShapeRotate(0.0, Axis.Y);
         sphere.addTransform(rotate);
         libShapeDraw.addShape(sphere);
@@ -89,19 +84,14 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
     private void createResizingShape() {
         WireframeCuboid box = new WireframeCuboid(8,63,4, 9,64,5);
         box.setLineStyle(Color.GOLD.copy(), 3.0F, true);
-        ShapeScale scale = new ShapeScale();
+        ShapeScale scale = new ShapeScale(0.5, 1.0, 2.0);
         box.addTransform(scale);
         libShapeDraw.addShape(box);
+        scale.animateStartLoop(2.0, 1.0, 0.5, true, 4500);
 
-        Timeline timeline = new Timeline(scale.getScaleXYZ());
-        timeline.addPropertyToInterpolate("x", 0.5F, 2.0F);
-        timeline.addPropertyToInterpolate("z", 2.0F, 0.5F);
-        timeline.setDuration(4500);
-        timeline.playLoop(RepeatBehavior.REVERSE);
-
-        // Since this is a simple WireframeCuboid, we could have interpolated on
-        // getLowerCorner() and getUpperCorner() instead of using a ShapeScale
-        // OpenGL transform. However it's generally better to let OpenGL handle
-        // stuff whenever possible.
+        // Since this is a simple WireframeCuboid, we could have animated
+        // box.getLowerCorner() and box.getUpperCorner() instead of using a
+        // ShapeScale OpenGL transform. Either method is valid, but simplicity
+        // is good.
     }
 }

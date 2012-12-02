@@ -6,6 +6,7 @@ import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.Vector3;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Quadric;
 
 /**
@@ -101,6 +102,22 @@ public abstract class GLUShape extends Shape implements XrayShape {
             throw new IllegalArgumentException("quadric cannot be null");
         }
         this.gluQuadric = gluQuadric;
+        return this;
+    }
+
+    public boolean isWireframe() {
+        return getGLUQuadric().getDrawStyle() == GLU.GLU_LINE;
+    }
+    /**
+     * Convenience method to toggle between GLU_LINE and GLU_FILL for the
+     * quadric's draw style.
+     * <p>
+     * To specify
+     * <a href="http://lwjgl.org/javadoc/org/lwjgl/util/glu/Quadric.html#setDrawStyle(int)">other draw styles</a>
+     * use, e.g.: <code>getGLUQuadric().setDrawStyle(GLU.GLU_SILHOUETTE)</code>.
+     */
+    public GLUShape setWireframe(boolean wireframe) {
+        getGLUQuadric().setDrawStyle(wireframe ? GLU.GLU_LINE : GLU.GLU_FILL);
         return this;
     }
 }
