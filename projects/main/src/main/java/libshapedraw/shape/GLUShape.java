@@ -2,10 +2,10 @@ package libshapedraw.shape;
 
 import libshapedraw.MinecraftAccess;
 import libshapedraw.primitive.Color;
+import libshapedraw.primitive.LineStyle;
 import libshapedraw.primitive.ReadonlyColor;
 import libshapedraw.primitive.Vector3;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Quadric;
 
@@ -28,24 +28,19 @@ public abstract class GLUShape extends Shape implements XrayShape {
     public static final int DEFAULT_STACKS = 24;
     public static final int DEFAULT_LOOPS = 6;
 
-    private Color mainColor;
-    private Color secondaryColor;
+    private LineStyle lineStyle;
     private Quadric gluQuadric;
 
     public GLUShape(Vector3 origin, Color mainColor, Color secondaryColor) {
         super(origin);
-        setMainColor(mainColor);
-        setSecondaryColor(secondaryColor);
+        lineStyle = new LineStyle(mainColor, 1.0F, secondaryColor, 1.0F);
     }
 
     @Override
     protected void renderShape(MinecraftAccess mc) {
-        GL11.glDepthFunc(GL11.GL_LEQUAL);
-        mainColor.glApply();
+        lineStyle.glApply(false);
         renderGLUQuadric();
-        if (secondaryColor != null) {
-            GL11.glDepthFunc(GL11.GL_GREATER);
-            secondaryColor.glApply();
+        if (lineStyle.glApply(true)) {
             renderGLUQuadric();
         }
     }
@@ -61,37 +56,37 @@ public abstract class GLUShape extends Shape implements XrayShape {
         super.setOrigin(origin);
     }
 
+    public LineStyle getLineStyle() {
+        return lineStyle;
+    }
+
     @Override
     public ReadonlyColor getMainColorReadonly() {
-        return mainColor;
+        return lineStyle.getMainReadonlyColor();
     }
     public Color getMainColor() {
-        return mainColor;
+        return lineStyle.getMainColor();
     }
     public GLUShape setMainColor(Color mainColor) {
-        if (mainColor == null) {
-            throw new IllegalArgumentException("main color cannot be null");
-        }
-        this.mainColor = mainColor;
+        lineStyle.setMainColor(mainColor);
         return this;
     }
 
     @Override
     public ReadonlyColor getSecondaryColorReadonly() {
-        return secondaryColor;
+        return lineStyle.getSecondaryReadonlyColor();
     }
     public Color getSecondaryColor() {
-        return secondaryColor;
+        return lineStyle.getSecondaryColor();
     }
     public GLUShape setSecondaryColor(Color secondaryColor) {
-        // null allowed
-        this.secondaryColor = secondaryColor;
+        lineStyle.setSecondaryColor(secondaryColor);
         return this;
     }
 
     @Override
     public boolean isVisibleThroughTerrain() {
-        return secondaryColor == null;
+        return lineStyle.hasSecondaryColor();
     }
 
     public Quadric getGLUQuadric() {
@@ -118,6 +113,12 @@ public abstract class GLUShape extends Shape implements XrayShape {
      */
     public GLUShape setWireframe(boolean wireframe) {
         getGLUQuadric().setDrawStyle(wireframe ? GLU.GLU_LINE : GLU.GLU_FILL);
+        return this;
+    }
+    public GLUShape setWireframe(boolean wireframe, float lineWidth) {
+        getGLUQuadric().setDrawStyle(wireframe ? GLU.GLU_LINE : GLU.GLU_FILL);
+        lineStyle.setMainWidth(lineWidth);
+        lineStyle.setSecondaryWidth(lineWidth);
         return this;
     }
 }

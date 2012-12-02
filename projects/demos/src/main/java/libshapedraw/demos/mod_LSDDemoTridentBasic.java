@@ -58,7 +58,7 @@ public class mod_LSDDemoTridentBasic extends BaseMod {
                 Color.DODGER_BLUE.copy(),
                 Color.DODGER_BLUE.copy().setAlpha(0.25),
                 1.0F);
-        sphere.setSlices(12).setStacks(12).setWireframe(true);
+        sphere.setSlices(8).setStacks(8).setWireframe(true, 3.0F);
         ShapeRotate rotate = new ShapeRotate(0.0, Axis.Y);
         sphere.addTransform(rotate);
         libShapeDraw.addShape(sphere);

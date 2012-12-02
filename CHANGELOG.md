@@ -2,6 +2,7 @@
 - added compatibility layer to support other mods that proxy
   `Minecraft.mcProfiler`, such as LiteLoader
 - added `AnimatedValue` convenience class
+- added methods to make wireframe `GLUShape`s with arbitrary line widths
 
 ## 1.3
 - updated for Minecraft 1.4.5
