@@ -93,6 +93,16 @@ public class TestColor extends SetupTestEnvironment.TestCase {
     }
 
     @Test
+    public void testSerializable() {
+        Color c = Color.LAWN_GREEN.copy();
+        new TestSerializable<ReadonlyColor>().assertSerializable(c);
+        c.animateStartLoop(c, true, 2000);
+        new TestSerializable<ReadonlyColor>().assertSerializable(c);
+        assertTrue(c.isAnimating());
+        c.animateStop();
+    }
+
+    @Test
     public void testModify() {
         Color c = new Color(0x60606060);
         assertEquals("0x60606060", c.toString());

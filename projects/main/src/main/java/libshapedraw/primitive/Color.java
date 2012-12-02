@@ -16,12 +16,15 @@ import org.lwjgl.opengl.GL11;
  * <code>Color result = Color.TOMATO.copy().setAlpha(0.4).scaleRGB(0.8).blend(Color.GREEN, 0.3);</code>
  */
 public class Color implements ReadonlyColor, Animates<ReadonlyColor> {
+    private static final long serialVersionUID = 1L;
+
     private double red;
     private double green;
     private double blue;
     private double alpha;
+
     /** @see Vector3#timeline */
-    private Timeline timeline;
+    private transient Timeline timeline;
 
     public Color(double red, double green, double blue, double alpha) {
         set(red, green, blue, alpha);

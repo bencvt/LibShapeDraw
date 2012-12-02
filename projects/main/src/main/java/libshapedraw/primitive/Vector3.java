@@ -1,5 +1,7 @@
 package libshapedraw.primitive;
 
+import java.io.Serializable;
+
 import org.lwjgl.opengl.GL11;
 
 import libshapedraw.animation.Animates;
@@ -11,7 +13,8 @@ import libshapedraw.animation.trident.Timeline;
  * All modifiers support method chaining, e.g.
  * <code>Vector3 result = new Vector3(2.0, 99.0, 0.0).setY(1.0).addZ(1.0).scaleX(0.5);</code>
  */
-public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
+public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3>, Serializable {
+    private static final long serialVersionUID = 1L;
     public static final ReadonlyVector3 ZEROS = new Vector3();
 
     private static final double R2D = 180.0 / Math.PI;
@@ -30,7 +33,7 @@ public class Vector3 implements ReadonlyVector3, Animates<ReadonlyVector3> {
      * In any case, java.nio.FloatBuffer is a more appropriate data container
      * for a large number of vertices in a memory-constrained environment.
      */
-    private Timeline timeline;
+    private transient Timeline timeline;
 
     /** Create a new vector with all components set to zero. */
     public Vector3() {

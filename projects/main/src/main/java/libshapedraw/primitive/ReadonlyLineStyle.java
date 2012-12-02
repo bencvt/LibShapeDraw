@@ -1,11 +1,18 @@
 package libshapedraw.primitive;
 
+import java.io.Serializable;
+
 /**
  * Read-only interface for LineStyle objects, allowing for compile-time safety.
  * @see LineStyle
  */
-public interface ReadonlyLineStyle {
-    /** @return a new deep-copied mutable LineStyle. */
+public interface ReadonlyLineStyle extends Serializable {
+    /**
+     * @return a new deep-copied mutable LineStyle.
+     *         <p>
+     *         Same concept as Object.clone(), minus the tedious/clunky checked
+     *         exception, CloneNotSupportedException.
+     */
     public LineStyle copy();
 
     /** @return a read-only view of the main line color. */

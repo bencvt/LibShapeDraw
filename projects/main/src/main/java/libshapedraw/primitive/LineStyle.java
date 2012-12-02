@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
  * <code>LineStyle result = new LineStyle(Color.WHITE.copy(), 5.0F, true).setSecondaryWidth(2.0F);</code>
  */
 public class LineStyle implements ReadonlyLineStyle {
+    private static final long serialVersionUID = 1L;
     public static final ReadonlyLineStyle DEFAULT = new LineStyle(
             Color.MAGENTA.copy().setAlpha(0.8), 3.0F, true);
 

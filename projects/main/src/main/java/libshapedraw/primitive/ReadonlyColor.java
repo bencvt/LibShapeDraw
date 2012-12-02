@@ -1,12 +1,17 @@
 package libshapedraw.primitive;
 
+import java.io.Serializable;
+
 /**
  * Read-only interface for Color objects, allowing for compile-time safety.
  * @see Color
  */
-public interface ReadonlyColor {
+public interface ReadonlyColor extends Serializable {
     /**
      * @return a new deep-copied mutable Color. Does not copy animations.
+     *         <p>
+     *         Same concept as Object.clone(), minus the tedious/clunky checked
+     *         exception, CloneNotSupportedException.
      */
     public Color copy();
 

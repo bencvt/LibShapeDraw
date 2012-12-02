@@ -66,6 +66,10 @@ public class SetupTestEnvironment {
         public static void assertThrowsIAE(Runnable method) {
             assertThrows(IllegalArgumentException.class, method);
         }
+
+        public static File getTempDirectory() {
+            return testMinecraftDirectory;
+        }
     }
 
     private static boolean setup() {

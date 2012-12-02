@@ -1,12 +1,17 @@
 package libshapedraw.primitive;
 
+import java.io.Serializable;
+
 /**
  * Read-only interface for Vector3 objects, allowing for compile-time safety.
  * @see Vector3
  */
-public interface ReadonlyVector3 {
+public interface ReadonlyVector3 extends Serializable {
     /**
      * @return a new deep-copied mutable Vector3. Does not copy animations.
+     *         <p>
+     *         Same concept as Object.clone(), minus the tedious/clunky checked
+     *         exception, CloneNotSupportedException.
      */
     public Vector3 copy();
 

@@ -389,6 +389,16 @@ public class TestVector3 extends SetupTestEnvironment.TestCase {
         assertEquals("(-531.25,25.0,2312.0)", new Vector3(-531.25, 25.0, 2312.0).toString());
     }
 
+    @Test
+    public void testSerializable() {
+        Vector3 v = new Vector3(1.0, 2.0, 3.0);
+        new TestSerializable<ReadonlyVector3>().assertSerializable(v);
+        v.animateStartLoop(v, true, 2000);
+        new TestSerializable<ReadonlyVector3>().assertSerializable(v);
+        assertTrue(v.isAnimating());
+        v.animateStop();
+    }
+
     // ========
     // Mutators
     // ========

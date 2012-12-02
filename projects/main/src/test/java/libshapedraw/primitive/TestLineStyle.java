@@ -217,6 +217,12 @@ public class TestLineStyle extends SetupTestEnvironment {
     }
 
     @Test
+    public void testSerializable() {
+        new TestSerializable<ReadonlyLineStyle>().assertSerializable(
+                new LineStyle(Color.GREEN.copy(), 2.0F, false));
+    }
+
+    @Test
     public void testSetColors() {
         LineStyle s = new LineStyle(Color.BLUE.copy(), 5.0F, false);
         Color c = Color.BEIGE.copy();
