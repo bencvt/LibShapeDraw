@@ -272,9 +272,10 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
             // error message. No need to crash Minecraft.
             Object newProxy = LSDUtil.getFieldValue(
                     LSDUtil.getFieldByType(Minecraft.class, Proxy.class.getSuperclass(), 0), minecraft);
-            LSDController.getLog().warning(
-                    "mod incompatibility detected: render hook not working! Minecraft.mcProfiler is " +
-                            (newProxy == null ? "null" : newProxy.getClass().getName()));
+            String message = "mod incompatibility detected: render hook not working! Minecraft.mcProfiler is " +
+                    (newProxy == null ? "null" : newProxy.getClass().getName());
+            LSDController.getLog().warning(message);
+            sendChatMessage("\u00a7c[" + getName() + "] " + message);
             renderHeartbroken = true; // don't spam log
         }
         renderHeartbeat = false;
