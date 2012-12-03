@@ -11,23 +11,28 @@ for some screenshots and videos of what sort visual effects are possible.
 
 ## Installation
 
-Installing this mod works exactly the same as any other Minecraft client mod.
+First of all, make sure that either
+[ModLoader](http://www.minecraftforum.net/topic/75440-modloader/) or
+[Forge](http://www.minecraftforge.net/forum/) is installed. LibShapeDraw is
+compatible with either.
 
-1.  Make sure that either
-    [ModLoader](http://www.minecraftforum.net/topic/75440-modloader/)
-    or [Forge](http://www.minecraftforge.net/forum/) is installed.
-    LibShapeDraw is compatible with either.
-2.  Download and extract the jar for the latest release. You can rename it to a
-    .zip if that helps.
-3.  Patch the contents of the jar file into your `minecraft.jar`, being sure to
-    remove the `META-INF` folders.
+Next, download the jar and do one of the following, whichever you prefer:
 
-Utilities like [Magic Launcher](http://www.minecraftforum.net/topic/939149-magiclauncher/)
-can automate this process. Highly recommended! Manually copying `.class` files
-is for the birds.
+ +  **Use a launcher utility to add the jar (recommended).** There are many
+    launchers out there, e.g.
+    [Magic Launcher](http://www.minecraftforum.net/topic/939149-magiclauncher/).
 
-Also, if you prefer to place the jar file in the `mods/` directory instead of
-patching `minecraft.jar` directly, you can.
+OR
+
+ +  **Move the jar file to the `coremods` subdirectory.** This subdirectory can
+    be found in your
+    [Minecraft directory](http://www.minecraftwiki.net/wiki/Minecraft_directory).
+    If you use ModLoader rather than Forge, use the `mods` subdirectory instead.
+
+OR
+
+ +  **Manually patch the contents of the jar file into your `minecraft.jar`.**
+    Old-school modding still works. Be sure to remove the `META-INF` folder.
 
 ## Compatibility
 
