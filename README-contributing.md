@@ -39,15 +39,29 @@ If you prefer to use an IDE, here's one recommended method:
 First of all, what's the point of these jars? Short answer: to make developers'
 lives easier.
 
-Long answer: Writing a mod using Minecraft code deobfuscated by MCP works fine.
-Adding the LibShapeDraw jar to the classpath works fine too; you'll be able to
-compile without issue. However, trying to debug such a mod is problematic.
-Obfuscation and deobfuscation won't mix.
+Long answer: using LibShapeDraw (or any Minecraft API for that matter) in MCP is
+a non-trivial problem. The naive, quick-and-dirty method is to just patch
+LibShapeDraw into `minecraft.jar` and let MCP decompile it. However this doesn't
+work for Forge, which insists on a vanilla jar. The decompiling process also
+munges class names and removes Javadocs. Clearly we can do better.
+
+Adding the prebuilt LibShapeDraw jar to the classpath is the correct approach,
+but we're not out of the woods yet.
 
 By necessity, the main release jar for LibShapeDraw references obfuscated
-Minecraft code. As a side note, LibShapeDraw does not use MCP directly, instead
-handling obfuscation on its own. The main reason for this is that MCP really
-doesn't integrate well with Maven and Git.
+Minecraft code. However the MCP dev environment lets you test/debug your mod
+*without* reobfuscating. This is a problem when referencing a prebuilt jar:
+obfuscation and deobfuscation won't mix!
+
+The solution is to have a second prebuilt LibShapeDraw jar that uses
+deobfuscated references instead. Note that either jar will work fine for
+*compiling*, as the public LibShapeDraw API does not reference any Minecraft
+class. The internal obfuscated/deobfuscated code references only matter when
+*running* Minecraft.
+
+As a side note, LibShapeDraw does not use MCP directly, instead handling
+obfuscation on its own. The main reason for this is that MCP really doesn't
+integrate well with Maven, JUnit, and Git.
 
 However, mod developers can (and generally should) still use MCP along with
 LibShapeDraw. See the *How to add the LibShapeDraw jar to the classpath in MCP*
@@ -56,9 +70,8 @@ section in the main `README.md` for details.
 So, the special dev jar (`LibShapeDraw-VERSION-dev.jar`) exists to support mod
 devs using MCP. It's identical to the normal release except that:
 
- +  `mod_LibShapeDraw` links to deobfuscated identifiers in
-    `minecraft-deobf.jar` rather than `minecraft.jar`. This allows devs to run
-    their mod with the dev jar without having to reobfuscate and redeploy.
+ +  As described above, `mod_LibShapeDraw` links to deobfuscated identifiers in
+    `minecraft-deobf.jar` rather than `minecraft.jar`.
  +  The source code is included.
  +  The update check is disabled by default.
 
