@@ -29,6 +29,13 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
  * old-fashioned ModLoader) installs. ModLoader does not differentiate between
  * mods and coremods, and does not enforce classpath isolation. Placing the jar
  * in the "mods" directory works fine for ModLoader installation.
+ * <p>
+ * This class will also never be loaded, even when using FML, if the user opts
+ * to patch LibShapeDraw into minecraft.jar directly, or if they're using a
+ * launcher utility, which does its own classpath mangling magic.
+ * <p>
+ * So many different ways to install a Minecraft mod... it's all a bit painful,
+ * but it comes with the terrority.
  */
 public class ForgeCoreMod implements IFMLLoadingPlugin {
     @Override
