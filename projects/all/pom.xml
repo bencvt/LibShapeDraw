@@ -101,6 +101,23 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        <!--
+            Forge/FML is only a requirement for *compiling* the jar, as some of
+            the compatibility code references FML classes. This code is loaded
+            on-demand, meaning that FML is *not* a requirement for the end user.
+            ModLoader alone is sufficient.
+        -->
+        <dependency>
+            <groupId>net.minecraftforge</groupId>
+            <artifactId>minecraftforge-universal</artifactId>
+            <!--
+                The exact version we compile against doesn't really matter.
+                There's no official Maven repo for Forge or FML anyway.
+            -->
+            <version>${minecraft.version}</version>
+            <scope>system</scope>
+            <systemPath>${lib.dir}/minecraftforge-universal.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <modules>

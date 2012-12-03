@@ -20,10 +20,13 @@ and use a prebuilt jar.
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
     include the `natives` subdirectory; the test suite needs them.
-    `minecraft.jar` should be vanilla with either ModLoader or Forge patched in.
-3.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
-4.  Change directory to `projects/all`.
-5.  Run Maven by typing `mvn` (no goal arguments needed). The output jars are
+    `minecraft.jar` should be vanilla.
+3.  Download the latest recommended universal binary for Minecraft Forge from
+    [minecraftforge.net](http://www.minecraftforge.net/forum/index.php/topic,5.0.html).
+    Move/rename it to `lib/minecraftforge-universal.jar`.
+4.  Create `lib/minecraft-deobf.jar` using MCP. Details in the next section.
+5.  Change directory to `projects/all`.
+6.  Run Maven by typing `mvn` (no goal arguments needed). The output jars are
     located in `projects/*/target/`. Javadocs are located in
     `projects/main/target/site/apidocs`.
 
@@ -36,13 +39,22 @@ If you prefer to use an IDE, here's one recommended method:
 
 ### Creating a `minecraft-deobf.jar` for `LibShapeDraw-VERSION-dev.jar`
 
-First of all, what's the point of these jars? Short answer: to make developers'
-lives easier.
+First of all, here's how to create `minecraft-deobf.jar`:
 
-Long answer: using LibShapeDraw (or any Minecraft API for that matter) in MCP is
-a non-trivial problem. The naive, quick-and-dirty method is to just patch
+1.  Install MCP in another directory and decompile a `minecraft.jar` with
+    ModLoader patched in. Or install MCP with the Forge sources. Either works.
+2.  Open up a terminal window and change to the `bin/minecraft` subdirectory
+    under the MCP directory. (If using Forge, it's just `bin`.)
+3.  Type `jar cfv (repo-dir)/LibShapeDraw/lib/minecraft-deobf.jar .` (including
+    the dot at the end, and substituting `(repo-dir)` as appropriate.)
+
+You may be wondering: what's the point of all these jars? If so, gather 'round.
+(If not, feel free to skip the rest of this section.)
+
+Using LibShapeDraw (or any external Minecraft API for that matter) in MCP is a
+non-trivial problem. The naive, quick-and-dirty method is to just patch
 LibShapeDraw into `minecraft.jar` and let MCP decompile it. However this doesn't
-work for Forge, which insists on a vanilla jar. The decompiling process also
+work for Forge, which requires a vanilla jar. The decompiling process also
 munges class names and removes Javadocs. Clearly we can do better.
 
 Adding the prebuilt LibShapeDraw jar to the classpath is the correct approach,
@@ -72,17 +84,9 @@ devs using MCP. It's identical to the normal release except that:
 
  +  As described above, `mod_LibShapeDraw` links to deobfuscated identifiers in
     `minecraft-deobf.jar` rather than `minecraft.jar`.
+ +  The jar's manifest is not marked as an FML coremod.
  +  The source code is included.
  +  The update check is disabled by default.
-
-That's the story behind `minecraft-deobf.jar`. Here's how to generate it:
-
-1.  Install MCP in another directory and decompile a `minecraft.jar` with
-    ModLoader patched in. Or install MCP with the Forge sources. Either works.
-2.  Open up a terminal window and change to the `bin/` subdirectory under the
-    MCP directory.
-3.  Type `jar cfv (repo-dir)/LibShapeDraw/lib/minecraft-deobf.jar .` (including
-    the dot at the end, and substituting `(repo-dir)` as appropriate.)
 
 ## Tips and tricks
 
