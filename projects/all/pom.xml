@@ -18,7 +18,7 @@
         <libshapedraw.authors>bencvt</libshapedraw.authors>
         <libshapedraw.blurb>LibShapeDraw is an open-source API mod that provides a set of flexible and powerful drawing and animation tools for other Minecraft client mods to use.</libshapedraw.blurb>
         <libshapedraw.blurb.demos>A set of simple mods demonstrating some of the ways that you, as a mod author, can use LibShapeDraw in your own mod!</libshapedraw.blurb.demos>
-        <libshapedraw.version>1.3.1</libshapedraw.version>
+        <libshapedraw.version>1.3.1-SNAPSHOT</libshapedraw.version>
         <minecraft.version>1.4.5</minecraft.version>
         <lwjgl.version>2.4.2</lwjgl.version>
         <lib.dir>${project.basedir}/../../lib</lib.dir>
