@@ -1,0 +1,738 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+mod_LibShapeDraw (LibShapeDraw 1.3.1 API)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="mod_LibShapeDraw (LibShapeDraw 1.3.1 API)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/mod_LibShapeDraw.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../net/minecraft/src/mod_LibShapeDraw.Proxy.html" title="class in net.minecraft.src"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?net/minecraft/src/mod_LibShapeDraw.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="mod_LibShapeDraw.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+net.minecraft.src</FONT>
+<BR>
+Class mod_LibShapeDraw</H2>
+<PRE>
+<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../resources/inherit.gif" ALT="extended by ">net.minecraft.src.BaseMod
+      <IMG SRC="../../../resources/inherit.gif" ALT="extended by "><B>net.minecraft.src.mod_LibShapeDraw</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>mod_LibShapeDraw</B><DT>extends net.minecraft.src.BaseMod<DT>implements <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></DL>
+</PRE>
+
+<P>
+Internal class. Mods using the LibShapeDraw API can safely ignore this.
+ Rather, instantiate <A HREF="../../../libshapedraw/LibShapeDraw.html" title="class in libshapedraw"><CODE>LibShapeDraw</CODE></A>.
+ <p>
+ This is a ModLoader mod (also compatible with Forge/FML) that links itself
+ to the internal API Controller, providing it data and events from Minecraft.
+ This class does the bare minimum of processing before passing these off to
+ the controller. I.e., this class is a thin wrapper for Minecraft used by
+ LibShapeDraw.
+ <p>
+ As a wrapper, all direct interaction with Minecraft objects passes through
+ this class, making the LibShapeDraw API itself clean and free of obfuscated
+ code. (There is a single exception: LSDModDirectory.getMinecraftDir.)
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.Proxy.html" title="class in net.minecraft.src">mod_LibShapeDraw.Proxy</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The long-awaited official Minecraft API will hopefully provide standard
+ entry points for client mods (like this one!) that require rendering
+ hooks.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#mod_LibShapeDraw()">mod_LibShapeDraw</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#addVertex(double, double, double)">addVertex</A></B>(double&nbsp;x,
+          double&nbsp;y,
+          double&nbsp;z)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tessellator.instance.addVertex</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#addVertex(libshapedraw.primitive.ReadonlyVector3)">addVertex</A></B>(<A HREF="../../../libshapedraw/primitive/ReadonlyVector3.html" title="interface in libshapedraw.primitive">ReadonlyVector3</A>&nbsp;coords)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tessellator.instance.addVertex</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#chatWindowExists()">chatWindowExists</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.ingameGUI.getChatGUI()</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#clientConnect(net.minecraft.src.NetClientHandler)">clientConnect</A></B>(net.minecraft.src.NetClientHandler&nbsp;netClientHandler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#enableStandardItemLighting()">enableStandardItemLighting</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderHelper.enableStandardItemLighting</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#finishDrawing()">finishDrawing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tessellator.instance.draw</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#getName()">getName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#getPartialTick()">getPartialTick</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.timer.renderPartialTicks</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#getPriorities()">getPriorities</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#getVersion()">getVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#load()">load</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#modsLoaded()">modsLoaded</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#onTickInGame(float, net.minecraft.client.Minecraft)">onTickInGame</A></B>(float&nbsp;partialTick,
+             net.minecraft.client.Minecraft&nbsp;minecraft)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#profilerEndSection()">profilerEndSection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.mcProfiler.endSection</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#profilerEndStartSection(java.lang.String)">profilerEndStartSection</A></B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;sectionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.mcProfiler.endStartSection</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#profilerStartSection(java.lang.String)">profilerStartSection</A></B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;sectionName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.mcProfiler.startSection</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#render()">render</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatch render event to Controller.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#sendChatMessage(java.lang.String)">sendChatMessage</A></B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Minecraft.ingameGUI.getChatGUI().printChatMessage</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../net/minecraft/src/mod_LibShapeDraw.html#startDrawing(int)">startDrawing</A></B>(int&nbsp;mode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tessellator.instance.startDrawing</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_net.minecraft.src.BaseMod"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class net.minecraft.src.BaseMod</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>addFuel, addRenderer, clientChat, clientCustomPayload, clientDisconnect, generateNether, generateSurface, getContainerGUI, getSpawnPacket, keyboardEvent, onItemPickup, onTickInGUI, registerAnimation, renderInvBlock, renderWorldBlock, serverChat, serverCustomPayload, spawnEntity, takenFromCrafting, takenFromFurnace, toString</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="mod_LibShapeDraw()"><!-- --></A><H3>
+mod_LibShapeDraw</H3>
+<PRE>
+public <B>mod_LibShapeDraw</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getName()"><!-- --></A><H3>
+getName</H3>
+<PRE>
+public <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>getName</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getName</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getVersion()"><!-- --></A><H3>
+getVersion</H3>
+<PRE>
+public <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>getVersion</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getVersion</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPriorities()"><!-- --></A><H3>
+getPriorities</H3>
+<PRE>
+public <A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>getPriorities</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getPriorities</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="load()"><!-- --></A><H3>
+load</H3>
+<PRE>
+public void <B>load</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>load</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="modsLoaded()"><!-- --></A><H3>
+modsLoaded</H3>
+<PRE>
+public void <B>modsLoaded</B>()</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>modsLoaded</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clientConnect(net.minecraft.src.NetClientHandler)"><!-- --></A><H3>
+clientConnect</H3>
+<PRE>
+public void <B>clientConnect</B>(net.minecraft.src.NetClientHandler&nbsp;netClientHandler)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>clientConnect</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="onTickInGame(float, net.minecraft.client.Minecraft)"><!-- --></A><H3>
+onTickInGame</H3>
+<PRE>
+public boolean <B>onTickInGame</B>(float&nbsp;partialTick,
+                            net.minecraft.client.Minecraft&nbsp;minecraft)</PRE>
+<DL>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>onTickInGame</CODE> in class <CODE>net.minecraft.src.BaseMod</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="render()"><!-- --></A><H3>
+render</H3>
+<PRE>
+protected void <B>render</B>()</PRE>
+<DL>
+<DD>Dispatch render event to Controller.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="startDrawing(int)"><!-- --></A><H3>
+startDrawing</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>startDrawing</B>(int&nbsp;mode)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#startDrawing(int)">MinecraftAccess</A></CODE></B></DD>
+<DD>Tessellator.instance.startDrawing
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#startDrawing(int)">startDrawing</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addVertex(double, double, double)"><!-- --></A><H3>
+addVertex</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>addVertex</B>(double&nbsp;x,
+                                 double&nbsp;y,
+                                 double&nbsp;z)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#addVertex(double, double, double)">MinecraftAccess</A></CODE></B></DD>
+<DD>Tessellator.instance.addVertex
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#addVertex(double, double, double)">addVertex</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addVertex(libshapedraw.primitive.ReadonlyVector3)"><!-- --></A><H3>
+addVertex</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>addVertex</B>(<A HREF="../../../libshapedraw/primitive/ReadonlyVector3.html" title="interface in libshapedraw.primitive">ReadonlyVector3</A>&nbsp;coords)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#addVertex(libshapedraw.primitive.ReadonlyVector3)">MinecraftAccess</A></CODE></B></DD>
+<DD>Tessellator.instance.addVertex
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#addVertex(libshapedraw.primitive.ReadonlyVector3)">addVertex</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="finishDrawing()"><!-- --></A><H3>
+finishDrawing</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>finishDrawing</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#finishDrawing()">MinecraftAccess</A></CODE></B></DD>
+<DD>Tessellator.instance.draw
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#finishDrawing()">finishDrawing</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="enableStandardItemLighting()"><!-- --></A><H3>
+enableStandardItemLighting</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>enableStandardItemLighting</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#enableStandardItemLighting()">MinecraftAccess</A></CODE></B></DD>
+<DD>RenderHelper.enableStandardItemLighting
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#enableStandardItemLighting()">enableStandardItemLighting</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sendChatMessage(java.lang.String)"><!-- --></A><H3>
+sendChatMessage</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>sendChatMessage</B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;message)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#sendChatMessage(java.lang.String)">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.ingameGUI.getChatGUI().printChatMessage
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#sendChatMessage(java.lang.String)">sendChatMessage</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="chatWindowExists()"><!-- --></A><H3>
+chatWindowExists</H3>
+<PRE>
+public boolean <B>chatWindowExists</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#chatWindowExists()">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.ingameGUI.getChatGUI()
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#chatWindowExists()">chatWindowExists</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPartialTick()"><!-- --></A><H3>
+getPartialTick</H3>
+<PRE>
+public float <B>getPartialTick</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#getPartialTick()">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.timer.renderPartialTicks
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#getPartialTick()">getPartialTick</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="profilerStartSection(java.lang.String)"><!-- --></A><H3>
+profilerStartSection</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>profilerStartSection</B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;sectionName)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerStartSection(java.lang.String)">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.mcProfiler.startSection
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerStartSection(java.lang.String)">profilerStartSection</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="profilerEndSection()"><!-- --></A><H3>
+profilerEndSection</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>profilerEndSection</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerEndSection()">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.mcProfiler.endSection
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerEndSection()">profilerEndSection</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="profilerEndStartSection(java.lang.String)"><!-- --></A><H3>
+profilerEndStartSection</H3>
+<PRE>
+public <A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A> <B>profilerEndStartSection</B>(<A HREF="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;sectionName)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerEndStartSection(java.lang.String)">MinecraftAccess</A></CODE></B></DD>
+<DD>Minecraft.mcProfiler.endStartSection
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../libshapedraw/MinecraftAccess.html#profilerEndStartSection(java.lang.String)">profilerEndStartSection</A></CODE> in interface <CODE><A HREF="../../../libshapedraw/MinecraftAccess.html" title="interface in libshapedraw">MinecraftAccess</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="class-use/mod_LibShapeDraw.html"><FONT CLASS="NavBarFont1"><B>Use</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../net/minecraft/src/mod_LibShapeDraw.Proxy.html" title="class in net.minecraft.src"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../index.html?net/minecraft/src/mod_LibShapeDraw.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="mod_LibShapeDraw.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+Copyright 2012 bencvt. All Rights Reserved.
+</BODY>
+</HTML>
