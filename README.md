@@ -26,7 +26,7 @@ OR
 
  +  **Move the jar file to the `coremods` subdirectory.** This subdirectory can
     be found in your
-    [Minecraft directory](http://www.minecraftwiki.net/wiki/Minecraft_directory).
+    [Minecraft directory](http://www.minecraftwiki.net/wiki/.minecraft).
     If you use ModLoader rather than Forge, use the `mods` subdirectory instead.
 
 OR
