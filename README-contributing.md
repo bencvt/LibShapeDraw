@@ -2,20 +2,94 @@
 
 If you're an open-source Java developer looking to improve LibShapeDraw,
 welcome! All reasonable pull requests are considered; feel free to fork and PR.
-
-If you'd like to discuss potential major changes, you can open an issue on
-GitHub or take it to IRC. (See the Contact section in the main `README.md`.)
+If you'd like to discuss potential major changes, please open an issue on
+GitHub.
 
 Not a developer? No worries: any bug reports, feature requests, and general
-comments are much appreciated. Please feel free to open an issue on GitHub.
+comments are much appreciated. There's also a need for some additional
+documentation; see below.
 
-Also if you're handy with graphic design, please contact me (bencvt)!
-LibShapeDraw could use a better logo. :)
+## Development roadmap
+
+Possible documentation improvements (volunteers welcome):
+
+ +  A better logo. The [current one](https://github.com/bencvt/LibShapeDraw/blob/master/projects/main/src/main/resources/libshapedraw/logo.png)
+    is rather bland.
+
+ +  Expand the demos to include an example Forge/FML-style mod.
+
+ +  YouTube-hosted demo videos would be nice to have as well so you don't
+    actually have to install the demos jar to see it in action.
+
+ +  Create a complete tutorial on how to start a fresh mod that uses
+    LibShapeDraw, perhaps using a GitHub wiki.
+
+Possible new core features, unprioritized (feedback and patches welcome):
+
+ +  Optimization: where possible, bypass Minecraft's Tessellator and instead use
+    [OpenGL VBOs](http://en.wikipedia.org/wiki/Vertex_Buffer_Object). This is a
+    significant performance gain for Shapes with many vertices.
+
+ +  More built-in Shapes, perhaps with texture support as well.
+
+ +  Expand the scope of the library to offer GUI/HUD tools. Like the animation
+    component, these tools would be strictly optional; mods would be free to
+    pick-and-choose the components they want to use.
+
+ +  Add a plugin channel to allow servers to access the API on the client.
+    The end user would be able to disable this feature if they'd rather not let
+    servers draw shapes on their screen.
+
+### LibShapeDraw 2.0 plans
+
+The official Minecraft API keeps getting pushed back; Mojang's current plan is
+for it to be released in **Minecraft 1.5** after a rendering engine overhaul.
+
+Obviously both the Minecraft API and the rendering engine overhaul are very
+relevant to LibShapeDraw. The current plan is for **LibShapeDraw 2.0** to be
+released along with Minecraft 1.5, with the following adjustments:
+
+ +  If the Minecraft API includes a client-side plugin loading mechanism, make
+    LibShapeDraw a *plugin* rather than a *mod*, to standardize and simplify
+    installation (no more messing with .class files!) This would also remove the
+    ModLoader/Forge requirement.
+
+ +  If possible, LibShapeDraw's semantics will *not* change significantly, but
+    the underlying implementation will likely have to change to match
+    Minecraft's overhauled rendering engine.
+    
+    Mojang has not released any technical details yet, but the overhaul may in
+    fact remove Minecraft's long-standing use of the OpenGL Fixed Function
+    Pipeline, which was [deprecated](http://www.opengl.org/wiki/Legacy_OpenGL)
+    several years ago by OpenGL. Using VBOs (Vertex Buffer Objects), etc.
+    instead is usually a significant performance boost as data can persist in
+    VRAM rather than being copied every render frame.
+    
+    The downside is that it's more code to set up all those vertex buffers. But
+    if Minecraft itself takes that step, LibShapeDraw will follow.
+
+ +  Any method marked as deprecated in LibShapeDraw 1.x will likely be removed
+    in 2.0.
+
+## Tips and tricks
+
+ +  You can enable automatic debug dumps and tweak a few other global settings
+    by copying `libshapedraw/internal/default-settings.properties`  
+    from the jar to the file system at  
+    `(minecraft-dir)/mods/LibShapeDraw/settings.properties`. A future version
+    of LibShapeDraw will probably auto-copy this file but for now the default
+    settings are left in the archive.
+
+ +  Minecraft's built-in profiler (accessible via `shift-F3`) includes a
+    section named `root.gameRenderer.level.LibShapeDraw`. You can drill down to
+    it using the number keys. It should come as no surprise that having a ton of
+    Shapes on-screen simulatenously can cause a significant performance hit. The
+    profiler can tell you exactly how much of a hit.
 
 ## Building LibShapeDraw from source
 
-If you just want to use the API in your own mod, feel free to skip this section
-and use a prebuilt jar.
+If you just want to use the API in your own mod, feel free to skip the rest of
+this file and use a prebuilt jar.
 
 1.  Install [Maven](http://maven.apache.org/).
 2.  Copy the contents of your Minecraft's `bin` directory to `lib`. Be sure to
@@ -88,80 +162,19 @@ devs using MCP. It's identical to the normal release except that:
  +  The source code is included.
  +  The update check is disabled by default.
 
-## Tips and tricks
+## Release procedure
 
- +  You can enable automatic debug dumps and tweak a few other global settings
-    by copying `libshapedraw/internal/default-settings.properties`  
-    from the jar to the file system at  
-    `(minecraft-dir)/mods/LibShapeDraw/settings.properties`. A future version
-    of LibShapeDraw will probably auto-copy this file but for now the default
-    settings are left in the archive.
+Note to self:
 
- +  Minecraft's built-in profiler (accessible via `shift-F3`) includes a
-    section named `root.gameRenderer.level.LibShapeDraw`. You can drill down to
-    it using the number keys. It should come as no surprise that having a ton of
-    Shapes on-screen simulatenously can cause a significant performance hit. The
-    profiler can tell you exactly how much of a hit.
-
-## Development roadmap
-
-The official Minecraft API keeps getting pushed back; Mojang's current plan is
-for it to be released in **Minecraft 1.5** after a rendering engine overhaul.
-
-Obviously both the Minecraft API and the rendering engine overhaul are very
-relevant to LibShapeDraw. The current plan is for **LibShapeDraw 2.0** to be
-released along with Minecraft 1.5, with the following adjustments:
-
- +  If the Minecraft API includes a client-side plugin loading mechanism, make
-    LibShapeDraw a *plugin* rather than a *mod*, to standardize and simplify
-    installation (no more messing with .class files!) This would also remove the
-    ModLoader/Forge requirement.
-
- +  If possible, LibShapeDraw's semantics will *not* change significantly, but
-    the underlying implementation will likely have to change to match
-    Minecraft's overhauled rendering engine.
-    
-    Mojang has not released any technical details yet, but the overhaul may in
-    fact remove Minecraft's long-standing use of the OpenGL Fixed Function
-    Pipeline, which was [deprecated](http://www.opengl.org/wiki/Legacy_OpenGL)
-    several years ago by OpenGL. Using VBOs (Vertex Buffer Objects), etc.
-    instead is usually a significant performance boost as data can persist in
-    VRAM rather than being copied every render frame.
-    
-    The downside is that it's more code to set up all those vertex buffers. But
-    if Minecraft itself takes that step, LibShapeDraw will follow.
-
- +  Any method marked as deprecated in LibShapeDraw 1.x will likely be removed
-    in 2.0.
-
-Planned documentation improvements:
-
- +  Maintain high (except for Trident) JUnit test code coverage.
-
- +  Expand the demos to include an example Forge/FML-style mod as well.
-
- +  YouTube-hosted demo videos would be nice to have as well so you don't
-    actually have to install the demos jar to see it in action.
-
- +  Create a complete tutorial on how to start a fresh mod that uses
-    LibShapeDraw, perhaps using a GitHub wiki.
-
-Possible features, unprioritized (maybe before 2.0, maybe after, maybe never...
-feedback and patches welcome):
-
- +  Optimization: where possible, bypass Minecraft's Tessellator and instead use
-    OpenGL VBOs. This is a significant performance gain for Shapes with many
-    vertices. This also doesn't have to wait for Minecraft's rendering engine
-    overhaul (see above), which might not actually use VBOs after all.
-
- +  More built-in Shapes, perhaps with texture support as well.
-
- +  Expand the scope of the library to offer GUI/HUD tools. Like the animation
-    component, these tools would be strictly optional; mods would be free to
-    pick-and-choose the components they want to use. This will feature will
-    likely be minimalistic until at least Minecraft 1.5, which overhauls the
-    rendering process (see above).
-
- +  Add a plugin channel to allow servers to access the API on the client.
-    The end user would be able to disable this feature if they'd rather not let
-    the server draw shapes on their screen.
+1.  update `CHANGELOG.md`
+2.  edit versions in `projects/all/pom.xml`
+3.  `cd projects/all; mvn`
+4.  verify the build works as expected
+5.  `git commit -m '1.x release for Minecraft 1.y'`
+6.  `git tag v1.x`
+7.  re-edit the version in `projects/all/pom.xml`, appending "-SNAPSHOT"
+8.  `git commit -m '1.x post-release'`
+9.  `git push origin master --tags`
+10. publish all 3 jars and Javadocs to GitHub
+11. update minecraftforum.net thread
+12. publish new version number to `http://update.bencvt.com/u/LibShapeDraw`

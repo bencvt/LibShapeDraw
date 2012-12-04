@@ -102,7 +102,7 @@ are the design goals to that end:
 
 Enough high-level overview stuff. Let's dive in and actually use the API:
 
-## Using the LibShapeDraw API in your project
+## Basic usage
 
 Add the jar to your project's classpath and instantiate `LibShapeDraw` somewhere
 in your code. Create and add some `Shape`s for the API instance to render.

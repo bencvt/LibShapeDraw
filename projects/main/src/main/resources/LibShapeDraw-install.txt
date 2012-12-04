@@ -1,15 +1,30 @@
-Installation instructions for ${project.name} v${project.version} [${minecraft.version}]:
+Everything in this file is copied from the official project site. Visit it to
+get the latest information!
 
-Works exactly like any other Minecraft client mod.
+Forum thread: ${libshapedraw.url.main}
+Source code:  ${libshapedraw.url.source}
 
-Patch the contents of the jar file into your minecraft.jar, being sure to
-remove the META-INF folders. Using a utility like Magic Launcher is highly
-recommended; manually copying .class files is for the birds.
+-------------------------------------------------------------------------------
+Installation instructions for ${libshapedraw.name} v${libshapedraw.version} [${minecraft.version}]:
+-------------------------------------------------------------------------------
 
-ModLoader (or Forge) is required.
+First of all, make sure that either ModLoader or Forge is installed.
+LibShapeDraw is compatible with either. Then do one of the following, whichever
+you prefer:
 
-For more information see ${project.url.main}
-or ${project.url.source}
+ *  Use a launcher utility to add the jar (recommended). There are many
+    launchers out there, e.g. Magic Launcher.
+
+OR
+
+ *  Move the jar file to the `coremods` subdirectory. This subdirectory can be
+    be found in your Minecraft directory. If you use ModLoader rather than
+    Forge, use the `mods` subdirectory instead.
+
+OR
+
+ *  Manually patch the contents of the jar file into your `minecraft.jar`.
+    Old-school modding still works. Be sure to remove the `META-INF` folder.
 
 -------------------------------------------------------------------------------
 Copyright/licensing information:
