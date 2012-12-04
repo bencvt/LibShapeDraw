@@ -1,4 +1,4 @@
- ## 1.3.1
+## 1.3.1
 - added compatibility layer to support other mods that proxy
   `Minecraft.mcProfiler`, such as LiteLoader
 - implement FML coremod interface to make installation more flexible
