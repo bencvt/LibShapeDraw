@@ -32,13 +32,15 @@ import net.minecraft.client.Minecraft;
  */
 public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
     /**
+     * Install our render hook by inserting a proxy for Minecraft.mcProfiler.
+     * <p>
      * The long-awaited official Minecraft API will hopefully provide standard
      * entry points for client mods (like this one!) that require rendering
      * hooks. Until then, we have to do some hackish stuff to add our hook.
      * <p>
      * Option 1 is the naive, quick-and-dirty method: patch or proxy the
      * EntityRender class. However this class is already being modified by many
-     * mods, including Optifine, ModLoader, and Forge. Introducing yet another
+     * mods, including OptiFine, ModLoader, and Forge. Introducing yet another
      * mutually incompatible mod is a poor choice. Compatibility is a key goal
      * of LibShapeDraw.
      * <p>
@@ -81,8 +83,12 @@ public class mod_LibShapeDraw extends BaseMod implements MinecraftAccess {
      */
     // obf: Profiler
     public class Proxy extends kh {
+        /**
+         * Keep a reference to the old Profiler if we detect that another mod
+         * is also proxying it. Play nice with others!
+         */
         // obf: Profiler
-        protected kh orig; // in case we're double-proxying
+        protected kh orig;
 
         @Override
         // obf: Profiler.startSection
