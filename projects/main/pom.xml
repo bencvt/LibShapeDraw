@@ -33,6 +33,10 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!--
+                Javadocs are generated in the dev project, which depends on this
+                this one. Maven will complain if we don't include this stub.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -44,19 +48,8 @@
                             <artifactId>maven-javadoc-plugin</artifactId>
                             <version>2.9</version>
                             <configuration>
-                                <!-- Exclude root package due to a bug in Sun's javadoc generator. -->
-                                <sourcepath>${basedir}/src/main/java/libshapedraw</sourcepath>
-                                <doctitle>${libshapedraw.name} ${libshapedraw.version} API</doctitle>
-                                <windowtitle>${libshapedraw.name} ${libshapedraw.version} API</windowtitle>
-                                <bottom>Copyright 2012 ${libshapedraw.authors}. All Rights Reserved.</bottom>
-                                <overview>overview.html</overview>
+                                <skip>true</skip>
                             </configuration>
-                            <reportSets>
-                                <reportSet>
-                                    <id>html</id>
-                                    <reports><report>javadoc</report></reports>
-                                </reportSet>
-                            </reportSets>
                         </plugin>
                     </reportPlugins>
                 </configuration>

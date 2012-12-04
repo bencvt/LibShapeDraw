@@ -102,7 +102,7 @@ this file and use a prebuilt jar.
 5.  Change directory to `projects/all`.
 6.  Run Maven by typing `mvn` (no goal arguments needed). The output jars are
     located in `projects/*/target/`. Javadocs are located in
-    `projects/main/target/site/apidocs`.
+    `projects/dev/target/site/apidocs`.
 
 If you prefer to use an IDE, here's one recommended method:
 

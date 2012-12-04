@@ -48,6 +48,37 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <relativizeDecorationLinks>false</relativizeDecorationLinks>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.9</version>
+                            <configuration>
+                                <!-- Exclude root package due to a bug in Sun's javadoc generator. -->
+                                <sourcepath>${project.basedir}/../main/src/main/java/libshapedraw:${project.basedir}/src/main/java/net/minecraft/src</sourcepath>
+                                <detectOfflineLinks>false</detectOfflineLinks>
+                                <doctitle>${libshapedraw.name} ${libshapedraw.version} API</doctitle>
+                                <windowtitle>${libshapedraw.name} ${libshapedraw.version} API</windowtitle>
+                                <bottom>Copyright 2012 ${libshapedraw.authors}. All Rights Reserved.</bottom>
+                                <overview>overview.html</overview>
+                                <notimestamp>true</notimestamp>
+                            </configuration>
+                            <reportSets>
+                                <reportSet>
+                                    <id>html</id>
+                                    <reports><report>javadoc</report></reports>
+                                </reportSet>
+                            </reportSets>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
