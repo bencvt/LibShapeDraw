@@ -77,7 +77,7 @@ public class LSDController {
     }
 
     /**
-     * Called by the mod_LibShapeDraw.
+     * Called by mod_LibShapeDraw.
      */
     public void initialize(MinecraftAccess minecraftAccess) {
         if (isInitialized()) {
