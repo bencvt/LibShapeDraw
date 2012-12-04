@@ -28,6 +28,7 @@ public class LibShapeDraw {
     private final Set<LSDEventListener> eventListeners;
     private final Set<LSDEventListener> eventListenersReadonly;
     private final String instanceId;
+    private final String ownerId;
     private boolean visible = true;
     private boolean visibleWhenHidingGui = false;
 
@@ -52,6 +53,7 @@ public class LibShapeDraw {
         eventListeners = new LinkedHashSet<LSDEventListener>();
         eventListenersReadonly = Collections.unmodifiableSet(eventListeners);
         instanceId = LSDController.getInstance().registerApiInstance(this, ownerId);
+        this.ownerId = ownerId;
     }
 
     /**
@@ -317,7 +319,7 @@ public class LibShapeDraw {
 
     /**
      * Get the unique id assigned to this API instance by the internal
-     * controller.
+     * controller. E.g.: "LibShapeDraw#0".
      */
     public String getInstanceId() {
         return instanceId;
@@ -325,6 +327,6 @@ public class LibShapeDraw {
 
     @Override
     public String toString() {
-        return getInstanceId();
+        return getInstanceId() + ":" + ownerId;
     }
 }

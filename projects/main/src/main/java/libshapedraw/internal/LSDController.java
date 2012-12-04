@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 
 /**
  * Internal singleton controller class, lazily instantiated.
- * Relies on a bootstrapper (mod_LibShapeDraw) to feed it Minecraft game events.
+ * Relies on mod_LibShapeDraw to feed it Minecraft game events.
  */
 public class LSDController {
     private static LSDController instance;
@@ -69,17 +69,21 @@ public class LSDController {
     }
 
     /**
-     * @return true if the bootstrapper has been instantiated and is linked up to the controller
+     * @return true if mod_LibShapeDraw has been instantiated and is linked up
+     *         to the controller
      */
     public static boolean isInitialized() {
         return getInstance().initialized;
     }
 
     /**
-     * Called by the bootstrapper.
+     * Called by the mod_LibShapeDraw.
      */
     public void initialize(MinecraftAccess minecraftAccess) {
         if (isInitialized()) {
+            // LibShapeDraw is probably installed incorrectly, causing
+            // ModLoader/FML to bogusly instantiate mod_LibShapeDraw more than
+            // once.
             throw new IllegalStateException("multiple initializations of controller");
         }
         this.minecraftAccess = minecraftAccess;
@@ -94,10 +98,10 @@ public class LSDController {
         if (apiInstances.contains(apiInstance)) {
             throw new IllegalStateException("already registered");
         }
+        String apiInstanceId = apiInstance.getClass().getSimpleName() + "#" + topApiInstanceId;
         topApiInstanceId++;
-        String apiInstanceId = apiInstance.getClass().getSimpleName() + "#" + topApiInstanceId + ":" + ownerId;
         apiInstances.add(apiInstance);
-        log.info("registered API instance " + apiInstanceId);
+        log.info("registered API instance " + apiInstanceId + ":" + ownerId);
         return apiInstanceId;
     }
 
@@ -113,7 +117,7 @@ public class LSDController {
     }
 
     /**
-     * Called by the bootstrapper.
+     * Called by mod_LibShapeDraw.
      * Dispatch the respawn event.
      */
     public void respawn(ReadonlyVector3 playerCoords, boolean isNewServer, boolean isNewDimension) {
@@ -131,7 +135,7 @@ public class LSDController {
     }
 
     /**
-     * Called by the bootstrapper.
+     * Called by mod_LibShapeDraw.
      * Periodically dump API state to log if configured to do so.
      * Dispatch gameTick events.
      * Handle update check.
@@ -173,7 +177,7 @@ public class LSDController {
     }
 
     /**
-     * Called by the bootstrapper.
+     * Called by mod_LibShapeDraw.
      * Dispatch preRender events.
      * Render all registered shapes.
      */
@@ -187,7 +191,7 @@ public class LSDController {
 
         // Dispatch prerender event and render.
         for (LibShapeDraw apiInstance : apiInstances) {
-            //minecraftAccess.profilerStartSection("prerender events");
+            minecraftAccess.profilerStartSection(apiInstance.getInstanceId()).profilerStartSection("prerender");
             if (!apiInstance.getEventListeners().isEmpty()) {
                 LSDPreRenderEvent event = new LSDPreRenderEvent(apiInstance, playerCoords, minecraftAccess.getPartialTick(), isGuiHidden);
                 for (LSDEventListener listener : apiInstance.getEventListeners()) {
@@ -196,7 +200,7 @@ public class LSDController {
                     }
                 }
             }
-            //minecraftAccess.profilerEndStartSection("render shapes");
+            minecraftAccess.profilerEndStartSection("render");
             if (apiInstance.isVisible() && (!isGuiHidden || apiInstance.isVisibleWhenHidingGui())) {
                 for (Shape shape : apiInstance.getShapes()) {
                     if (shape != null) {
@@ -204,7 +208,7 @@ public class LSDController {
                     }
                 }
             }
-            //minecraftAccess.profilerEndSection();
+            minecraftAccess.profilerEndSection().profilerEndSection();
         }
 
         // Revert OpenGL settings so we don't impact any elements Minecraft has

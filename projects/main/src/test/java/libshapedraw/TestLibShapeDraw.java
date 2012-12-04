@@ -259,9 +259,10 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
     // ----------------------------------------------------------------------
 
     @Test
-    public void testInstanceIdIsToString() {
+    public void testInstanceIdUsedInToString() {
         assertFalse(lib.getInstanceId().isEmpty());
-        assertEquals(lib.getInstanceId(), lib.toString());
+        assertFalse(lib.toString().equals(lib.getInstanceId()));
+        assertTrue(lib.toString().startsWith(lib.getInstanceId()));
     }
 
     @Test
