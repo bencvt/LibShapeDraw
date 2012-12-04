@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.net.URL;
 
+import libshapedraw.internal.LSDModDirectory;
+
 import org.junit.Test;
 
 public class TestApiInfo extends SetupTestEnvironment.TestCase {
@@ -22,6 +24,8 @@ public class TestApiInfo extends SetupTestEnvironment.TestCase {
         assertEquals(ApiInfo.getUrlMain().toString(), ApiInfo.getUrl());
 
         assertFalse(ApiInfo.getAuthors().isEmpty());
+
+        assertEquals(ApiInfo.getModDirectory(), LSDModDirectory.DIRECTORY);
     }
 
     private static void assertValidHttpUrl(URL url) {

@@ -7,8 +7,6 @@ import libshapedraw.event.LSDEventListener;
 import libshapedraw.event.LSDGameTickEvent;
 import libshapedraw.event.LSDPreRenderEvent;
 import libshapedraw.event.LSDRespawnEvent;
-import libshapedraw.internal.LSDController;
-import libshapedraw.internal.LSDModDirectory;
 import libshapedraw.primitive.Color;
 import net.minecraft.client.Minecraft;
 
@@ -57,6 +55,7 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
             new Demo(Keyboard.KEY_7, "mod_LSDDemoTridentDynamic"),
             new Demo(Keyboard.KEY_8, "mod_LSDDemoTridentTimeline"),
     };
+    private final LibShapeDraw libShapeDraw = new LibShapeDraw();
     private Minecraft minecraft;
     private boolean inMenu;
     private boolean canOpenUrl;
@@ -76,7 +75,7 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
     public void load() {
         minecraft = ModLoader.getMinecraftInstance();
         ModLoader.setInGameHook(this, true, false); // every render frame.
-        new LibShapeDraw().verifyInitialized().addEventListener(this);
+        libShapeDraw.verifyInitialized().addEventListener(this);
     }
 
     @Override
@@ -108,10 +107,10 @@ public class mod_LibShapeDrawDemos extends BaseMod implements LSDEventListener {
                 }
                 inMenu = false;
             } else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-                if (LSDController.getInstance().dump()) {
-                    chatText("LibShapeDraw API state dumped, see log file in " + LSDModDirectory.DIRECTORY);
+                if (libShapeDraw.debugDump()) {
+                    chatText("LibShapeDraw API state dumped, see log file in " + ApiInfo.getModDirectory());
                 } else {
-                    chatText("Logging is disabled. You can re-enable it by editing the settings file in " + LSDModDirectory.DIRECTORY);
+                    chatText("Logging is disabled. You can re-enable it by editing the settings file in " + ApiInfo.getModDirectory());
                 }
                 inMenu = false;
             } else {

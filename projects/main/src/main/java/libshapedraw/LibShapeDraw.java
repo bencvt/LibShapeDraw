@@ -318,6 +318,16 @@ public class LibShapeDraw {
     }
 
     /**
+     * Output the complete state of all LibShapeDraw API instances, including
+     * this one, to <code>(minecraft-dir)/mods/LibShapeDraw/LibShapeDraw.log</code>.
+     * @return false if logging was disabled by user preference. Logging is
+     *         enabled by default, however.
+     */
+    public boolean debugDump() {
+        return LSDController.getInstance().debugDump();
+    }
+
+    /**
      * Get the unique id assigned to this API instance by the internal
      * controller. E.g.: "LibShapeDraw#0".
      */

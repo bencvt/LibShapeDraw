@@ -1,3 +1,7 @@
+## implemented but not yet released
+- more granular profiling
+- added `ApiInfo.getModDirectory` and `LibShapeDraw.debugDump`
+
 ## 1.3.1
 - added compatibility layer to support other mods that proxy
   `Minecraft.mcProfiler`, such as LiteLoader

@@ -79,7 +79,7 @@ public class TestLSDController extends SetupTestEnvironment.TestCase {
     public void testMethods() {
         // none of these calls should throw anything
         assertTrue(LSDController.isInitialized());
-        ct.dump();
+        assertTrue(ct.debugDump());
         ct.gameTick(Vector3.ZEROS);
         ct.render(Vector3.ZEROS, false);
         ct.render(Vector3.ZEROS, true);

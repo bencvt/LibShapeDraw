@@ -70,6 +70,11 @@ public class TestLibShapeDraw extends SetupTestEnvironment.TestCase {
         assertNotNull(lib.getMinecraftAccess());
     }
 
+    @Test
+    public void testDebugDump() {
+        assertTrue(lib.debugDump());
+    }
+
     // ----------------------------------------------------------------------
     // Shapes
     // ----------------------------------------------------------------------

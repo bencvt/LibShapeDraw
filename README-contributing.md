@@ -80,6 +80,8 @@ released along with Minecraft 1.5, with the following adjustments:
     of LibShapeDraw will probably auto-copy this file but for now the default
     settings are left in the archive.
 
+ +  Mods can manually trigger debug dumps by calling `LibShapeDraw.debugDump()`.
+
  +  Minecraft's built-in profiler (accessible via `shift-F3`) includes a
     section named `root.gameRenderer.level.LibShapeDraw`. You can drill down to
     it using the number keys. It should come as no surprise that having a ton of

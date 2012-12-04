@@ -147,7 +147,7 @@ public class LSDController {
         if (LSDGlobalSettings.getLoggingDebugDumpInterval() > 0) {
             long now = System.currentTimeMillis();
             if (now > lastDump + LSDGlobalSettings.getLoggingDebugDumpInterval()) {
-                dump();
+                debugDump();
                 lastDump = now;
             }
         }
@@ -223,14 +223,17 @@ public class LSDController {
     /**
      * Log all the things.
      */
-    public boolean dump() {
+    public boolean debugDump() {
         if (!log.isLoggable(Level.INFO)) {
             return false;
         }
         final String INDENT = "    ";
         StringBuilder line = new StringBuilder().append(this).append(":\n");
         for (LibShapeDraw apiInstance : apiInstances) {
-            line.append(INDENT).append(apiInstance).append(":\n");
+            line.append(INDENT).append(apiInstance.getInstanceId()).append(":\n");
+
+            line.append(INDENT).append(INDENT).append("ids=");
+            line.append(apiInstance).append('\n');
 
             line.append(INDENT).append(INDENT).append("visible=");
             line.append(apiInstance.isVisible()).append('\n');

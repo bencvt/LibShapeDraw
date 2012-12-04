@@ -1,5 +1,6 @@
 package libshapedraw;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -7,6 +8,7 @@ import java.net.URL;
 import java.util.Properties;
 
 import libshapedraw.internal.LSDInternalException;
+import libshapedraw.internal.LSDModDirectory;
 
 /**
  * Reference class giving basic information about the LibShapeDraw API.
@@ -41,6 +43,9 @@ public class ApiInfo {
     }
     public static String getAuthors() {
         return getInstance().authors;
+    }
+    public static File getModDirectory() {
+        return LSDModDirectory.DIRECTORY;
     }
 
     private final String name;
