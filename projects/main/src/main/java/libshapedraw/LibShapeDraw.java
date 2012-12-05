@@ -89,18 +89,22 @@ public class LibShapeDraw {
     }
 
     /**
-     * Convenience method to make sure that LibShapeDraw is fully initialized,
-     * with its rendering hooks properly installed. Throw an exception if not.
+     * Optional sanity check for mods to make sure that ModLoader or Forge has
+     * successfully initialized LibShapeDraw. Throws an exception if not.
      * <p>
-     * Assuming you're waiting to create the API instance until at least the
-     * BaseMod.load method, it's a good idea to include this check, e.g.:
-     * LibShapeDraw api = new LibShapeDraw().verifyInitialized();
+     * This is the only LibShapeDraw API method that has a restriction on when
+     * you can call it. Always wait until at least the BaseMod.load method.
      * <p>
-     * This isn't included in the constructor because you're allowed to create
-     * and populate API instances whenever you like, even if it's before
-     * ModLoader/Forge has a chance to initialize mod_LibShapeDraw.
+     * In other words, do not call verifyInitialized() from your mod's
+     * constructor. If you do, the exception may be thrown depending on the
+     * order that ModLoader or Forge chooses to instantiate the various mod
+     * classes.
      */
     public LibShapeDraw verifyInitialized() {
+        // This method can't be automatically called from the constructor
+        // because it is valid for client code to create LibShapeDraw instances
+        // at any point... even before ModLoader/Forge has had a chance to
+        // instantiated mod_LibShapeDraw.
         if (!LSDController.isInitialized()) {
             throw new LSDInternalException(ApiInfo.getName() +
                     " is not initialized. Possible causes:" +

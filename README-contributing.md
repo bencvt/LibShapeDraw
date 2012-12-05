@@ -14,7 +14,8 @@ documentation; see below.
 Possible documentation improvements (volunteers welcome):
 
  +  A better logo. The [current one](https://github.com/bencvt/LibShapeDraw/blob/master/projects/main/src/main/resources/libshapedraw/logo.png)
-    is rather bland.
+    is rather bland. Ideally the logo would include a unique icon and would look
+    good at various resolutions.
 
  +  Expand the demos to include an example Forge/FML-style mod.
 

@@ -77,18 +77,19 @@ public class LSDController {
     }
 
     /**
-     * Called by mod_LibShapeDraw.
+     * Called by mod_LibShapeDraw to establish a link between the LSDController
+     * and mod_LibShapeDraw singletons.
      */
     public void initialize(MinecraftAccess minecraftAccess) {
         if (isInitialized()) {
             // LibShapeDraw is probably installed incorrectly, causing
-            // ModLoader/FML to bogusly instantiate mod_LibShapeDraw more than
-            // once.
+            // ModLoader/Forge to bogusly instantiate mod_LibShapeDraw multiple
+            // times.
             throw new IllegalStateException("multiple initializations of controller");
         }
         this.minecraftAccess = minecraftAccess;
         initialized = true;
-        log.info(getClass().getName() + " initialized");
+        log.info(getClass().getName() + " initialized by " + minecraftAccess.getClass().getName());
     }
 
     /**
@@ -228,11 +229,11 @@ public class LSDController {
             return false;
         }
         final String INDENT = "    ";
-        StringBuilder line = new StringBuilder().append(this).append(":\n");
+        StringBuilder line = new StringBuilder().append("debug dump for ").append(this).append(":\n");
         for (LibShapeDraw apiInstance : apiInstances) {
             line.append(INDENT).append(apiInstance.getInstanceId()).append(":\n");
 
-            line.append(INDENT).append(INDENT).append("ids=");
+            line.append(INDENT).append(INDENT).append("id=");
             line.append(apiInstance).append('\n');
 
             line.append(INDENT).append(INDENT).append("visible=");
@@ -242,15 +243,23 @@ public class LSDController {
             line.append(apiInstance.isVisibleWhenHidingGui()).append('\n');
 
             line.append(INDENT).append(INDENT).append("shapes=");
-            line.append(apiInstance.getShapes().size()).append(":\n");
-            for (Shape shape : apiInstance.getShapes()) {
-                line.append(INDENT).append(INDENT).append(INDENT).append(shape).append('\n');
+            if (apiInstance.getShapes().size() == 0) {
+                line.append("0\n");
+            } else {
+                line.append(apiInstance.getShapes().size()).append(":\n");
+                for (Shape shape : apiInstance.getShapes()) {
+                    line.append(INDENT).append(INDENT).append(INDENT).append(shape).append('\n');
+                }
             }
 
             line.append(INDENT).append(INDENT).append("eventListeners=");
-            line.append(apiInstance.getEventListeners().size()).append(":\n");
-            for (LSDEventListener listener : apiInstance.getEventListeners()) {
-                line.append(INDENT).append(INDENT).append(INDENT).append(listener).append('\n');
+            if (apiInstance.getEventListeners().size() == 0) {
+                line.append("0\n");
+            } else {
+                line.append(apiInstance.getEventListeners().size()).append(":\n");
+                for (LSDEventListener listener : apiInstance.getEventListeners()) {
+                    line.append(INDENT).append(INDENT).append(INDENT).append(listener).append('\n');
+                }
             }
         }
         log.info(line.toString());

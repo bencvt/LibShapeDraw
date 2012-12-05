@@ -48,6 +48,10 @@ public class mod_LSDDemoBasicCheckInstall extends BaseMod {
             missingApi = true;
             return;
         }
+
+        // One other worthwhile sanity check is to call the verifyInitialized()
+        // method, which ensures that ModLoader or Forge has successfully
+        // initialized LibShapeDraw. See the method's Javadoc for more details.
         LibShapeDraw libShapeDraw = new LibShapeDraw().verifyInitialized();
         WireframeCuboid box = new WireframeCuboid(2,63,0, 3,64,1);
         box.setLineStyle(Color.ROYAL_BLUE.copy(), 2.0F, true);
